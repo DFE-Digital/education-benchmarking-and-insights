@@ -18,6 +18,13 @@ class RiskFlag(str, Enum):
     MAJOR = "Major"
 
 
+class RiskIndicatorValueFormatting(str, Enum):
+    PERCENTAGE = "Percentage"
+    BOOLEAN = "Boolean"
+    DECIMAL = "Decimal"
+    STRING = "String"
+
+
 @dataclass
 class GradeThreshold:
     grade: str
@@ -43,6 +50,9 @@ class BaseRiskMetric:
     risk_group: RiskGroup
     risk_score_maximum: float
     risk_flag_maximum: str = field(default=RiskFlag.MAJOR.value, kw_only=True)
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.DECIMAL, kw_only=True
+    )
 
     @property
     def value_column(self) -> str:
@@ -73,6 +83,48 @@ class BaseRiskMetric:
         Override in subclasses to implement specific scoring logic.
         """
         raise NotImplementedError
+
+    def format_value(self, value_series: pd.Series) -> pd.Series:
+        """Serialises the metric values to clean string representations based on value_formatting."""
+        formatting = self.value_formatting
+
+        def _format(val):
+            if pd.isna(val) or val is None:
+                return None
+            if formatting == RiskIndicatorValueFormatting.BOOLEAN:
+                if isinstance(val, (bool, np.bool_)):
+                    return "Yes" if val else "No"
+                if isinstance(val, (int, np.integer)):
+                    return "Yes" if val != 0 else "No"
+                if isinstance(val, str):
+                    return (
+                        "Yes" if val.strip().lower() in ("true", "1", "yes") else "No"
+                    )
+                return "Yes" if bool(val) else "No"
+            if formatting == RiskIndicatorValueFormatting.STRING:
+                return str(val)
+            if isinstance(val, (bool, np.bool_)):
+                return "Yes" if val else "No"
+            if isinstance(val, (int, np.integer)):
+                return str(val)
+            if isinstance(val, (float, np.floating)):
+                if np.isneginf(val) or np.isposinf(val) or np.isnan(val):
+                    return None
+                if (
+                    formatting == RiskIndicatorValueFormatting.DECIMAL
+                    and val.is_integer()
+                ):
+                    return str(int(val))
+                rounded = round(float(val), 6)
+                if (
+                    formatting == RiskIndicatorValueFormatting.DECIMAL
+                    and rounded.is_integer()
+                ):
+                    return str(int(rounded))
+                return str(rounded)
+            return str(val)
+
+        return value_series.apply(_format)
 
     def execute(self, df: pd.DataFrame) -> None:
         """Orchestrates the metric lifecycle: derives the value, score, and flag,
@@ -131,6 +183,9 @@ class RangeRiskMetric(BaseRiskMetric):
 @dataclass
 class EndYearBalanceMetric(RangeRiskMetric):
     prev_year_column: str = "EndYearBalanceAsPercentageIncome_y_minus_one"
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
 
     def get_all_cols(self) -> List[str]:
         cols = super().get_all_cols()
@@ -170,6 +225,9 @@ class EndYearBalanceMetric(RangeRiskMetric):
 class BinaryRiskMetric(BaseRiskMetric):
     score_when_1: float
     risk_when_1: str
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.BOOLEAN, kw_only=True
+    )
 
     def derive_risk_score(
         self, df: pd.DataFrame, value_series: pd.Series
@@ -241,18 +299,30 @@ class InterestOnLoanFlagMetric(BinaryRiskMetric):
 
 @dataclass
 class PercentExpenditureOnPremisesMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["LAAPremisesExpenditureRollup"] / df["NetExpenditure"]
 
 
 @dataclass
 class PercentExpenditureOnStaffMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["LAAStaffExpenditureRollup"] / df["NetExpenditure"]
 
 
 @dataclass
 class ChangeInExpenditureOver4YearsMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return (df["Total Expenditure"] - df["Total Expenditure_y_minus_four"]) / df[
             "Total Income"
@@ -313,6 +383,10 @@ class PreviousLongTermBalanceDeficitMetric(BinaryRiskMetric):
 
 @dataclass
 class OverspendMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return (df["Total Income"] - df["Total Expenditure"]) / df["Total Income"]
 
@@ -328,12 +402,20 @@ class LargeDecreaseInBalanceMetric(BinaryRiskMetric):
 
 @dataclass
 class PupilNumberVarianceFromCapacityMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["Number of pupils"] / df["school_places"]
 
 
 @dataclass
 class PupilChangeOver1YearMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return (df["Number of pupils"] - df["Number of pupils_y_minus_one"]) / df[
             "Number of pupils_y_minus_one"
@@ -342,6 +424,10 @@ class PupilChangeOver1YearMetric(RangeRiskMetric):
 
 @dataclass
 class PupilChangeOver4YearsMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return (df["Number of pupils"] - df["Number of pupils_y_minus_four"]) / df[
             "Number of pupils_y_minus_four"
@@ -350,18 +436,30 @@ class PupilChangeOver4YearsMetric(RangeRiskMetric):
 
 @dataclass
 class PupilsSixthFormMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.DECIMAL, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["TotalPupilsSixthForm"]
 
 
 @dataclass
 class PupilAbsenceMetric(ConditionalRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["sess_overall_percent"]
 
 
 @dataclass
 class ParentalPreferenceMetric(ConditionalRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["proportion_1stprefs_v_totaloffers"]
 
@@ -377,6 +475,10 @@ class ParentalPreferenceMetric(ConditionalRiskMetric):
 
 @dataclass
 class PerformanceTablesProgressScoreMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.DECIMAL, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         primary_secondary_condition = [
             df["Overall Phase"] == "Primary",
@@ -391,6 +493,10 @@ class PerformanceTablesProgressScoreMetric(RangeRiskMetric):
 
 @dataclass
 class PerformanceTablesAchievementScoreMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.DECIMAL, kw_only=True
+    )
+
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         primary_secondary_condition = [
             df["Overall Phase"] == "Primary",

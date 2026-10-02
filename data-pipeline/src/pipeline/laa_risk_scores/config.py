@@ -9,6 +9,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="Balance 24-25",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=4.5,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(0, np.inf, 0.0, RiskFlag.NO_FLAG.value, "both"),
             MetricRule(-0.01, 0, 0.25, RiskFlag.MINOR.value, "neither"),
@@ -26,6 +27,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
+        value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
         score_when_1=0.25,
         risk_when_1=RiskFlag.MINOR.value,
     ),
@@ -34,6 +36,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=0.5,
         risk_flag_maximum=RiskFlag.MINOR.value,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(0, 0.1, 0.0, RiskFlag.NO_FLAG.value, "left"),
             MetricRule(0.1, 0.15, 0.25, RiskFlag.MINOR.value, "left"),
@@ -45,6 +48,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
         risk_flag_maximum=RiskFlag.MINOR.value,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(0, 0.8, 0.0, RiskFlag.NO_FLAG.value, "left"),
             MetricRule(0.8, 0.85, 0.75, RiskFlag.MINOR.value, "left"),
@@ -57,6 +61,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="Change in spend over 4 years as % of income",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(-1000000.0, 0.15, 0.0, RiskFlag.NO_FLAG.value, "left"),
             MetricRule(0.15, 0.20, 0.5, RiskFlag.MINOR.value, "left"),
@@ -68,6 +73,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="Current long term balance deficit",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=3.0,
+        value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
         score_when_1=3.0,
         risk_when_1=RiskFlag.MAJOR.value,
     ),
@@ -76,6 +82,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.0,
         threshold=0.15,
+        value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
         score_when_1=1.0,
         risk_when_1=RiskFlag.MAJOR.value,
     ),
@@ -84,6 +91,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=2.0,
         threshold=0.04,
+        value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
         score_when_1=2.0,
         risk_when_1=RiskFlag.MAJOR.value,
     ),
@@ -91,6 +99,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="Overspend",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=3.0,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(-1000000.0, -0.09, 3.0, RiskFlag.MAJOR.value, "left"),
             MetricRule(-0.090, -0.075, 2.5, RiskFlag.MAJOR.value, "left"),
@@ -107,6 +116,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="Large decrease in balance from last year",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
+        value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
         score_when_1=1.5,
         risk_when_1=RiskFlag.MAJOR.value,
     ),
@@ -114,6 +124,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="% capacity",
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(0.0, 0.40, 1.5, RiskFlag.MAJOR.value, "left"),
             MetricRule(0.40, 0.45, 1.25, RiskFlag.MAJOR.value, "left"),
@@ -130,6 +141,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="Change in pupil numbers from last year",
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(-10000.0, -0.15, 1.5, RiskFlag.MAJOR.value, "left"),
             MetricRule(-0.15, -0.125, 1.25, RiskFlag.MAJOR.value, "left"),
@@ -145,10 +157,11 @@ DEFAULT_RISK_CONFIG: list = [
         name="Change in pupil numbers over 4 years",
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(-10000.0, -0.15, 1.5, RiskFlag.MAJOR.value, "left"),
-            MetricRule(-0.15, -0.125, 1.25, RiskFlag.MINOR.value, "left"),
-            MetricRule(-0.125, -0.10, 1.0, RiskFlag.MINOR.value, "left"),
+            MetricRule(-0.15, -0.125, 1.25, RiskFlag.MAJOR.value, "left"),
+            MetricRule(-0.125, -0.10, 1.0, RiskFlag.MAJOR.value, "left"),
             MetricRule(-0.1, -0.08, 0.8, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.08, -0.06, 0.6, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.06, -0.04, 0.4, RiskFlag.MINOR.value, "left"),
@@ -161,6 +174,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=0.5,
         risk_flag_maximum=RiskFlag.MINOR.value,
+        value_formatting=RiskIndicatorValueFormatting.DECIMAL,
         rules=[
             MetricRule(0, 0, 0.0, RiskFlag.NO_FLAG.value, "both"),
             MetricRule(1, 50, 0.5, RiskFlag.MINOR.value, "left"),
@@ -176,6 +190,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=0.5,
         risk_flag_maximum=RiskFlag.MINOR.value,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         condition_column="TypeOfEstablishment (code)",
         special_values=[7, 8, 12, 42, 44],
         standard_rules=[
@@ -193,6 +208,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="Parental preference",
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=1.5,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         condition_column="TypeOfEstablishment (code)",
         special_values=[7, 12],
         standard_rules=[
@@ -214,6 +230,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
+        value_formatting=RiskIndicatorValueFormatting.DECIMAL,
         rules=[
             MetricRule(-100.0, -0.11, 0.25, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.11, 100.0, 0.0, RiskFlag.NO_FLAG.value, "both"),
@@ -224,6 +241,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
+        value_formatting=RiskIndicatorValueFormatting.DECIMAL,
         rules=[
             MetricRule(0, 46, 0.25, RiskFlag.MINOR.value, "left"),
             MetricRule(46, 100, 0.0, RiskFlag.NO_FLAG.value, "both"),
@@ -310,7 +328,7 @@ laa_ancillary_files = {
         "capacity": "capacity_school_200910-202425.csv",
         "capacity_special": "specialist-provision_school_202223-202425.csv",
         "parental_preference": "AppsandOffers_2026_SchoolLevel29062026.csv",
-    }
+    },
 }
 
 

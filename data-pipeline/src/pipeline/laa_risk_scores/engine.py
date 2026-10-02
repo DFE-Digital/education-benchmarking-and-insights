@@ -102,7 +102,8 @@ def melt_laa_risk_scores(
         temp_df["RunId"] = run_id
         temp_df["RiskGroup"] = metric.risk_group.value
         temp_df["RiskIndicator"] = metric.name
-        temp_df["RiskIndicatorValue"] = df[metric.value_column]
+        temp_df["RiskIndicatorValue"] = metric.format_value(df[metric.value_column])
+        temp_df["RiskIndicatorValueFormatting"] = metric.value_formatting.value
         temp_df["RiskIndicatorFlag"] = df[metric.flag_column]
         temp_df["RiskIndicatorContribution"] = df[metric.score_column]
         temp_df["RiskIndicatorContributionMax"] = metric.risk_score_maximum
