@@ -10,11 +10,3 @@ eleventyNavigation:
 Welcome to the How-to guides section.
 
 How-to guides are **task-oriented** recipes that guide an experienced practitioner through the steps required to solve a specific, real-world problem.
-
-## [Operational](/how-to/operational/)
-
-Find operational task guides, incident response procedures, root cause analysis templates, runbooks, and monitoring workflows.
-
-## [Quality Assurance](/how-to/qa/)
-
-Access QA test plans, data release test procedures, release communications guidelines, and Azure DevOps test management guides.

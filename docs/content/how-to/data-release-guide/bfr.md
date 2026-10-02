@@ -12,7 +12,7 @@ BFR data is used for the forecast and risk tool. It doesn't need any ancillary d
 
 ## Get the data
 
-BFR data is simply exported from the SQL tables outlined in the [data sources page.](/explanation/sources/) The files are:
+BFR data is simply exported from the SQL tables outlined in the [data sources page.](/reference/sources/) The files are:
 
 * BFR_3Y_raw.csv
 * BFR_SOFA_raw.csv
@@ -38,10 +38,10 @@ WHERE RunId like '<year>' AND RunType like 'default'
 
 ## Check the outputs
 
-To assure the quality of the BFR ingestion pipeline do some spot checks on forecasts and pupil numbers. BFR uses [specific row/line mappings](/explanation/sources/bfr/) (`EFALineNo`) in `BFR_SOFA_raw.csv` and `BFR_3Y_raw.csv` to compute Statement of Financial Activities (SOFA) and multi-year forecasts.
+To assure the quality of the BFR ingestion pipeline do some spot checks on forecasts and pupil numbers. BFR uses [specific row/line mappings](/explanation/bfr/) (`EFALineNo`) in `BFR_SOFA_raw.csv` and `BFR_3Y_raw.csv` to compute Statement of Financial Activities (SOFA) and multi-year forecasts.
 
 * Select 3 Multi-Academy Trusts in the source CSV and record their values for key `EFALineNo` fields (such as line numbers for total income, staff costs, and total forecasted expenditure).
-* Query the `BudgetForecastReturn` and `BudgetForecastReturnMetric` tables for those specific trusts and verify that the financial amounts written correspond exactly to [those line numbers](/explanation/sources/bfr/#efalineno).
+* Query the `BudgetForecastReturn` and `BudgetForecastReturnMetric` tables for those specific trusts and verify that the financial amounts written correspond exactly to [those line numbers](/explanation/bfr/#efalineno).
 
 ### 2. BFR-Specific Pupil Count Validation
 
@@ -52,5 +52,5 @@ BFR uses its own, dedicated forecast pupil number which can differ from the stan
 * BFR uses its own pupil number which is different to the census one.
 * Not all BFR trusts in the raw submission get shown in FBIT. AAR is the primary driver of FBIT. Only trusts present in AAR will be shown in FBIT, so Trusts created or amalgamated in the time between last year's AAR and the new BFR release will not show up in `BudgetForecastReturn` in the database. Typically this is only 1-2% of trusts.
 * The cost categories are IT Spend and Revenue reserve. IT Spend rows use the BFR pupil number while revenue reserve rows use the AAR (census) pupil number. This is because BFR revenue reserves are used to compare to AAR actuals and both figures need to be regularised per pupil by the same amount. IT spend rows don't compare to AAR actual spend so just use the BFR pupil number.
-* BFR uses previous year's BFR data to show spend over time. The manner in which it does this and business context [is described in other docs.](/explanation/sources/bfr/)
+* BFR uses previous year's BFR data to show spend over time. The manner in which it does this and business context [is described in other docs.](/explanation/bfr/)
 * [BFR Test Plans](/reference/data-release-test-plans/00003-bfr-2024-2025-data-release/)
