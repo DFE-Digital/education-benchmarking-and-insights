@@ -9,12 +9,14 @@ namespace Web.Integration.Tests.Pages.Schools.Risks;
 public class WhenRequestingRisksDownload : PageBase<SchoolBenchmarkingWebAppClient>
 {
     private readonly SchoolBenchmarkingWebAppClient _client;
-    private readonly LocalAuthorityRiskIndicatorsHistoryRows _risksHistoryRows;
+    private readonly LocalAuthorityRiskIndicators _indicators;
+    private readonly RisksMetrics[] _metrics;
 
     public WhenRequestingRisksDownload(SchoolBenchmarkingWebAppClient client) : base(client)
     {
         _client = client;
-        _risksHistoryRows = Fixture.Build<LocalAuthorityRiskIndicatorsHistoryRows>().Create();
+        _indicators = Fixture.Build<LocalAuthorityRiskIndicators>().Create();
+        _metrics = Fixture.Build<RisksMetrics>().CreateMany(3).ToArray();
     }
 
     [Fact]
@@ -35,24 +37,48 @@ public class WhenRequestingRisksDownload : PageBase<SchoolBenchmarkingWebAppClie
 
         Assert.NotNull(authority.Code);
         var response = await _client
-                .SetupLocalAuthorityEndpoints(authority)
-                .SetupSchool(school, riskIndicatorsHistory: _risksHistoryRows)
-                .Get(Paths.LocalAuthoritySchoolRisksHistoryDownload(authority.Code, school.URN));
+            .SetupLocalAuthorityEndpoints(authority)
+            .SetupSchool(school, riskIndicators: _indicators, riskMetrics: _metrics)
+            .Get(Paths.LocalAuthoritySchoolRisksDownload(authority.Code, school.URN));
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
         var expectedFileNames = new[]
         {
-            "foo-trend-in-risk-scores.csv"
+            "foo-risk-score.csv",
+            "foo-risk-score-metrics.csv"
         };
+
+        var extractedFiles = new List<(string fileName, string content)>();
         await foreach (var tuple in response.GetFilesFromZip())
         {
-            Assert.Contains(tuple.fileName, expectedFileNames);
+            extractedFiles.Add(tuple);
+        }
 
-            var csvLines = tuple.content.Split(Environment.NewLine);
-            Assert.Equal(
-                "Year,Urn,SchoolName,OverallGrade,Overall,OverallMax,OverallGradeColour,Financial,FinancialMax,SchoolAndPupil,SchoolAndPupilMax,EducationalPerformance,EducationalPerformanceMax",
-                csvLines.First());
-            Assert.Equal(_risksHistoryRows.Rows.Count(), csvLines.Length - 1);
+        Assert.Equal(expectedFileNames.Length, extractedFiles.Count);
+
+        foreach (var expectedName in expectedFileNames)
+        {
+            var file = extractedFiles.FirstOrDefault(f => f.fileName == expectedName);
+            Assert.NotNull(file.fileName);
+
+            var csvLines = file.content.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+
+            switch (expectedName)
+            {
+                case "foo-risk-score.csv":
+                    Assert.Equal(
+                        "Urn,SchoolName,OverallGrade,Overall,OverallMax,OverallGradeColour,Financial,FinancialMax,SchoolAndPupil,SchoolAndPupilMax,EducationalPerformance,EducationalPerformanceMax",
+                        csvLines.First());
+                    Assert.Equal(2, csvLines.Length);
+                    break;
+                case "foo-risk-score-metrics.csv":
+                    Assert.Equal(
+                        "Urn,RiskGroup,RiskIndicator,RiskIndicatorValue,RiskIndicatorValueFormatting,RiskIndicatorFlag,RiskIndicatorContribution,RiskIndicatorContributionMax",
+                        csvLines.First());
+                    Assert.Equal(_metrics.Length + 1, csvLines.Length);
+                    break;
+            }
         }
     }
 
@@ -75,7 +101,7 @@ public class WhenRequestingRisksDownload : PageBase<SchoolBenchmarkingWebAppClie
         var response = await _client
             .SetupLocalAuthorityEndpoints(authority)
             .SetupSchool(school)
-            .Get(Paths.LocalAuthoritySchoolRisksHistoryDownload(code, urn));
+            .Get(Paths.LocalAuthoritySchoolRisksDownload(code, urn));
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
@@ -88,7 +114,7 @@ public class WhenRequestingRisksDownload : PageBase<SchoolBenchmarkingWebAppClie
 
         var response = await _client
             .SetupSchoolWithException()
-            .Get(Paths.LocalAuthoritySchoolRisksHistoryDownload(code, urn));
+            .Get(Paths.LocalAuthoritySchoolRisksDownload(code, urn));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
