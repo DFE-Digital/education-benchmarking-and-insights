@@ -20,6 +20,7 @@ Below is the complete chronological sequence from planning through to go-live, w
 * [BFR](/how-to/data-release-guide/bfr/) (August)
 * [S251 (Budget/Outturn)](/how-to/data-release-guide/s251/) (September)
 * [AAR](/how-to/data-release-guide/aar/) (January/February)
+* [Transparency files](/how-to/data-release-guide/transparency-files/)
 
 ## Phase 1: Pre-Release (At least 2 Sprints Before)
 
@@ -33,7 +34,7 @@ Below is the complete chronological sequence from planning through to go-live, w
 3. **Establish Teams Communications.** Set up a central release thread on Teams for daily broadcasts. If specific issues need further discussion, open a dedicated thread for that issue. Note that Teams DMs currently delete after a few weeks — keep relevant discussion off DMs.
 
 4. **Ancillary Schema & Linkage Checks.** Check for potential schema drift on the ancillary datasets and begin preparatory validations.
-   * CFR and AAR have an accompanying transparency file, released separately to the main FBIT service. It should align with FBIT as much as possible — schema validations of the transparency file, and checks between FBIT data and the transparency file, should be performed after the kickoff session and before the release.
+   * CFR and AAR have an accompanying transparency file, released separately to the main FBIT service. It should align with FBIT as much as possible: schema validations of the transparency file, and checks between FBIT data and the transparency file, should be performed after the kickoff session and before the release. For steps to publish the file, see [How to update transparency files](/how-to/data-release-guide/transparency-files/).
 
 5. **Speculative Pre-Cutoff Runs.** Run early, speculative test iterations of the pipeline on `test` or `dev` environments using draft, pre-cutoff data. Early runs are highly encouraged to flush out formatting errors, schema drift, or core-to-ancillary mapping issues before go-live.
 

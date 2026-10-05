@@ -46,16 +46,6 @@ Once the upload has completed, return to **Settings > Configuration**, set **All
 
 The FBIT Content API and web application query active files from the `[dbo].[VW_ActiveFiles]` view, which reads from the `[dbo].[File]` table in the core database.
 
-### File table schema
-
-The `[dbo].[File]` table uses the following columns (defined in database migration `106-CreateFileTable.sql`):
-
-* `Type`: The file type identifier: `'transparency-cfr'` for maintained schools or `'transparency-aar'` for academies.
-* `Label`: The display text shown in the user interface on the Data sources page (for example, `'CFR 2024/25'` or `'AAR 2024/25'`).
-* `FileName`: The exact file name uploaded to the `files` container.
-* `ValidFrom`: A `datetimeoffset` timestamp specifying when the file becomes active. Defaults to `GETUTCDATE()`.
-* `ValidTo`: An optional `datetimeoffset` timestamp specifying when the file expires. Leave as `NULL` for indefinite availability.
-
 ### Insert query
 
 Run the following SQL script against the database (for example, via Azure Cloud Shell, Azure Portal Query Editor, or SQL Server Management Studio connected to `s198p01-sql` / `data`):
@@ -96,27 +86,8 @@ END;
 
 > 💡 **Staging in advance:** To stage a file ahead of the official go-live date, set `ValidFrom` to a future timestamp (such as `DATEADD(day, 7, GETUTCDATE())` or `'2026-09-01T00:00:00+00:00'`). The file will automatically become visible once that timestamp is reached.
 
-## 3. Verify the update
+## 3. Verify in the web application
 
-Verify both the database state and the user-facing web page:
-
-1. **Verify database rows:**
-
-   ```sql
-   -- Check that the record is present in the table
-   SELECT *
-   FROM [dbo].[File]
-   WHERE [Type] IN ('transparency-cfr', 'transparency-aar')
-   ORDER BY [ValidFrom] DESC;
-
-   -- Check that the file is active in the view
-   SELECT *
-   FROM [dbo].[VW_ActiveFiles]
-   WHERE [Type] IN ('transparency-cfr', 'transparency-aar')
-   ORDER BY [Label] DESC;
-   ```
-
-2. **Verify in the web application:**
-   * Go to the **Data sources** page (`/data-sources`).
-   * Maintained school files appear under the **Maintained schools** section, and academy files appear under the **Academies** section.
-   * Verify that the new label is displayed and that selecting the link downloads the file from `/files/<filename>` with an HTTP 200 response.
+* Go to the **Data sources** page (`/data-sources`).
+* Maintained school files appear under the **Maintained schools** section, and academy files appear under the **Academies** section.
+* Verify that the new label is displayed and that selecting the link downloads the file from `/files/<filename>` with an HTTP 200 response.
