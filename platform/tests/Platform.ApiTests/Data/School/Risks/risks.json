@@ -1,0 +1,13 @@
+{
+  "urn": "990116",
+  "schoolName": "Test school 237",
+  "overallGrade": "A*",
+  "overall": 13.74,
+  "overallMax": 25.5,
+  "financial": 8.74,
+  "financialMax": 18.0,
+  "schoolAndPupil": 3.73,
+  "schoolAndPupilMax": 35.5,
+  "educationalPerformance": 1.49,
+  "educationalPerformanceMax": 2.0
+}

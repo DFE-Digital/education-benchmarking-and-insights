@@ -1,0 +1,52 @@
+[
+  {
+    "urn": "990116",
+    "riskGroup": "Financial",
+    "riskIndicator": "Test indicator 1",
+    "riskIndicatorValue": "Yes",
+    "riskIndicatorValueFormatting": "Boolean",
+    "riskIndicatorFlag": "Major",
+    "riskIndicatorContribution": 3.0,
+    "riskIndicatorContributionMax": 3.0
+  },
+  {
+    "urn": "990116",
+    "riskGroup": "Financial",
+    "riskIndicator": "Test indicator 2",
+    "riskIndicatorValue": "4.5",
+    "riskIndicatorValueFormatting": "Decimal",
+    "riskIndicatorFlag": "Minor",
+    "riskIndicatorContribution": 1.0,
+    "riskIndicatorContributionMax": 3.0
+  },
+  {
+    "urn": "990116",
+    "riskGroup": "Educational Performance",
+    "riskIndicator": "Test indicator 3",
+    "riskIndicatorValue": "0.75",
+    "riskIndicatorValueFormatting": "Decimal",
+    "riskIndicatorFlag": "No flag",
+    "riskIndicatorContribution": 1.0,
+    "riskIndicatorContributionMax": 3.0
+  },
+  {
+    "urn": "990116",
+    "riskGroup": "Educational Performance",
+    "riskIndicator": "Test indicator 4",
+    "riskIndicatorValue": "0.75",
+    "riskIndicatorValueFormatting": "Percentage",
+    "riskIndicatorFlag": "No flag",
+    "riskIndicatorContribution": 0.25,
+    "riskIndicatorContributionMax": 3.0
+  },
+  {
+    "urn": "990116",
+    "riskGroup": "School Characteristics",
+    "riskIndicator": "Test indicator 5",
+    "riskIndicatorValue": "foo",
+    "riskIndicatorValueFormatting": "String",
+    "riskIndicatorFlag": "Minor",
+    "riskIndicatorContribution": 0.25,
+    "riskIndicatorContributionMax": 3.0
+  }
+]
