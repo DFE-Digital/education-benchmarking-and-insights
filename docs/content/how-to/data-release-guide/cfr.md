@@ -8,7 +8,7 @@ eleventyNavigation:
   parent: "Data Release Guide"
 ---
 
-CFR has a transparency file which is released alongside the CFR data.
+CFR has a transparency file which is released alongside the CFR data. See [How to update transparency files](/how-to/data-release-guide/transparency-files/) for instructions on uploading and registering the file.
 
 ## Get the data
 
