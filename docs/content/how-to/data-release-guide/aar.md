@@ -52,7 +52,7 @@ SELECT * FROM [dbo].[TrustFinancial] WHERE RunId like '<year>' AND RunType like 
 
 ## Generate the transparency file
 
-* AAR has a transparency file which is released alongside the AAR data. This is created through a separate set of [SQL scripts on sharepoint.](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/CFR%20Data%20Procurement%20Process/24-25/aar?csf=1&web=1&e=ahBZZC) These scripts have the raw AAR data as inputs.
+* AAR has a transparency file which is released alongside the AAR data. This is created through a separate set of [SQL scripts on sharepoint.](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/CFR%20Data%20Procurement%20Process/24-25/aar?csf=1&web=1&e=ahBZZC) These scripts have the raw AAR data as inputs. See [How to update transparency files](/how-to/data-release-guide/transparency-files/) for instructions on uploading and registering the completed file.
 * The transparency file has some extra features compared to the outputs on FBIT, but it should line up with the numbers in FBIT. Take 5 random schools and check that where the columns overlap, they are the same in the transparency file and in FBIT. Start conversations with the business early about if any schema changes to the transparency file are required.
 * **Checks:**
   * Select 5 random schools representing different categories (e.g., small, large, federated, or multi-academy trust members).
