@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
@@ -158,6 +159,11 @@ public class LocalAuthorityRisksController(
         }
     }
 
+    [HttpGet]
+    [Route("methodology")]
+    // ReSharper disable once RouteTemplates.MethodMissingRouteParameters
+    public IActionResult Methodology() => View();
+
     private static ApiQuery BuildQuery(
         string code,
         string? sortField,
@@ -180,6 +186,7 @@ public class LocalAuthorityRisksController(
     }
 }
 
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public class LocalAuthorityRiskIndicatorsCsv
 {
     public string SchoolName { get; set; } = string.Empty;

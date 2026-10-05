@@ -295,6 +295,7 @@ public static class Paths
     public static string LocalAuthorityEducationHealthCarePlans(string? code) => $"/local-authority/{code}/education-health-care-plans";
     public static string LocalAuthorityEducationHealthCarePlansDownload(string? code) => $"/local-authority/{code}/education-health-care-plans/download";
     public static string LocalAuthorityRisks(string? code) => $"/local-authority/{code}/risks";
+    public static string LocalAuthorityRisksMethodology(string? code) => $"/local-authority/{code}/risks/methodology";
     public static string LocalAuthorityRisksDownload(string? code) => $"/local-authority/{code}/risks/download";
     public static string LocalAuthorityHighNeedsSpending(string? code) => $"/local-authority/{code}/high-needs-spending";
     public static string LocalAuthorityHighNeedsSpendingDownload(string? code) => $"/local-authority/{code}/high-needs-spending/download";
