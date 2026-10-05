@@ -37,7 +37,10 @@ public class SchoolRisksController(
                     return NotFound();
                 }
 
-                var viewModel = new SchoolRisksViewModel(school);
+                var risks = await schoolApi.RisksAsync(urn).GetResultOrThrow<LocalAuthorityRiskIndicators>();
+                var metrics = await schoolApi.RisksMetricsAsync(urn).GetResultOrThrow<RisksMetrics[]>();
+
+                var viewModel = new SchoolRisksViewModel(school, risks, metrics);
 
                 return View(viewModel);
             }
@@ -45,6 +48,51 @@ public class SchoolRisksController(
             {
                 logger.LogError(e, "An error displaying school risk indicators: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download")]
+    public async Task<IActionResult> Download(string code, string urn)
+    {
+        using (logger.BeginScope(new
+        {
+            code,
+            urn
+        }))
+        {
+            try
+            {
+                var school = await schoolApi.SingleAsync(urn).GetResultOrThrow<School>();
+                if (school.LACode != code)
+                {
+                    return NotFound();
+                }
+
+                var risks = await schoolApi.RisksAsync(urn).GetResultOrThrow<LocalAuthorityRiskIndicators>();
+                var metrics = await schoolApi.RisksMetricsAsync(urn).GetResultOrThrow<RisksMetrics[]>();
+
+                return new CsvResults(
+                    [
+                        new CsvResult(
+                                [risks],
+                                $"{school.SchoolName}-risk-score.csv"
+                            ),
+                        new CsvResult(
+                            metrics,
+                            $"{school.SchoolName}-risk-score-metrics.csv"
+                        )
+
+                    ], $"{school.SchoolName}-risk-score.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading school risk indicators data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
             }
         }
     }
@@ -67,14 +115,27 @@ public class SchoolRisksController(
                 }
 
                 var risksHistoryRows = await schoolApi.RisksHistoryAsync(urn).GetResultOrThrow<LocalAuthorityRiskIndicatorsHistoryRows>();
-                var risksHistory = risksHistoryRows.ToTrends();
+                var trends = risksHistoryRows.ToTrends();
 
                 if (viewAs == Views.ViewAsOptions.Chart)
                 {
-                    await BuildHistoryChartsAndHydrateSeries(risksHistory);
+                    var seriesList = new[]
+                    {
+                        trends.Overall,
+                        trends.Financial,
+                        trends.EducationalPerformance,
+                        trends.SchoolAndPupil
+                    };
+
+                    var chartResponses = await BuildHistoryCharts(seriesList) ?? [];
+
+                    if (chartResponses.Length != 0)
+                    {
+                        HydrateSeriesWithHistoryCharts(seriesList, chartResponses);
+                    }
                 }
 
-                var viewModel = new SchoolRisksHistoryViewModel(school, risksHistory)
+                var viewModel = new SchoolRisksHistoryViewModel(school, trends)
                 {
                     ViewAs = viewAs
                 };
@@ -137,16 +198,8 @@ public class SchoolRisksController(
         }
     }
 
-    private async Task BuildHistoryChartsAndHydrateSeries(RiskHistoryTrends metrics)
+    private async Task<ChartResponse[]?> BuildHistoryCharts(RiskHistorySeries[] seriesList)
     {
-        var seriesList = new[]
-        {
-            metrics.Overall,
-            metrics.Financial,
-            metrics.EducationalPerformance,
-            metrics.SchoolAndPupil
-        };
-
         var chartRequests = seriesList.Select(series => new PostLineChartRequest<RiskHistoryData>
         {
             Id = Guid.NewGuid().ToString(),
@@ -163,17 +216,13 @@ public class SchoolRisksController(
 
         try
         {
-            var chartResponses = await chartRenderingApi.PostLineCharts(payload)
+            return await chartRenderingApi.PostLineCharts(payload)
                 .GetResultOrDefault<ChartResponse[]>();
-
-            if (chartResponses != null)
-            {
-                HydrateSeriesWithHistoryCharts(seriesList, chartResponses);
-            }
         }
         catch (Exception e)
         {
             logger.LogWarning(e, "Unable to load charts from API");
+            return [];
         }
     }
 

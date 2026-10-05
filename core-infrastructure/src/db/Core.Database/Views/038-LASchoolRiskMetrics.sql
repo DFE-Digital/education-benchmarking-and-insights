@@ -7,6 +7,7 @@ SELECT RunId
      , RiskGroup
      , RiskIndicator
      , RiskIndicatorValue
+     , RiskIndicatorValueFormatting
      , RiskIndicatorFlag
      , RiskIndicatorContribution
      , RiskIndicatorContributionMax
@@ -21,6 +22,7 @@ SELECT URN
      , RiskGroup
      , RiskIndicator
      , RiskIndicatorValue
+     , RiskIndicatorValueFormatting
      , RiskIndicatorFlag
      , RiskIndicatorContribution
      , RiskIndicatorContributionMax

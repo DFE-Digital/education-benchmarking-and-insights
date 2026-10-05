@@ -1,0 +1,18 @@
+@model Web.App.ViewModels.SchoolRisksViewModel
+
+<div class="govuk-!-margin-bottom-6">
+    <p class="govuk-body">
+        You can:
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>
+            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("History", "SchoolRisks", new { urn = Model.Urn, code = Model.LaCode })">See how these risk scores have changed over time</a>
+        </li>
+        <li>
+            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Methodology", "LocalAuthorityRisks", new { code = Model.LaCode })">Read about how we define these risk indicators and RAG-rate the scores</a>
+        </li>
+        <li>
+            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new { Model.Urn })">View this school's homepage for more benchmarking tools and insights</a>
+        </li>
+    </ul>
+</div>

@@ -187,6 +187,10 @@ public class WhenViewingRisksHistory(SchoolBenchmarkingWebAppClient client)
             .With(x => x.Rows, rows)
             .Create();
 
+        var riskIndicators = Fixture.Build<LocalAuthorityRiskIndicators>().Create();
+
+        var riskMetrics = Fixture.Build<RisksMetrics>().Create();
+
         var lineChart = new ChartResponse
         {
             Html = "<svg />"
@@ -194,7 +198,11 @@ public class WhenViewingRisksHistory(SchoolBenchmarkingWebAppClient client)
 
         var client = Client
             .SetupEstablishment(school)
-            .SetupSchool(school, riskIndicatorsHistory: risksHistoryRows)
+            .SetupSchool(
+                school,
+                riskIndicatorsHistory: risksHistoryRows,
+                riskIndicators: riskIndicators,
+                riskMetrics: [riskMetrics])
             .SetupChartRendering<RiskHistoryData>(lineChart);
 
         if (chartApiError)

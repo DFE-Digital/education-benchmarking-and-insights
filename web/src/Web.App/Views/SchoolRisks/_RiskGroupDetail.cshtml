@@ -1,0 +1,61 @@
+@model Web.App.ViewModels.RiskGroupViewModel
+
+
+@switch (Model.Key)
+{
+    case LocalAuthorityRisks.FinancialRiskGroup:
+        <details class="govuk-details govuk-!-margin-top-4" data-module="govuk-details" data-testid="risk-group-details-@LocalAuthorityRisks.FinancialRiskGroup">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">What we mean by % spend on staff</span>
+            </summary>
+            <div class="govuk-details__text">
+                <p class="govuk-body">% spend on teaching, supply, education support, back office and other staff.</p>
+                <p class="govuk-body">
+                    <a href="@Url.Action("Methodology", "LocalAuthorityRisks", new { code = Model.LaCode })" class="govuk-link govuk-link--no-visited-state">Read about how we define all risk indicators and RAG-rate the scores</a>
+                </p>
+            </div>
+        </details>
+
+        <details class="govuk-details govuk-!-margin-top-4" data-module="govuk-details" data-testid="risk-group-details-@LocalAuthorityRisks.FinancialRiskGroup">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">Where this data comes from</span>
+            </summary>
+            <div class="govuk-details__text">
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Consistent Financial Reporting (CFR)</li>
+                    <li>Pupil numbers come from the spring school census</li>
+                </ul>
+            </div>
+        </details>
+        break;
+
+    case LocalAuthorityRisks.EducationalPerformanceRiskGroup:
+        <details class="govuk-details govuk-!-margin-top-4" data-module="govuk-details" data-testid="risk-group-details-@LocalAuthorityRisks.EducationalPerformanceRiskGroup">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">Where this data comes from</span>
+            </summary>
+            <div class="govuk-details__text">
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Key stage 2 performance data</li>
+                    <li>Key stage 4 performance data</li>
+                    <li>Primary and secondary school applications and offers</li>
+                </ul>
+            </div>
+        </details>
+        break;
+
+    case LocalAuthorityRisks.SchoolAndPupilRiskGroup:
+        <details class="govuk-details govuk-!-margin-top-4" data-module="govuk-details" data-testid="risk-group-details-@LocalAuthorityRisks.SchoolAndPupilRiskGroup">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">Where this data comes from</span>
+            </summary>
+            <div class="govuk-details__text">
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>Pupil absence in schools in England</li>
+                    <li>Pupil numbers come from the spring school census</li>
+                    <li>School capacity</li>
+                </ul>
+            </div>
+        </details>
+        break;
+}
