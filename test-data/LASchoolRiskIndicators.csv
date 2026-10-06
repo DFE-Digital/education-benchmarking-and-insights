@@ -1,0 +1,6 @@
+URN,RunId,RiskGroup,RiskIndicator,RiskIndicatorValue,RiskIndicatorFlag,RiskIndicatorContribution,RiskIndicatorContributionMax,RiskIndicatorValueFormatting
+990116,2022,Financial,Test indicator 1,Yes,Major,3.00,3.00,Boolean
+990116,2022,Financial,Test indicator 2,4.5,Minor,1.00,3.00,Decimal
+990116,2022,Educational Performance,Test indicator 3,0.75,No flag,1.00,3.00,Decimal
+990116,2022,Educational Performance,Test indicator 4,0.75,No flag,0.25,3.00,Percentage
+990116,2022,School Characteristics,Test indicator 5,foo,Minor,0.25,3.00,String
