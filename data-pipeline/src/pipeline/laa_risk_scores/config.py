@@ -339,6 +339,29 @@ def get_laa_ancillary_filenames(year: int) -> Mapping:
     return laa_ancillary_files["default"]
 
 
+def get_academic_year_code(run_year: int) -> int:
+    return ((run_year - 1) * 100) + (run_year % 100)
+
+
+custom_laa_ancillary_periods: dict[int | str, dict[str, int]] = {
+    "default": {},
+    2026: {
+        "capacity": 202425,
+        "capacity_special": 202425,
+    },
+}
+
+
+def get_laa_ancillary_period(dataset_name: str, run_year: int) -> int:
+    """LAA has ancillary data sources which span multiple years so need filtering.
+    Usually the time period is the same as the CFR year, but sometimes we want the data
+    to lag a year as new ancillary data isn't available."""
+    configured_period = custom_laa_ancillary_periods.get(run_year, {}).get(dataset_name)
+    if configured_period is not None:
+        return configured_period
+    return get_academic_year_code(run_year)
+
+
 laa_ancillary_columns = {
     "default": {
         "absences": {
