@@ -438,12 +438,26 @@ class PupilAbsenceMetric(ConditionalRiskMetric):
 
 @dataclass
 class ParentalPreferenceMetric(ConditionalRiskMetric):
+    rating_low_threshold: float
+    rating_high_threshold: float
     value_formatting: RiskIndicatorValueFormatting = field(
-        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+        default=RiskIndicatorValueFormatting.STRING, kw_only=True
     )
 
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["proportion_1stprefs_v_totaloffers"]
+
+    def format_value(self, value_series: pd.Series) -> pd.Series:
+        def _format(val):
+            if pd.isna(val):
+                return "NA"
+            if val <= self.rating_low_threshold:
+                return "Low"
+            if val > self.rating_high_threshold:
+                return "High"
+            return "Medium"
+
+        return value_series.apply(_format)
 
     def execute(self, df: pd.DataFrame) -> None:
         super().execute(df)

@@ -279,6 +279,44 @@ def test_format_value_string():
     assert formatted.tolist() == ["High", "Low", None, None]
 
 
+def test_format_value_parental_preference():
+    metric = next(
+        m for m in DEFAULT_RISK_CONFIG if isinstance(m, ParentalPreferenceMetric)
+    )
+    assert metric.value_formatting == RiskIndicatorValueFormatting.STRING
+    assert metric.rating_low_threshold == 0.675
+    assert metric.rating_high_threshold == 0.9
+
+    series = pd.Series([np.nan, None, 0.5, 0.675, 0.72, 0.9, 0.95, 1.2])
+    formatted = metric.format_value(series)
+    assert formatted.tolist() == [
+        "NA",
+        "NA",
+        "Low",
+        "Low",
+        "Medium",
+        "Medium",
+        "High",
+        "High",
+    ]
+
+    # Test custom threshold override
+    custom_metric = ParentalPreferenceMetric(
+        name="CustomParentalPreference",
+        risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
+        risk_score_maximum=1.5,
+        condition_column="TypeOfEstablishment (code)",
+        special_values=[7, 12],
+        standard_rules=[],
+        special_rules=[],
+        rating_low_threshold=0.5,
+        rating_high_threshold=0.8,
+    )
+    custom_series = pd.Series([np.nan, 0.5, 0.6, 0.8, 0.81])
+    custom_formatted = custom_metric.format_value(custom_series)
+    assert custom_formatted.tolist() == ["NA", "Low", "Medium", "Medium", "High"]
+
+
 def test_all_config_metrics_have_valid_formatting():
     valid_formats = {"Percentage", "Boolean", "Decimal", "String"}
     for metric in DEFAULT_RISK_CONFIG:
