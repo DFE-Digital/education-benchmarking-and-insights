@@ -23,14 +23,14 @@ There is capability to report user interactions based on visited school pages wi
 
     - _Use `organization account` for log analytics and `database` for Azure SQL connection_
 
-    ![Data source settings](./images/monthly-data-source-settings.png)
+    ![Data source settings](/assets/images/developers/monthly-data-source-settings.png)
 
 5. Upon successful credential log-in, still on the `Data` ribbon, locate and select the `Queries & Connections` button.
 6. Confirm the seven queries in the `Queries & Connections` view by the right hand side of excel work book.
 
     _The image below signifies successful access to the data sources_
 
-   ![Queries & Connections](./images/monthly-queries-and-connections.png)
+   ![Queries & Connections](/assets/images/developers/monthly-queries-and-connections.png)
 7. On the Data ribbon, locate and select the `Refresh All` button to refresh all seven queries.
 8. Confirm refresh by hovering on each query to see `Last refreshed` timestamp, ignore `Load status` and `Data Sources` values as it has no correlation with the data refresh status.
 
@@ -53,7 +53,7 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
     - _Select `Load to`,_
     - _In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load_
 
-   ![Load SchoolEngagement](./images/monthly-load-school-engagement.png)
+   ![Load SchoolEngagement](/assets/images/developers/monthly-load-school-engagement.png)
 
 3. Copy the loaded data excluding headers and paste value at the end of existing table to append data.
 4. Delete the loaded data after append.
@@ -79,7 +79,7 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
     - _Select `Load to`,_
     - _In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load_
 
-   ![Load SchoolFeatures](./images/monthly-load-school-features.png)
+   ![Load SchoolFeatures](/assets/images/developers/monthly-load-school-features.png)
 
 3. Repeat steps 16 and 17 to load `TrustFeatures`, `LAFeatures` and `SfpData` respectively.
 4. Copy the loaded data excluding headers and paste values to overwrite the respective existing summary report.

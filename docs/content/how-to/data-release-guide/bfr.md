@@ -12,16 +12,16 @@ BFR data is used for the forecast and risk tool. It doesn't need any ancillary d
 
 ## Get the data
 
-BFR data is simply exported from the SQL tables outlined in the [data sources page.](../../data/02_Sources.md) The files are:
+BFR data is simply exported from the SQL tables outlined in the [data sources page.](/reference/sources/) The files are:
 
 * BFR_3Y_raw.csv
 * BFR_SOFA_raw.csv
 
 ## Test the data pipeline runs locally
 
-* [Set up the pipeline locally](./01_Overview.md#testing-locally).
+* [Set up the pipeline locally](/how-to/data-release-guide/#testing-locally).
 * Add the new data to the relevant year folder in Azure
-* [Configure the schemas for the new files](./01_Overview.md#checking-for-schema-changes) in `data-pipeline.src.pipeline.input_schemas.bfr`. For BFR, it may not be necessary.
+* [Configure the schemas for the new files](/how-to/data-release-guide/#checking-for-schema-changes) in `data-pipeline.src.pipeline.input_schemas.bfr`. For BFR, it may not be necessary.
 * Run the pipeline to test the new data. Debug and fix any issues, eg misconfigured schemas.
 * After configuration, run the pipeline successfully.
 * Check that the pipeline has deposited rows in SQL by querying the database tables for BFR (fill in the year):
@@ -38,10 +38,10 @@ WHERE RunId like '<year>' AND RunType like 'default'
 
 ## Check the outputs
 
-To assure the quality of the BFR ingestion pipeline do some spot checks on forecasts and pupil numbers. BFR uses [specific row/line mappings](../../data/sources/bfr.md) (`EFALineNo`) in `BFR_SOFA_raw.csv` and `BFR_3Y_raw.csv` to compute Statement of Financial Activities (SOFA) and multi-year forecasts.
+To assure the quality of the BFR ingestion pipeline do some spot checks on forecasts and pupil numbers. BFR uses [specific row/line mappings](/explanation/bfr/) (`EFALineNo`) in `BFR_SOFA_raw.csv` and `BFR_3Y_raw.csv` to compute Statement of Financial Activities (SOFA) and multi-year forecasts.
 
 * Select 3 Multi-Academy Trusts in the source CSV and record their values for key `EFALineNo` fields (such as line numbers for total income, staff costs, and total forecasted expenditure).
-* Query the `BudgetForecastReturn` and `BudgetForecastReturnMetric` tables for those specific trusts and verify that the financial amounts written correspond exactly to [those line numbers](../../data/sources/bfr.md#efalineno).
+* Query the `BudgetForecastReturn` and `BudgetForecastReturnMetric` tables for those specific trusts and verify that the financial amounts written correspond exactly to [those line numbers](/explanation/bfr/#efalineno).
 
 ### 2. BFR-Specific Pupil Count Validation
 
@@ -50,5 +50,7 @@ BFR uses its own, dedicated forecast pupil number which can differ from the stan
 ## Gotchas
 
 * BFR uses its own pupil number which is different to the census one.
-* BFR uses previous year's BFR data to show spend over time. The manner in which it does this and business context [is described in other docs.](../../data/sources/bfr.md)
-* [BFR Test Plans](../../quality-assurance/data-release-test-plans/00003_BFR-2024-2025-data-release.md)
+* Not all BFR trusts in the raw submission get shown in FBIT. AAR is the primary driver of FBIT. Only trusts present in AAR will be shown in FBIT, so Trusts created or amalgamated in the time between last year's AAR and the new BFR release will not show up in `BudgetForecastReturn` in the database. Typically this is only 1-2% of trusts.
+* The cost categories are IT Spend and Revenue reserve. IT Spend rows use the BFR pupil number while revenue reserve rows use the AAR (census) pupil number. This is because BFR revenue reserves are used to compare to AAR actuals and both figures need to be regularised per pupil by the same amount. IT spend rows don't compare to AAR actual spend so just use the BFR pupil number.
+* BFR uses previous year's BFR data to show spend over time. The manner in which it does this and business context [is described in other docs.](/explanation/bfr/)
+* [BFR Test Plans](/reference/data-release-test-plans/00003-bfr-2024-2025-data-release/)
