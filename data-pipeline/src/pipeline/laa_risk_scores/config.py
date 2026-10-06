@@ -5,10 +5,10 @@ import numpy as np
 from .metrics import *
 
 DEFAULT_RISK_CONFIG: list = [
-    EndYearBalanceMetric(
+    CurrentYearRevenueReserveMetric(
         name="Balance 24-25",
         risk_group=RiskGroup.FINANCIAL,
-        risk_score_maximum=4.5,
+        risk_score_maximum=3.0,
         value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(0, np.inf, 0.0, RiskFlag.NO_FLAG.value, "both"),
@@ -20,6 +20,23 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(-0.075, -0.06, 2.0, RiskFlag.MAJOR.value, "right"),
             MetricRule(-0.09, -0.075, 2.5, RiskFlag.MAJOR.value, "right"),
             MetricRule(-np.inf, -0.09, 3.0, RiskFlag.MAJOR.value, "both"),
+        ],
+    ),
+    PreviousYearRevenueReserveMetric(
+        name="Balance 23-24",
+        risk_group=RiskGroup.FINANCIAL,
+        risk_score_maximum=1.5,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
+        rules=[
+            MetricRule(0, np.inf, 0.0, RiskFlag.NO_FLAG.value, "both"),
+            MetricRule(-0.01, 0, 0.125, RiskFlag.MINOR.value, "neither"),
+            MetricRule(-0.025, -0.01, 0.25, RiskFlag.MINOR.value, "right"),
+            MetricRule(-0.04, -0.025, 0.5, RiskFlag.MINOR.value, "right"),
+            MetricRule(-0.05, -0.04, 0.625, RiskFlag.MINOR.value, "right"),
+            MetricRule(-0.06, -0.05, 0.875, RiskFlag.MAJOR.value, "right"),
+            MetricRule(-0.075, -0.06, 1.0, RiskFlag.MAJOR.value, "right"),
+            MetricRule(-0.09, -0.075, 1.25, RiskFlag.MAJOR.value, "right"),
+            MetricRule(-np.inf, -0.09, 1.5, RiskFlag.MAJOR.value, "both"),
         ],
     ),
     InterestOnLoanFlagMetric(

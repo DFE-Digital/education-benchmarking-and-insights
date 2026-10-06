@@ -190,6 +190,9 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
             "Balance 24-25": [0.15, -0.024],
             "Balance 24-25_Score": [0.0, 0.5],
             "Balance 24-25_Risk": ["No Risk", "Minor"],
+            "Balance 23-24": [0.10, -0.015],
+            "Balance 23-24_Score": [0.0, 0.25],
+            "Balance 23-24_Risk": ["No Risk", "Minor"],
             "SomeUnrelatedColumn": ["unrelated1", "unrelated2"],
         }
     )
@@ -223,6 +226,9 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
         "Balance 24-25",
         "Balance 24-25_Score",
         "Balance 24-25_Risk",
+        "Balance 23-24",
+        "Balance 23-24_Score",
+        "Balance 23-24_Risk",
     ]
     assert list(written_df.columns) == expected_cols
     assert "SomeUnrelatedColumn" not in written_df.columns

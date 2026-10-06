@@ -2,11 +2,15 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from pipeline.laa_risk_scores.config import DEFAULT_RISK_CONFIG
+from pipeline.laa_risk_scores.config import (
+    DEFAULT_RISK_CONFIG,
+    get_laa_download_file_schema,
+)
 from pipeline.laa_risk_scores.engine import melt_laa_risk_scores
 from pipeline.laa_risk_scores.metrics import (
     BaseRiskMetric,
     BinaryRiskMetric,
+    CurrentYearRevenueReserveMetric,
     EndYearBalanceMetric,
     InterestOnLoanFlagMetric,
     ParentalPreferenceMetric,
@@ -14,6 +18,7 @@ from pipeline.laa_risk_scores.metrics import (
     PercentExpenditureOnStaffMetric,
     PerformanceTablesAchievementScoreMetric,
     PerformanceTablesProgressScoreMetric,
+    PreviousYearRevenueReserveMetric,
     PupilAbsenceMetric,
     PupilChangeOver1YearMetric,
     PupilChangeOver4YearsMetric,
@@ -163,9 +168,13 @@ def test_metric_na_default_risk_flags():
         if isinstance(m, PerformanceTablesAchievementScoreMetric)
     )
 
-    # Also test one that should still default to Major
-    end_year_balance = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, EndYearBalanceMetric)
+    current_year_balance = next(
+        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
+    )
+    previous_year_balance = next(
+        m
+        for m in DEFAULT_RISK_CONFIG
+        if isinstance(m, PreviousYearRevenueReserveMetric)
     )
 
     # Act: execute each metric on our DataFrame
@@ -177,7 +186,8 @@ def test_metric_na_default_risk_flags():
         absence,
         progress_score,
         achievement_score,
-        end_year_balance,
+        current_year_balance,
+        previous_year_balance,
     ]:
         metric.execute(df)
 
@@ -203,8 +213,11 @@ def test_metric_na_default_risk_flags():
     assert df.loc[0, achievement_score.flag_column] == "Minor"
     assert df.loc[0, achievement_score.score_column] == 0.25
 
-    # This one has no risk_flag_maximum override, so it should default to Major
-    assert df.loc[0, end_year_balance.flag_column] == "Major"
+    # Balance metrics default to Major with 3.0 and 1.5
+    assert df.loc[0, current_year_balance.flag_column] == "Major"
+    assert df.loc[0, current_year_balance.score_column] == 3.0
+    assert df.loc[0, previous_year_balance.flag_column] == "Major"
+    assert df.loc[0, previous_year_balance.score_column] == 1.5
 
 
 def test_format_value_boolean():
@@ -345,3 +358,269 @@ def test_melt_laa_risk_scores_includes_formatting_and_string_values():
     assert dec_rows.loc[0, "RiskIndicatorValueFormatting"] == "Decimal"
     assert dec_rows.loc[1, "RiskIndicatorValue"] == "45.5"
     assert dec_rows.loc[1, "RiskIndicatorValueFormatting"] == "Decimal"
+
+
+def test_revenue_reserve_metrics_happy_path_scenarios():
+    """Verifies TC-01 to TC-05: surplus, deficit combinations, and intermediate bands."""
+    metric_curr = next(
+        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
+    )
+    metric_prev = next(
+        m
+        for m in DEFAULT_RISK_CONFIG
+        if isinstance(m, PreviousYearRevenueReserveMetric)
+    )
+
+    df = pd.DataFrame(
+        {
+            "URN": [1001, 1002, 1003, 1004, 1005],
+            "Revenue reserve": [100000.0, -100000.0, 50000.0, -120000.0, -45000.0],
+            "Total Income": [1000000.0, 1000000.0, 1000000.0, 1000000.0, 1000000.0],
+            "Revenue reserve_y_minus_one": [
+                50000.0,
+                50000.0,
+                -100000.0,
+                -150000.0,
+                -70000.0,
+            ],
+            "Total Income_y_minus_one": [
+                1000000.0,
+                1000000.0,
+                1000000.0,
+                1000000.0,
+                1000000.0,
+            ],
+        }
+    )
+
+    metric_curr.execute(df)
+    metric_prev.execute(df)
+
+    combined_scores = df[metric_curr.score_column] + df[metric_prev.score_column]
+
+    # TC-01: Both surplus (+10%, +5%)
+    assert df.loc[0, metric_curr.value_column] == pytest.approx(0.10)
+    assert df.loc[0, metric_curr.score_column] == 0.0
+    assert df.loc[0, metric_curr.flag_column] == RiskFlag.NO_FLAG.value
+    assert df.loc[0, metric_prev.value_column] == pytest.approx(0.05)
+    assert df.loc[0, metric_prev.score_column] == 0.0
+    assert df.loc[0, metric_prev.flag_column] == RiskFlag.NO_FLAG.value
+    assert combined_scores.iloc[0] == 0.0
+
+    # TC-02: Severe deficit current (-10%), surplus prev (+5%)
+    assert df.loc[1, metric_curr.value_column] == pytest.approx(-0.10)
+    assert df.loc[1, metric_curr.score_column] == 3.0
+    assert df.loc[1, metric_curr.flag_column] == RiskFlag.MAJOR.value
+    assert df.loc[1, metric_prev.value_column] == pytest.approx(0.05)
+    assert df.loc[1, metric_prev.score_column] == 0.0
+    assert df.loc[1, metric_prev.flag_column] == RiskFlag.NO_FLAG.value
+    assert combined_scores.iloc[1] == 3.0
+
+    # TC-03: Surplus current (+5%), severe deficit prev (-10%)
+    assert df.loc[2, metric_curr.value_column] == pytest.approx(0.05)
+    assert df.loc[2, metric_curr.score_column] == 0.0
+    assert df.loc[2, metric_curr.flag_column] == RiskFlag.NO_FLAG.value
+    assert df.loc[2, metric_prev.value_column] == pytest.approx(-0.10)
+    assert df.loc[2, metric_prev.score_column] == 1.5
+    assert df.loc[2, metric_prev.flag_column] == RiskFlag.MAJOR.value
+    assert combined_scores.iloc[2] == 1.5
+
+    # TC-04: Both severe deficits (-12%, -15%)
+    assert df.loc[3, metric_curr.score_column] == 3.0
+    assert df.loc[3, metric_curr.flag_column] == RiskFlag.MAJOR.value
+    assert df.loc[3, metric_prev.score_column] == 1.5
+    assert df.loc[3, metric_prev.flag_column] == RiskFlag.MAJOR.value
+    assert combined_scores.iloc[3] == 4.5
+
+    # TC-05: Intermediate bands (-4.5%, -7.0%)
+    assert df.loc[4, metric_curr.score_column] == 1.25
+    assert df.loc[4, metric_curr.flag_column] == RiskFlag.MINOR.value
+    assert df.loc[4, metric_prev.score_column] == 1.0
+    assert df.loc[4, metric_prev.flag_column] == RiskFlag.MAJOR.value
+    assert combined_scores.iloc[4] == 2.25
+
+
+def test_split_end_year_balance_mathematical_parity_across_all_bands():
+    """Verifies TC-06: mathematical score parity across all 9 rule threshold bands
+    comparing the sum of split metrics against the legacy formula.
+    """
+    metric_curr = next(
+        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
+    )
+    metric_prev = next(
+        m
+        for m in DEFAULT_RISK_CONFIG
+        if isinstance(m, PreviousYearRevenueReserveMetric)
+    )
+
+    test_ratios = [0.05, -0.005, -0.02, -0.03, -0.045, -0.055, -0.07, -0.08, -0.12]
+    expected_curr_scores = [0.0, 0.25, 0.5, 1.0, 1.25, 1.75, 2.0, 2.5, 3.0]
+    expected_prev_scores = [0.0, 0.125, 0.25, 0.5, 0.625, 0.875, 1.0, 1.25, 1.5]
+
+    for curr_ratio, exp_curr in zip(test_ratios, expected_curr_scores):
+        for prev_ratio, exp_prev in zip(test_ratios, expected_prev_scores):
+            df = pd.DataFrame(
+                {
+                    "Revenue reserve": [curr_ratio * 100000.0],
+                    "Total Income": [100000.0],
+                    "Revenue reserve_y_minus_one": [prev_ratio * 100000.0],
+                    "Total Income_y_minus_one": [100000.0],
+                }
+            )
+            metric_curr.execute(df)
+            metric_prev.execute(df)
+
+            curr_score = df.loc[0, metric_curr.score_column]
+            prev_score = df.loc[0, metric_prev.score_column]
+
+            assert curr_score == exp_curr
+            assert prev_score == exp_prev
+            legacy_prev_raw = expected_curr_scores[test_ratios.index(prev_ratio)]
+            legacy_blended = min(exp_curr + legacy_prev_raw / 2.0, 4.5)
+            assert (curr_score + prev_score) == pytest.approx(legacy_blended)
+
+
+def test_revenue_reserve_metrics_missing_data_fallbacks():
+    """Verifies TC-07, TC-08, TC-09: missing data and NaN fallbacks to maximum penalties."""
+    metric_curr = next(
+        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
+    )
+    metric_prev = next(
+        m
+        for m in DEFAULT_RISK_CONFIG
+        if isinstance(m, PreviousYearRevenueReserveMetric)
+    )
+
+    df = pd.DataFrame(
+        {
+            "Revenue reserve": [np.nan, 50000.0, np.nan],
+            "Total Income": [np.nan, 1000000.0, np.nan],
+            "Revenue reserve_y_minus_one": [np.nan, np.nan, 50000.0],
+            "Total Income_y_minus_one": [np.nan, np.nan, 1000000.0],
+        }
+    )
+
+    metric_curr.execute(df)
+    metric_prev.execute(df)
+
+    # TC-07: Both NaN -> Current 3.0 Major, Prev 1.5 Major, Total 4.5
+    assert df.loc[0, metric_curr.score_column] == 3.0
+    assert df.loc[0, metric_curr.flag_column] == RiskFlag.MAJOR.value
+    assert df.loc[0, metric_prev.score_column] == 1.5
+    assert df.loc[0, metric_prev.flag_column] == RiskFlag.MAJOR.value
+    assert (
+        df.loc[0, metric_curr.score_column] + df.loc[0, metric_prev.score_column]
+    ) == 4.5
+
+    # TC-08: Current 0.0 No flag, Prev 1.5 Major, Total 1.5
+    assert df.loc[1, metric_curr.score_column] == 0.0
+    assert df.loc[1, metric_curr.flag_column] == RiskFlag.NO_FLAG.value
+    assert df.loc[1, metric_prev.score_column] == 1.5
+    assert df.loc[1, metric_prev.flag_column] == RiskFlag.MAJOR.value
+    assert (
+        df.loc[1, metric_curr.score_column] + df.loc[1, metric_prev.score_column]
+    ) == 1.5
+
+    # TC-09: Current 3.0 Major, Prev 0.0 No flag, Total 3.0
+    assert df.loc[2, metric_curr.score_column] == 3.0
+    assert df.loc[2, metric_curr.flag_column] == RiskFlag.MAJOR.value
+    assert df.loc[2, metric_prev.score_column] == 0.0
+    assert df.loc[2, metric_prev.flag_column] == RiskFlag.NO_FLAG.value
+    assert (
+        df.loc[2, metric_curr.score_column] + df.loc[2, metric_prev.score_column]
+    ) == 3.0
+
+
+def test_revenue_reserve_metrics_zero_income_division():
+    """Verifies TC-10: zero total income handles division by zero safely without errors."""
+    metric_curr = next(
+        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
+    )
+    metric_prev = next(
+        m
+        for m in DEFAULT_RISK_CONFIG
+        if isinstance(m, PreviousYearRevenueReserveMetric)
+    )
+
+    df = pd.DataFrame(
+        {
+            "Revenue reserve": [-10000.0],
+            "Total Income": [0.0],
+            "Revenue reserve_y_minus_one": [5000.0],
+            "Total Income_y_minus_one": [0.0],
+        }
+    )
+
+    metric_curr.execute(df)
+    metric_prev.execute(df)
+
+    assert pd.isna(df.loc[0, metric_curr.value_column])
+    assert df.loc[0, metric_curr.score_column] == 3.0
+    assert df.loc[0, metric_curr.flag_column] == RiskFlag.MAJOR.value
+
+    assert pd.isna(df.loc[0, metric_prev.value_column])
+    assert df.loc[0, metric_prev.score_column] == 1.5
+    assert df.loc[0, metric_prev.flag_column] == RiskFlag.MAJOR.value
+
+
+def test_revenue_reserve_metrics_boundary_inclusivity():
+    """Verifies TC-11: rule inclusivity behavior at exact boundary points."""
+    metric_curr = next(
+        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
+    )
+    metric_prev = next(
+        m
+        for m in DEFAULT_RISK_CONFIG
+        if isinstance(m, PreviousYearRevenueReserveMetric)
+    )
+
+    boundary_values = [0.0, -0.01, -0.025, -0.04, -0.05, -0.06, -0.075, -0.09]
+    expected_curr_scores = [0.0, 0.5, 1.0, 1.25, 1.75, 2.0, 2.5, 3.0]
+    expected_curr_flags = [
+        RiskFlag.NO_FLAG.value,
+        RiskFlag.MINOR.value,
+        RiskFlag.MINOR.value,
+        RiskFlag.MINOR.value,
+        RiskFlag.MAJOR.value,
+        RiskFlag.MAJOR.value,
+        RiskFlag.MAJOR.value,
+        RiskFlag.MAJOR.value,
+    ]
+    expected_prev_scores = [0.0, 0.25, 0.5, 0.625, 0.875, 1.0, 1.25, 1.5]
+
+    df = pd.DataFrame(
+        {
+            "Revenue reserve": [v * 100000.0 for v in boundary_values],
+            "Total Income": [100000.0] * len(boundary_values),
+            "Revenue reserve_y_minus_one": [v * 100000.0 for v in boundary_values],
+            "Total Income_y_minus_one": [100000.0] * len(boundary_values),
+        }
+    )
+
+    metric_curr.execute(df)
+    metric_prev.execute(df)
+
+    for i in range(len(boundary_values)):
+        assert df.loc[i, metric_curr.score_column] == expected_curr_scores[i]
+        assert df.loc[i, metric_curr.flag_column] == expected_curr_flags[i]
+        assert df.loc[i, metric_prev.score_column] == expected_prev_scores[i]
+        assert df.loc[i, metric_prev.flag_column] == expected_curr_flags[i]
+
+
+def test_revenue_reserve_metrics_download_file_schema():
+    """Verifies TC-12: download file schema column generation for both metrics."""
+    schema = get_laa_download_file_schema(2026)
+
+    # Both metrics must have their 3 standard columns in the download schema
+    assert "Balance 24-25" in schema
+    assert "Balance 24-25_Score" in schema
+    assert "Balance 24-25_Risk" in schema
+
+    assert "Balance 23-24" in schema
+    assert "Balance 23-24_Score" in schema
+    assert "Balance 23-24_Risk" in schema
+
+    # Legacy side columns must not appear in the schema
+    assert "EndYearBalanceAsPercentageIncome_y_minus_one" not in schema
+    assert "EndYearBalanceAsPercentageIncome_y_minus_one_Score" not in schema
+    assert "EndYearBalanceAsPercentageIncome_y_minus_one_Risk" not in schema

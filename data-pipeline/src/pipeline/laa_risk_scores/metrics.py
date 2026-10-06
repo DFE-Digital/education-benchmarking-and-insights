@@ -181,44 +181,26 @@ class RangeRiskMetric(BaseRiskMetric):
 
 
 @dataclass
-class EndYearBalanceMetric(RangeRiskMetric):
-    prev_year_column: str = "EndYearBalanceAsPercentageIncome_y_minus_one"
+class CurrentYearRevenueReserveMetric(RangeRiskMetric):
     value_formatting: RiskIndicatorValueFormatting = field(
         default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
     )
 
-    def get_all_cols(self) -> List[str]:
-        cols = super().get_all_cols()
-        prev_col = self.prev_year_column
-        cols.extend([prev_col, f"{prev_col}_Score", f"{prev_col}_Risk"])
-        return cols
-
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["Revenue reserve"] / df["Total Income"]
 
-    def derive_prev_year_value(self, df: pd.DataFrame) -> pd.Series:
+
+@dataclass
+class PreviousYearRevenueReserveMetric(RangeRiskMetric):
+    value_formatting: RiskIndicatorValueFormatting = field(
+        default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True
+    )
+
+    def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["Revenue reserve_y_minus_one"] / df["Total Income_y_minus_one"]
 
-    def execute(self, df: pd.DataFrame) -> None:
-        super().execute(df)
-        prev_series = self.derive_prev_year_value(df)
-        df[self.prev_year_column] = prev_series
 
-        conditions = [
-            prev_series.between(r.lower, r.upper, inclusive=r.inclusive)
-            for r in self.rules
-        ]
-        df[f"{self.prev_year_column}_Score"] = np.select(
-            conditions, [r.score for r in self.rules], default=self.default_score
-        )
-        df[f"{self.prev_year_column}_Risk"] = np.select(
-            conditions, [r.risk for r in self.rules], default=self.default_risk
-        )
-
-        # Blend previous year score with current year score (weighted)
-        df[self.score_column] = (
-            df[self.score_column] + df[f"{self.prev_year_column}_Score"] / 2
-        ).clip(upper=self.risk_score_maximum)
+EndYearBalanceMetric = CurrentYearRevenueReserveMetric
 
 
 @dataclass
