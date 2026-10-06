@@ -1,11 +1,12 @@
 ---
-title: "Release Test Plan: 2026.09.3"
+title: "Release 00037: 2026.09.3"
 layout: sub-navigation
-sectionKey: "Reference"
+sectionKey: Reference
 includeInBreadcrumbs: true
 eleventyNavigation:
-  key: "Release 2026.09.3 (00037)"
-  parent: "Release Test Plans"
+  key: "Release 00037: 2026.09.3"
+  parent: Release Test Plans
+  order: 37
 ---
 
 Release Date: 30/09/2026
@@ -26,7 +27,7 @@ In addition this release includes:
 - Expanded consent flag tracking within telemetry for richer analytics insights.
 - Initial Google Search Console configuration for LA pages, which includes adding the mandatory site meta tag and generating an initial sitemap.
 
-Detailed validation of the BFR data content is covered by the BFR data-release test plan ([BFR Data Release 2025-2026](../data-release-test-plans/bfr-2025-2026-data-release.md)); this plan covers the software and configuration release and the pipeline execution.
+Detailed validation of the BFR data content is covered by the BFR data-release test plan ([00006 - BFR Data Release 2025-2026](/reference/data-release-test-plans/00006-bfr-2025-2026-data-release/)); this plan covers the software and configuration release and the pipeline execution.
 
 ## Scope
 

@@ -1,11 +1,12 @@
 ---
-title: BFR Data Release 2025-2026
+title: "BFR Data Release: 2025-2026"
 layout: sub-navigation
 sectionKey: Reference
 includeInBreadcrumbs: true
 eleventyNavigation:
-  key: BFR Data Release 2025-2026
+  key: "Data Release: BFR Data Release: 2025-2026"
   parent: Data Release Test Plans
+  order: 6
 ---
 
 ## Purpose
