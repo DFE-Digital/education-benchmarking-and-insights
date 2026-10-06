@@ -16,3 +16,8 @@ Access technical specifications, branding guides, and styling rules used to main
 ## [Developers](/reference/developers/)
 
 Access technical specifications, API documentation, and feature reference guides for developers working on the FBIT platform.
+
+## [Quality Assurance](/reference/qa/)
+
+Access test strategies, QA approaches, data release checklists, and release test plans.
+

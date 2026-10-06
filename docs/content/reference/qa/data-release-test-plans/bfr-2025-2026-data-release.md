@@ -1,4 +1,12 @@
-# Test Plan: BFR Data Release – 2025-2026
+---
+title: BFR Data Release 2025-2026
+layout: sub-navigation
+sectionKey: Reference
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: BFR Data Release 2025-2026
+  parent: Data Release Test Plans
+---
 
 ## Purpose
 

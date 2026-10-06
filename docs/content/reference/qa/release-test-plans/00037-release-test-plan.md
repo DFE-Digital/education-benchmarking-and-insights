@@ -1,4 +1,12 @@
-# Release Test Plan: 2026.10.0
+---
+title: "Release Test Plan: 2026.09.3"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Release 2026.09.3 (00037)"
+  parent: "Release Test Plans"
+---
 
 Release Date: 30/09/2026
 
@@ -18,7 +26,7 @@ In addition this release includes:
 - Expanded consent flag tracking within telemetry for richer analytics insights.
 - Initial Google Search Console configuration for LA pages, which includes adding the mandatory site meta tag and generating an initial sitemap.
 
-Detailed validation of the BFR data content is covered by the BFR data-release test plan ([00006 - BFR Data Release 2025-2026](../data-release-test-plans/00006_BFR-2025-2026-data-release.md)); this plan covers the software and configuration release and the pipeline execution.
+Detailed validation of the BFR data content is covered by the BFR data-release test plan ([BFR Data Release 2025-2026](../data-release-test-plans/bfr-2025-2026-data-release.md)); this plan covers the software and configuration release and the pipeline execution.
 
 ## Scope
 
@@ -107,7 +115,7 @@ To be completed post-release.
 - [327284 - Review and merge Sep '26 dependency updates](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/327284)
 - [326253 - Review and merge Aug '26 dependency updates](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/326253)
 - [316479 - Implement Microsoft Clarity](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/316479)
-- [314478- Surface consent flag in log files]((https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/314478))
+- [314478 - Surface consent flag in log files](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/314478)
 - [327358 - Create site map for LA landing pages](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/327358)
 - [328518 - Add Google meta tags to site header](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/328518)
 
@@ -125,5 +133,3 @@ To be completed post-release.
 | Total                   |      3      |   3    |   0    |   100%    |
 
 **User Acceptance Testing (UAT):** Conducted by clients/stakeholders and recorded as an acceptance sign-off rather than a test count. Outcome: passed.
-
-\newpage
