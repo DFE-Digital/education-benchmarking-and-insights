@@ -122,53 +122,22 @@ def melt_laa_risk_scores(
 
     la_school_risk_indicators = pd.concat(melted_dfs, ignore_index=True)
 
-    financial_cols = [
-        metric.score_column
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.FINANCIAL
-    ]
-    financial_max = sum(
-        metric.risk_score_maximum
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.FINANCIAL
-    )
-    school_and_pupil_cols = [
-        metric.score_column
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.SCHOOL_CHARACTERISTICS
-    ]
-    school_and_pupil_max = sum(
-        metric.risk_score_maximum
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.SCHOOL_CHARACTERISTICS
-    )
+    group_mapping = {
+        "EducationalPerformance": RiskGroup.EDUCATIONAL_PERFORMANCE,
+        "Financial": RiskGroup.FINANCIAL,
+        "SchoolAndPupil": RiskGroup.SCHOOL_CHARACTERISTICS,
+    }
 
-    educational_perf_cols = [
-        metric.score_column
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.EDUCATIONAL_PERFORMANCE
-    ]
-    educational_perf_max = sum(
-        metric.risk_score_maximum
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.EDUCATIONAL_PERFORMANCE
+    la_school_risk_indicators_headers = pd.DataFrame(
+        {"URN": df["URN"], "RunId": run_id}
     )
+    for col_name, group in group_mapping.items():
+        cols = [m.score_column for m in evaluators if m.risk_group == group]
+        la_school_risk_indicators_headers[col_name] = df[cols].sum(axis=1)
+        la_school_risk_indicators_headers[f"{col_name}Max"] = sum(
+            m.risk_score_maximum for m in evaluators if m.risk_group == group
+        )
 
-    la_school_risk_indicators_headers = pd.DataFrame()
-    la_school_risk_indicators_headers["URN"] = df["URN"]
-    la_school_risk_indicators_headers["RunId"] = run_id
-    la_school_risk_indicators_headers["EducationalPerformance"] = df[
-        educational_perf_cols
-    ].sum(axis=1)
-    la_school_risk_indicators_headers["EducationalPerformanceMax"] = (
-        educational_perf_max
-    )
-    la_school_risk_indicators_headers["Financial"] = df[financial_cols].sum(axis=1)
-    la_school_risk_indicators_headers["FinancialMax"] = financial_max
-    la_school_risk_indicators_headers["SchoolAndPupil"] = df[school_and_pupil_cols].sum(
-        axis=1
-    )
-    la_school_risk_indicators_headers["SchoolAndPupilMax"] = school_and_pupil_max
     la_school_risk_indicators_headers["Overall"] = df["Total_Risk_Score"]
     la_school_risk_indicators_headers["OverallMax"] = sum(
         metric.risk_score_maximum for metric in evaluators

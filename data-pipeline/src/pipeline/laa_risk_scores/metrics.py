@@ -100,6 +100,13 @@ class BaseRiskMetric:
         """Evaluates whether each school in the DataFrame is applicable for this metric."""
         if not self.applicability:
             return pd.Series(True, index=df.index)
+        if (
+            hasattr(df, "attrs")
+            and "applicability" in df.attrs
+            and self.name in df.attrs["applicability"]
+        ):
+            return df.attrs["applicability"][self.name]
+
         rules = (
             self.applicability
             if isinstance(self.applicability, list)
@@ -108,6 +115,9 @@ class BaseRiskMetric:
         mask = pd.Series(True, index=df.index)
         for rule in rules:
             mask = mask & rule.is_applicable(df)
+
+        if hasattr(df, "attrs"):
+            df.attrs.setdefault("applicability", {})[self.name] = mask
         return mask
 
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
@@ -137,14 +147,15 @@ class BaseRiskMetric:
             if isinstance(val, str):
                 return "Yes" if val.strip().lower() in ("true", "1", "yes") else "No"
             return "Yes" if bool(val) else "No"
+
         if formatting == RiskIndicatorValueFormatting.STRING:
             return str(val)
-        if isinstance(val, (bool, np.bool_)):
-            return "Yes" if val else "No"
+
         if isinstance(val, (int, np.integer)):
             return str(val)
+
         if isinstance(val, (float, np.floating)):
-            if np.isneginf(val) or np.isposinf(val) or np.isnan(val):
+            if np.isinf(val):
                 return None
             rounded = round(float(val), 6)
             if (
@@ -153,6 +164,7 @@ class BaseRiskMetric:
             ):
                 return str(int(rounded))
             return str(rounded)
+
         return str(val)
 
     def format_value(
@@ -196,6 +208,21 @@ class BaseRiskMetric:
         df[self.flag_column] = flags
 
 
+def _evaluate_metric_rules(
+    value_series: pd.Series,
+    rules: Sequence[MetricRule],
+    default_score: float = 0.0,
+    default_risk: str = RiskFlag.NO_FLAG.value,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Evaluates a sequence of MetricRule against a value Series."""
+    conditions = [
+        value_series.between(r.lower, r.upper, inclusive=r.inclusive) for r in rules
+    ]
+    scores = np.select(conditions, [r.score for r in rules], default=default_score)
+    risks = np.select(conditions, [r.risk for r in rules], default=default_risk)
+    return scores, risks
+
+
 @dataclass
 class RangeRiskMetric(BaseRiskMetric):
     default_score: Optional[float] = None
@@ -211,23 +238,10 @@ class RangeRiskMetric(BaseRiskMetric):
     def derive_risk_score(
         self, df: pd.DataFrame, value_series: pd.Series
     ) -> Tuple[pd.Series, pd.Series]:
-        conditions = [
-            value_series.between(r.lower, r.upper, inclusive=r.inclusive)
-            for r in self.rules
-        ]
-        score_series = pd.Series(
-            np.select(
-                conditions, [r.score for r in self.rules], default=self.default_score
-            ),
-            index=df.index,
+        scores, flags = _evaluate_metric_rules(
+            value_series, self.rules, self.default_score, self.default_risk
         )
-        flag_series = pd.Series(
-            np.select(
-                conditions, [r.risk for r in self.rules], default=self.default_risk
-            ),
-            index=df.index,
-        )
-        return score_series, flag_series
+        return pd.Series(scores, index=df.index), pd.Series(flags, index=df.index)
 
 
 @dataclass
@@ -285,34 +299,8 @@ class ConditionalRiskMetric(BaseRiskMetric):
         self, df: pd.DataFrame, value_series: pd.Series
     ) -> Tuple[pd.Series, pd.Series]:
         is_special = df[self.condition_column].isin(self.special_values)
-
-        # Standard scoring
-        conds_std = [
-            value_series.between(r.lower, r.upper, inclusive=r.inclusive)
-            for r in self.standard_rules
-        ]
-        score_std = np.select(
-            conds_std, [r.score for r in self.standard_rules], default=0.0
-        )
-        risk_std = np.select(
-            conds_std,
-            [r.risk for r in self.standard_rules],
-            default=RiskFlag.NO_FLAG.value,
-        )
-
-        # Special scoring
-        conds_spec = [
-            value_series.between(r.lower, r.upper, inclusive=r.inclusive)
-            for r in self.special_rules
-        ]
-        score_spec = np.select(
-            conds_spec, [r.score for r in self.special_rules], default=0.0
-        )
-        risk_spec = np.select(
-            conds_spec,
-            [r.risk for r in self.special_rules],
-            default=RiskFlag.NO_FLAG.value,
-        )
+        score_std, risk_std = _evaluate_metric_rules(value_series, self.standard_rules)
+        score_spec, risk_spec = _evaluate_metric_rules(value_series, self.special_rules)
 
         score_series = pd.Series(
             np.where(is_special, score_spec, score_std), index=df.index

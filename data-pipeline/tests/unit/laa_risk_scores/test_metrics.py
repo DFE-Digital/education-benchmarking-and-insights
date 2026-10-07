@@ -777,3 +777,31 @@ def test_metric_applicability_combined_rules():
     # Nursery, code 7 -> Excluded by both -> 0.0, No flag
     assert df.loc[3, metric.score_column] == 0.0
     assert df.loc[3, metric.flag_column] == RiskFlag.NO_FLAG.value
+
+
+def test_metric_applicability_cached_in_df_attrs():
+    call_count = 0
+
+    class CountingRule(ApplicabilityRule):
+        def is_applicable(self, df: pd.DataFrame) -> pd.Series:
+            nonlocal call_count
+            call_count += 1
+            return pd.Series([True, False], index=df.index)
+
+    metric = BaseRiskMetric(
+        name="TestCacheMetric",
+        risk_group=RiskGroup.FINANCIAL,
+        risk_score_maximum=1.0,
+        applicability=CountingRule(),
+    )
+
+    df = pd.DataFrame({"URN": [1001, 1002]})
+    first_res = metric.is_applicable(df)
+    assert call_count == 1
+    assert first_res.tolist() == [True, False]
+
+    # Second call should read from df.attrs cache and not invoke rule again
+    second_res = metric.is_applicable(df)
+    assert call_count == 1
+    assert second_res.tolist() == [True, False]
+
