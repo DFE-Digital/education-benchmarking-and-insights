@@ -8,7 +8,13 @@ from .config import (
     get_yearly_grading_thresholds,
     get_yearly_risk_config,
 )
-from .metrics import BaseRiskMetric, GradeThreshold, RiskFlag, RiskGroup
+from .metrics import (
+    BaseRiskMetric,
+    GradeThreshold,
+    RiskFlag,
+    RiskGroup,
+    RiskIndicatorValueFormatting,
+)
 
 GRADING_EPSILON = 1e-9
 
@@ -102,8 +108,13 @@ def melt_laa_risk_scores(
         temp_df["RunId"] = run_id
         temp_df["RiskGroup"] = metric.risk_group.value
         temp_df["RiskIndicator"] = metric.name
-        temp_df["RiskIndicatorValue"] = metric.format_value(df[metric.value_column])
-        temp_df["RiskIndicatorValueFormatting"] = metric.value_formatting.value
+        formatted_values = metric.format_value(df[metric.value_column], df=df)
+        temp_df["RiskIndicatorValue"] = formatted_values
+        temp_df["RiskIndicatorValueFormatting"] = np.where(
+            formatted_values == "N/A",
+            RiskIndicatorValueFormatting.STRING.value,
+            metric.value_formatting.value,
+        )
         temp_df["RiskIndicatorFlag"] = df[metric.flag_column]
         temp_df["RiskIndicatorContribution"] = df[metric.score_column]
         temp_df["RiskIndicatorContributionMax"] = metric.risk_score_maximum

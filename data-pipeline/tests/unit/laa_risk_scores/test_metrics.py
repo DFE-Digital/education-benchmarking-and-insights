@@ -8,11 +8,14 @@ from pipeline.laa_risk_scores.config import (
 )
 from pipeline.laa_risk_scores.engine import melt_laa_risk_scores
 from pipeline.laa_risk_scores.metrics import (
+    ApplicabilityRule,
     BaseRiskMetric,
     BinaryRiskMetric,
     CurrentYearRevenueReserveMetric,
     EndYearBalanceMetric,
+    ExcludePhases,
     InterestOnLoanFlagMetric,
+    MetricRule,
     ParentalPreferenceMetric,
     PercentExpenditureOnPremisesMetric,
     PercentExpenditureOnStaffMetric,
@@ -23,6 +26,7 @@ from pipeline.laa_risk_scores.metrics import (
     PupilChangeOver1YearMetric,
     PupilChangeOver4YearsMetric,
     PupilsSixthFormMetric,
+    RangeRiskMetric,
     RiskFlag,
     RiskGroup,
     RiskIndicatorValueFormatting,
@@ -84,6 +88,14 @@ def test_parental_preference_metric_scoring():
         {
             "URN": [1001, 1002, 1003, 1004, 1005, 1006],
             "TypeOfEstablishment (code)": [1, 1, 1, 7, 12, 10],
+            "Overall Phase": [
+                "Primary",
+                "Primary",
+                "Primary",
+                "Special",
+                "Special",
+                "Primary",
+            ],
             "proportion_1stprefs_v_totaloffers": [0.5, 0.72, np.nan, 0.5, np.nan, 0.5],
         }
     )
@@ -133,7 +145,7 @@ def test_metric_na_default_risk_flags():
             "TotalPupilsSixthForm": [np.nan],
             "sess_overall_percent": [np.nan],
             "TypeOfEstablishment (code)": [1],
-            "Overall Phase": ["Primary"],
+            "Overall Phase": ["Secondary"],
             "Ks2Progress": [np.nan],
             "Progress8Measure": [np.nan],
             "PTRWM_EXP": [np.nan],
@@ -290,8 +302,8 @@ def test_format_value_parental_preference():
     series = pd.Series([np.nan, None, 0.5, 0.675, 0.72, 0.9, 0.95, 1.2])
     formatted = metric.format_value(series)
     assert formatted.tolist() == [
-        "NA",
-        "NA",
+        "N/A",
+        "N/A",
         "Low",
         "Low",
         "Medium",
@@ -305,16 +317,12 @@ def test_format_value_parental_preference():
         name="CustomParentalPreference",
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=1.5,
-        condition_column="TypeOfEstablishment (code)",
-        special_values=[7, 12],
-        standard_rules=[],
-        special_rules=[],
         rating_low_threshold=0.5,
         rating_high_threshold=0.8,
     )
     custom_series = pd.Series([np.nan, 0.5, 0.6, 0.8, 0.81])
     custom_formatted = custom_metric.format_value(custom_series)
-    assert custom_formatted.tolist() == ["NA", "Low", "Medium", "Medium", "High"]
+    assert custom_formatted.tolist() == ["N/A", "Low", "Medium", "Medium", "High"]
 
 
 def test_all_config_metrics_have_valid_formatting():
@@ -345,10 +353,18 @@ def test_melt_laa_risk_scores_includes_formatting_and_string_values():
         risk_score_maximum=1.0,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
     )
+    metric_with_applicability = BaseRiskMetric(
+        name="SixthFormCount",
+        risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
+        risk_score_maximum=0.5,
+        value_formatting=RiskIndicatorValueFormatting.DECIMAL,
+        applicability=ExcludePhases(["Primary"]),
+    )
 
     df_headlines = pd.DataFrame(
         {
             "URN": [1001, 1002],
+            "Overall Phase": ["Secondary", "Primary"],
             "LoanFlag": [True, False],
             "LoanFlag_Score": [0.25, 0.0],
             "LoanFlag_Risk": ["Minor", "No flag"],
@@ -358,12 +374,15 @@ def test_melt_laa_risk_scores_includes_formatting_and_string_values():
             "PupilCount": [120.0, 45.5],
             "PupilCount_Score": [0.0, 0.5],
             "PupilCount_Risk": ["No flag", "Minor"],
+            "SixthFormCount": [50.0, 50.0],
+            "SixthFormCount_Score": [0.0, 0.0],
+            "SixthFormCount_Risk": ["No flag", "No flag"],
             "Total_Risk_Score": [0.75, 1.5],
             "LAA_Risk_Grade": ["A", "B"],
         }
     )
 
-    evaluators = [metric_bool, metric_pct, metric_dec]
+    evaluators = [metric_bool, metric_pct, metric_dec, metric_with_applicability]
     indicators_df, _ = melt_laa_risk_scores(df_headlines, evaluators, run_id="2026")
 
     # Verify column existence
@@ -396,6 +415,15 @@ def test_melt_laa_risk_scores_includes_formatting_and_string_values():
     assert dec_rows.loc[0, "RiskIndicatorValueFormatting"] == "Decimal"
     assert dec_rows.loc[1, "RiskIndicatorValue"] == "45.5"
     assert dec_rows.loc[1, "RiskIndicatorValueFormatting"] == "Decimal"
+
+    # Verify applicability metric rows with N/A masking to String format
+    app_rows = indicators_df[
+        indicators_df["RiskIndicator"] == "SixthFormCount"
+    ].reset_index(drop=True)
+    assert app_rows.loc[0, "RiskIndicatorValue"] == "50"
+    assert app_rows.loc[0, "RiskIndicatorValueFormatting"] == "Decimal"
+    assert app_rows.loc[1, "RiskIndicatorValue"] == "N/A"
+    assert app_rows.loc[1, "RiskIndicatorValueFormatting"] == "String"
 
 
 def test_revenue_reserve_metrics_happy_path_scenarios():
@@ -662,3 +690,90 @@ def test_revenue_reserve_metrics_download_file_schema():
     assert "EndYearBalanceAsPercentageIncome_y_minus_one" not in schema
     assert "EndYearBalanceAsPercentageIncome_y_minus_one_Score" not in schema
     assert "EndYearBalanceAsPercentageIncome_y_minus_one_Risk" not in schema
+
+
+def test_exclude_phases_rule():
+    rule = ExcludePhases(["Nursery", "Special"])
+    df = pd.DataFrame({"Overall Phase": ["Primary", "Nursery", "Secondary", "Special"]})
+    applicable = rule.is_applicable(df)
+    assert applicable.tolist() == [True, False, True, False]
+
+    # When column is missing, all should be applicable
+    df_missing_col = pd.DataFrame({"URN": [1001, 1002]})
+    assert rule.is_applicable(df_missing_col).all()
+
+
+def test_metric_applicability_execution_and_scoring():
+    metric = RangeRiskMetric(
+        name="TestCapacity",
+        risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
+        risk_score_maximum=1.5,
+        applicability=ExcludePhases(["Special"]),
+        rules=[
+            MetricRule(0.0, 0.5, 1.5, RiskFlag.MAJOR.value, "left"),
+            MetricRule(0.5, 1.0, 0.0, RiskFlag.NO_FLAG.value, "both"),
+        ],
+    )
+
+    df = pd.DataFrame(
+        {
+            "URN": [1001, 1002, 1003, 1004],
+            "Overall Phase": ["Primary", "Special", "Nursery", "Special"],
+            "TestCapacity": [0.2, 0.2, np.nan, np.nan],
+        }
+    )
+
+    metric.execute(df)
+
+    # 1. Applicable school with value 0.2 -> evaluated normally (1.5, Major)
+    assert df.loc[0, metric.score_column] == 1.5
+    assert df.loc[0, metric.flag_column] == RiskFlag.MAJOR.value
+
+    # 2. Excluded school (code 7) with value 0.2 -> exempted (0.0, No flag)
+    assert df.loc[1, metric.score_column] == 0.0
+    assert df.loc[1, metric.flag_column] == RiskFlag.NO_FLAG.value
+
+    # 3. Applicable school with NaN value -> penalised as missing (1.5, Major)
+    assert df.loc[2, metric.score_column] == 1.5
+    assert df.loc[2, metric.flag_column] == RiskFlag.MAJOR.value
+
+    # 4. Excluded school (code 12) with NaN value -> exempted (0.0, No flag)
+    assert df.loc[3, metric.score_column] == 0.0
+    assert df.loc[3, metric.flag_column] == RiskFlag.NO_FLAG.value
+
+
+def test_metric_applicability_combined_rules():
+    metric = RangeRiskMetric(
+        name="TestProgress",
+        risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
+        risk_score_maximum=1.0,
+        applicability=[
+            ExcludePhases(["Nursery"])
+        ],
+        rules=[
+            MetricRule(0.0, 10.0, 1.0, RiskFlag.MAJOR.value, "both"),
+        ],
+    )
+
+    df = pd.DataFrame(
+        {
+            "URN": [1001, 1002, 1003, 1004],
+            "Overall Phase": ["Primary", "Nursery", "Primary", "Nursery"],
+            "TypeOfEstablishment (code)": [1, 1, 7, 7],
+            "TestProgress": [5.0, 5.0, 5.0, 5.0],
+        }
+    )
+
+    metric.execute(df)
+
+    # Primary, code 1 -> Applicable -> Major, 1.0
+    assert df.loc[0, metric.score_column] == 1.0
+    assert df.loc[0, metric.flag_column] == RiskFlag.MAJOR.value
+
+    # Nursery, code 1 -> Excluded by phase -> 0.0, No flag
+    assert df.loc[1, metric.score_column] == 0.0
+    assert df.loc[1, metric.flag_column] == RiskFlag.NO_FLAG.value
+
+    # Nursery, code 7 -> Excluded by both -> 0.0, No flag
+    assert df.loc[3, metric.score_column] == 0.0
+    assert df.loc[3, metric.flag_column] == RiskFlag.NO_FLAG.value

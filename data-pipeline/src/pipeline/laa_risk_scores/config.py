@@ -142,6 +142,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
         value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
+        applicability=ExcludePhases(["Special"]),
         rules=[
             MetricRule(0.0, 0.40, 1.5, RiskFlag.MAJOR.value, "left"),
             MetricRule(0.40, 0.45, 1.25, RiskFlag.MAJOR.value, "left"),
@@ -177,8 +178,8 @@ DEFAULT_RISK_CONFIG: list = [
         value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(-10000.0, -0.15, 1.5, RiskFlag.MAJOR.value, "left"),
-            MetricRule(-0.15, -0.125, 1.25, RiskFlag.MAJOR.value, "left"),
-            MetricRule(-0.125, -0.10, 1.0, RiskFlag.MAJOR.value, "left"),
+            MetricRule(-0.15, -0.125, 1.25, RiskFlag.MINOR.value, "left"),
+            MetricRule(-0.125, -0.10, 1.0, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.1, -0.08, 0.8, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.08, -0.06, 0.6, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.06, -0.04, 0.4, RiskFlag.MINOR.value, "left"),
@@ -192,6 +193,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=0.5,
         risk_flag_maximum=RiskFlag.MINOR.value,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
+        applicability=ExcludePhases(["Primary", "Nursery"]),
         rules=[
             MetricRule(0, 0, 0.0, RiskFlag.NO_FLAG.value, "both"),
             MetricRule(1, 50, 0.5, RiskFlag.MINOR.value, "left"),
@@ -228,9 +230,8 @@ DEFAULT_RISK_CONFIG: list = [
         value_formatting=RiskIndicatorValueFormatting.STRING,
         rating_low_threshold=0.675,
         rating_high_threshold=0.9,
-        condition_column="TypeOfEstablishment (code)",
-        special_values=[7, 12],
-        standard_rules=[
+        applicability=ExcludePhases(["Special"]),
+        rules=[
             MetricRule(0.0, 0.6, 1.5, RiskFlag.MAJOR.value, "left"),
             MetricRule(0.60, 0.65, 1.2, RiskFlag.MAJOR.value, "left"),
             MetricRule(0.65, 0.70, 1.0, RiskFlag.MAJOR.value, "left"),
@@ -239,10 +240,7 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(0.80, 0.85, 0.4, RiskFlag.MINOR.value, "left"),
             MetricRule(0.85, 0.90, 0.2, RiskFlag.MINOR.value, "left"),
             MetricRule(0.90, 10000.0, 0.0, RiskFlag.NO_FLAG.value, "left"),
-        ],
-        special_rules=[
-            MetricRule(0.0, 10000.0, 0.0, RiskFlag.NO_FLAG.value, "both"),
-        ],
+        ]
     ),
     PerformanceTablesProgressScoreMetric(
         name="Educational progress (KS2/KS4)",
@@ -250,6 +248,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
+        applicability=ExcludePhases(["Special"]),
         rules=[
             MetricRule(-100.0, -0.11, 0.25, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.11, 100.0, 0.0, RiskFlag.NO_FLAG.value, "both"),
@@ -261,6 +260,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
+        applicability=ExcludePhases(["Special"]),
         rules=[
             MetricRule(0, 46, 0.25, RiskFlag.MINOR.value, "left"),
             MetricRule(46, 100, 0.0, RiskFlag.NO_FLAG.value, "both"),
