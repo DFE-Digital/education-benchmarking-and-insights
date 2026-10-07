@@ -264,9 +264,6 @@ class PreviousYearRevenueReserveMetric(RangeRiskMetric):
         return df["Revenue reserve_y_minus_one"] / df["Total Income_y_minus_one"]
 
 
-EndYearBalanceMetric = CurrentYearRevenueReserveMetric
-
-
 @dataclass
 class BinaryRiskMetric(BaseRiskMetric):
     score_when_1: float

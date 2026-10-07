@@ -187,12 +187,12 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
             "Total Income": [1000000.0, 500000.0],
             "LAAStaffExpenditureRollup": [800000.0, 420000.0],
             "NetExpenditure": [950000.0, 480000.0],
-            "Balance 24-25": [0.15, -0.024],
-            "Balance 24-25_Score": [0.0, 0.5],
-            "Balance 24-25_Risk": ["No Risk", "Minor"],
-            "Balance 23-24": [0.10, -0.015],
-            "Balance 23-24_Score": [0.0, 0.25],
-            "Balance 23-24_Risk": ["No Risk", "Minor"],
+            "Current revenue reserve as % income": [0.15, -0.024],
+            "Current revenue reserve as % income_Score": [0.0, 0.5],
+            "Current revenue reserve as % income_Risk": ["No Risk", "Minor"],
+            "Previous revenue reserve as % income": [0.10, -0.015],
+            "Previous revenue reserve as % income_Score": [0.0, 0.25],
+            "Previous revenue reserve as % income_Risk": ["No Risk", "Minor"],
             "SomeUnrelatedColumn": ["unrelated1", "unrelated2"],
         }
     )
@@ -223,12 +223,12 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
         "Total Income",
         "LAAStaffExpenditureRollup",
         "NetExpenditure",
-        "Balance 24-25",
-        "Balance 24-25_Score",
-        "Balance 24-25_Risk",
-        "Balance 23-24",
-        "Balance 23-24_Score",
-        "Balance 23-24_Risk",
+        "Current revenue reserve as % income",
+        "Current revenue reserve as % income_Score",
+        "Current revenue reserve as % income_Risk",
+        "Previous revenue reserve as % income",
+        "Previous revenue reserve as % income_Score",
+        "Previous revenue reserve as % income_Risk",
     ]
     assert list(written_df.columns) == expected_cols
     assert "SomeUnrelatedColumn" not in written_df.columns

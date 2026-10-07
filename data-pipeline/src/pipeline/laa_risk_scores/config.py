@@ -6,7 +6,7 @@ from .metrics import *
 
 DEFAULT_RISK_CONFIG: list = [
     CurrentYearRevenueReserveMetric(
-        name="Balance 24-25",
+        name="Current revenue reserve as % income",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=3.0,
         value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
@@ -23,7 +23,7 @@ DEFAULT_RISK_CONFIG: list = [
         ],
     ),
     PreviousYearRevenueReserveMetric(
-        name="Balance 23-24",
+        name="Previous revenue reserve as % income",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
         value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,

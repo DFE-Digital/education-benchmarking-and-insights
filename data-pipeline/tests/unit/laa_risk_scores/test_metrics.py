@@ -12,7 +12,6 @@ from pipeline.laa_risk_scores.metrics import (
     BaseRiskMetric,
     BinaryRiskMetric,
     CurrentYearRevenueReserveMetric,
-    EndYearBalanceMetric,
     ExcludePhases,
     InterestOnLoanFlagMetric,
     MetricRule,
@@ -678,13 +677,13 @@ def test_revenue_reserve_metrics_download_file_schema():
     schema = get_laa_download_file_schema(2026)
 
     # Both metrics must have their 3 standard columns in the download schema
-    assert "Balance 24-25" in schema
-    assert "Balance 24-25_Score" in schema
-    assert "Balance 24-25_Risk" in schema
+    assert "Current revenue reserve as % income" in schema
+    assert "Current revenue reserve as % income_Score" in schema
+    assert "Current revenue reserve as % income_Risk" in schema
 
-    assert "Balance 23-24" in schema
-    assert "Balance 23-24_Score" in schema
-    assert "Balance 23-24_Risk" in schema
+    assert "Previous revenue reserve as % income" in schema
+    assert "Previous revenue reserve as % income_Score" in schema
+    assert "Previous revenue reserve as % income_Risk" in schema
 
     # Legacy side columns must not appear in the schema
     assert "EndYearBalanceAsPercentageIncome_y_minus_one" not in schema
