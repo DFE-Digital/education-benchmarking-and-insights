@@ -293,8 +293,6 @@ updates:
 
   - package-ecosystem: "npm"
     directory: "/web/src/Web.Shutter"
-    registries:
-      - npm-azure-artifacts
     schedule:
       interval: "monthly"
     cooldown:
