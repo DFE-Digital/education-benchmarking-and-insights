@@ -3,6 +3,10 @@ from unittest.mock import MagicMock, patch
 import pandas as pd
 import pytest
 
+from pipeline.laa_risk_scores.config import (
+    get_academic_year_code,
+    get_laa_ancillary_period,
+)
 from pipeline.laa_risk_scores.orchestrator import run_laa_risk_scores_pipeline
 from pipeline.laa_risk_scores.preprocessing import (
     preprocess_laa_data,
@@ -209,3 +213,81 @@ def test_orchestrator_pipeline(
     assert len(result) == 1
     assert result["URN"].values[0] == 1001
     assert result["school_places"].values[0] == 130.0  # 120 + 10
+
+
+def test_get_academic_year_code():
+    assert get_academic_year_code(2024) == 202324
+    assert get_academic_year_code(2025) == 202425
+    assert get_academic_year_code(2026) == 202526
+
+
+def test_get_laa_ancillary_period():
+    # Overridden year (2026)
+    assert get_laa_ancillary_period("capacity", 2026) == 202425
+    assert get_laa_ancillary_period("capacity_special", 2026) == 202425
+    assert get_laa_ancillary_period("absences", 2026) == 202526
+    assert get_laa_ancillary_period("parental_preference", 2026) == 202526
+
+    # Standard year without overrides (2025)
+    assert get_laa_ancillary_period("capacity", 2025) == 202425
+    assert get_laa_ancillary_period("absences", 2025) == 202425
+
+    # Non-configured future year (2030)
+    assert get_laa_ancillary_period("capacity", 2030) == 202930
+
+
+def test_preprocess_laa_extra_ancillary_data_with_lagged_capacity_2026():
+    run_year = 2026
+
+    absences_raw = pd.DataFrame(
+        {
+            "time_period": [202526, 202425],
+            "school_urn": [1001, 1002],
+            "sess_overall_percent": [5.0, 6.0],
+        }
+    )
+
+    capacity_raw = pd.DataFrame(
+        {
+            "time_period": [202425, 202324],
+            "school_urn": [1001, 1001],
+            "school_places": [150.0, 140.0],
+        }
+    )
+
+    capacity_special_raw = pd.DataFrame(
+        {
+            "time_period": [202425],
+            "school_urn": [1001],
+            "school_places": [25.0],
+        }
+    )
+
+    parental_preference_raw = pd.DataFrame(
+        {
+            "time_period": [202526],
+            "school_urn": [1001],
+            "times_put_as_1st_preference": [60.0],
+            "total_number_places_offered": [50.0],
+        }
+    )
+
+    absences, capacity, parental_pref = preprocess_laa_extra_ancillary_data(
+        absences_raw=absences_raw,
+        capacity_raw=capacity_raw,
+        capacity_special_raw=capacity_special_raw,
+        parental_preference_raw=parental_preference_raw,
+        run_year=run_year,
+    )
+
+    assert len(absences) == 1
+    assert absences["school_urn"].values[0] == 1001
+
+    assert len(capacity) == 1
+    assert capacity["school_urn"].values[0] == 1001
+    assert capacity["school_places"].values[0] == 175.0
+
+    assert len(parental_pref) == 1
+    assert parental_pref["school_urn"].values[0] == 1001
+    assert parental_pref["proportion_1stprefs_v_totaloffers"].values[0] == 1.2
+

@@ -2,6 +2,8 @@ import pandas as pd
 
 from pipeline.utils.log import setup_logger
 
+from .config import get_laa_ancillary_period
+
 logger = setup_logger(__name__)
 
 
@@ -88,19 +90,28 @@ def preprocess_laa_extra_ancillary_data(
     parental_preference_raw,
     run_year: int,
 ):
-    time_period = int(f"{run_year - 1}{str(run_year)[-2:]}")
-    preprocessed_absences = absences_raw[absences_raw["time_period"] == time_period]
+    absences_period = get_laa_ancillary_period("absences", run_year)
+    capacity_period = get_laa_ancillary_period("capacity", run_year)
+    capacity_special_period = get_laa_ancillary_period("capacity_special", run_year)
+    parental_preference_period = get_laa_ancillary_period(
+        "parental_preference", run_year
+    )
 
-    all_capacity = pd.concat([capacity_raw, capacity_special_raw])
-    capacity_df_filtered = all_capacity[all_capacity["time_period"] == time_period]
+    preprocessed_absences = absences_raw[absences_raw["time_period"] == absences_period]
+
+    capacity_filtered = capacity_raw[capacity_raw["time_period"] == capacity_period]
+    capacity_special_filtered = capacity_special_raw[
+        capacity_special_raw["time_period"] == capacity_special_period
+    ]
+    all_capacity = pd.concat([capacity_filtered, capacity_special_filtered])
 
     # Some all-through schools from CFR are split into primary/secondary
-    preprocessed_capacity = capacity_df_filtered.groupby("school_urn", as_index=False)[
+    preprocessed_capacity = all_capacity.groupby("school_urn", as_index=False)[
         "school_places"
     ].sum()
 
     parental_preference_df_filtered = parental_preference_raw[
-        parental_preference_raw["time_period"] == time_period
+        parental_preference_raw["time_period"] == parental_preference_period
     ]
 
     # Some all-through schools from CFR are split into primary/secondary
