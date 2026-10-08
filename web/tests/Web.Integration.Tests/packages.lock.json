@@ -4,9 +4,9 @@
     "net10.0": {
       "AngleSharp": {
         "type": "Direct",
-        "requested": "[1.5.2, )",
-        "resolved": "1.5.2",
-        "contentHash": "LVZ7rrr6GHbhERhTgVDarVygl1e6KwE96pronA90LBOMacDhxR4lB+xYLjn/vlnUu+xbOB2RM9fuCPEx5bdyWA=="
+        "requested": "[1.8.2, )",
+        "resolved": "1.8.2",
+        "contentHash": "iRlkfBIhi+gTgTxBlYNT4PlmaiVEy7+qX3BmprAK4cYE1UjfSNFI4mEDyxC1qgtAKYg5rjGYgL3tJlzGF+Ukdg=="
       },
       "AngleSharp.Css": {
         "type": "Direct",
@@ -29,11 +29,11 @@
       },
       "AngleSharp.XPath": {
         "type": "Direct",
-        "requested": "[2.0.6, )",
-        "resolved": "2.0.6",
-        "contentHash": "EsxtqAlm6yIpdqvTABV06gp/gOhYIgN12T1IuNNZeurS3h3tGGpqZD94h4TMWVDOoYrRQfxmncXuH1lm8wWYcQ==",
+        "requested": "[2.0.7, )",
+        "resolved": "2.0.7",
+        "contentHash": "4MK7B50kieXeU9Feh++pdLdeYOqyryZXSpnrgoztWHfxcS4XBjdWIdIf9P+ruW9GjAwbrQkWMziVRckpSE0VVQ==",
         "dependencies": {
-          "AngleSharp": "1.4.0"
+          "AngleSharp": "1.8.2"
         }
       },
       "AutoFixture": {
@@ -640,7 +640,7 @@
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "[10.0.12, )",
           "Microsoft.Extensions.Caching.Cosmos": "[1.8.0, )",
           "Microsoft.Extensions.Caching.StackExchangeRedis": "[10.0.12, )",
-          "Microsoft.Extensions.Http.Polly": "[10.0.11, )",
+          "Microsoft.Extensions.Http.Polly": "[10.0.12, )",
           "Microsoft.FeatureManagement.AspNetCore": "[4.5.0, )",
           "Newtonsoft.Json": "[13.0.4, )",
           "Serilog.AspNetCore": "[10.0.0, )",
@@ -753,9 +753,9 @@
       },
       "Microsoft.Extensions.Http.Polly": {
         "type": "CentralTransitive",
-        "requested": "[10.0.11, )",
-        "resolved": "10.0.11",
-        "contentHash": "DIxaTXWdbjRJihAIutpDIgPbpD9PwW8lW0EIawlNH4zs7coCgwPnd9rYlzXYkuKKphnjcKYlo6gXFeg6z15GLg==",
+        "requested": "[10.0.12, )",
+        "resolved": "10.0.12",
+        "contentHash": "guggIopNFSFyQSr+9xc66cjr9ohls5/312T/vRsAryh+NYsqo2f9BxMElEYkOxw8QPqK7/Lo8emi2NDnqo6w4Q==",
         "dependencies": {
           "Polly": "7.2.4",
           "Polly.Extensions.Http": "3.0.0"
