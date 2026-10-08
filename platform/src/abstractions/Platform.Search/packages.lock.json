@@ -156,7 +156,7 @@
       },
       "Microsoft.Extensions.Options": {
         "type": "CentralTransitive",
-        "requested": "[10.0.11, )",
+        "requested": "[10.0.12, )",
         "resolved": "10.0.12",
         "contentHash": "TDYD33TSRpXKZWlmTXNlj5kCihxatmv2Ec1u6C+bMYLphCS7PoSLE9Pjd/nunDoE7yETk+LLKjVJX78HYtWjpA==",
         "dependencies": {
@@ -166,7 +166,7 @@
       },
       "Microsoft.Extensions.Primitives": {
         "type": "CentralTransitive",
-        "requested": "[10.0.11, )",
+        "requested": "[10.0.12, )",
         "resolved": "10.0.12",
         "contentHash": "dYfCLR52UA+3DL7C4I/pvSaRPkNqxrUAQmbFL2u0zvYKKzqgrFCJl08Df+F1aYc8leu9JvpC9bsURUdpExcBXQ=="
       }

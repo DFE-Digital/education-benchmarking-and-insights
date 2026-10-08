@@ -11,6 +11,15 @@
           "Azure.Core": "1.49.0"
         }
       },
+      "Azure.Storage.Blobs": {
+        "type": "Direct",
+        "requested": "[12.23.0, )",
+        "resolved": "12.23.0",
+        "contentHash": "wokJ5KX/iViQQ32xyCu69+Ter0aR4B9QQ+oR9NCpc/WPIanxnDErrmFfdmE7K8ZdccjHkvE/wEnqJxaF1+5wFg==",
+        "dependencies": {
+          "Azure.Storage.Common": "12.22.0"
+        }
+      },
       "Dapper.Contrib": {
         "type": "Direct",
         "requested": "[2.0.78, )",
@@ -1110,7 +1119,7 @@
       },
       "Microsoft.Extensions.Options": {
         "type": "CentralTransitive",
-        "requested": "[10.0.11, )",
+        "requested": "[10.0.12, )",
         "resolved": "10.0.12",
         "contentHash": "TDYD33TSRpXKZWlmTXNlj5kCihxatmv2Ec1u6C+bMYLphCS7PoSLE9Pjd/nunDoE7yETk+LLKjVJX78HYtWjpA==",
         "dependencies": {
@@ -1120,7 +1129,7 @@
       },
       "Microsoft.Extensions.Options.ConfigurationExtensions": {
         "type": "CentralTransitive",
-        "requested": "[10.0.11, )",
+        "requested": "[10.0.12, )",
         "resolved": "10.0.12",
         "contentHash": "rqpu4qj5WE9x1IHGXSIgHBKi7IUlQaHyp4aXCYIanG2OghlUMFZpZTgExaXwcvmLAJHsxKQWMPpc7D2WIbCVtA==",
         "dependencies": {
@@ -1133,7 +1142,7 @@
       },
       "Microsoft.Extensions.Primitives": {
         "type": "CentralTransitive",
-        "requested": "[10.0.11, )",
+        "requested": "[10.0.12, )",
         "resolved": "10.0.12",
         "contentHash": "dYfCLR52UA+3DL7C4I/pvSaRPkNqxrUAQmbFL2u0zvYKKzqgrFCJl08Df+F1aYc8leu9JvpC9bsURUdpExcBXQ=="
       },
