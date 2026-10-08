@@ -365,6 +365,7 @@ def get_academic_year_code(run_year: int) -> int:
 custom_laa_ancillary_periods: dict[int | str, dict[str, int]] = {
     "default": {},
     2026: {
+        "absences": 202425,
         "capacity": 202425,
         "capacity_special": 202425,
     },
