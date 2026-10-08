@@ -14,4 +14,5 @@ public record PipelineFinish
     public string? RunId { get; set; }
     public bool Success { get; set; }
     public string? Error { get; set; }
+    public bool DeriveLaaRiskScores { get; set; }
 }
