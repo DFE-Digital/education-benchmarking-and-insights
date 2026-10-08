@@ -48,9 +48,9 @@
     "prettier": "^3.9.9",
     "rimraf": "^6.1.2",
     "swagger-ui-dist": "^5.33.0",
-    "ts-jest": "^29.4.13",
+    "ts-jest": "^29.4.14",
     "ts-oas": "0.6.1",
-    "tsc-alias": "^1.9.5",
+    "tsc-alias": "^1.9.7",
     "typescript": "^5.9.2"
   },
   "overrides": {
