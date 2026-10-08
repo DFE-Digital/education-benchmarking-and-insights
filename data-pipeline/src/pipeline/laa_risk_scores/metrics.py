@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, List, Optional, Sequence, Tuple, Union
@@ -45,17 +44,8 @@ class MetricRule:
     inclusive: str = "both"
 
 
-class ApplicabilityRule(ABC):
-    """Abstract base rule to determine if a metric applies to a school."""
-
-    @abstractmethod
-    def is_applicable(self, df: pd.DataFrame) -> pd.Series:
-        """Returns a boolean Series: True if the metric applies, False if N/A."""
-        pass
-
-
 @dataclass
-class ExcludePhases(ApplicabilityRule):
+class ExcludePhases:
     """Marks specified educational phases as N/A."""
 
     phases: Sequence[str]
