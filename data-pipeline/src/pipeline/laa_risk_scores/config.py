@@ -205,7 +205,7 @@ DEFAULT_RISK_CONFIG: list = [
         ],
     ),
     PupilAbsenceMetric(
-        name="% total pupil absence 24-25",
+        name="Current % total pupil absence",
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=0.5,
         risk_flag_maximum=RiskFlag.MINOR.value,
