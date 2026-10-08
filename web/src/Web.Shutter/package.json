@@ -30,7 +30,7 @@
     "@opentelemetry/winston-transport": "^0.32.0",
     "express": "^5.2.1",
     "govuk-frontend": "^6.5.1",
-    "isomorphic-dompurify": "^3.15.0",
+    "isomorphic-dompurify": "^3.19.0",
     "marked": "^18.0.14",
     "nunjucks": "^3.2.4",
     "winston": "^3.19.0"
