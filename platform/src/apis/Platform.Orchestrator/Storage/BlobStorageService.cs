@@ -52,20 +52,9 @@ public class BlobStorageService : IBlobStorageService
             }
             var destBlobClient = destContainerClient.GetBlobClient(fileName);
 
-            var copyOperation = await destBlobClient.StartCopyFromUriAsync(sourceBlobClient.Uri);
-            var copyResponse = await copyOperation.WaitForCompletionAsync();
-
-            // TODO: this could be cleaner
-            var rawResponse = copyResponse.GetRawResponse();
-            if (rawResponse.Status is < 200 or > 299)
+            await using (var stream = await sourceBlobClient.OpenReadAsync())
             {
-                return new BlobMoveResult
-                {
-                    SourceContainer = sourceContainer,
-                    DestContainer = destContainer,
-                    Success = false,
-                    ErrorMessage = $"Copy operation failed with HTTP status {rawResponse.Status}: {rawResponse.ReasonPhrase}"
-                };
+                await destBlobClient.UploadAsync(stream, overwrite: true);
             }
 
             var properties = await sourceBlobClient.GetPropertiesAsync();
