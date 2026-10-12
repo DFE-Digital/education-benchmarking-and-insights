@@ -263,16 +263,3 @@ resource "azurerm_storage_container" "landing-zone" {
     prevent_destroy = true
   }
 }
-
-resource "azurerm_user_assigned_identity" "orchestrator-fa-storage-identity" {
-  name                = "${var.environment-prefix}-orchestrator-fa-storage-identity"
-  location            = azurerm_resource_group.resource-group.location
-  resource_group_name = azurerm_resource_group.resource-group.name
-  tags                = local.common-tags
-}
-
-resource "azurerm_role_assignment" "orchestrator-storage_data_contributor_source" {
-  scope                = azurerm_storage_account.data.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_user_assigned_identity.orchestrator-fa-storage-identity.principal_id
-}

@@ -110,17 +110,6 @@ resource "azurerm_storage_account" "web-assets-storage" {
   }
 }
 
-data "azurerm_user_assigned_identity" "orchestrator_storage_identity" {
-  name                = "${var.environment-prefix}-orchestrator-fa-storage-identity"
-  resource_group_name = "${var.environment-prefix}-ebis-core"
-}
-
-resource "azurerm_role_assignment" "orchestrator-web-assets-storage_contributor" {
-  scope                = azurerm_storage_account.web-assets-storage.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = data.azurerm_user_assigned_identity.orchestrator_storage_identity.principal_id
-}
-
 resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {
   name                       = "${azurerm_storage_account.web-assets-storage.name}-blob-logs"
   target_resource_id         = "${azurerm_storage_account.web-assets-storage.id}/blobServices/default/"
