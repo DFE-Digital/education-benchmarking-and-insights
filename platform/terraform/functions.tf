@@ -193,16 +193,20 @@ module "maintenance-tasks-fa" {
 module "orchestrator-fa" {
   source = "./modules/function_app"
   app-settings = merge(local.default_app_settings, {
-    "PipelineMessageHub__ConnectionString"     = local.shared_app_settings.pipeline_hub_connection
-    "PipelineMessageHub__JobFinishedQueue"     = local.shared_app_settings.pipeline_hub_finished
-    "PipelineMessageHub__JobCustomStartQueue"  = local.shared_app_settings.pipeline_hub_custom
-    "PipelineMessageHub__JobDefaultStartQueue" = local.shared_app_settings.pipeline_hub_default
-    "PipelineMessageHub__JobPendingQueue"      = local.shared_app_settings.pipeline_hub_pending
-    "Sql__ConnectionString"                    = local.shared_app_settings.sql_connection
-    "Search__Name"                             = local.shared_app_settings.search_name
-    "Search__Key"                              = local.shared_app_settings.search_key
-    "Cache__Host"                              = local.shared_app_settings.cache_host
-    "Cache__Port"                              = local.shared_app_settings.cache_port
+    "PipelineMessageHub__ConnectionString"                  = local.shared_app_settings.pipeline_hub_connection
+    "PipelineMessageHub__JobFinishedQueue"                  = local.shared_app_settings.pipeline_hub_finished
+    "PipelineMessageHub__JobCustomStartQueue"               = local.shared_app_settings.pipeline_hub_custom
+    "PipelineMessageHub__JobDefaultStartQueue"              = local.shared_app_settings.pipeline_hub_default
+    "PipelineMessageHub__JobPendingQueue"                   = local.shared_app_settings.pipeline_hub_pending
+    "Sql__ConnectionString"                                 = local.shared_app_settings.sql_connection
+    "Search__Name"                                          = local.shared_app_settings.search_name
+    "Search__Key"                                           = local.shared_app_settings.search_key
+    "Cache__Host"                                           = local.shared_app_settings.cache_host
+    "Cache__Port"                                           = local.shared_app_settings.cache_port
+    "StorageSettings__LaaRiskFiles__SourceConnectionString" = local.shared_app_settings.StorageSettings__LaaRiskFiles__SourceConnectionString
+    "StorageSettings__LaaRiskFiles__DestConnectionString"   = local.shared_app_settings.StorageSettings__LaaRiskFiles__DestConnectionString
+    "StorageSettings__LaaRiskFiles__SourceContainer"        = local.shared_app_settings.StorageSettings__LaaRiskFiles__SourceContainer
+    "StorageSettings__LaaRiskFiles__DestContainer"          = local.shared_app_settings.StorageSettings__LaaRiskFiles__DestContainer
   })
 
   core       = { name = "orchestrator", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }

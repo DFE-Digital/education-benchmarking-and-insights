@@ -55,8 +55,8 @@ locals {
 
     StorageSettings__LaaRiskFiles__SourceConnectionString = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.data-storage-connection-string.versionless_id})"
     StorageSettings__LaaRiskFiles__DestConnectionString   = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault.key-vault.vault_uri}secrets/data-web-storage-connection-string)"
-    "StorageSettings__LaaRiskFiles__SourceContainer"      = "artifacts"
-    "StorageSettings__LaaRiskFiles__DestContainer"        = "files"
+    StorageSettings__LaaRiskFiles__SourceContainer        = "artifacts"
+    StorageSettings__LaaRiskFiles__DestContainer          = "files"
 
     pipeline_hub_pending  = "data-pipeline-job-pending"
     pipeline_hub_finished = "data-pipeline-job-finished"
