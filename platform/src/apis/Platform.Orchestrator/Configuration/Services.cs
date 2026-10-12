@@ -55,7 +55,12 @@ internal static class Services
             x.Key = searchKey;
         });
 
-        serviceCollection.Configure<StorageOptions>(configuration.GetSection(StorageOptions.SectionName));
+        serviceCollection
+            .AddOptions<StorageOptions>()
+            .Configure<IConfiguration>((options, config) =>
+            {
+                config.GetSection(StorageOptions.SectionName).Bind(options);
+            });
 
         serviceCollection
             .AddPlatformSql(configuration)

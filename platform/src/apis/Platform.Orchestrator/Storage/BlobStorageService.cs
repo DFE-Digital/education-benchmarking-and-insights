@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Azure.Identity;
 // TODO: issue with Azure.Core here latest version of Azure.Storage.Blobs
 // causes ambiguity with DefaultAzureCredential 12.23.0 is fine
+// if the latest iteration works we won't use DefaultAzureCredential
 using Azure.Storage.Blobs;
 
 namespace Platform.Orchestrator.Storage;
@@ -19,10 +19,10 @@ public record BlobMoveResult
 public interface IBlobStorageService
 {
     Task<BlobMoveResult> MoveBlobAsync(
-        Uri sourceAccountUri,
+        string sourceConnectionString,
         string sourceContainer,
         string sourceBlobName,
-        Uri destAccountUri,
+        string destConnectionString,
         string destContainer,
         string fileName);
 }
@@ -30,29 +30,17 @@ public interface IBlobStorageService
 public class BlobStorageService : IBlobStorageService
 {
     public async Task<BlobMoveResult> MoveBlobAsync(
-        Uri sourceAccountUri,
+        string sourceConnectionString,
         string sourceContainer,
         string sourceBlobName,
-        Uri destAccountUri,
+        string destConnectionString,
         string destContainer,
         string fileName)
     {
         try
         {
-            BlobServiceClient sourceServiceClient;
-            BlobServiceClient destServiceClient;
-            // Fall back to Azurite local connection string if target URI is local
-            if (sourceAccountUri.Host is "127.0.0.1" or "localhost")
-            {
-                sourceServiceClient = new BlobServiceClient("UseDevelopmentStorage=true");
-                destServiceClient = new BlobServiceClient("UseDevelopmentStorage=true");
-            }
-            else
-            {
-                var credential = new DefaultAzureCredential();
-                sourceServiceClient = new BlobServiceClient(sourceAccountUri, credential);
-                destServiceClient = new BlobServiceClient(destAccountUri, credential);
-            }
+            var sourceServiceClient = new BlobServiceClient(sourceConnectionString);
+            var destServiceClient = new BlobServiceClient(destConnectionString);
 
             var sourceContainerClient = sourceServiceClient.GetBlobContainerClient(sourceContainer);
             var sourceBlobClient = sourceContainerClient.GetBlobClient(sourceBlobName);
@@ -79,7 +67,7 @@ public class BlobStorageService : IBlobStorageService
 
             var properties = await sourceBlobClient.GetPropertiesAsync();
             var filesizeBytes = properties.Value.ContentLength;
-            var filesizeMb = Math.Round((decimal)filesizeBytes / (1024 * 1024), 2);
+            var filesizeMb = Math.Round(filesizeBytes / (1024m * 1024m), 2);
 
             // TODO: delete from source?
 

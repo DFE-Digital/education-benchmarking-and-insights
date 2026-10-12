@@ -24,8 +24,6 @@ public class PipelineQueueTriggerFunctions(
     IBlobStorageService blobStorageService,
     IOptions<StorageOptions> storageOptions)
 {
-    private readonly StorageOptions _storageOptions = storageOptions.Value;
-
     [Function(nameof(InitiatePipelineJob))]
     public async Task InitiatePipelineJob(
         [QueueTrigger("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")] PipelinePending message,
@@ -117,14 +115,8 @@ public class PipelineQueueTriggerFunctions(
 
     private async Task<BlobMoveResult> MoveLocalAuthorityRiskFile(PipelineFinish job, string fileName)
     {
-        // TODO: this could be cleaner
-        if (_storageOptions is not
-            {
-                SourceAccountUri: { } sourceUri,
-                SourceContainer: { } sourceContainer,
-                DestAccountUri: { } destUri,
-                DestContainer: { } destContainer
-            })
+        var taskOptions = storageOptions.Value.LaaRiskFiles;
+        if (!taskOptions.IsValid)
         {
             logger.LogWarning("Unable to move LAA file for Job {JobId}: StorageOptions are incomplete.", job.JobId);
             return new BlobMoveResult();
@@ -132,18 +124,18 @@ public class PipelineQueueTriggerFunctions(
 
         logger.LogInformation(
             "Moving file from source container '{SourceContainer}' to destination container '{DestContainer}' for JobId {JobId}",
-            sourceContainer,
-            destContainer,
+            taskOptions.SourceContainer,
+            taskOptions.DestContainer,
             job.JobId);
 
         var sourceBlobName = $"default/{job.RunId}/{fileName}";
 
         var result = await blobStorageService.MoveBlobAsync(
-            sourceUri,
-            sourceContainer,
+            taskOptions.SourceConnectionString!,
+            taskOptions.SourceContainer!,
             sourceBlobName,
-            destUri,
-            destContainer,
+            taskOptions.DestConnectionString!,
+            taskOptions.DestContainer!,
             fileName);
 
         if (!result.Success)

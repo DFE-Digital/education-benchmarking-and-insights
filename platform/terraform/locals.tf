@@ -52,10 +52,16 @@ locals {
     cache_host              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-host-name.versionless_id})"
     cache_port              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-ssl-port.versionless_id})"
     pipeline_hub_connection = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
-    pipeline_hub_pending    = "data-pipeline-job-pending"
-    pipeline_hub_finished   = "data-pipeline-job-finished"
-    pipeline_hub_custom     = "data-pipeline-job-custom-start"
-    pipeline_hub_default    = "data-pipeline-job-default-start"
-    use_dotnet_isolated     = 1
+
+    StorageSettings__LaaRiskFiles__SourceConnectionString = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.data-storage-connection-string.versionless_id})"
+    StorageSettings__LaaRiskFiles__DestConnectionString   = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault.key-vault.vault_uri}secrets/data-web-storage-connection-string)"
+    "StorageSettings__LaaRiskFiles__SourceContainer"      = "artifacts"
+    "StorageSettings__LaaRiskFiles__DestContainer"        = "files"
+
+    pipeline_hub_pending  = "data-pipeline-job-pending"
+    pipeline_hub_finished = "data-pipeline-job-finished"
+    pipeline_hub_custom   = "data-pipeline-job-custom-start"
+    pipeline_hub_default  = "data-pipeline-job-default-start"
+    use_dotnet_isolated   = 1
   }
 }

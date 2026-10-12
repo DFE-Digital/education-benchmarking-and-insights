@@ -1,14 +1,22 @@
-using System;
-
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace Platform.Orchestrator.Configuration;
 
-// TODO: rider inspection warning
 public class StorageOptions
 {
     public const string SectionName = "StorageSettings";
 
-    public Uri? SourceAccountUri { get; set; }
-    public Uri? DestAccountUri { get; set; }
+    public BlobMoveTaskOptions LaaRiskFiles { get; set; } = new();
+}
+
+public class BlobMoveTaskOptions
+{
+    public string? SourceConnectionString { get; set; }
+    public string? DestConnectionString { get; set; }
     public string? SourceContainer { get; set; }
     public string? DestContainer { get; set; }
+    public bool IsValid =>
+        !string.IsNullOrWhiteSpace(SourceConnectionString) &&
+        !string.IsNullOrWhiteSpace(SourceContainer) &&
+        !string.IsNullOrWhiteSpace(DestConnectionString) &&
+        !string.IsNullOrWhiteSpace(DestContainer);
 }

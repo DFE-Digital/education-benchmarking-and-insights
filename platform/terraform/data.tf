@@ -67,3 +67,8 @@ data "azurerm_key_vault_secret" "sql-password" {
   name         = "core-sql-password"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
+
+data "azurerm_key_vault_secret" "data-storage-connection-string" {
+  name         = "data-storage-connection-string"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
