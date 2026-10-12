@@ -66,7 +66,7 @@ class BaseRiskMetric:
     value_formatting: RiskIndicatorValueFormatting = field(
         default=RiskIndicatorValueFormatting.DECIMAL, kw_only=True
     )
-    applicability: Optional[Union[ApplicabilityRule, List[ApplicabilityRule]]] = field(
+    applicability: Optional[Union[ExcludePhases, List[ExcludePhases]]] = field(
         default=None, kw_only=True
     )
 
