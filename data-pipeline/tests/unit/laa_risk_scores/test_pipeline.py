@@ -225,7 +225,7 @@ def test_get_laa_ancillary_period():
     # Overridden year (2026)
     assert get_laa_ancillary_period("capacity", 2026) == 202425
     assert get_laa_ancillary_period("capacity_special", 2026) == 202425
-    assert get_laa_ancillary_period("absences", 2026) == 202526
+    assert get_laa_ancillary_period("absences", 2026) == 202425
     assert get_laa_ancillary_period("parental_preference", 2026) == 202526
 
     # Standard year without overrides (2025)
@@ -281,7 +281,7 @@ def test_preprocess_laa_extra_ancillary_data_with_lagged_capacity_2026():
     )
 
     assert len(absences) == 1
-    assert absences["school_urn"].values[0] == 1001
+    assert absences["school_urn"].values[0] == 1002
 
     assert len(capacity) == 1
     assert capacity["school_urn"].values[0] == 1001

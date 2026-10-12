@@ -8,7 +8,6 @@ from pipeline.laa_risk_scores.config import (
 )
 from pipeline.laa_risk_scores.engine import melt_laa_risk_scores
 from pipeline.laa_risk_scores.metrics import (
-    ApplicabilityRule,
     BaseRiskMetric,
     BinaryRiskMetric,
     CurrentYearRevenueReserveMetric,
@@ -781,7 +780,7 @@ def test_metric_applicability_combined_rules():
 def test_metric_applicability_cached_in_df_attrs():
     call_count = 0
 
-    class CountingRule(ApplicabilityRule):
+    class CountingRule():
         def is_applicable(self, df: pd.DataFrame) -> pd.Series:
             nonlocal call_count
             call_count += 1
