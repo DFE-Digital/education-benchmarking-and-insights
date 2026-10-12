@@ -80,3 +80,12 @@ variable "redis_cache" {
   })
   default = {}
 }
+
+variable "user_assigned_identity" {
+  type = object({
+    id        = optional(string, null)
+    client_id = optional(string, null)
+  })
+  default     = {}
+  description = "Optional pre-created User-Assigned Identity to attach to the Function App."
+}

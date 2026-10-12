@@ -31,7 +31,8 @@ resource "azurerm_windows_function_app" "func-app" {
   virtual_network_subnet_id  = var.networking.join_subnet_id == "" ? null : var.networking.join_subnet_id
 
   identity {
-    type = "SystemAssigned"
+    type         = var.user_assigned_identity.id != null ? "SystemAssigned, UserAssigned" : "SystemAssigned"
+    identity_ids = var.user_assigned_identity.id != null ? [var.user_assigned_identity.id] : null
   }
 
   site_config {
@@ -82,7 +83,8 @@ resource "azurerm_linux_function_app" "func-app" {
   virtual_network_subnet_id  = var.networking.join_subnet_id == "" ? null : var.networking.join_subnet_id
 
   identity {
-    type = "SystemAssigned"
+    type         = var.user_assigned_identity.id != null ? "SystemAssigned, UserAssigned" : "SystemAssigned"
+    identity_ids = var.user_assigned_identity.id != null ? [var.user_assigned_identity.id] : null
   }
 
   site_config {

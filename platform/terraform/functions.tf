@@ -187,11 +187,20 @@ module "maintenance-tasks-fa" {
   }
 }
 
+data "azurerm_user_assigned_identity" "orchestrator_storage_identity" {
+  name                = "${var.environment-prefix}-orchestrator-fa-storage-identity"
+  resource_group_name = "${var.environment-prefix}-ebis-core"
+}
+
 /*
   KEEP THIS EVEN AFTER FLEX CONSUMPTION FUNCTION APPS IMPLEMENTED
  */
 module "orchestrator-fa" {
   source = "./modules/function_app"
+  user_assigned_identity = {
+    id        = data.azurerm_user_assigned_identity.orchestrator_storage_identity.id
+    client_id = data.azurerm_user_assigned_identity.orchestrator_storage_identity.client_id
+  }
   app-settings = merge(local.default_app_settings, {
     "PipelineMessageHub__ConnectionString"     = local.shared_app_settings.pipeline_hub_connection
     "PipelineMessageHub__JobFinishedQueue"     = local.shared_app_settings.pipeline_hub_finished
