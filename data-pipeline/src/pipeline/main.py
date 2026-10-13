@@ -76,7 +76,7 @@ def handle_msg(
                 check_run_until_gate("pre-processing", default_msg.run_until)
                 if default_msg.derive_laa_risk_scores:
                     run_laa_risk_scores_pipeline(
-                        run_year=default_msg.cfr_year, run_id=default_msg.run_id
+                        cfr_year=default_msg.cfr_year, run_id=default_msg.run_id
                     )
 
                 msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(

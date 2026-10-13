@@ -1,3 +1,4 @@
+import dataclasses
 from typing import List, Mapping
 
 import numpy as np
@@ -5,10 +6,10 @@ import numpy as np
 from .metrics import *
 
 DEFAULT_RISK_CONFIG: list = [
-    EndYearBalanceMetric(
-        name="Balance 24-25",
+    CurrentYearRevenueReserveMetric(
+        name="Current revenue reserve as % income",
         risk_group=RiskGroup.FINANCIAL,
-        risk_score_maximum=4.5,
+        risk_score_maximum=3.0,
         value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(0, np.inf, 0.0, RiskFlag.NO_FLAG.value, "both"),
@@ -20,6 +21,23 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(-0.075, -0.06, 2.0, RiskFlag.MAJOR.value, "right"),
             MetricRule(-0.09, -0.075, 2.5, RiskFlag.MAJOR.value, "right"),
             MetricRule(-np.inf, -0.09, 3.0, RiskFlag.MAJOR.value, "both"),
+        ],
+    ),
+    PreviousYearRevenueReserveMetric(
+        name="Previous revenue reserve as % income",
+        risk_group=RiskGroup.FINANCIAL,
+        risk_score_maximum=1.5,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
+        rules=[
+            MetricRule(0, np.inf, 0.0, RiskFlag.NO_FLAG.value, "both"),
+            MetricRule(-0.01, 0, 0.125, RiskFlag.MINOR.value, "neither"),
+            MetricRule(-0.025, -0.01, 0.25, RiskFlag.MINOR.value, "right"),
+            MetricRule(-0.04, -0.025, 0.5, RiskFlag.MINOR.value, "right"),
+            MetricRule(-0.05, -0.04, 0.625, RiskFlag.MINOR.value, "right"),
+            MetricRule(-0.06, -0.05, 0.875, RiskFlag.MAJOR.value, "right"),
+            MetricRule(-0.075, -0.06, 1.0, RiskFlag.MAJOR.value, "right"),
+            MetricRule(-0.09, -0.075, 1.25, RiskFlag.MAJOR.value, "right"),
+            MetricRule(-np.inf, -0.09, 1.5, RiskFlag.MAJOR.value, "both"),
         ],
     ),
     InterestOnLoanFlagMetric(
@@ -86,15 +104,6 @@ DEFAULT_RISK_CONFIG: list = [
         score_when_1=1.0,
         risk_when_1=RiskFlag.MAJOR.value,
     ),
-    PreviousLongTermBalanceDeficitMetric(
-        name="Previous long term balance deficit",
-        risk_group=RiskGroup.FINANCIAL,
-        risk_score_maximum=2.0,
-        threshold=0.04,
-        value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
-        score_when_1=2.0,
-        risk_when_1=RiskFlag.MAJOR.value,
-    ),
     OverspendMetric(
         name="Overspend",
         risk_group=RiskGroup.FINANCIAL,
@@ -125,6 +134,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
         value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
+        applicability=ExcludePhases(["Special"]),
         rules=[
             MetricRule(0.0, 0.40, 1.5, RiskFlag.MAJOR.value, "left"),
             MetricRule(0.40, 0.45, 1.25, RiskFlag.MAJOR.value, "left"),
@@ -160,8 +170,8 @@ DEFAULT_RISK_CONFIG: list = [
         value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
         rules=[
             MetricRule(-10000.0, -0.15, 1.5, RiskFlag.MAJOR.value, "left"),
-            MetricRule(-0.15, -0.125, 1.25, RiskFlag.MAJOR.value, "left"),
-            MetricRule(-0.125, -0.10, 1.0, RiskFlag.MAJOR.value, "left"),
+            MetricRule(-0.15, -0.125, 1.25, RiskFlag.MINOR.value, "left"),
+            MetricRule(-0.125, -0.10, 1.0, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.1, -0.08, 0.8, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.08, -0.06, 0.6, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.06, -0.04, 0.4, RiskFlag.MINOR.value, "left"),
@@ -175,6 +185,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=0.5,
         risk_flag_maximum=RiskFlag.MINOR.value,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
+        applicability=ExcludePhases(["Primary", "Nursery"]),
         rules=[
             MetricRule(0, 0, 0.0, RiskFlag.NO_FLAG.value, "both"),
             MetricRule(1, 50, 0.5, RiskFlag.MINOR.value, "left"),
@@ -186,7 +197,7 @@ DEFAULT_RISK_CONFIG: list = [
         ],
     ),
     PupilAbsenceMetric(
-        name="% total pupil absence 24-25",
+        name="Current % total pupil absence",
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=0.5,
         risk_flag_maximum=RiskFlag.MINOR.value,
@@ -208,10 +219,11 @@ DEFAULT_RISK_CONFIG: list = [
         name="Parental preference",
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=1.5,
-        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
-        condition_column="TypeOfEstablishment (code)",
-        special_values=[7, 12],
-        standard_rules=[
+        value_formatting=RiskIndicatorValueFormatting.STRING,
+        rating_low_threshold=0.675,
+        rating_high_threshold=0.9,
+        applicability=ExcludePhases(["Special", "Nursery", "Pupil Referral Unit"]),
+        rules=[
             MetricRule(0.0, 0.6, 1.5, RiskFlag.MAJOR.value, "left"),
             MetricRule(0.60, 0.65, 1.2, RiskFlag.MAJOR.value, "left"),
             MetricRule(0.65, 0.70, 1.0, RiskFlag.MAJOR.value, "left"),
@@ -221,9 +233,6 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(0.85, 0.90, 0.2, RiskFlag.MINOR.value, "left"),
             MetricRule(0.90, 10000.0, 0.0, RiskFlag.NO_FLAG.value, "left"),
         ],
-        special_rules=[
-            MetricRule(0.0, 10000.0, 0.0, RiskFlag.NO_FLAG.value, "both"),
-        ],
     ),
     PerformanceTablesProgressScoreMetric(
         name="Educational progress (KS2/KS4)",
@@ -231,6 +240,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
+        applicability=ExcludePhases(["Special"]),
         rules=[
             MetricRule(-100.0, -0.11, 0.25, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.11, 100.0, 0.0, RiskFlag.NO_FLAG.value, "both"),
@@ -242,6 +252,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
+        applicability=ExcludePhases(["Special"]),
         rules=[
             MetricRule(0, 46, 0.25, RiskFlag.MINOR.value, "left"),
             MetricRule(46, 100, 0.0, RiskFlag.NO_FLAG.value, "both"),
@@ -305,10 +316,40 @@ DEFAULT_GRADING_THRESHOLDS: List[GradeThreshold] = [
     ),
 ]
 
+# These metrics have a hardcoded year in the name
+LAGGING_METRIC_TYPES = (
+    PupilAbsenceMetric,
+    PerformanceTablesProgressScoreMetric,
+    PerformanceTablesAchievementScoreMetric,
+)
+PREVIOUS_YEAR_METRIC_TYPES = (
+    PreviousYearRevenueReserveMetric,
+)
+CURRENT_YEAR_METRIC_TYPES = (
+    CurrentYearRevenueReserveMetric,
+)
+
 
 def get_yearly_risk_config(year: int) -> List[BaseRiskMetric]:
-    # Optionally route years to configs
-    return DEFAULT_RISK_CONFIG
+    this_year = get_academic_year_code(year)
+    last_year = get_academic_year_code(year - 1)
+
+    yearly_config: List[BaseRiskMetric] = []
+    for metric in DEFAULT_RISK_CONFIG:
+        # Determine appropriate year suffix (if any)
+        if isinstance(metric, LAGGING_METRIC_TYPES):
+            new_name = f"{metric.name} ({last_year})"
+        elif isinstance(metric, PREVIOUS_YEAR_METRIC_TYPES):
+            new_name = f"{metric.name} ({last_year})"
+        elif isinstance(metric, CURRENT_YEAR_METRIC_TYPES):
+            new_name = f"{metric.name} ({this_year})"
+        else:
+            yearly_config.append(metric)
+            continue
+
+        yearly_config.append(dataclasses.replace(metric, name=new_name))
+
+    return yearly_config
 
 
 def get_yearly_grading_thresholds(year: int) -> List[GradeThreshold]:
@@ -337,6 +378,30 @@ def get_laa_ancillary_filenames(year: int) -> Mapping:
         case 2026:
             return laa_ancillary_files[2026]
     return laa_ancillary_files["default"]
+
+
+def get_academic_year_code(run_year: int) -> int:
+    return ((run_year - 1) * 100) + (run_year % 100)
+
+
+# Config to help read from data files which lag a year
+ancillary_data_lagging_cfr_1y: dict[int | str, list[str]] = {
+    "default": [],
+    2026: ["absences", "capacity", "capacity_special"],
+}
+
+
+def get_laa_ancillary_period(dataset_name: str, cfr_year: int) -> int:
+    """Correctly filter ancillary datasets lagging CFR"""
+    lagging_datasets = (
+        ancillary_data_lagging_cfr_1y.get(
+            cfr_year, ancillary_data_lagging_cfr_1y["default"]
+        )
+        or []
+    )
+    if dataset_name in lagging_datasets:
+        return get_academic_year_code(cfr_year - 1)
+    return get_academic_year_code(cfr_year)
 
 
 laa_ancillary_columns = {

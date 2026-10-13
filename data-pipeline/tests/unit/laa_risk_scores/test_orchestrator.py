@@ -138,7 +138,7 @@ def test_run_laa_risk_scores_pipeline_coordination(
         parental_preference_raw=mock_load_ancillary.return_value[
             "parental_preference_raw"
         ],
-        run_year=2025,
+        cfr_year=2025,
     )
     mock_load_data.assert_called_once_with(2025)
     mock_preprocess_laa_data.assert_called_once_with(
@@ -150,10 +150,10 @@ def test_run_laa_risk_scores_pipeline_coordination(
         absences=mock_preprocess_ancillary.return_value[0],
         capacity=mock_preprocess_ancillary.return_value[1],
         parental_preference=mock_preprocess_ancillary.return_value[2],
-        run_year=2025,
+        cfr_year=2025,
     )
     mock_derive.assert_called_once_with(
-        mock_preprocess_laa_data.return_value, run_year=2025, run_id="2026"
+        mock_preprocess_laa_data.return_value, cfr_year=2025, run_id="2026"
     )
     mock_insert_db.assert_called_once()
     insert_kwargs = mock_insert_db.call_args.kwargs
@@ -187,9 +187,12 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
             "Total Income": [1000000.0, 500000.0],
             "LAAStaffExpenditureRollup": [800000.0, 420000.0],
             "NetExpenditure": [950000.0, 480000.0],
-            "Balance 24-25": [0.15, -0.024],
-            "Balance 24-25_Score": [0.0, 0.5],
-            "Balance 24-25_Risk": ["No Risk", "Minor"],
+            "Current revenue reserve as % income (202526)": [0.15, -0.024],
+            "Current revenue reserve as % income (202526)_Score": [0.0, 0.5],
+            "Current revenue reserve as % income (202526)_Risk": ["No Risk", "Minor"],
+            "Previous revenue reserve as % income (202425)": [0.10, -0.015],
+            "Previous revenue reserve as % income (202425)_Score": [0.0, 0.25],
+            "Previous revenue reserve as % income (202425)_Risk": ["No Risk", "Minor"],
             "SomeUnrelatedColumn": ["unrelated1", "unrelated2"],
         }
     )
@@ -220,9 +223,12 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
         "Total Income",
         "LAAStaffExpenditureRollup",
         "NetExpenditure",
-        "Balance 24-25",
-        "Balance 24-25_Score",
-        "Balance 24-25_Risk",
+        "Current revenue reserve as % income (202526)",
+        "Current revenue reserve as % income (202526)_Score",
+        "Current revenue reserve as % income (202526)_Risk",
+        "Previous revenue reserve as % income (202425)",
+        "Previous revenue reserve as % income (202425)_Score",
+        "Previous revenue reserve as % income (202425)_Risk",
     ]
     assert list(written_df.columns) == expected_cols
     assert "SomeUnrelatedColumn" not in written_df.columns

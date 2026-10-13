@@ -8,26 +8,32 @@ from .config import (
     get_yearly_grading_thresholds,
     get_yearly_risk_config,
 )
-from .metrics import BaseRiskMetric, GradeThreshold, RiskFlag, RiskGroup
+from .metrics import (
+    BaseRiskMetric,
+    GradeThreshold,
+    RiskFlag,
+    RiskGroup,
+    RiskIndicatorValueFormatting,
+)
 
 GRADING_EPSILON = 1e-9
 
 
 def derive_laa_risk_scores(
-    cfr_with_all_extra_data: pd.DataFrame, run_year: int, run_id: str
+    cfr_with_all_extra_data: pd.DataFrame, cfr_year: int, run_id: str
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Coordinating dynamic metric execution, scoring, grading, and db melting."""
     df = cfr_with_all_extra_data.copy()
 
-    column_eval = get_laa_column_eval(run_year)
+    column_eval = get_laa_column_eval(cfr_year)
     for col, expr in column_eval.items():
         df[col] = df.eval(expr)
 
-    evaluators = get_yearly_risk_config(run_year)
+    evaluators = get_yearly_risk_config(cfr_year)
     for metric in evaluators:
         metric.execute(df)
 
-    grading_thresholds = get_yearly_grading_thresholds(run_year)
+    grading_thresholds = get_yearly_grading_thresholds(cfr_year)
     df_graded = roll_up_laa_risk_scores_to_headlines(df, evaluators, grading_thresholds)
     indicators, headers = melt_laa_risk_scores(df_graded, evaluators, run_id=run_id)
 
@@ -102,8 +108,13 @@ def melt_laa_risk_scores(
         temp_df["RunId"] = run_id
         temp_df["RiskGroup"] = metric.risk_group.value
         temp_df["RiskIndicator"] = metric.name
-        temp_df["RiskIndicatorValue"] = metric.format_value(df[metric.value_column])
-        temp_df["RiskIndicatorValueFormatting"] = metric.value_formatting.value
+        formatted_values = metric.format_value(df[metric.value_column], df=df)
+        temp_df["RiskIndicatorValue"] = formatted_values
+        temp_df["RiskIndicatorValueFormatting"] = np.where(
+            formatted_values == "N/A",
+            RiskIndicatorValueFormatting.STRING.value,
+            metric.value_formatting.value,
+        )
         temp_df["RiskIndicatorFlag"] = df[metric.flag_column]
         temp_df["RiskIndicatorContribution"] = df[metric.score_column]
         temp_df["RiskIndicatorContributionMax"] = metric.risk_score_maximum
@@ -111,53 +122,22 @@ def melt_laa_risk_scores(
 
     la_school_risk_indicators = pd.concat(melted_dfs, ignore_index=True)
 
-    financial_cols = [
-        metric.score_column
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.FINANCIAL
-    ]
-    financial_max = sum(
-        metric.risk_score_maximum
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.FINANCIAL
-    )
-    school_and_pupil_cols = [
-        metric.score_column
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.SCHOOL_CHARACTERISTICS
-    ]
-    school_and_pupil_max = sum(
-        metric.risk_score_maximum
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.SCHOOL_CHARACTERISTICS
-    )
+    group_mapping = {
+        "EducationalPerformance": RiskGroup.EDUCATIONAL_PERFORMANCE,
+        "Financial": RiskGroup.FINANCIAL,
+        "SchoolAndPupil": RiskGroup.SCHOOL_CHARACTERISTICS,
+    }
 
-    educational_perf_cols = [
-        metric.score_column
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.EDUCATIONAL_PERFORMANCE
-    ]
-    educational_perf_max = sum(
-        metric.risk_score_maximum
-        for metric in evaluators
-        if metric.risk_group == RiskGroup.EDUCATIONAL_PERFORMANCE
+    la_school_risk_indicators_headers = pd.DataFrame(
+        {"URN": df["URN"], "RunId": run_id}
     )
+    for col_name, group in group_mapping.items():
+        cols = [m.score_column for m in evaluators if m.risk_group == group]
+        la_school_risk_indicators_headers[col_name] = df[cols].sum(axis=1)
+        la_school_risk_indicators_headers[f"{col_name}Max"] = sum(
+            m.risk_score_maximum for m in evaluators if m.risk_group == group
+        )
 
-    la_school_risk_indicators_headers = pd.DataFrame()
-    la_school_risk_indicators_headers["URN"] = df["URN"]
-    la_school_risk_indicators_headers["RunId"] = run_id
-    la_school_risk_indicators_headers["EducationalPerformance"] = df[
-        educational_perf_cols
-    ].sum(axis=1)
-    la_school_risk_indicators_headers["EducationalPerformanceMax"] = (
-        educational_perf_max
-    )
-    la_school_risk_indicators_headers["Financial"] = df[financial_cols].sum(axis=1)
-    la_school_risk_indicators_headers["FinancialMax"] = financial_max
-    la_school_risk_indicators_headers["SchoolAndPupil"] = df[school_and_pupil_cols].sum(
-        axis=1
-    )
-    la_school_risk_indicators_headers["SchoolAndPupilMax"] = school_and_pupil_max
     la_school_risk_indicators_headers["Overall"] = df["Total_Risk_Score"]
     la_school_risk_indicators_headers["OverallMax"] = sum(
         metric.risk_score_maximum for metric in evaluators
