@@ -1,3 +1,4 @@
+import dataclasses
 from typing import List, Mapping
 
 import numpy as np
@@ -101,15 +102,6 @@ DEFAULT_RISK_CONFIG: list = [
         threshold=0.15,
         value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
         score_when_1=1.0,
-        risk_when_1=RiskFlag.MAJOR.value,
-    ),
-    PreviousLongTermBalanceDeficitMetric(
-        name="Previous long term balance deficit",
-        risk_group=RiskGroup.FINANCIAL,
-        risk_score_maximum=2.0,
-        threshold=0.04,
-        value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
-        score_when_1=2.0,
         risk_when_1=RiskFlag.MAJOR.value,
     ),
     OverspendMetric(
@@ -240,7 +232,7 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(0.80, 0.85, 0.4, RiskFlag.MINOR.value, "left"),
             MetricRule(0.85, 0.90, 0.2, RiskFlag.MINOR.value, "left"),
             MetricRule(0.90, 10000.0, 0.0, RiskFlag.NO_FLAG.value, "left"),
-        ]
+        ],
     ),
     PerformanceTablesProgressScoreMetric(
         name="Educational progress (KS2/KS4)",
@@ -324,10 +316,40 @@ DEFAULT_GRADING_THRESHOLDS: List[GradeThreshold] = [
     ),
 ]
 
+# These metrics have a hardcoded year in the name
+LAGGING_METRIC_TYPES = (
+    PupilAbsenceMetric,
+    PerformanceTablesProgressScoreMetric,
+    PerformanceTablesAchievementScoreMetric,
+)
+PREVIOUS_YEAR_METRIC_TYPES = (
+    PreviousYearRevenueReserveMetric,
+)
+CURRENT_YEAR_METRIC_TYPES = (
+    CurrentYearRevenueReserveMetric,
+)
+
 
 def get_yearly_risk_config(year: int) -> List[BaseRiskMetric]:
-    # Optionally route years to configs
-    return DEFAULT_RISK_CONFIG
+    this_year = get_academic_year_code(year)
+    last_year = get_academic_year_code(year - 1)
+
+    yearly_config: List[BaseRiskMetric] = []
+    for metric in DEFAULT_RISK_CONFIG:
+        # Determine appropriate year suffix (if any)
+        if isinstance(metric, LAGGING_METRIC_TYPES):
+             new_name = f"{metric.name} ({last_year})"
+        elif isinstance(metric, PREVIOUS_YEAR_METRIC_TYPES):
+             new_name = f"{metric.name} ({last_year})"
+        elif isinstance(metric, CURRENT_YEAR_METRIC_TYPES):
+             new_name = f"{metric.name} ({this_year})"
+        else:
+             yearly_config.append(metric)
+             continue
+
+        yearly_config.append(dataclasses.replace(metric, name=new_name))
+
+    return yearly_config
 
 
 def get_yearly_grading_thresholds(year: int) -> List[GradeThreshold]:
@@ -365,14 +387,12 @@ def get_academic_year_code(run_year: int) -> int:
 # Config to help datasets which lag a year
 ancillary_data_lagging_cfr_1y: dict[int | str, list[str]] = {
     "default": [],
-    2026: ["absences", "capacity", "capacity_special", "ks2", "ks4"],
+    2026: ["absences", "capacity", "capacity_special"],
 }
 
 
 def get_laa_ancillary_period(dataset_name: str, cfr_year: int) -> int:
-    """LAA has ancillary data sources which span multiple years, so need filtering.
-    Usually the time period is the same as the CFR year, but sometimes we want the data
-    to lag a year as new ancillary data isn't available."""
+    """Correctly filter ancillary datasets lagging CFR"""
     lagging_datasets = (
         ancillary_data_lagging_cfr_1y.get(
             cfr_year, ancillary_data_lagging_cfr_1y["default"]

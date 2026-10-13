@@ -381,14 +381,6 @@ class CurrentLongTermSurplusABoveThresholdFor5YearsMetric(BinaryRiskMetric):
 
 
 @dataclass
-class PreviousLongTermBalanceDeficitMetric(BinaryRiskMetric):
-    threshold: float
-
-    def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        return (df["Revenue reserve"] / df["Total Income"]) >= self.threshold
-
-
-@dataclass
 class OverspendMetric(RangeRiskMetric):
     value_formatting: RiskIndicatorValueFormatting = field(
         default=RiskIndicatorValueFormatting.PERCENTAGE, kw_only=True

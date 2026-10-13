@@ -5,6 +5,7 @@ import pytest
 from pipeline.laa_risk_scores.config import (
     DEFAULT_RISK_CONFIG,
     get_laa_download_file_schema,
+    get_yearly_risk_config,
 )
 from pipeline.laa_risk_scores.engine import melt_laa_risk_scores
 from pipeline.laa_risk_scores.metrics import (
@@ -676,13 +677,13 @@ def test_revenue_reserve_metrics_download_file_schema():
     schema = get_laa_download_file_schema(2026)
 
     # Both metrics must have their 3 standard columns in the download schema
-    assert "Current revenue reserve as % income" in schema
-    assert "Current revenue reserve as % income_Score" in schema
-    assert "Current revenue reserve as % income_Risk" in schema
+    assert "Current revenue reserve as % income (202526)" in schema
+    assert "Current revenue reserve as % income (202526)_Score" in schema
+    assert "Current revenue reserve as % income (202526)_Risk" in schema
 
-    assert "Previous revenue reserve as % income" in schema
-    assert "Previous revenue reserve as % income_Score" in schema
-    assert "Previous revenue reserve as % income_Risk" in schema
+    assert "Previous revenue reserve as % income (202425)" in schema
+    assert "Previous revenue reserve as % income (202425)_Score" in schema
+    assert "Previous revenue reserve as % income (202425)_Risk" in schema
 
     # Legacy side columns must not appear in the schema
     assert "EndYearBalanceAsPercentageIncome_y_minus_one" not in schema
@@ -745,9 +746,7 @@ def test_metric_applicability_combined_rules():
         name="TestProgress",
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=1.0,
-        applicability=[
-            ExcludePhases(["Nursery"])
-        ],
+        applicability=[ExcludePhases(["Nursery"])],
         rules=[
             MetricRule(0.0, 10.0, 1.0, RiskFlag.MAJOR.value, "both"),
         ],
@@ -780,7 +779,7 @@ def test_metric_applicability_combined_rules():
 def test_metric_applicability_cached_in_df_attrs():
     call_count = 0
 
-    class CountingRule():
+    class CountingRule:
         def is_applicable(self, df: pd.DataFrame) -> pd.Series:
             nonlocal call_count
             call_count += 1
@@ -802,4 +801,3 @@ def test_metric_applicability_cached_in_df_attrs():
     second_res = metric.is_applicable(df)
     assert call_count == 1
     assert second_res.tolist() == [True, False]
-

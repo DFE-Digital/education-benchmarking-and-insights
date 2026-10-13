@@ -187,12 +187,12 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
             "Total Income": [1000000.0, 500000.0],
             "LAAStaffExpenditureRollup": [800000.0, 420000.0],
             "NetExpenditure": [950000.0, 480000.0],
-            "Current revenue reserve as % income": [0.15, -0.024],
-            "Current revenue reserve as % income_Score": [0.0, 0.5],
-            "Current revenue reserve as % income_Risk": ["No Risk", "Minor"],
-            "Previous revenue reserve as % income": [0.10, -0.015],
-            "Previous revenue reserve as % income_Score": [0.0, 0.25],
-            "Previous revenue reserve as % income_Risk": ["No Risk", "Minor"],
+            "Current revenue reserve as % income (202526)": [0.15, -0.024],
+            "Current revenue reserve as % income (202526)_Score": [0.0, 0.5],
+            "Current revenue reserve as % income (202526)_Risk": ["No Risk", "Minor"],
+            "Previous revenue reserve as % income (202425)": [0.10, -0.015],
+            "Previous revenue reserve as % income (202425)_Score": [0.0, 0.25],
+            "Previous revenue reserve as % income (202425)_Risk": ["No Risk", "Minor"],
             "SomeUnrelatedColumn": ["unrelated1", "unrelated2"],
         }
     )
@@ -223,12 +223,12 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
         "Total Income",
         "LAAStaffExpenditureRollup",
         "NetExpenditure",
-        "Current revenue reserve as % income",
-        "Current revenue reserve as % income_Score",
-        "Current revenue reserve as % income_Risk",
-        "Previous revenue reserve as % income",
-        "Previous revenue reserve as % income_Score",
-        "Previous revenue reserve as % income_Risk",
+        "Current revenue reserve as % income (202526)",
+        "Current revenue reserve as % income (202526)_Score",
+        "Current revenue reserve as % income (202526)_Risk",
+        "Previous revenue reserve as % income (202425)",
+        "Previous revenue reserve as % income (202425)_Score",
+        "Previous revenue reserve as % income (202425)_Risk",
     ]
     assert list(written_df.columns) == expected_cols
     assert "SomeUnrelatedColumn" not in written_df.columns
