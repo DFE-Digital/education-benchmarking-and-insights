@@ -466,7 +466,7 @@ class ParentalPreferenceMetric(RangeRiskMetric):
 
     def _format_single_value(self, val: Any) -> Optional[str]:
         if pd.isna(val) or val is None:
-            return "N/A"
+            return None
         if val <= self.rating_low_threshold:
             return "Low"
         if val > self.rating_high_threshold:

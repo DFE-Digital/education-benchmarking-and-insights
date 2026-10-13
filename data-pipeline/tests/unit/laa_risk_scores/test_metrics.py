@@ -301,8 +301,8 @@ def test_format_value_parental_preference():
     series = pd.Series([np.nan, None, 0.5, 0.675, 0.72, 0.9, 0.95, 1.2])
     formatted = metric.format_value(series)
     assert formatted.tolist() == [
-        "N/A",
-        "N/A",
+        None,
+        None,
         "Low",
         "Low",
         "Medium",
@@ -310,6 +310,18 @@ def test_format_value_parental_preference():
         "High",
         "High",
     ]
+
+    # Test with DataFrame to verify non-applicable masking to N/A while applicable missing remains None
+    df = pd.DataFrame(
+        {
+            "Overall Phase": ["Primary", "Special", "Nursery", "Pupil referral unit"],
+            "proportion_1stprefs_v_totaloffers": [np.nan, np.nan, 0.5, 1.2],
+        }
+    )
+    formatted_with_df = metric.format_value(
+        df["proportion_1stprefs_v_totaloffers"], df=df
+    )
+    assert formatted_with_df.tolist() == [None, "N/A", "N/A", "N/A"]
 
     # Test custom threshold override
     custom_metric = ParentalPreferenceMetric(
@@ -321,7 +333,7 @@ def test_format_value_parental_preference():
     )
     custom_series = pd.Series([np.nan, 0.5, 0.6, 0.8, 0.81])
     custom_formatted = custom_metric.format_value(custom_series)
-    assert custom_formatted.tolist() == ["N/A", "Low", "Medium", "Medium", "High"]
+    assert custom_formatted.tolist() == [None, "Low", "Medium", "Medium", "High"]
 
 
 def test_all_config_metrics_have_valid_formatting():

@@ -222,7 +222,7 @@ DEFAULT_RISK_CONFIG: list = [
         value_formatting=RiskIndicatorValueFormatting.STRING,
         rating_low_threshold=0.675,
         rating_high_threshold=0.9,
-        applicability=ExcludePhases(["Special"]),
+        applicability=ExcludePhases(["Special", "Nursery", "Pupil referral unit"]),
         rules=[
             MetricRule(0.0, 0.6, 1.5, RiskFlag.MAJOR.value, "left"),
             MetricRule(0.60, 0.65, 1.2, RiskFlag.MAJOR.value, "left"),
@@ -338,14 +338,14 @@ def get_yearly_risk_config(year: int) -> List[BaseRiskMetric]:
     for metric in DEFAULT_RISK_CONFIG:
         # Determine appropriate year suffix (if any)
         if isinstance(metric, LAGGING_METRIC_TYPES):
-             new_name = f"{metric.name} ({last_year})"
+            new_name = f"{metric.name} ({last_year})"
         elif isinstance(metric, PREVIOUS_YEAR_METRIC_TYPES):
-             new_name = f"{metric.name} ({last_year})"
+            new_name = f"{metric.name} ({last_year})"
         elif isinstance(metric, CURRENT_YEAR_METRIC_TYPES):
-             new_name = f"{metric.name} ({this_year})"
+            new_name = f"{metric.name} ({this_year})"
         else:
-             yearly_config.append(metric)
-             continue
+            yearly_config.append(metric)
+            continue
 
         yearly_config.append(dataclasses.replace(metric, name=new_name))
 
@@ -384,7 +384,7 @@ def get_academic_year_code(run_year: int) -> int:
     return ((run_year - 1) * 100) + (run_year % 100)
 
 
-# Config to help datasets which lag a year
+# Config to help read from data files which lag a year
 ancillary_data_lagging_cfr_1y: dict[int | str, list[str]] = {
     "default": [],
     2026: ["absences", "capacity", "capacity_special"],
