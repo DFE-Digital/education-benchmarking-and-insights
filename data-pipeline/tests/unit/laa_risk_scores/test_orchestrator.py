@@ -138,7 +138,7 @@ def test_run_laa_risk_scores_pipeline_coordination(
         parental_preference_raw=mock_load_ancillary.return_value[
             "parental_preference_raw"
         ],
-        run_year=2025,
+        cfr_year=2025,
     )
     mock_load_data.assert_called_once_with(2025)
     mock_preprocess_laa_data.assert_called_once_with(
@@ -150,10 +150,10 @@ def test_run_laa_risk_scores_pipeline_coordination(
         absences=mock_preprocess_ancillary.return_value[0],
         capacity=mock_preprocess_ancillary.return_value[1],
         parental_preference=mock_preprocess_ancillary.return_value[2],
-        run_year=2025,
+        cfr_year=2025,
     )
     mock_derive.assert_called_once_with(
-        mock_preprocess_laa_data.return_value, run_year=2025, run_id="2026"
+        mock_preprocess_laa_data.return_value, cfr_year=2025, run_id="2026"
     )
     mock_insert_db.assert_called_once()
     insert_kwargs = mock_insert_db.call_args.kwargs

@@ -20,20 +20,20 @@ GRADING_EPSILON = 1e-9
 
 
 def derive_laa_risk_scores(
-    cfr_with_all_extra_data: pd.DataFrame, run_year: int, run_id: str
+    cfr_with_all_extra_data: pd.DataFrame, cfr_year: int, run_id: str
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Coordinating dynamic metric execution, scoring, grading, and db melting."""
     df = cfr_with_all_extra_data.copy()
 
-    column_eval = get_laa_column_eval(run_year)
+    column_eval = get_laa_column_eval(cfr_year)
     for col, expr in column_eval.items():
         df[col] = df.eval(expr)
 
-    evaluators = get_yearly_risk_config(run_year)
+    evaluators = get_yearly_risk_config(cfr_year)
     for metric in evaluators:
         metric.execute(df)
 
-    grading_thresholds = get_yearly_grading_thresholds(run_year)
+    grading_thresholds = get_yearly_grading_thresholds(cfr_year)
     df_graded = roll_up_laa_risk_scores_to_headlines(df, evaluators, grading_thresholds)
     indicators, headers = melt_laa_risk_scores(df_graded, evaluators, run_id=run_id)
 

@@ -64,7 +64,7 @@ def test_preprocess_laa_extra_ancillary_data():
         capacity_raw=capacity_raw,
         capacity_special_raw=capacity_special_raw,
         parental_preference_raw=parental_preference_raw,
-        run_year=run_year,
+        cfr_year=run_year,
     )
 
     # 1. Assert absences filtered correctly
@@ -142,7 +142,7 @@ def test_preprocess_laa_data_merges_and_aligns_urn_index():
         absences=absences,
         capacity=capacity,
         parental_preference=parental_pref,
-        run_year=2025,
+        cfr_year=2025,
     )
 
     # 1. Assert school 1002 is filtered out (as its Lead school in federation is "1")
@@ -204,10 +204,10 @@ def test_orchestrator_pipeline(
                 "total_number_places_offered": [1.0],
             }
         ),
-        "run_year": 2025,
+        "cfr_year": 2025,
     }
 
-    result = run_laa_risk_scores_pipeline(run_year=2025, run_id="2026")
+    result = run_laa_risk_scores_pipeline(cfr_year=2025, run_id="2026")
 
     assert result is not None
     assert len(result) == 1
@@ -277,7 +277,7 @@ def test_preprocess_laa_extra_ancillary_data_with_lagged_capacity_2026():
         capacity_raw=capacity_raw,
         capacity_special_raw=capacity_special_raw,
         parental_preference_raw=parental_preference_raw,
-        run_year=run_year,
+        cfr_year=run_year,
     )
 
     assert len(absences) == 1
@@ -290,4 +290,3 @@ def test_preprocess_laa_extra_ancillary_data_with_lagged_capacity_2026():
     assert len(parental_pref) == 1
     assert parental_pref["school_urn"].values[0] == 1001
     assert parental_pref["proportion_1stprefs_v_totaloffers"].values[0] == 1.2
-

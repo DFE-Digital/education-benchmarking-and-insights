@@ -16,9 +16,9 @@ def preprocess_laa_data(
     absences,
     capacity,
     parental_preference,
-    run_year: int,
+    cfr_year: int,
 ):
-    logger.info(f"Merging {run_year} LAA risk score data with ancillary data...")
+    logger.info(f"Merging {cfr_year} LAA risk score data with ancillary data...")
     cfr_with_one_historic_year = pd.merge(
         cfr_data_this_year,
         cfr_data_year_minus_one,
@@ -88,13 +88,13 @@ def preprocess_laa_extra_ancillary_data(
     capacity_raw,
     capacity_special_raw,
     parental_preference_raw,
-    run_year: int,
+    cfr_year: int,
 ):
-    absences_period = get_laa_ancillary_period("absences", run_year)
-    capacity_period = get_laa_ancillary_period("capacity", run_year)
-    capacity_special_period = get_laa_ancillary_period("capacity_special", run_year)
+    absences_period = get_laa_ancillary_period("absences", cfr_year)
+    capacity_period = get_laa_ancillary_period("capacity", cfr_year)
+    capacity_special_period = get_laa_ancillary_period("capacity_special", cfr_year)
     parental_preference_period = get_laa_ancillary_period(
-        "parental_preference", run_year
+        "parental_preference", cfr_year
     )
 
     preprocessed_absences = absences_raw[absences_raw["time_period"] == absences_period]
