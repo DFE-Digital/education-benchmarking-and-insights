@@ -113,6 +113,14 @@ resource "azurerm_key_vault_secret" "data-storage-key" {
   depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
 }
 
+resource "azurerm_key_vault_secret" "data-storage-endpoint" {
+  name         = "data-storage-endpoint"
+  value        = azurerm_storage_account.data.primary_blob_endpoint
+  key_vault_id = azurerm_key_vault.key-vault.id
+  content_type = "url"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
+
 resource "azurerm_monitor_diagnostic_setting" "storage-account-data-queue" {
   name                       = "${azurerm_storage_account.data.name}-queue-logs"
   target_resource_id         = "${azurerm_storage_account.data.id}/queueServices/default/"
