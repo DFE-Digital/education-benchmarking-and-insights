@@ -10,8 +10,3 @@ output "function-host-key" {
 output "function-resource-id" {
   value = local.func_app_id
 }
-
-output "func_app_principal_id" {
-  description = "The principal ID of the system-assigned identity"
-  value       = local.func_app_principal_id
-}

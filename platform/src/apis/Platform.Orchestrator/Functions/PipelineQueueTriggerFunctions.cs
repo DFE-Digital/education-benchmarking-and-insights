@@ -131,10 +131,10 @@ public class PipelineQueueTriggerFunctions(
         var sourceBlobName = $"default/{job.RunId}/{fileName}";
 
         var result = await blobStorageService.MoveBlobAsync(
-            taskOptions.SourceEndpoint!,
+            taskOptions.SourceConnectionString!,
             taskOptions.SourceContainer!,
             sourceBlobName,
-            taskOptions.DestEndpoint!,
+            taskOptions.DestConnectionString!,
             taskOptions.DestContainer!,
             fileName);
 

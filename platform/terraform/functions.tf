@@ -187,31 +187,26 @@ module "maintenance-tasks-fa" {
   }
 }
 
-data "azurerm_storage_account" "data-storage" {
-  name                = "${var.environment-prefix}data"
-  resource_group_name = "${var.environment-prefix}-ebis-core"
-}
-
 /*
   KEEP THIS EVEN AFTER FLEX CONSUMPTION FUNCTION APPS IMPLEMENTED
  */
 module "orchestrator-fa" {
   source = "./modules/function_app"
   app-settings = merge(local.default_app_settings, {
-    "PipelineMessageHub__ConnectionString"           = local.shared_app_settings.pipeline_hub_connection
-    "PipelineMessageHub__JobFinishedQueue"           = local.shared_app_settings.pipeline_hub_finished
-    "PipelineMessageHub__JobCustomStartQueue"        = local.shared_app_settings.pipeline_hub_custom
-    "PipelineMessageHub__JobDefaultStartQueue"       = local.shared_app_settings.pipeline_hub_default
-    "PipelineMessageHub__JobPendingQueue"            = local.shared_app_settings.pipeline_hub_pending
-    "Sql__ConnectionString"                          = local.shared_app_settings.sql_connection
-    "Search__Name"                                   = local.shared_app_settings.search_name
-    "Search__Key"                                    = local.shared_app_settings.search_key
-    "Cache__Host"                                    = local.shared_app_settings.cache_host
-    "Cache__Port"                                    = local.shared_app_settings.cache_port
-    "StorageSettings__LaaRiskFiles__SourceEndpoint"  = local.shared_app_settings.StorageSettings__LaaRiskFiles__SourceEndpoint
-    "StorageSettings__LaaRiskFiles__DestEndpoint"    = local.shared_app_settings.StorageSettings__LaaRiskFiles__DestEndpoint
-    "StorageSettings__LaaRiskFiles__SourceContainer" = local.shared_app_settings.StorageSettings__LaaRiskFiles__SourceContainer
-    "StorageSettings__LaaRiskFiles__DestContainer"   = local.shared_app_settings.StorageSettings__LaaRiskFiles__DestContainer
+    "PipelineMessageHub__ConnectionString"                  = local.shared_app_settings.pipeline_hub_connection
+    "PipelineMessageHub__JobFinishedQueue"                  = local.shared_app_settings.pipeline_hub_finished
+    "PipelineMessageHub__JobCustomStartQueue"               = local.shared_app_settings.pipeline_hub_custom
+    "PipelineMessageHub__JobDefaultStartQueue"              = local.shared_app_settings.pipeline_hub_default
+    "PipelineMessageHub__JobPendingQueue"                   = local.shared_app_settings.pipeline_hub_pending
+    "Sql__ConnectionString"                                 = local.shared_app_settings.sql_connection
+    "Search__Name"                                          = local.shared_app_settings.search_name
+    "Search__Key"                                           = local.shared_app_settings.search_key
+    "Cache__Host"                                           = local.shared_app_settings.cache_host
+    "Cache__Port"                                           = local.shared_app_settings.cache_port
+    "StorageSettings__LaaRiskFiles__SourceConnectionString" = local.shared_app_settings.StorageSettings__LaaRiskFiles__SourceConnectionString
+    "StorageSettings__LaaRiskFiles__DestConnectionString"   = local.shared_app_settings.StorageSettings__LaaRiskFiles__DestConnectionString
+    "StorageSettings__LaaRiskFiles__SourceContainer"        = local.shared_app_settings.StorageSettings__LaaRiskFiles__SourceContainer
+    "StorageSettings__LaaRiskFiles__DestContainer"          = local.shared_app_settings.StorageSettings__LaaRiskFiles__DestContainer
   })
 
   core       = { name = "orchestrator", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
@@ -243,12 +238,6 @@ module "orchestrator-fa" {
     id          = azurerm_redis_cache.cache.id
     contributor = true
   }
-}
-
-resource "azurerm_role_assignment" "data-storage" {
-  scope                = data.azurerm_storage_account.data-storage.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = module.orchestrator-fa.func_app_principal_id
 }
 
 module "content-fc-fa" {

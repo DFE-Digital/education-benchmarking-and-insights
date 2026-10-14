@@ -10,13 +10,13 @@ public class StorageOptions
 
 public class BlobMoveTaskOptions
 {
-    public string? SourceEndpoint { get; set; }
-    public string? DestEndpoint { get; set; }
+    public string? SourceConnectionString { get; set; }
+    public string? DestConnectionString { get; set; }
     public string? SourceContainer { get; set; }
     public string? DestContainer { get; set; }
     public bool IsValid =>
-        !string.IsNullOrWhiteSpace(SourceEndpoint) &&
+        !string.IsNullOrWhiteSpace(SourceConnectionString) &&
         !string.IsNullOrWhiteSpace(SourceContainer) &&
-        !string.IsNullOrWhiteSpace(DestEndpoint) &&
+        !string.IsNullOrWhiteSpace(DestConnectionString) &&
         !string.IsNullOrWhiteSpace(DestContainer);
 }
