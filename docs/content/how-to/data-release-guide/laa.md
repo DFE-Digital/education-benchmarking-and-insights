@@ -84,7 +84,7 @@ To run or debug LAA calculations locally in development or Docker:
 
 Once the pipeline completes, verify that the data has been correctly generated and deposited into SQL and blob storage.
 
-### 1. Database Row Counts
+### 1. Check the database tables have been populated
 
 Ensure both denormalised tables have been populated:
 
@@ -102,7 +102,7 @@ WHERE RunId = '<year>';
 
 The header count should align with the total number of active, non-federated (or lead federated) maintained schools for the reporting year.
 
-### 2. Federation Filtering Verification
+### 2. Check federations have filtered out
 
 Non-lead members of a federation must be excluded from LAA scoring to prevent duplicated or unrepresentative figures. Confirm that no non-lead federated schools are present in the headers table:
 
@@ -117,7 +117,7 @@ WHERE h.RunId = '<year>'
 
 This query should return **0 rows**.
 
-### 3. Grade Distribution Sanity Check
+### 3. Grade distribution sanity check
 
 Verify that overall grades (A\* through G) are distributed plausibly across the school cohort:
 
