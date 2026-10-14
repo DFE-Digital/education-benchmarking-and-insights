@@ -129,6 +129,16 @@ GROUP BY OverallGrade
 ORDER BY OverallGrade;
 ```
 
+Verify that the risk indicator flags are distributed plausible:
+
+```sql
+SELECT COUNT(*) Indicators, RiskGroup, RiskIndicator, RiskIndicatorFlag
+FROM LASchoolRiskIndicators
+WHERE RunId LIKE 2026
+GROUP BY RiskGroup, RiskIndicator, RiskIndicatorFlag
+ORDER BY RiskGroup, RiskIndicator, RiskIndicatorFlag
+```
+
 > **Warning:** If nearly all schools receive grade **G**, this typically indicates a missing input column or an unmapped join that caused metrics to default to their maximum risk penalty.
 
 ### 4. Non-Applicable vs Missing Data Checks
