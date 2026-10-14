@@ -10,9 +10,9 @@ eleventyNavigation:
 
 ## Historical business context
 
-Pre late 2026 a tool external to FBIT called the Local Authority Risk Analysis Tool (LARAT) used a variety of financial and nonfinanial datapoints to score LA schools on various risk factors. These individual risk factors are combined to create a headline risk score for each school.
+Pre late 2026 a tool external to FBIT called the Local Authority Risk Analysis Tool (LARAT) used a variety of financial and nonfinanial datapoints to score LA schools on various risk factors. These individual risk factors combined to create a headline risk score for each school.
 
-In late 2026, this tool was determined to merge into FBIT. This makes sense as most of the datapoints used to score school risk were available in FBIT.
+In late 2026, this tool was merged into FBIT. Most of the datapoints used to score school risk are available in FBIT.
 
 ---
 
@@ -34,10 +34,10 @@ Each category contributes towards the overall risk score, with Financial indicat
 
 ## Individual Risk Indicators
 
-Individual metrics evaluated by the engine each produce:
+Individual metrics each have:
 
-- **Raw / Formatted Value (`RiskIndicatorValue`)**: Serialised as a string, accompanied by a formatting discriminator (`RiskIndicatorValueFormatting`: `Percentage`, `Boolean`, `Decimal`, or `String`).
-- **Risk Score Contribution (`RiskIndicatorContribution`)**: A numeric score up to the metric's configured maximum contribution.
+- **A Raw Value (`RiskIndicatorValue`)**: The metric value serialised as a string.
+- **Risk Score Contribution (`RiskIndicatorContribution`)**: The risk score's contribution to the risk group score.
 - **Risk Flag (`RiskIndicatorFlag`)**: Categorical indicator of concern (`No flag`, `Minor`, or `Major`).
 
 ### 1. Financial Indicators
@@ -77,11 +77,11 @@ Individual metrics evaluated by the engine each produce:
 
 ## What Do the Risk Flags Mean?
 
-Every indicator evaluated for a school assigns one of three risk flag levels: NO Flag, Minor, or Major
+Every indicator evaluated for a school assigns one of three risk flag levels: No Flag, Minor, or Major
 
 ### Aggregate Risk Metrics in Headline Reporting
 
-At the school level, individual flags and scores roll up into three summary counts:
+At the school level, individual flags and scores roll up into three summary counts used to grade schools:
 
 - **`Total_Risk_Score` (`Overall`)**: The arithmetic sum of all individual metric contribution scores.
 - **`Total_Risks`**: The total count of all flags raised across all metrics (both `Minor` and `Major`).
@@ -102,7 +102,7 @@ Schools receive an overall summary risk grade ranging from **A\*** (lowest risk,
 
 ### Sequential Evaluation
 
-Grading thresholds are evaluated sequentially using a **first-match-wins** rule (`np.select`). The engine tests each grade from **A\*** down to **F**. The first grade whose criteria are completely met is assigned. If a school fails the criteria for A\* through F, it is assigned grade **G** by default.
+The engine tests each grade from **A\*** down to **F**. The first grade whose criteria are completely met is assigned. If a school fails the criteria for A\* through F, it is assigned grade **G** by default.
 
 > **Key Rule**: A single major risk immediately disqualifies a school from receiving grades **A\***, **A**, or **B**. A school with a single major flag cannot achieve a grade higher than **C**.
 
