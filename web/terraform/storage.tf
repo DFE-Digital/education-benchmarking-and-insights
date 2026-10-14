@@ -110,13 +110,6 @@ resource "azurerm_storage_account" "web-assets-storage" {
   }
 }
 
-resource "azurerm_key_vault_secret" "web-assets-storage-connection-string" {
-  name         = "web-assets-storage-connection-string"
-  value        = azurerm_storage_account.web-assets-storage.primary_connection_string
-  key_vault_id = data.azurerm_key_vault.key-vault.id
-  content_type = "connection-string"
-}
-
 resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {
   name                       = "${azurerm_storage_account.web-assets-storage.name}-blob-logs"
   target_resource_id         = "${azurerm_storage_account.web-assets-storage.id}/blobServices/default/"
