@@ -110,13 +110,13 @@ resource "azurerm_storage_account" "web-assets-storage" {
   }
 }
 
-# TODO: v2 suffix purely for feature env purposes
+# TODO: vx suffix purely for feature env purposes
 # to avoid issues with soft delete and secrets recover permission
 # in the pipeline
 # should be renamed once testing is complete
-resource "azurerm_key_vault_secret" "web-assets-storage-endpoint-v2" {
-  name         = "web-assets-storage-endpoint-v2"
-  value        = azurerm_storage_account.data-source-storage.primary_blob_endpoint
+resource "azurerm_key_vault_secret" "web-assets-storage-endpoint-v3" {
+  name         = "web-assets-storage-endpoint-v3"
+  value        = azurerm_storage_account.web-assets-storage.primary_blob_endpoint
   key_vault_id = data.azurerm_key_vault.key-vault.id
   content_type = "url"
 }
