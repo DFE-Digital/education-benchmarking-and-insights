@@ -44,10 +44,6 @@ public class BlobStorageService : IBlobStorageService
             var sourceBlobClient = sourceContainerClient.GetBlobClient(sourceBlobName);
 
             var destContainerClient = destServiceClient.GetBlobContainerClient(destContainer);
-            if (!await destContainerClient.ExistsAsync())
-            {
-                await destContainerClient.CreateIfNotExistsAsync();
-            }
             var destBlobClient = destContainerClient.GetBlobClient(fileName);
 
             await using (var stream = await sourceBlobClient.OpenReadAsync())
