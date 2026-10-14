@@ -12,7 +12,7 @@ eleventyNavigation:
 
 Pre late 2026 a tool external to FBIT called the Local Authority Risk Analysis Tool (LARAT) used a variety of financial and nonfinanial datapoints to score LA schools on various risk factors. These individual risk factors combined to create a headline risk score for each school.
 
-In late 2026, this tool was merged into FBIT. Most of the datapoints used to score school risk are available in FBIT.
+In late 2026, this tool was merged into FBIT. Most of the datapoints used to score school risk were already available in FBIT.
 
 ---
 
@@ -24,13 +24,11 @@ The LAA risk scoring engine calculates individual indicators across three main c
 
 Indicators are organised into three distinct risk groups:
 
-1. **Financial (`Financial`)**: Evaluates solvency, revenue reserves, in-year balance trajectory, long-term surplus or deficit patterns, borrowing liabilities, and proportion of spend committed to staff and premises.
-2. **School Characteristics (`School Characteristics`)**: Evaluates capacity utilisation, pupil roll volatility over 1 and 4 year horizons, 6th form viability, and overall pupil absence rates.
-3. **Educational Performance (`Educational Performance`)**: Evaluates parental demand (admissions preference) alongside Key Stage 2 and Key Stage 4 attainment and progress measures.
+1. **Financial**: Evaluates solvency, revenue reserves, in-year balance trajectory, long-term surplus or deficit patterns, borrowing liabilities, and proportion of spend committed to staff and premises.
+2. **School Characteristics**: Evaluates capacity utilisation, pupil roll volatility over 1 and 4 year horizons, 6th form viability, and overall pupil absence rates.
+3. **Educational Performance**: Evaluates parental demand (admissions preference) alongside Key Stage 2 and Key Stage 4 attainment and progress measures.
 
 Each category contributes towards the overall risk score, with Financial indicators representing the largest component.
-
----
 
 ## Individual Risk Indicators
 
@@ -73,8 +71,6 @@ Individual metrics each have:
 | **Educational progress (KS2/KS4)** | Uses Key Stage 2 progress scaled for Primary schools, or Key Stage 4 Progress 8 for Secondary schools. Flags significantly below-average pupil progress. Labelled with previous academic year. Not applicable to Special schools. | Decimal | Minor |
 | **Educational attainment score (KS2/KS4)** | Uses Key Stage 2 proportion meeting expected standard for Primary schools, or Key Stage 4 Attainment 8 for Secondary schools. Flags low attainment. Labelled with previous academic year. Not applicable to Special schools. | Decimal | Minor |
 
----
-
 ## What Do the Risk Flags Mean?
 
 Every indicator evaluated for a school assigns one of three risk flag levels: No Flag, Minor, or Major
@@ -94,8 +90,6 @@ The scoring engine enforces strict rules depending on whether a missing value is
 - **Missing Data Penalty (Applicable School)**: If a school is applicable for an indicator but the required data point is missing (`NaN` or `None`), the engine applies a conservative risk stance: the school is penalised with the **maximum contribution score** (`RiskIndicatorContributionMax`) and the **maximum flag** (`RiskIndicatorFlag` = `Major` or `Minor`).
 - **Non-Applicable School**: If a school is exempt from a metric due to its phase (see [Do Metrics Apply to All Schools?](#do-metrics-apply-to-all-schools)), no penalty is incurred. The score contribution is set to `0.0`, the flag is set to `No flag`, and the value is formatted as `"N/A"`.
 
----
-
 ## How Grades Are Applied to a School
 
 Schools receive an overall summary risk grade ranging from **A\*** (lowest risk, outstanding financial and operational health) to **G** (highest risk).
@@ -105,8 +99,6 @@ Schools receive an overall summary risk grade ranging from **A\*** (lowest risk,
 The engine tests each grade from **A\*** down to **F**. The first grade whose criteria are completely met is assigned. If a school fails the criteria for A\* through F, it is assigned grade **G** by default.
 
 > **Key Rule**: A single major risk immediately disqualifies a school from receiving grades **A\***, **A**, or **B**. A school with a single major flag cannot achieve a grade higher than **C**.
-
----
 
 ## Data Sources and Academic Year Publication Lag
 
@@ -131,8 +123,6 @@ National datasets for school capacity are published substantially later than cen
 
 - Pupil absences and parental preference data are available for period `202526`.
 - School capacity and specialist provision capacity are only published up to period `202425` (lagging by 1 academic year).
-
----
 
 ## Do Metrics Apply to All Schools?
 
