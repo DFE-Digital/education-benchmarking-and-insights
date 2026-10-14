@@ -129,12 +129,12 @@ GROUP BY OverallGrade
 ORDER BY OverallGrade;
 ```
 
-Verify that the risk indicator flags are distributed plausible:
+Verify that the risk indicator flags are distributed plausibly:
 
 ```sql
 SELECT COUNT(*) Indicators, RiskGroup, RiskIndicator, RiskIndicatorFlag
 FROM LASchoolRiskIndicators
-WHERE RunId LIKE 2026
+WHERE RunId LIKE '<year>'
 GROUP BY RiskGroup, RiskIndicator, RiskIndicatorFlag
 ORDER BY RiskGroup, RiskIndicator, RiskIndicatorFlag
 ```
