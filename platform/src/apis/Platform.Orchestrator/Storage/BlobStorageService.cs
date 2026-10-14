@@ -1,8 +1,6 @@
 using System;
 using System.Threading.Tasks;
-// TODO: issue with Azure.Core here latest version of Azure.Storage.Blobs
-// causes ambiguity with DefaultAzureCredential 12.23.0 is fine
-// if the latest iteration works we won't use DefaultAzureCredential
+using Azure.Identity;
 using Azure.Storage.Blobs;
 
 namespace Platform.Orchestrator.Storage;
@@ -19,10 +17,10 @@ public record BlobMoveResult
 public interface IBlobStorageService
 {
     Task<BlobMoveResult> MoveBlobAsync(
-        string sourceConnectionString,
+        string sourceEndpoint,
         string sourceContainer,
         string sourceBlobName,
-        string destConnectionString,
+        string destEndpoint,
         string destContainer,
         string fileName);
 }
@@ -30,17 +28,17 @@ public interface IBlobStorageService
 public class BlobStorageService : IBlobStorageService
 {
     public async Task<BlobMoveResult> MoveBlobAsync(
-        string sourceConnectionString,
+        string sourceEndpoint,
         string sourceContainer,
         string sourceBlobName,
-        string destConnectionString,
+        string destEndpoint,
         string destContainer,
         string fileName)
     {
         try
         {
-            var sourceServiceClient = new BlobServiceClient(sourceConnectionString);
-            var destServiceClient = new BlobServiceClient(destConnectionString);
+            var sourceServiceClient = CreateBlobServiceClient(sourceEndpoint);
+            var destServiceClient = CreateBlobServiceClient(destEndpoint);
 
             var sourceContainerClient = sourceServiceClient.GetBlobContainerClient(sourceContainer);
             var sourceBlobClient = sourceContainerClient.GetBlobClient(sourceBlobName);
@@ -61,8 +59,6 @@ public class BlobStorageService : IBlobStorageService
             var filesizeBytes = properties.Value.ContentLength;
             var filesizeMb = Math.Round(filesizeBytes / (1024m * 1024m), 2);
 
-            // TODO: delete from source?
-
             return new BlobMoveResult
             {
                 SourceContainer = sourceContainer,
@@ -81,5 +77,15 @@ public class BlobStorageService : IBlobStorageService
                 ErrorMessage = e.Message
             };
         }
+    }
+
+    private static BlobServiceClient CreateBlobServiceClient(string endPoint)
+    {
+        if (string.IsNullOrWhiteSpace(endPoint))
+        {
+            throw new ArgumentNullException(nameof(endPoint), "Storage endpoint cannot be empty.");
+        }
+
+        return endPoint.StartsWith("UseDevelopmentStorage=true", StringComparison.OrdinalIgnoreCase) ? new BlobServiceClient(endPoint) : new BlobServiceClient(new Uri(endPoint), new DefaultAzureCredential());
     }
 }
