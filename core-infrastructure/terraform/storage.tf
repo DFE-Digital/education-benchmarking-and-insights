@@ -113,8 +113,12 @@ resource "azurerm_key_vault_secret" "data-storage-key" {
   depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
 }
 
-resource "azurerm_key_vault_secret" "data-storage-endpoint" {
-  name         = "data-storage-endpoint"
+# TODO: v2 suffix purely for feature env purposes
+#  to avoid issues with soft delete and secrets recover permission
+# in the pipeline
+#  should be renamed once testing is complete
+resource "azurerm_key_vault_secret" "data-storage-endpoint-v2" {
+  name         = "data-storage-endpoint-v2"
   value        = azurerm_storage_account.data.primary_blob_endpoint
   key_vault_id = azurerm_key_vault.key-vault.id
   content_type = "url"

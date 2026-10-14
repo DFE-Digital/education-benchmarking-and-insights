@@ -53,8 +53,12 @@ locals {
     cache_port              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-ssl-port.versionless_id})"
     pipeline_hub_connection = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
 
-    "StorageSettings__LaaRiskFiles__SourceEndpoint"  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault.key-vault.vault_uri}secrets/data-storage-endpoint)"
-    "StorageSettings__LaaRiskFiles__DestEndpoint"    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault.key-vault.vault_uri}secrets/web-assets-storage-endpoint)"
+    # TODO: v2 suffix purely for feature env purposes
+    #  to avoid issues with soft delete and secrets recover permission
+    # in the pipeline
+    #  should be renamed once testing is complete
+    "StorageSettings__LaaRiskFiles__SourceEndpoint"  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault.key-vault.vault_uri}secrets/data-storage-endpoint-v2)"
+    "StorageSettings__LaaRiskFiles__DestEndpoint"    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault.key-vault.vault_uri}secrets/web-assets-storage-endpoint-v2)"
     "StorageSettings__LaaRiskFiles__SourceContainer" = "artifacts"
     "StorageSettings__LaaRiskFiles__DestContainer"   = "files"
 
