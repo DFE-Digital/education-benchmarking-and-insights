@@ -12,7 +12,7 @@ eleventyNavigation:
 
 Pre late 2026 a tool external to FBIT called the Local Authority Risk Analysis Tool (LARAT) used a variety of financial and nonfinanial datapoints to score LA schools on various risk factors. These individual risk factors combined to create a headline risk score for each school.
 
-In late 2026, this tool was merged into FBIT. Most of the datapoints used to score school risk were already available in FBIT.
+In late 2026, this tool was determined to merge into FBIT. This makes sense as most of the datapoints used to score school risk were available in FBIT.
 
 ---
 
