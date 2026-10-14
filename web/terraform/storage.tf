@@ -126,6 +126,7 @@ resource "azurerm_role_assignment" "orchestrator_to_webassets" {
   scope                = azurerm_storage_account.web-assets-storage.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = data.azurerm_windows_function_app.orchestrator-fa.identity[0].principal_id
+  principal_type       = "ServicePrincipal"
 }
 
 

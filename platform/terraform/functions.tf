@@ -249,6 +249,7 @@ resource "azurerm_role_assignment" "data-storage" {
   scope                = data.azurerm_storage_account.data-storage.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = module.orchestrator-fa.func_app_principal_id
+  principal_type       = "ServicePrincipal"
 }
 
 module "content-fc-fa" {
