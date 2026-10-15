@@ -6,7 +6,10 @@ import pytest
 from pipeline.laa_risk_scores.config import (
     get_academic_year_code,
     get_laa_ancillary_period,
+    get_yearly_grading_thresholds,
+    get_yearly_risk_config,
 )
+from pipeline.laa_risk_scores.engine import roll_up_laa_risk_scores_to_headlines
 from pipeline.laa_risk_scores.orchestrator import run_laa_risk_scores_pipeline
 from pipeline.laa_risk_scores.preprocessing import (
     preprocess_laa_data,
@@ -161,6 +164,77 @@ def test_preprocess_laa_data_merges_and_aligns_urn_index():
     assert school_1003["Value_y_minus_one"].values[0] == 3000.0
 
 
+def test_preprocess_laa_data_rescales_ptrwm_exp_from_proportion_scale():
+    cfr_this = pd.DataFrame(
+        {
+            "Lead school in federation": ["0", "0", "0"],
+            "PTRWM_EXP": [0.78, 0.45, None],
+        },
+        index=[1001, 1002, 1003],
+    )
+    cfr_this.index.name = "URN"
+    empty_history = pd.DataFrame(index=[1001, 1002, 1003])
+    empty_history.index.name = "URN"
+
+    absences = pd.DataFrame({"school_urn": [], "sess_overall_percent": []})
+    capacity = pd.DataFrame({"school_urn": [], "school_places": []})
+    parental_pref = pd.DataFrame(
+        {"school_urn": [], "proportion_1stprefs_v_totaloffers": []}
+    )
+
+    result = preprocess_laa_data(
+        cfr_data_this_year=cfr_this,
+        cfr_data_year_minus_one=empty_history,
+        cfr_data_year_minus_two=empty_history,
+        cfr_data_year_minus_three=empty_history,
+        cfr_data_year_minus_four=empty_history,
+        absences=absences,
+        capacity=capacity,
+        parental_preference=parental_pref,
+        cfr_year=2026,
+    )
+
+    assert result.loc[result["URN"] == 1001, "PTRWM_EXP"].values[0] == 78.0
+    assert result.loc[result["URN"] == 1002, "PTRWM_EXP"].values[0] == 45.0
+    assert pd.isna(result.loc[result["URN"] == 1003, "PTRWM_EXP"].values[0])
+
+
+def test_preprocess_laa_data_preserves_ptrwm_exp_already_on_percentage_scale():
+    cfr_this = pd.DataFrame(
+        {
+            "Lead school in federation": ["0", "0", "0"],
+            "PTRWM_EXP": [78.0, 45.0, 1.0],
+        },
+        index=[1001, 1002, 1003],
+    )
+    cfr_this.index.name = "URN"
+    empty_history = pd.DataFrame(index=[1001, 1002, 1003])
+    empty_history.index.name = "URN"
+
+    absences = pd.DataFrame({"school_urn": [], "sess_overall_percent": []})
+    capacity = pd.DataFrame({"school_urn": [], "school_places": []})
+    parental_pref = pd.DataFrame(
+        {"school_urn": [], "proportion_1stprefs_v_totaloffers": []}
+    )
+
+    result = preprocess_laa_data(
+        cfr_data_this_year=cfr_this,
+        cfr_data_year_minus_one=empty_history,
+        cfr_data_year_minus_two=empty_history,
+        cfr_data_year_minus_three=empty_history,
+        cfr_data_year_minus_four=empty_history,
+        absences=absences,
+        capacity=capacity,
+        parental_preference=parental_pref,
+        cfr_year=2026,
+    )
+
+    # Max is 78.0 > 1.0, so the 1.0 (1% attainment) and others are preserved
+    assert result.loc[result["URN"] == 1001, "PTRWM_EXP"].values[0] == 78.0
+    assert result.loc[result["URN"] == 1002, "PTRWM_EXP"].values[0] == 45.0
+    assert result.loc[result["URN"] == 1003, "PTRWM_EXP"].values[0] == 1.0
+
+
 @patch("pipeline.laa_risk_scores.orchestrator.load_laa_risk_score_data")
 @patch("pipeline.laa_risk_scores.orchestrator.load_laa_extra_ancillary_data")
 @patch("pipeline.laa_risk_scores.orchestrator.derive_laa_risk_scores")
@@ -290,3 +364,38 @@ def test_preprocess_laa_extra_ancillary_data_with_lagged_capacity_2026():
     assert len(parental_pref) == 1
     assert parental_pref["school_urn"].values[0] == 1001
     assert parental_pref["proportion_1stprefs_v_totaloffers"].values[0] == 1.2
+
+
+def test_roll_up_laa_risk_scores_to_headlines_assigns_a_star_and_a():
+    evaluators = get_yearly_risk_config(2026)
+    grading_thresholds = get_yearly_grading_thresholds(2026)
+
+    # 1001 qualifies for A* (0 risks, 0 score, pref >= 1.0, attainment >= 0.69)
+    # 1002 qualifies for A (1 minor risk, 0.25 score, pref >= 0.9, attainment >= 0.58)
+    # 1003 has low attainment (< 0.58), falls back to B
+    df = pd.DataFrame(
+        {
+            "URN": [1001, 1002, 1003],
+            "proportion_1stprefs_v_totaloffers": [1.5, 0.95, 1.5],
+        }
+    )
+
+    for m in evaluators:
+        if "attainment" in m.name.lower():
+            df[m.value_column] = [0.85, 0.65, 0.40]
+            df[m.score_column] = [0.0, 0.0, 0.25]
+            df[m.flag_column] = ["No flag", "No flag", "Minor"]
+        else:
+            df[m.value_column] = 0.0
+            df[m.score_column] = [0.0, 0.25 if m == evaluators[0] else 0.0, 0.0]
+            df[m.flag_column] = [
+                "No flag",
+                "Minor" if m == evaluators[0] else "No flag",
+                "No flag",
+            ]
+
+    result = roll_up_laa_risk_scores_to_headlines(df, evaluators, grading_thresholds)
+
+    assert result.loc[result["URN"] == 1001, "LAA_Risk_Grade"].values[0] == "A*"
+    assert result.loc[result["URN"] == 1002, "LAA_Risk_Grade"].values[0] == "A"
+    assert result.loc[result["URN"] == 1003, "LAA_Risk_Grade"].values[0] == "B"
