@@ -1,19 +1,18 @@
-// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace Platform.Orchestrator.Configuration;
 
 public class StorageOptions
 {
     public const string SectionName = "StorageSettings";
 
-    public BlobMoveTaskOptions LaaRiskFiles { get; set; } = new();
+    public BlobMoveTaskOptions LaaRiskFiles { get; init; } = new();
 }
 
 public class BlobMoveTaskOptions
 {
-    public string? SourceEndpoint { get; set; }
-    public string? DestEndpoint { get; set; }
-    public string? SourceContainer { get; set; }
-    public string? DestContainer { get; set; }
+    public string? SourceEndpoint { get; init; }
+    public string? DestEndpoint { get; init; }
+    public string? SourceContainer { get; init; }
+    public string? DestContainer { get; init; }
     public bool IsValid =>
         !string.IsNullOrWhiteSpace(SourceEndpoint) &&
         !string.IsNullOrWhiteSpace(SourceContainer) &&
