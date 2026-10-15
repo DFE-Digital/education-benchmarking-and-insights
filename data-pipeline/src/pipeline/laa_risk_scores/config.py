@@ -240,7 +240,10 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
-        applicability=ExcludePhases(["Special"]),
+        applicability=ExcludePhases([
+            "Special", "Primary", "Secondary", "Pupil Referral Unit",
+            "Nursery", "University Technical College", "Post-16",
+            "All-through", "Alternative Provision"]),
         rules=[
             MetricRule(-100.0, -0.11, 0.25, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.11, 100.0, 0.0, RiskFlag.NO_FLAG.value, "both"),
