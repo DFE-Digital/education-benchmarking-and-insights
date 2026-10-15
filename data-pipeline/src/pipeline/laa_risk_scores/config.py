@@ -452,8 +452,7 @@ laa_risk_scores_column_eval = {
             "`Other costs_Staff-related insurance` + "
             "`Administrative supplies_Administrative supplies (non educational)` + "
             "`Teaching and Teaching support staff_Agency supply teaching staff` + "
-            "`Non-educational support staff and services_Professional services (non-curriculum)` + "
-            "`Other costs_PFI charges` - "
+            "`Non-educational support staff and services_Professional services (non-curriculum)` - "
             "`Income_Receipts supply teacher insurance`"
         ),
         "NetExpenditure": (
