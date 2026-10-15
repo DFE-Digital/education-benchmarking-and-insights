@@ -35,6 +35,7 @@ internal static class Services
             .AddSingleton<ISearchIndexerClient, SearchIndexerClient>()
             .AddSingleton<IPipelineSearch, PipelineSearch>()
             .AddSingleton<ITelemetryService, TelemetryService>()
+            .AddSingleton<IBlobServiceClientFactory, BlobServiceClientFactory>()
             .AddTransient<IBlobStorageService, BlobStorageService>();
 
         //TODO: Add serilog configuration AB#227696

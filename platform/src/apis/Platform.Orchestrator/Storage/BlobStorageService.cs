@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Azure.Identity;
 using Azure.Storage.Blobs;
@@ -23,10 +24,11 @@ public interface IBlobStorageService
         string sourceBlobName,
         string destEndpoint,
         string destContainer,
-        string fileName);
+        string fileName,
+        CancellationToken cancellationToken = default);
 }
 
-public class BlobStorageService : IBlobStorageService
+public class BlobStorageService(IBlobServiceClientFactory clientFactory) : IBlobStorageService
 {
     public async Task<BlobMoveResult> MoveBlobAsync(
         string sourceEndpoint,
@@ -34,12 +36,13 @@ public class BlobStorageService : IBlobStorageService
         string sourceBlobName,
         string destEndpoint,
         string destContainer,
-        string destBlobName)
+        string destBlobName,
+        CancellationToken cancellationToken = default)
     {
         try
         {
-            var sourceServiceClient = CreateBlobServiceClient(sourceEndpoint);
-            var destServiceClient = CreateBlobServiceClient(destEndpoint);
+            var sourceServiceClient = clientFactory.CreateClient(sourceEndpoint);
+            var destServiceClient = clientFactory.CreateClient(destEndpoint);
 
             var sourceContainerClient = sourceServiceClient.GetBlobContainerClient(sourceContainer);
             var sourceBlobClient = sourceContainerClient.GetBlobClient(sourceBlobName);
@@ -47,12 +50,12 @@ public class BlobStorageService : IBlobStorageService
             var destContainerClient = destServiceClient.GetBlobContainerClient(destContainer);
             var destBlobClient = destContainerClient.GetBlobClient(destBlobName);
 
-            await using (var stream = await sourceBlobClient.OpenReadAsync())
+            await using (var stream = await sourceBlobClient.OpenReadAsync(cancellationToken: cancellationToken))
             {
-                await destBlobClient.UploadAsync(stream, overwrite: true);
+                await destBlobClient.UploadAsync(stream, overwrite: true, cancellationToken: cancellationToken);
             }
 
-            var properties = await destBlobClient.GetPropertiesAsync();
+            var properties = await destBlobClient.GetPropertiesAsync(cancellationToken: cancellationToken);
             var filesizeBytes = properties.Value.ContentLength;
             var filesizeMb = Math.Round(filesizeBytes / (1024m * 1024m), 2);
 
@@ -76,14 +79,24 @@ public class BlobStorageService : IBlobStorageService
             };
         }
     }
+}
 
-    private static BlobServiceClient CreateBlobServiceClient(string endPoint)
+public interface IBlobServiceClientFactory
+{
+    BlobServiceClient CreateClient(string endPoint);
+}
+
+public class BlobServiceClientFactory : IBlobServiceClientFactory
+{
+    public BlobServiceClient CreateClient(string endPoint)
     {
         if (string.IsNullOrWhiteSpace(endPoint))
         {
             throw new ArgumentNullException(nameof(endPoint), "Storage endpoint cannot be empty.");
         }
 
-        return endPoint.StartsWith("UseDevelopmentStorage=true", StringComparison.OrdinalIgnoreCase) ? new BlobServiceClient(endPoint) : new BlobServiceClient(new Uri(endPoint), new DefaultAzureCredential());
+        return endPoint.StartsWith("UseDevelopmentStorage=true", StringComparison.OrdinalIgnoreCase)
+            ? new BlobServiceClient(endPoint)
+            : new BlobServiceClient(new Uri(endPoint), new DefaultAzureCredential());
     }
 }
