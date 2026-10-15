@@ -88,7 +88,7 @@ public class PipelineQueueTriggerFunctions(
                     {
                         await db.WriteLocalAuthorityRisksFileDetails(new FileRecord
                         {
-                            Type = "LocalAuthorityRiskScores",
+                            Type = "laa-risk-scores",
                             Label = "Download detailed risk data for all schools",
                             FileName = blobMoveResult.FileName,
                             ValidFrom = DateTimeOffset.UtcNow,
