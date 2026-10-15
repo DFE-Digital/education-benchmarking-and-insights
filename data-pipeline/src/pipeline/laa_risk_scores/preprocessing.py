@@ -78,7 +78,16 @@ def preprocess_laa_data(
     )
 
     unfederated_schools = cfr_with_all_extra_data["Lead school in federation"] == "0"
-    cfr_with_all_extra_data = cfr_with_all_extra_data[unfederated_schools]
+    cfr_with_all_extra_data = cfr_with_all_extra_data[unfederated_schools].copy()
+
+    # Rescale KS2 primary attainment (PTRWM_EXP) if ingested on a 0-1 proportion scale
+    if "PTRWM_EXP" in cfr_with_all_extra_data.columns:
+        ptrwm = pd.to_numeric(cfr_with_all_extra_data["PTRWM_EXP"], errors="coerce")
+        max_val = ptrwm.dropna().max()
+        if pd.notna(max_val) and 0.0 < max_val <= 1.0:
+            cfr_with_all_extra_data["PTRWM_EXP"] = ptrwm * 100.0
+        else:
+            cfr_with_all_extra_data["PTRWM_EXP"] = ptrwm
 
     return cfr_with_all_extra_data
 
