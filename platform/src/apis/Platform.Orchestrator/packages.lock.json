@@ -844,11 +844,6 @@
           "System.Reactive": "4.4.1"
         }
       },
-      "System.Security.Cryptography.Pkcs": {
-        "type": "Transitive",
-        "resolved": "9.0.13",
-        "contentHash": "dxJhkuoaelvWy588wPXjShNks+ZMiSgXnN75/u+DPbER5PqKrLPDftE0BvGM7nDK/scQAVlD+gRXlCAAjWi58Q=="
-      },
       "System.Security.Cryptography.ProtectedData": {
         "type": "Transitive",
         "resolved": "9.0.13",
@@ -884,7 +879,8 @@
           "Microsoft.Azure.WebJobs": "[3.0.47, )",
           "Microsoft.Data.SqlClient": "[7.0.3, )",
           "Microsoft.Data.SqlClient.Extensions.Azure": "[1.0.0, )",
-          "Platform.Domain": "[1.0.0, )"
+          "Platform.Domain": "[1.0.0, )",
+          "System.Security.Cryptography.Pkcs": "[9.0.21, )"
         }
       },
       "platform.infrastructure": {
@@ -908,7 +904,8 @@
           "Microsoft.Extensions.Configuration.Binder": "[10.0.12, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.12, )",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "[10.0.12, )",
-          "Platform.Domain": "[1.0.0, )"
+          "Platform.Domain": "[1.0.0, )",
+          "System.Security.Cryptography.Pkcs": "[9.0.21, )"
         }
       },
       "AspNetCore.HealthChecks.Redis": {
@@ -1179,6 +1176,12 @@
           "Pipelines.Sockets.Unofficial": "2.2.8",
           "System.IO.Hashing": "9.0.10"
         }
+      },
+      "System.Security.Cryptography.Pkcs": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.21, )",
+        "resolved": "9.0.21",
+        "contentHash": "KD+oHoYIxwNCajjVe58WVwq9cRpum+Pg3tRveDRtkcaw6w3oc7sNBoMRtb5P5OehI3bgv1ucMpgjf8lpj5J96A=="
       }
     }
   }

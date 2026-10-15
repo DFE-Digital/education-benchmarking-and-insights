@@ -33,6 +33,7 @@
             <TreatAsUsed>true</TreatAsUsed>
             <NoWarn>NU1510</NoWarn>
         </PackageReference>
+        <PackageReference Include="System.Security.Cryptography.Pkcs" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj" />
