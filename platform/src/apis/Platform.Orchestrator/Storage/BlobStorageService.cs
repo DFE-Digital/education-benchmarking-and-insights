@@ -9,6 +9,7 @@ public record BlobMoveResult
 {
     public string SourceContainer { get; init; } = string.Empty;
     public string DestContainer { get; init; } = string.Empty;
+    public string FileName { get; init; } = string.Empty;
     public decimal? FilesizeMb { get; init; }
     public bool Success { get; init; }
     public string? ErrorMessage { get; init; }
@@ -33,7 +34,7 @@ public class BlobStorageService : IBlobStorageService
         string sourceBlobName,
         string destEndpoint,
         string destContainer,
-        string fileName)
+        string destBlobName)
     {
         try
         {
@@ -44,14 +45,14 @@ public class BlobStorageService : IBlobStorageService
             var sourceBlobClient = sourceContainerClient.GetBlobClient(sourceBlobName);
 
             var destContainerClient = destServiceClient.GetBlobContainerClient(destContainer);
-            var destBlobClient = destContainerClient.GetBlobClient(fileName);
+            var destBlobClient = destContainerClient.GetBlobClient(destBlobName);
 
             await using (var stream = await sourceBlobClient.OpenReadAsync())
             {
                 await destBlobClient.UploadAsync(stream, overwrite: true);
             }
 
-            var properties = await sourceBlobClient.GetPropertiesAsync();
+            var properties = await destBlobClient.GetPropertiesAsync();
             var filesizeBytes = properties.Value.ContentLength;
             var filesizeMb = Math.Round(filesizeBytes / (1024m * 1024m), 2);
 
@@ -59,6 +60,7 @@ public class BlobStorageService : IBlobStorageService
             {
                 SourceContainer = sourceContainer,
                 DestContainer = destContainer,
+                FileName = destBlobName,
                 FilesizeMb = filesizeMb,
                 Success = true
             };

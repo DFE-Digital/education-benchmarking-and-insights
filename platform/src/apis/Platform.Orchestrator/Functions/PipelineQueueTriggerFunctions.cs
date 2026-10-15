@@ -79,21 +79,21 @@ public class PipelineQueueTriggerFunctions(
 
                 if (job is { Success: true, DeriveLaaRiskScores: true })
                 {
-                    const string fileName = "laa_risk_scores_download.csv";
-                    var result = await MoveLocalAuthorityRiskFile(job, fileName);
+                    const string baseFileName = "laa_risk_scores_download.csv";
+                    var blobMoveResult = await MoveLocalAuthorityRiskFile(job, baseFileName);
 
                     logger.LogInformation("Moved LAA file for JobId {JobId}", job.JobId);
 
-                    if (result.Success)
+                    if (blobMoveResult.Success)
                     {
                         await db.WriteLocalAuthorityRisksFileDetails(new FileRecord
                         {
                             Type = "LocalAuthorityRiskScores",
                             Label = "Download detailed risk data for all schools",
-                            FileName = fileName,
+                            FileName = blobMoveResult.FileName,
                             ValidFrom = DateTimeOffset.UtcNow,
                             RunId = job.RunId!,
-                            Filesize = result.FilesizeMb
+                            Filesize = blobMoveResult.FilesizeMb
                         });
 
                         logger.LogInformation("Wrote LAA file details to database for JobId {JobId}", job.JobId);
@@ -128,7 +128,14 @@ public class PipelineQueueTriggerFunctions(
             taskOptions.DestContainer,
             job.JobId);
 
-        var sourceBlobName = $"default/{job.RunId}/{fileName}";
+        if (!int.TryParse(job.RunId, out var runId))
+        {
+            throw new InvalidOperationException($"Cannot move blob: RunId '{job.RunId}' is not a valid integer.");
+        }
+
+        var sourceBlobName = $"default/{runId}/{fileName}";
+        var yearsLabel = $"_{runId - 1}_{runId}";
+        var destBlobName = $"{fileName}{yearsLabel}";
 
         var result = await blobStorageService.MoveBlobAsync(
             taskOptions.SourceEndpoint!,
@@ -136,7 +143,7 @@ public class PipelineQueueTriggerFunctions(
             sourceBlobName,
             taskOptions.DestEndpoint!,
             taskOptions.DestContainer!,
-            fileName);
+            destBlobName);
 
         if (!result.Success)
         {

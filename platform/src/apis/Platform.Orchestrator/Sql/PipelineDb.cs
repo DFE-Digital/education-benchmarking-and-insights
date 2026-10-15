@@ -68,8 +68,6 @@ public class PipelineDb(IDatabaseFactory dbFactory) : IPipelineDb
         using var connection = await dbFactory.GetConnection();
         using var transaction = connection.BeginTransaction();
 
-        // TODO: (UPDLOCK, HOLDLOCK)? race conditions are possible?
-        // unlikely in our use case, but we should consider this
         const string sql = """
 
                                    IF EXISTS (
