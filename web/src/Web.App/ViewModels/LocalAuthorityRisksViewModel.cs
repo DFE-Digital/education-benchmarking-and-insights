@@ -5,7 +5,11 @@ using LocalAuthority = Web.App.Domain.LocalAuthority;
 
 namespace Web.App.ViewModels;
 
-public class LocalAuthorityRisksViewModel(LocalAuthority localAuthority, int cfrYear, PagedResults<LocalAuthorityRiskIndicators> result)
+public class LocalAuthorityRisksViewModel(
+    LocalAuthority localAuthority,
+    int cfrYear,
+    PagedResults<LocalAuthorityRiskIndicators> result,
+    DataSourceFileViewModel? riskScoresFile = null)
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
@@ -21,4 +25,5 @@ public class LocalAuthorityRisksViewModel(LocalAuthority localAuthority, int cfr
     public string? SelectedPhaseOption { get; init; }
     public string?[] ValidPhasesOptions => [OverallPhaseTypes.AllPhasesLabel, .. AvailablePhases];
     public string GlobalDefaultSort => $"{nameof(LocalAuthorityRiskIndicators.Overall)}~desc";
+    public DataSourceFileViewModel? RiskScoresFile { get; } = riskScoresFile;
 }
