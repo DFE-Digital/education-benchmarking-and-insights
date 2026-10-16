@@ -79,7 +79,7 @@ public class PipelineQueueTriggerFunctions(
 
                 if (job is { Success: true, DeriveLaaRiskScores: true })
                 {
-                    const string baseFileName = "laa_risk_scores_download";
+                    const string baseFileName = LocalAuthorityRiskScoreFile.BaseFileName;
                     var blobMoveResult = await MoveLocalAuthorityRiskFile(job, baseFileName);
 
                     logger.LogInformation("Moved LAA file for JobId {JobId}", job.JobId);
@@ -88,8 +88,8 @@ public class PipelineQueueTriggerFunctions(
                     {
                         await db.WriteLocalAuthorityRisksFileDetails(new FileRecord
                         {
-                            Type = "laa-risk-scores",
-                            Label = "Download detailed risk data for all schools",
+                            Type = LocalAuthorityRiskScoreFile.Type,
+                            Label = LocalAuthorityRiskScoreFile.Label,
                             FileName = blobMoveResult.FileName,
                             ValidFrom = DateTimeOffset.UtcNow,
                             RunId = job.RunId!,
@@ -133,9 +133,9 @@ public class PipelineQueueTriggerFunctions(
             throw new InvalidOperationException($"Cannot move blob: RunId '{job.RunId}' is not a valid integer.");
         }
 
-        var sourceBlobName = $"default/{runId}/{fileName}.csv";
+        var sourceBlobName = $"default/{runId}/{fileName}{LocalAuthorityRiskScoreFile.CsvFileExtension}";
         var yearsLabel = $"_{runId - 1}_{runId}";
-        var destBlobName = $"{fileName}{yearsLabel}.csv";
+        var destBlobName = $"{fileName}{yearsLabel}{LocalAuthorityRiskScoreFile.CsvFileExtension}";
 
         var result = await blobStorageService.MoveBlobAsync(
             taskOptions.SourceEndpoint!,
