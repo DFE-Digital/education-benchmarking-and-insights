@@ -633,6 +633,8 @@ def _trust_revenue_reserve(
         * academies["Number of pupils_pro_rata_end_of_period"]
     ).fillna(0.0)
 
+    academies["Academy Revenue Reserve"] = academies["Revenue reserve"]
+
     academies["Revenue reserve"] = (
         academies["Revenue reserve"]
         + (
