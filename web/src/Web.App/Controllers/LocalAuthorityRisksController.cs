@@ -1,16 +1,20 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Infrastructure.WebAssets;
 using Web.App.Services;
 using Web.App.ViewModels;
 using LocalAuthority = Web.App.Domain.LocalAuthority;
+using File = Web.App.Domain.Content.File;
 
 namespace Web.App.Controllers;
 
@@ -22,7 +26,9 @@ namespace Web.App.Controllers;
 public class LocalAuthorityRisksController(
     ILogger<LocalAuthorityRisksController> logger,
     ILocalAuthorityApi api,
-    IFinanceService financeService)
+    IFilesApi filesApi,
+    IFinanceService financeService,
+    IOptions<WebAssetsOptions> options)
     : Controller
 {
     [HttpGet]
@@ -61,11 +67,21 @@ public class LocalAuthorityRisksController(
 
                 var la = await api.SingleAsync(code).GetResultOrThrow<LocalAuthority>();
                 var years = await financeService.GetYears();
+                var cfrYear = years.Cfr;
+
+                var riskScoresFileVm = new DataSourceFileViewModel();
+                var fileResponse = await filesApi.GetLocalAuthorityRiskScores(cfrYear.ToString()).GetResultOrDefault<File>();
+
+                if (fileResponse != null)
+                {
+                    var description = $"{fileResponse.Label} (CSV, {fileResponse.FileSize} MB)";
+                    riskScoresFileVm = BuildViewModel(description, fileResponse.FileName, options.Value.FilesBaseUrl);
+                }
 
                 var risksQuery = BuildQuery(code, sortField, sortOrder, page, selectedPhaseOption);
                 var result = await api.QueryRisksAsync(risksQuery).GetPagedResultOrThrow<LocalAuthorityRiskIndicators>();
 
-                var viewModel = new LocalAuthorityRisksViewModel(la, years.Cfr, result)
+                var viewModel = new LocalAuthorityRisksViewModel(la, cfrYear, result, riskScoresFileVm)
                 {
                     SortField = sortField,
                     SortOrder = sortOrder,
@@ -184,6 +200,17 @@ public class LocalAuthorityRisksController(
         }
         return query;
     }
+
+    private static DataSourceFileViewModel BuildViewModel(string? description, string? fileName, string? filesBaseUrl) => new()
+    {
+        DisplayText = description,
+        Link = string.IsNullOrWhiteSpace(fileName) || string.IsNullOrWhiteSpace(filesBaseUrl)
+            ? null
+            : BuildFileUri(filesBaseUrl, fileName)
+    };
+
+    private static Uri BuildFileUri(string filesBaseUrl, string fileName) =>
+        new($"{filesBaseUrl.TrimEnd('/')}/{fileName.TrimStart('/')}", UriKind.RelativeOrAbsolute);
 }
 
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]

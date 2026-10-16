@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Content.Features.Files.Handlers;
 using Platform.Api.Content.Features.Files.Services;
-using Platform.Functions;
 
 namespace Platform.Api.Content.Features.Files;
 
@@ -13,6 +12,7 @@ public static class FilesFeature
     {
         serviceCollection
             .AddSingleton<IGetTransparencyFilesHandler, GetTransparencyFilesV1Handler>()
+            .AddSingleton<IGetLocalAuthorityRiskScoreFileHandler, GetLocalAuthorityRiskScoreFileV1Handler>()
             .AddSingleton<IFilesService, FilesService>();
 
         return serviceCollection;

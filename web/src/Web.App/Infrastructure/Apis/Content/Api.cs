@@ -15,6 +15,7 @@ public static class Api
     public static class Files
     {
         public static string Transparency => "api/files/transparency";
+        public static string LocalAuthorityRiskScores(string year) => $"api/files/local-authority-risk-scores/{year}";
     }
 
     public static class News

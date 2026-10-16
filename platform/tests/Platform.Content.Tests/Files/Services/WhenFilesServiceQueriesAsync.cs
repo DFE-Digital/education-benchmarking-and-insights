@@ -44,7 +44,7 @@ public class WhenFilesServiceQueriesAsync
         var actual = await _service.GetActiveFilesByType(CancellationToken.None, types);
 
         Assert.Equal(results, actual);
-        Assert.Equal("SELECT Type , Label , FileName\n FROM VW_ActiveFiles WHERE Type IN @Types", actualSql);
+        Assert.Equal("SELECT Type , Label , FileName , RunId , FileSize\n FROM VW_ActiveFiles WHERE Type IN @Types", actualSql);
         Assert.Equal(new Dictionary<string, object>
         {
             { "Types", types }

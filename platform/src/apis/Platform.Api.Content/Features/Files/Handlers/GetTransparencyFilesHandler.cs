@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker.Http;
 using Platform.Api.Content.Features.Files.Services;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
@@ -14,7 +15,7 @@ public class GetTransparencyFilesV1Handler(IFilesService service) : IGetTranspar
 
     public async Task<HttpResponseData> HandleAsync(BasicContext context)
     {
-        var result = await service.GetActiveFilesByType(context.Token, "transparency-aar", "transparency-cfr");
+        var result = await service.GetActiveFilesByType(context.Token, FileTypes.TransparencyAar, FileTypes.TransparencyCfr);
         return await context.Request.CreateJsonResponseAsync(result.MapToApiResponse(), context.Token);
     }
 }
