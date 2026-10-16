@@ -20,6 +20,7 @@ Below is the complete chronological sequence from planning through to go-live, w
 * [BFR](/how-to/data-release-guide/bfr/) (August)
 * [S251 (Budget/Outturn)](/how-to/data-release-guide/s251/) (September)
 * [AAR](/how-to/data-release-guide/aar/) (January/February)
+* [LAA Risk Scores](/how-to/data-release-guide/laa/) (Alongside CFR)
 * [Transparency files](/how-to/data-release-guide/transparency-files/)
 
 ## Phase 1: Pre-Release (At least 2 Sprints Before)
