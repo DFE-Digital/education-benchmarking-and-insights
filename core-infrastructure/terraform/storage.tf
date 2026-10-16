@@ -114,6 +114,7 @@ resource "azurerm_key_vault_secret" "data-storage-key" {
 }
 
 resource "azurerm_key_vault_secret" "data-storage-endpoint" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "data-storage-endpoint"
   value        = azurerm_storage_account.data.primary_blob_endpoint
   key_vault_id = azurerm_key_vault.key-vault.id

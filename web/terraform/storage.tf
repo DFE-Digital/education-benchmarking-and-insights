@@ -111,6 +111,7 @@ resource "azurerm_storage_account" "web-assets-storage" {
 }
 
 resource "azurerm_key_vault_secret" "web-assets-storage-endpoint" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "web-assets-storage-endpoint"
   value        = azurerm_storage_account.web-assets-storage.primary_blob_endpoint
   key_vault_id = data.azurerm_key_vault.key-vault.id
