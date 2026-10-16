@@ -11,6 +11,7 @@ from .config import (
 from .metrics import (
     BaseRiskMetric,
     GradeThreshold,
+    PerformanceTablesAchievementScoreMetric,
     RiskFlag,
     RiskGroup,
     RiskIndicatorValueFormatting,
@@ -61,7 +62,15 @@ def roll_up_laa_risk_scores_to_headlines(
     total_major_risks = df[risk_cols].isin([RiskFlag.MAJOR.value]).sum(axis=1)
 
     parental_pref = df["proportion_1stprefs_v_totaloffers"]
-    attainment_col = "PerformanceTablesAchievementScore"
+    attainment_metric = next(
+        (
+            m
+            for m in evaluators
+            if isinstance(m, PerformanceTablesAchievementScoreMetric)
+        ),
+        None,
+    )
+    attainment_col = attainment_metric.value_column if attainment_metric else None
     attainment = (
         df[attainment_col]
         if attainment_col in df.columns

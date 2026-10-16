@@ -240,7 +240,10 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
-        applicability=ExcludePhases(["Special"]),
+        applicability=ExcludePhases([
+            "Special", "Primary", "Secondary", "Pupil Referral Unit",
+            "Nursery", "University Technical College", "Post-16",
+            "All-through", "Alternative Provision"]),
         rules=[
             MetricRule(-100.0, -0.11, 0.25, RiskFlag.MINOR.value, "left"),
             MetricRule(-0.11, 100.0, 0.0, RiskFlag.NO_FLAG.value, "both"),
@@ -251,6 +254,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
+        penalise_missing=False,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
         applicability=ExcludePhases(["Special"]),
         rules=[
@@ -452,8 +456,7 @@ laa_risk_scores_column_eval = {
             "`Other costs_Staff-related insurance` + "
             "`Administrative supplies_Administrative supplies (non educational)` + "
             "`Teaching and Teaching support staff_Agency supply teaching staff` + "
-            "`Non-educational support staff and services_Professional services (non-curriculum)` + "
-            "`Other costs_PFI charges` - "
+            "`Non-educational support staff and services_Professional services (non-curriculum)` - "
             "`Income_Receipts supply teacher insurance`"
         ),
         "NetExpenditure": (
