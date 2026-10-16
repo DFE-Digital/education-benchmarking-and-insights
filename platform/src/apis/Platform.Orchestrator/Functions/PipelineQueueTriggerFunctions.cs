@@ -5,16 +5,24 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.DurableTask;
 using Microsoft.DurableTask.Client;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Platform.Domain;
 using Platform.Domain.Messages;
 using Platform.Json;
+using Platform.Orchestrator.Configuration;
 using Platform.Orchestrator.Extensions;
+using Platform.Orchestrator.Storage;
 using Platform.Orchestrator.Sql;
 using Platform.Orchestrator.Telemetry;
 
 namespace Platform.Orchestrator.Functions;
 
-public class PipelineQueueTriggerFunctions(ILogger<PipelineQueueTriggerFunctions> logger, IPipelineDb db, ITelemetryService telemetryService)
+public class PipelineQueueTriggerFunctions(
+    ILogger<PipelineQueueTriggerFunctions> logger,
+    IPipelineDb db,
+    ITelemetryService telemetryService,
+    IBlobStorageService blobStorageService,
+    IOptions<StorageOptions> storageOptions)
 {
     [Function(nameof(InitiatePipelineJob))]
     public async Task InitiatePipelineJob(
@@ -69,6 +77,29 @@ public class PipelineQueueTriggerFunctions(ILogger<PipelineQueueTriggerFunctions
                 });
                 await db.WriteToLog(job.JobId, message);
 
+                if (job is { Success: true, DeriveLaaRiskScores: true })
+                {
+                    const string baseFileName = LocalAuthorityRiskScoreFile.BaseFileName;
+                    var blobMoveResult = await MoveLocalAuthorityRiskFile(job, baseFileName);
+
+                    logger.LogInformation("Moved LAA file for JobId {JobId}", job.JobId);
+
+                    if (blobMoveResult.Success)
+                    {
+                        await db.WriteLocalAuthorityRisksFileDetails(new FileRecord
+                        {
+                            Type = LocalAuthorityRiskScoreFile.Type,
+                            Label = LocalAuthorityRiskScoreFile.Label,
+                            FileName = blobMoveResult.FileName,
+                            ValidFrom = DateTimeOffset.UtcNow,
+                            RunId = job.RunId!,
+                            Filesize = blobMoveResult.FilesizeMb
+                        });
+
+                        logger.LogInformation("Wrote LAA file details to database for JobId {JobId}", job.JobId);
+                    }
+                }
+
                 if (!string.IsNullOrEmpty(job.JobId))
                 {
                     await client.RaiseEventAsync(job.JobId, nameof(PipelineJobFinished), job.Success);
@@ -80,5 +111,59 @@ public class PipelineQueueTriggerFunctions(ILogger<PipelineQueueTriggerFunctions
                 throw;
             }
         }
+    }
+
+    private async Task<BlobMoveResult> MoveLocalAuthorityRiskFile(PipelineFinish job, string fileName)
+    {
+        var taskOptions = storageOptions.Value.LaaRiskFiles;
+        if (!taskOptions.IsValid)
+        {
+            logger.LogWarning("Unable to move LAA file for Job {JobId}: StorageOptions are incomplete.", job.JobId);
+            return new BlobMoveResult();
+        }
+
+        logger.LogInformation(
+            "Moving file from source container '{SourceContainer}' to destination container '{DestContainer}' for JobId {JobId}",
+            taskOptions.SourceContainer,
+            taskOptions.DestContainer,
+            job.JobId);
+
+        if (!int.TryParse(job.RunId, out var runId))
+        {
+            throw new InvalidOperationException($"Cannot move blob: RunId '{job.RunId}' is not a valid integer.");
+        }
+
+        var sourceBlobName = $"default/{runId}/{fileName}{LocalAuthorityRiskScoreFile.CsvFileExtension}";
+        var yearsLabel = $"_{runId - 1}_{runId}";
+        var destBlobName = $"{fileName}{yearsLabel}{LocalAuthorityRiskScoreFile.CsvFileExtension}";
+
+        var result = await blobStorageService.MoveBlobAsync(
+            taskOptions.SourceEndpoint!,
+            taskOptions.SourceContainer!,
+            sourceBlobName,
+            taskOptions.DestEndpoint!,
+            taskOptions.DestContainer!,
+            destBlobName);
+
+        if (!result.Success)
+        {
+            logger.LogError(
+                "Failed to move file from '{SourceContainer}' to '{DestContainer}' for JobId {JobId}. Error: {ErrorMessage}",
+                result.SourceContainer,
+                result.DestContainer,
+                job.JobId,
+                result.ErrorMessage);
+
+            return result;
+        }
+
+        logger.LogInformation(
+            "Successfully moved file of size '{FilesizeMb} MB' from source container '{SourceContainer}' to destination container '{DestContainer}' for JobId {JobId}",
+            result.FilesizeMb,
+            result.SourceContainer,
+            result.DestContainer,
+            job.JobId);
+
+        return result;
     }
 }

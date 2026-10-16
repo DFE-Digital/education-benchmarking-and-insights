@@ -10,6 +10,7 @@ using Platform.Cache;
 using Platform.Json;
 using Platform.Orchestrator.Search;
 using Platform.Orchestrator.Sql;
+using Platform.Orchestrator.Storage;
 using Platform.Orchestrator.Telemetry;
 using Platform.Sql;
 
@@ -33,7 +34,9 @@ internal static class Services
             .AddSingleton<IPipelineDb, PipelineDb>()
             .AddSingleton<ISearchIndexerClient, SearchIndexerClient>()
             .AddSingleton<IPipelineSearch, PipelineSearch>()
-            .AddSingleton<ITelemetryService, TelemetryService>();
+            .AddSingleton<ITelemetryService, TelemetryService>()
+            .AddSingleton<IBlobServiceClientFactory, BlobServiceClientFactory>()
+            .AddTransient<IBlobStorageService, BlobStorageService>();
 
         //TODO: Add serilog configuration AB#227696
         var sqlTelemetryEnabled = configuration.GetSection("Sql").GetValue<string>("TelemetryEnabled");
@@ -52,6 +55,13 @@ internal static class Services
             x.Name = searchName;
             x.Key = searchKey;
         });
+
+        serviceCollection
+            .AddOptions<StorageOptions>()
+            .Configure<IConfiguration>((options, config) =>
+            {
+                config.GetSection(StorageOptions.SectionName).Bind(options);
+            });
 
         serviceCollection
             .AddPlatformSql(configuration)

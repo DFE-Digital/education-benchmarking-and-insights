@@ -110,6 +110,27 @@ resource "azurerm_storage_account" "web-assets-storage" {
   }
 }
 
+resource "azurerm_key_vault_secret" "web-assets-storage-endpoint" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  name         = "web-assets-storage-endpoint"
+  value        = azurerm_storage_account.web-assets-storage.primary_blob_endpoint
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+  content_type = "url"
+}
+
+data "azurerm_windows_function_app" "orchestrator-fa" {
+  name                = "${var.environment-prefix}-ebis-orchestrator-fa"
+  resource_group_name = "${var.environment-prefix}-ebis-platform"
+}
+
+resource "azurerm_role_assignment" "orchestrator_to_webassets" {
+  scope                = azurerm_storage_account.web-assets-storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_windows_function_app.orchestrator-fa.identity[0].principal_id
+  principal_type       = "ServicePrincipal"
+}
+
+
 resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {
   name                       = "${azurerm_storage_account.web-assets-storage.name}-blob-logs"
   target_resource_id         = "${azurerm_storage_account.web-assets-storage.id}/blobServices/default/"

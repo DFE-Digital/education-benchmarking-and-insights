@@ -12,6 +12,7 @@
 
         <EmbeddedResource Include="Scripts/*.sql" />
         <EmbeddedResource Include="Views/*.sql" />
+        <PackageReference Include="System.Security.Cryptography.Pkcs" />
     </ItemGroup>
 
     <PropertyGroup>

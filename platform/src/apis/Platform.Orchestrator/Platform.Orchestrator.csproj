@@ -12,6 +12,8 @@
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Azure.Identity" />
+        <PackageReference Include="Azure.Storage.Blobs" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" />
         <None Update="host.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
