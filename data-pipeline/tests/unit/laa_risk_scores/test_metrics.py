@@ -218,11 +218,11 @@ def test_metric_na_default_risk_flags():
     assert df.loc[0, absence.flag_column] == "Minor"
     assert df.loc[0, absence.score_column] == 0.5
 
-    assert df.loc[0, progress_score.flag_column] == "Minor"
-    assert df.loc[0, progress_score.score_column] == 0.25
+    assert df.loc[0, progress_score.flag_column] == "No flag"
+    assert df.loc[0, progress_score.score_column] == 0.0
 
-    assert df.loc[0, achievement_score.flag_column] == "Minor"
-    assert df.loc[0, achievement_score.score_column] == 0.25
+    assert df.loc[0, achievement_score.flag_column] == "No flag"
+    assert df.loc[0, achievement_score.score_column] == 0.0
 
     # Balance metrics default to Major with 3.0 and 1.5
     assert df.loc[0, current_year_balance.flag_column] == "Major"
@@ -813,3 +813,93 @@ def test_metric_applicability_cached_in_df_attrs():
     second_res = metric.is_applicable(df)
     assert call_count == 1
     assert second_res.tolist() == [True, False]
+
+
+def test_penalise_missing_flag_on_base_metric():
+    class DummyMetric(BaseRiskMetric):
+        def derive_risk_score(self, df: pd.DataFrame, value_series: pd.Series):
+            return pd.Series(0.0, index=df.index), pd.Series(
+                RiskFlag.NO_FLAG.value, index=df.index
+            )
+
+    df = pd.DataFrame({"TestCol": [np.nan]})
+
+    metric_penalised = DummyMetric(
+        name="TestCol",
+        risk_group=RiskGroup.FINANCIAL,
+        risk_score_maximum=1.0,
+        risk_flag_maximum=RiskFlag.MAJOR.value,
+        penalise_missing=True,
+    )
+    metric_penalised.execute(df)
+    assert df.loc[0, metric_penalised.score_column] == 1.0
+    assert df.loc[0, metric_penalised.flag_column] == RiskFlag.MAJOR.value
+
+    df2 = pd.DataFrame({"TestCol": [np.nan]})
+    metric_unpenalised = DummyMetric(
+        name="TestCol",
+        risk_group=RiskGroup.FINANCIAL,
+        risk_score_maximum=1.0,
+        risk_flag_maximum=RiskFlag.MAJOR.value,
+        penalise_missing=False,
+    )
+    metric_unpenalised.execute(df2)
+    assert df2.loc[0, metric_unpenalised.score_column] == 0.0
+    assert df2.loc[0, metric_unpenalised.flag_column] == RiskFlag.NO_FLAG.value
+
+
+def test_performance_tables_achievement_score_metric_missing_and_scoring():
+    metric = PerformanceTablesAchievementScoreMetric(
+        name="Educational attainment score (KS2/KS4)",
+        risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
+        risk_score_maximum=0.25,
+        risk_flag_maximum=RiskFlag.MINOR.value,
+        penalise_missing=False,
+        value_formatting=RiskIndicatorValueFormatting.DECIMAL,
+        applicability=ExcludePhases(["Special"]),
+        rules=[
+            MetricRule(0, 46, 0.25, RiskFlag.MINOR.value, "left"),
+            MetricRule(46, 100, 0.0, RiskFlag.NO_FLAG.value, "both"),
+        ],
+    )
+
+    df = pd.DataFrame(
+        {
+            "Overall Phase": ["Primary", "Secondary", "Primary", "Secondary", "Special"],
+            "PTRWM_EXP": [np.nan, np.nan, 40.0, np.nan, np.nan],
+            "AverageAttainment": [np.nan, np.nan, np.nan, 52.0, np.nan],
+        }
+    )
+
+    metric.execute(df)
+
+    # Row 0: Primary school with missing data -> unpenalised (0.0, No flag)
+    assert df.loc[0, metric.score_column] == 0.0
+    assert df.loc[0, metric.flag_column] == RiskFlag.NO_FLAG.value
+    assert pd.isna(df.loc[0, metric.value_column])
+
+    # Row 1: Secondary school with missing data -> unpenalised (0.0, No flag)
+    assert df.loc[1, metric.score_column] == 0.0
+    assert df.loc[1, metric.flag_column] == RiskFlag.NO_FLAG.value
+    assert pd.isna(df.loc[1, metric.value_column])
+
+    # Row 2: Primary school with low attainment (40 < 46) -> penalised by rule (0.25, Minor)
+    assert df.loc[2, metric.score_column] == 0.25
+    assert df.loc[2, metric.flag_column] == RiskFlag.MINOR.value
+    assert df.loc[2, metric.value_column] == 40.0
+
+    # Row 3: Secondary school with high attainment (52 >= 46) -> no flag (0.0, No flag)
+    assert df.loc[3, metric.score_column] == 0.0
+    assert df.loc[3, metric.flag_column] == RiskFlag.NO_FLAG.value
+    assert df.loc[3, metric.value_column] == 52.0
+
+    # Row 4: Special school -> Non-applicable (0.0, No flag), format_value is "N/A"
+    assert df.loc[4, metric.score_column] == 0.0
+    assert df.loc[4, metric.flag_column] == RiskFlag.NO_FLAG.value
+    formatted = metric.format_value(df[metric.value_column], df=df)
+    assert formatted.iloc[0] is None
+    assert formatted.iloc[1] is None
+    assert formatted.iloc[2] == "40"
+    assert formatted.iloc[3] == "52"
+    assert formatted.iloc[4] == "N/A"
+

@@ -254,6 +254,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.25,
         risk_flag_maximum=RiskFlag.MINOR.value,
+        penalise_missing=False,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
         applicability=ExcludePhases(["Special"]),
         rules=[

@@ -69,6 +69,7 @@ class BaseRiskMetric:
     applicability: Optional[Union[ExcludePhases, List[ExcludePhases]]] = field(
         default=None, kw_only=True
     )
+    penalise_missing: bool = field(default=True, kw_only=True)
 
     @property
     def value_column(self) -> str:
@@ -184,8 +185,14 @@ class BaseRiskMetric:
         # Missing value penalty applies ONLY to applicable schools
         is_missing = values.isna() & is_applicable
         if is_missing.any():
-            scores = scores.mask(is_missing, self.risk_score_maximum)
-            flags = flags.mask(is_missing, self.risk_flag_maximum)
+            missing_score = self.risk_score_maximum if self.penalise_missing else 0.0
+            missing_flag = (
+                self.risk_flag_maximum
+                if self.penalise_missing
+                else RiskFlag.NO_FLAG.value
+            )
+            scores = scores.mask(is_missing, missing_score)
+            flags = flags.mask(is_missing, missing_flag)
 
         # Non-applicable schools receive score 0.0 and No flag
         is_na = ~is_applicable
@@ -497,6 +504,7 @@ class PerformanceTablesAchievementScoreMetric(RangeRiskMetric):
     value_formatting: RiskIndicatorValueFormatting = field(
         default=RiskIndicatorValueFormatting.DECIMAL, kw_only=True
     )
+    penalise_missing: bool = field(default=False, kw_only=True)
 
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         primary_secondary_condition = [

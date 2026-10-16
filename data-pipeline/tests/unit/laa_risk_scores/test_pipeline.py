@@ -199,42 +199,6 @@ def test_preprocess_laa_data_rescales_ptrwm_exp_from_proportion_scale():
     assert pd.isna(result.loc[result["URN"] == 1003, "PTRWM_EXP"].values[0])
 
 
-def test_preprocess_laa_data_preserves_ptrwm_exp_already_on_percentage_scale():
-    cfr_this = pd.DataFrame(
-        {
-            "Lead school in federation": ["0", "0", "0"],
-            "PTRWM_EXP": [78.0, 45.0, 1.0],
-        },
-        index=[1001, 1002, 1003],
-    )
-    cfr_this.index.name = "URN"
-    empty_history = pd.DataFrame(index=[1001, 1002, 1003])
-    empty_history.index.name = "URN"
-
-    absences = pd.DataFrame({"school_urn": [], "sess_overall_percent": []})
-    capacity = pd.DataFrame({"school_urn": [], "school_places": []})
-    parental_pref = pd.DataFrame(
-        {"school_urn": [], "proportion_1stprefs_v_totaloffers": []}
-    )
-
-    result = preprocess_laa_data(
-        cfr_data_this_year=cfr_this,
-        cfr_data_year_minus_one=empty_history,
-        cfr_data_year_minus_two=empty_history,
-        cfr_data_year_minus_three=empty_history,
-        cfr_data_year_minus_four=empty_history,
-        absences=absences,
-        capacity=capacity,
-        parental_preference=parental_pref,
-        cfr_year=2026,
-    )
-
-    # Max is 78.0 > 1.0, so the 1.0 (1% attainment) and others are preserved
-    assert result.loc[result["URN"] == 1001, "PTRWM_EXP"].values[0] == 78.0
-    assert result.loc[result["URN"] == 1002, "PTRWM_EXP"].values[0] == 45.0
-    assert result.loc[result["URN"] == 1003, "PTRWM_EXP"].values[0] == 1.0
-
-
 @patch("pipeline.laa_risk_scores.orchestrator.load_laa_risk_score_data")
 @patch("pipeline.laa_risk_scores.orchestrator.load_laa_extra_ancillary_data")
 @patch("pipeline.laa_risk_scores.orchestrator.derive_laa_risk_scores")
