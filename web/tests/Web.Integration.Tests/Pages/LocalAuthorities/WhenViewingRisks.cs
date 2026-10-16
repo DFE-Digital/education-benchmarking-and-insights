@@ -1,5 +1,4 @@
 using System.Net;
-using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain.LocalAuthorities;
@@ -7,6 +6,7 @@ using Web.App.Infrastructure.Apis;
 using Xunit;
 using LocalAuthority = Web.App.Domain.LocalAuthorities.LocalAuthority;
 using LocalAuthoritySchool = Web.App.Domain.LocalAuthorities.LocalAuthoritySchool;
+using File = Web.App.Domain.Content.File;
 
 namespace Web.Integration.Tests.Pages.LocalAuthorities;
 
@@ -18,9 +18,17 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanDisplay()
     {
-        var (page, authority, results) = await SetupNavigateInitPage();
+        var (page, authority, results, file) = await SetupNavigateInitPage();
 
-        AssertPageLayout(page, authority, results);
+        AssertPageLayout(page, authority, results, file: file);
+    }
+
+    [Fact]
+    public async Task CanDisplayWhenLocalAuthorityRiskScoreFileNotPresent()
+    {
+        var (page, authority, results, file) = await SetupNavigateInitPage(hasFile: false);
+
+        AssertPageLayout(page, authority, results, file: file);
     }
 
     [Fact]
@@ -52,7 +60,7 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
     public async Task CanSelectPhase(string phase)
     {
         var expectedQuery = $"?sortField=Overall&sortOrder=desc&selectedPhaseOption={phase.Replace(" ", "%20")}";
-        var (page, authority, results) = await SetupNavigateInitPage();
+        var (page, authority, results, file) = await SetupNavigateInitPage();
 
         var form = page.QuerySelector("form[role='search']");
         Assert.NotNull(form);
@@ -68,13 +76,13 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
             });
         });
 
-        AssertPageLayout(page, authority, results, selectedPhaseOption: phase, expectedQueryParams: expectedQuery);
+        AssertPageLayout(page, authority, results, selectedPhaseOption: phase, expectedQueryParams: expectedQuery, file: file);
     }
 
     [Fact]
     public async Task CanPaginateNextPage()
     {
-        var (page, authority, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _) = await SetupNavigateInitPage();
 
         var nextLink = page.QuerySelector(".govuk-pagination__next a.govuk-pagination__link");
         Assert.NotNull(nextLink);
@@ -88,7 +96,7 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanPaginatePreviousPage()
     {
-        var (page, authority, _) = await SetupNavigateInitPage("?page=2");
+        var (page, authority, _, _) = await SetupNavigateInitPage("?page=2");
 
         var prevLink = page.QuerySelector(".govuk-pagination__prev a.govuk-pagination__link");
         Assert.NotNull(prevLink);
@@ -104,7 +112,7 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanGoBackToLocalAuthorityHome()
     {
-        var (page, authority, _) = await SetupNavigateInitPage("?page=2");
+        var (page, authority, _, _) = await SetupNavigateInitPage("?page=2");
 
         var backLink = page.QuerySelector(".govuk-back-link");
         Assert.NotNull(backLink);
@@ -117,7 +125,7 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanDownloadPageData()
     {
-        var (page, authority, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a.govuk-button")
             .FirstOrDefault(x => x.TextContent.Trim() == "Download page data");
@@ -133,8 +141,8 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
 
     #region Methods
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthorityRiskIndicators[] results)>
-        SetupNavigateInitPage(string queryParams = "")
+    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthorityRiskIndicators[] results, File? file)>
+        SetupNavigateInitPage(string queryParams = "", bool hasFile = true)
     {
         var phaseTypes = new[] { "Primary", "Secondary" };
         var schools = phaseTypes
@@ -160,12 +168,22 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
             PageSize = 10
         };
 
+        var file = hasFile
+            ? Fixture.Build<File>()
+                .With(f => f.Label, "Risk scores 2024/25")
+                .With(f => f.FileName, "laa_risk_scores_download_2024_2025.csv")
+                .With(f => f.FileSize, 1.25m)
+                .Create()
+            : null;
+
         var client = Client.SetupLocalAuthorityEndpoints(authority, risksResults: paged)
-            .SetupInsights();
+            .SetupInsights()
+            .SetupWebAssetsOptions("https://teststorageaccount.net/testcontainer")
+            .SetupFiles(file: file);
 
         var page = await client.Navigate($"{Paths.LocalAuthorityRisks(authority.Code)}{queryParams}");
 
-        return (page, authority, results);
+        return (page, authority, results, file);
     }
 
     private LocalAuthoritySchool[] GenerateSchools(string phaseType)
@@ -183,7 +201,8 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
         string sortField = "Overall",
         string sortOrder = "desc",
         string selectedPhaseOption = "All phases",
-        string expectedQueryParams = "")
+        string expectedQueryParams = "",
+        File? file = null)
     {
         DocumentAssert.AssertPageUrl(
             page,
@@ -194,6 +213,8 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
             "Schools risk overview - Financial Benchmarking and Insights Tool - GOV.UK",
             "Schools risk overview");
 
+        AssertRiskScoreFileLink(page, file);
+
         AssertPhaseSelector(page, selectedPhaseOption);
 
         AssertSortHeaders(page, sortField, sortOrder);
@@ -201,6 +222,30 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
         AssertTable(page, results);
 
         AssertPagination(page);
+    }
+
+    private static void AssertRiskScoreFileLink(IHtmlDocument page, File? file)
+    {
+        var links = page.QuerySelectorAll("a.govuk-link");
+        var riskFileLink = links.FirstOrDefault(a =>
+            file?.FileName != null && a.GetAttribute("href")?.Contains(file.FileName) == true);
+
+        if (file?.FileName == null)
+        {
+            Assert.Null(riskFileLink);
+            return;
+        }
+
+        Assert.NotNull(riskFileLink);
+        Assert.Equal("_blank", riskFileLink.GetAttribute("target"));
+        Assert.Equal("external noopener noreferrer", riskFileLink.GetAttribute("rel"));
+
+        var expectedHref = $"https://teststorageaccount.net/testcontainer/{file.FileName.TrimStart('/')}";
+        Assert.Equal(expectedHref, riskFileLink.GetAttribute("href"));
+
+        var hiddenText = riskFileLink.QuerySelector("span.govuk-visually-hidden");
+        Assert.NotNull(hiddenText);
+        Assert.Equal(" link will open a spreadsheet file", hiddenText.TextContent);
     }
 
     private static void AssertSortHeaders(IHtmlDocument page, string sortField, string sortOrder)
