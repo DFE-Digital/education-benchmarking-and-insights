@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Platform.Api.Content.Features.Files.Models;
+using Platform.Domain;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 
@@ -29,8 +30,7 @@ public class FilesService(IDatabaseFactory dbFactory) : IFilesService
         using var conn = await dbFactory.GetConnection();
 
         var filesBuilder = new ActiveFilesQuery(FileModel.Fields)
-            // TODO: magic string
-            .WhereTypeIn(["laa-risk-scores"])
+            .WhereTypeEqual(FileTypes.LocalAuthorityRiskScores)
             .WhereRunIdEqual(year);
 
         return await conn.QueryFirstOrDefaultAsync<FileModel>(filesBuilder, cancellationToken);
