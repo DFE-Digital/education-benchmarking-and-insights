@@ -24,7 +24,6 @@ public class GetLocalAuthorityRiskScoreFileFunction(IEnumerable<IGetLocalAuthori
     [OpenApiParameter(Domain.Constants.ApiVersion, Type = typeof(string), In = ParameterLocation.Header)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(FileResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.NotFound, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
-    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorityRiskScores)] HttpRequestData req,
         string year,
