@@ -94,15 +94,15 @@ module "my-function" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
-| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.12.0 |
+| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.13.0 |
 | <a name="requirement_mssql"></a> [mssql](#requirement\_mssql) | 0.3.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.12.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 5.2.0 |
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.13.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 5.10.0 |
 | <a name="provider_mssql"></a> [mssql](#provider\_mssql) | 0.3.1 |
 
 ## Modules
@@ -146,6 +146,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_func_app_principal_id"></a> [func\_app\_principal\_id](#output\_func\_app\_principal\_id) | The principal ID of the system-assigned identity |
 | <a name="output_function-host-address"></a> [function-host-address](#output\_function-host-address) | Legacy outputs preserved for compatibility |
 | <a name="output_function-host-key"></a> [function-host-key](#output\_function-host-key) | n/a |
 | <a name="output_function-resource-id"></a> [function-resource-id](#output\_function-resource-id) | n/a |
