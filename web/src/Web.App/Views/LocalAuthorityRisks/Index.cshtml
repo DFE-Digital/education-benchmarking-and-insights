@@ -18,6 +18,16 @@
             This data covers maintained schools for the financial year from April @(Model.CfrYear-1) to March @Model.CfrYear. Federation schools are not included.
         </div>
 
+        @if (Model.RiskScoresFile is { Link: not null, DisplayText.Length: > 0 })
+        {
+            <p class="govuk-body">
+                <a target="_blank" rel="external noopener noreferrer" class="govuk-link govuk-link--no-visited-state" href="@Model.RiskScoresFile.Link">
+            @Model.RiskScoresFile.DisplayText
+            <span class="govuk-visually-hidden"> link will open a spreadsheet file</span>
+                </a>
+            </p>
+        }
+
         @await Html.PartialAsync("_HowToUnderstandRiskScores")
     </div>
 </div>

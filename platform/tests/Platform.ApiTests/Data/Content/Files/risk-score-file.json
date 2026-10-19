@@ -1,0 +1,7 @@
+﻿{
+  "type": "laa-risk-scores",
+  "label": "Download detailed risk data for all schools",
+  "fileName": "laa_risk_scores_download_2021_2022.csv",
+  "runId": "2022",
+  "fileSize": 2.5
+}

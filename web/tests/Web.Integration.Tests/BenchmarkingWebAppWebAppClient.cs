@@ -183,10 +183,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupFiles(File[]? files = null)
+    public BenchmarkingWebAppClient SetupFiles(File[]? files = null, File? file = null)
     {
         FilesApi.Reset();
         FilesApi.Setup(api => api.GetTransparencyFiles()).ReturnsAsync(ApiResult.Ok(files));
+        FilesApi.Setup(api => api.GetLocalAuthorityRiskScores(It.IsAny<string>())).ReturnsAsync(file != null ? ApiResult.Ok(file) : ApiResult.NotFound());
         return this;
     }
 
