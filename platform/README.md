@@ -55,7 +55,7 @@ The backend API layer providing core benchmarking, school/trust insights, and se
 
 ## Getting started
 
-> Local dependencies (SQL Server, Azurite, and Redis) are managed via Docker Compose. See the [Local Environment with Docker guide](../documentation/developers/06_Local-Environment-with-Docker.md) for setup instructions.
+> Local dependencies (SQL Server, Azurite, and Redis) are managed via Docker Compose. See the [Local Environment with Docker guide](../docs/content/how-to/local-docker.md) for setup instructions.
 
 ### Environment Profiles
 
@@ -84,9 +84,13 @@ dotnet user-secrets set "Cache:Port" "[value]" --id "platform-local"
 dotnet user-secrets set "Cache:Password" "[value]" --id "platform-local"
 dotnet user-secrets set "Search:Name" "[value]" --id "platform-local"
 dotnet user-secrets set "Search:Key" "[value]" --id "platform-local"
+dotnet user-secrets set "StorageSettings:LaaRiskFiles:SourceEndpoint" "UseDevelopmentStorage=true" --id "platform-local"
+dotnet user-secrets set "StorageSettings:LaaRiskFiles:DestEndpoint" "UseDevelopmentStorage=true" --id "platform-local"
+dotnet user-secrets set "StorageSettings:LaaRiskFiles:SourceContainer" "artifacts" --id "platform-local"
+dotnet user-secrets set "StorageSettings:LaaRiskFiles:DestContainer" "files" --id "platform-local"
 ```
 
-For full details on local environment profiles and managing `local.settings.json`, please read the **Configuration Management** section in the [Platform APIs Developer Guide](../documentation/developers/11_Platform-APIs.md#configuration-management).
+For full details on local environment profiles and managing `local.settings.json`, please read the **Configuration Management** section in the [Platform APIs Developer Guide](../docs/content/reference/platform-apis.md#configuration-management).
 
 ### Running tests
 
