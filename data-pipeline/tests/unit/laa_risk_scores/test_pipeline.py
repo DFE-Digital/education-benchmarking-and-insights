@@ -346,7 +346,7 @@ def test_roll_up_laa_risk_scores_to_headlines_assigns_a_star_and_a():
 
     for m in evaluators:
         if "attainment" in m.name.lower():
-            df[m.value_column] = [0.85, 0.65, 0.40]
+            df[m.value_column] = [85, 65, 40]
             df[m.score_column] = [0.0, 0.0, 0.25]
             df[m.flag_column] = ["No flag", "No flag", "Minor"]
         else:

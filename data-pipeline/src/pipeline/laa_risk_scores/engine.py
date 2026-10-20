@@ -88,7 +88,9 @@ def roll_up_laa_risk_scores_to_headlines(
         if gt.min_parental_pref is not None:
             cond = cond & (parental_pref + GRADING_EPSILON >= gt.min_parental_pref)
         if gt.min_attainment is not None:
-            cond = cond & (attainment + GRADING_EPSILON >= gt.min_attainment)
+            cond = cond & (
+                attainment.isna() | (attainment + GRADING_EPSILON >= gt.min_attainment)
+            )
 
         conditions.append(cond)
         choices.append(gt.grade)
