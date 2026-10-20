@@ -272,7 +272,7 @@ DEFAULT_GRADING_THRESHOLDS: List[GradeThreshold] = [
         max_risks=0,
         max_major_risks=0,
         min_parental_pref=1.0,
-        min_attainment=0.69,
+        min_attainment=69,
     ),
     GradeThreshold(
         grade="A",
@@ -280,7 +280,7 @@ DEFAULT_GRADING_THRESHOLDS: List[GradeThreshold] = [
         max_risks=1,
         max_major_risks=0,
         min_parental_pref=0.9,
-        min_attainment=0.58,
+        min_attainment=58,
     ),
     GradeThreshold(
         grade="B",
