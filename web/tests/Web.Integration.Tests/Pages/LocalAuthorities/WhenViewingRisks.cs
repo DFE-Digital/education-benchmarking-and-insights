@@ -24,6 +24,14 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
     }
 
     [Fact]
+    public async Task CanDisplayWhenResultsIsEmpty()
+    {
+        var (page, authority, results, file) = await SetupNavigateInitPage(hasResults: false);
+
+        AssertPageLayout(page, authority, results, file: file);
+    }
+
+    [Fact]
     public async Task CanDisplayWhenLocalAuthorityRiskScoreFileNotPresent()
     {
         var (page, authority, results, file) = await SetupNavigateInitPage(hasFile: false);
@@ -142,7 +150,7 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
     #region Methods
 
     private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthorityRiskIndicators[] results, File? file)>
-        SetupNavigateInitPage(string queryParams = "", bool hasFile = true)
+        SetupNavigateInitPage(string queryParams = "", bool hasFile = true, bool hasResults = true)
     {
         var phaseTypes = new[] { "Primary", "Secondary" };
         var schools = phaseTypes
@@ -153,11 +161,13 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
             .Create();
         authority.Schools = schools;
 
-        var results = schools.Select(s =>
-            Fixture.Build<LocalAuthorityRiskIndicators>()
-                .With(r => r.Urn, s.URN)
-                .Create())
-            .ToArray();
+        var results = hasResults
+            ? schools.Select(s =>
+                    Fixture.Build<LocalAuthorityRiskIndicators>()
+                        .With(r => r.Urn, s.URN)
+                        .Create())
+                .ToArray()
+            : [];
 
 
         var paged = new PagedResults<LocalAuthorityRiskIndicators>
@@ -213,6 +223,8 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
             "Schools risk overview - Financial Benchmarking and Insights Tool - GOV.UK",
             "Schools risk overview");
 
+        AssertMaxScoresDetails(page, results.FirstOrDefault());
+
         AssertRiskScoreFileLink(page, file);
 
         AssertPhaseSelector(page, selectedPhaseOption);
@@ -222,6 +234,44 @@ public class WhenViewingRisks(SchoolBenchmarkingWebAppClient client)
         AssertTable(page, results);
 
         AssertPagination(page);
+    }
+
+    private static void AssertMaxScoresDetails(IHtmlDocument page, LocalAuthorityRiskIndicators? firstResult)
+    {
+        var expectedOverallMax = firstResult?.OverallMax;
+        var expectedFinancialMax = firstResult?.FinancialMax;
+        var expectedSchoolAndPupilMax = firstResult?.SchoolAndPupilMax;
+        var expectedPerformanceMax = firstResult?.EducationalPerformanceMax;
+
+        var hasMaxGroupValues = expectedOverallMax.HasValue && expectedFinancialMax.HasValue && expectedSchoolAndPupilMax.HasValue && expectedPerformanceMax.HasValue;
+
+        var details = page.QuerySelector("details.govuk-details");
+        Assert.NotNull(details);
+
+        var summary = details.QuerySelector(".govuk-details__summary-text");
+        Assert.NotNull(summary);
+        Assert.Equal("How to understand these risk scores", summary.TextContent.Trim());
+
+        var heading = details.QuerySelector("h2.govuk-heading-s");
+        var listItems = details.QuerySelectorAll("ul.govuk-list--bullet li").Select(li => li.TextContent.Trim()).ToArray();
+
+        if (!hasMaxGroupValues)
+        {
+            Assert.Null(heading);
+            Assert.Empty(listItems);
+            return;
+        }
+
+        Assert.NotNull(heading);
+        Assert.Equal("Maximum possible scores", heading.TextContent.Trim());
+
+        var textContent = details.TextContent;
+        Assert.Contains($"up to {expectedOverallMax:0.##}", textContent);
+
+        Assert.Equal(3, listItems.Length);
+        Assert.Contains(listItems, item => item.Contains($"Financial risk (up to {expectedFinancialMax:0.##})"));
+        Assert.Contains(listItems, item => item.Contains($"Pupil and school risk (up to {expectedSchoolAndPupilMax:0.##})"));
+        Assert.Contains(listItems, item => item.Contains($"Educational performance risk (up to {expectedPerformanceMax:0.##})"));
     }
 
     private static void AssertRiskScoreFileLink(IHtmlDocument page, File? file)
