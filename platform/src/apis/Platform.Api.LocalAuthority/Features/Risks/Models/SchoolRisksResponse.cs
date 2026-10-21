@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace Platform.Api.LocalAuthority.Features.Risks.Models;
 
@@ -10,7 +11,11 @@ public record SchoolRiskResponse
     public string LaCode { get; init; } = string.Empty;
     public string OverallGrade { get; init; } = string.Empty;
     public decimal Overall { get; init; }
+    public decimal OverallMax { get; init; }
     public decimal Financial { get; init; }
+    public decimal FinancialMax { get; init; }
     public decimal SchoolAndPupil { get; init; }
+    public decimal SchoolAndPupilMax { get; init; }
     public decimal EducationalPerformance { get; init; }
+    public decimal EducationalPerformanceMax { get; init; }
 }

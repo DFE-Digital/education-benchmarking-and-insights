@@ -6,9 +6,13 @@
       "laCode": "201",
       "overallGrade": "F",
       "overall": 17.47,
+      "overallMax": 25.5,
       "financial": 0.73,
+      "financialMax": 18.0,
       "schoolAndPupil": 4.38,
-      "educationalPerformance": 0.28
+      "schoolAndPupilMax": 35.5,
+      "educationalPerformance": 0.28,
+      "educationalPerformanceMax": 2.0
     },
     {
       "urn": "990116",
@@ -16,9 +20,13 @@
       "laCode": "201",
       "overallGrade": "A*",
       "overall": 13.74,
+      "overallMax": 25.5,
       "financial": 8.74,
+      "financialMax": 18.0,
       "schoolAndPupil": 3.73,
-      "educationalPerformance": 1.49
+      "schoolAndPupilMax": 35.5,
+      "educationalPerformance": 1.49,
+      "educationalPerformanceMax": 2.0
     },
     {
       "urn": "990133",
@@ -26,9 +34,13 @@
       "laCode": "202",
       "overallGrade": "A",
       "overall": 13.17,
+      "overallMax": 25.5,
       "financial": 1.22,
+      "financialMax": 18.0,
       "schoolAndPupil": 0.55,
-      "educationalPerformance": 1.59
+      "schoolAndPupilMax": 35.5,
+      "educationalPerformance": 1.59,
+      "educationalPerformanceMax": 2.0
     },
     {
       "urn": "990148",
@@ -36,9 +48,13 @@
       "laCode": "202",
       "overallGrade": "G",
       "overall": 4.88,
+      "overallMax": 25.5,
       "financial": 17.73,
+      "financialMax": 18.0,
       "schoolAndPupil": 4.24,
-      "educationalPerformance": 0.52
+      "schoolAndPupilMax": 35.5,
+      "educationalPerformance": 0.52,
+      "educationalPerformanceMax": 2.0
     }
   ],
   "page": 1,
