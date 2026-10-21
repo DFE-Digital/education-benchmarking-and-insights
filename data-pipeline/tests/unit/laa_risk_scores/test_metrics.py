@@ -314,7 +314,7 @@ def test_format_value_parental_preference():
     # Test with DataFrame to verify non-applicable masking to N/A while applicable missing remains None
     df = pd.DataFrame(
         {
-            "Overall Phase": ["Primary", "Special", "Nursery", "Pupil Referral Unit"],
+            "Overall Phase": ["Primary", "Special", "Nursery", "Pupil referral unit"],
             "proportion_1stprefs_v_totaloffers": [np.nan, np.nan, 0.5, 1.2],
         }
     )
