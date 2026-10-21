@@ -50,16 +50,9 @@ The impact of this is thought to low due to the Capacity value being a relativel
 
 ## Decision
 
-**Option 4**
-
-There will be a single release using datasets available in Q4 2026.
+**Option 4** There will be a single release using datasets available in Q4 2026.
 
 ## Rationale
 
 * As mentioned above the impact of using the pervious version of capacity and pupil absence datasets is thought tp be relatively low due to their relative risk value awarded to the absence dataset and the slow moving nature of the capacity dataset
 * It is likely that the metrics used in assessing school risk will be recalibrated in 2027
-
-
-## Status
-
-Accepted.

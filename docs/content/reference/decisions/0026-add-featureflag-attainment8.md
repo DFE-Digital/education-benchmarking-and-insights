@@ -54,6 +54,3 @@ This means:
 * Minimises complexity - no dynamic content needed for this feature.
 * Enables the branch to be merged ahead of the data release
 * Streamlines delivery for a short-lived feature i.e. Progress-8 will be available in 2027 and will come back into the service.
-
-## Status
-Draft
