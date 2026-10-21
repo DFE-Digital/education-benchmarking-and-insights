@@ -222,7 +222,7 @@ DEFAULT_RISK_CONFIG: list = [
         value_formatting=RiskIndicatorValueFormatting.STRING,
         rating_low_threshold=0.675,
         rating_high_threshold=0.9,
-        applicability=ExcludePhases(["Special", "Nursery", "Pupil Referral Unit"]),
+        applicability=ExcludePhases(["Special", "Nursery", "Pupil referral unit"]),
         rules=[
             MetricRule(0.0, 0.6, 1.5, RiskFlag.MAJOR.value, "left"),
             MetricRule(0.60, 0.65, 1.2, RiskFlag.MAJOR.value, "left"),
