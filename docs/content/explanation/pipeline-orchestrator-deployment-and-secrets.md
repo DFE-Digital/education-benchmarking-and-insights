@@ -18,12 +18,12 @@ The infrastructure provisioning pipeline for the system follows a layered depend
 
 ```mermaid
 flowchart LR
-    A["<b>Core Infrastructure</b><br/>(Key Vaults & Core)"] --> B["<b>Platform Infrastructure</b><br/>(Orchestrator App)"] --> C["<b>Web Infrastructure</b><br/>(Public Storage Assets)"]
+    A["<b>Core Infrastructure</b><br/>(Key Vaults & Core)"] --> B["<b>Platform Infrastructure</b><br/>(Orchestrator App)"] --> C["<b>Web Infrastructure</b><br/>(Web App Storage Assets)"]
 ```
 
 1. **Core:** Establishes Key Vaults and storage accounts (including the `artifacts` blob container).
 2. **Platform:** Provisions the Platform Orchestrator Azure Function App.
-3. **Web:** Provisions frontend web application resources, including the web assets storage account (containing the `files` container).
+3. **Web:** Provisions frontend web application resources, including the web assets storage account behind Azure Front Door (containing the `files` container).
 
 ## 2. The Greenfield Provisioning Dilemma
 
@@ -32,7 +32,7 @@ During initial greenfield environment deployment, the Platform Function App requ
 Specifically, it needs two storage endpoints:
 
 * **Source Endpoint:** The internal data storage account (`artifacts` container).
-* **Destination Endpoint:** The public web storage account (`files` container).
+* **Destination Endpoint:** The web application storage account behind Azure Front Door (`files` container).
 
 Because the destination web storage account is provisioned in the **Web** stage (Phase 3), its storage connection endpoint does not exist when Terraform executes the **Platform** stage (Phase 2).
 
