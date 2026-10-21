@@ -241,7 +241,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_flag_maximum=RiskFlag.MINOR.value,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
         applicability=ExcludePhases([
-            "Special", "Primary", "Secondary", "Pupil Referral Unit",
+            "Special", "Primary", "Secondary", "Pupil referral unit",
             "Nursery", "University Technical College", "Post-16",
             "All-through", "Alternative Provision"]),
         rules=[
