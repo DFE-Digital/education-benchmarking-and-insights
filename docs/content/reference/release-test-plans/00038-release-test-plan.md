@@ -109,12 +109,12 @@ To be completed post-release.
 
 ### Test Summary Report
 
-**Summary of results:** _(to be completed post-execution)_
+**Summary of results:** Pre-production testing complete and passed. Production smoke testing pending.
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |
 |-------------------------|:-----------:|:------:|:------:|:---------:|
-| Sanity Tests - Pre Prod |      1      |  TBC   |  TBC   |    TBC    |
-| Smoke Tests - Pre Prod  |      1      |  TBC   |  TBC   |    TBC    |
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |
+| Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |
 | Smoke Tests - Prod      |      1      |  TBC   |  TBC   |    TBC    |
 | Total                   |      3      |  TBC   |  TBC   |    TBC    |
 
