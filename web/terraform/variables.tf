@@ -29,6 +29,7 @@ variable "configuration" {
       HighNeedsBenchmarking             = optional(bool, true)
       SchoolComparisonFilter            = optional(bool, true)
       LocalAuthorityRiskIndicators      = optional(bool, false)
+      Attainment8                       = optional(bool, false)
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -59,7 +60,10 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                         = true,
-        LocalAuthorityRiskIndicators = true
+        LocalAuthorityRiskIndicators = true,
+        KS4ProgressBanding           = false,
+        KS4ProgressBandingSchoolHome = false,
+        Attainment8                  = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -89,7 +93,10 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                         = true,
-        LocalAuthorityRiskIndicators = true
+        LocalAuthorityRiskIndicators = true,
+        KS4ProgressBanding           = false,
+        KS4ProgressBandingSchoolHome = false,
+        Attainment8                  = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -116,7 +123,10 @@ variable "configuration" {
       waf_mode                       = "Prevention"
       features = {
         News                         = true,
-        LocalAuthorityRiskIndicators = true
+        LocalAuthorityRiskIndicators = true,
+        KS4ProgressBanding           = false,
+        KS4ProgressBandingSchoolHome = false,
+        Attainment8                  = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -146,7 +156,10 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                         = true,
-        LocalAuthorityRiskIndicators = true
+        LocalAuthorityRiskIndicators = true,
+        KS4ProgressBanding           = false,
+        KS4ProgressBandingSchoolHome = false,
+        Attainment8                  = true
       },
       CacheOptions = {
         ReturnYears = {
