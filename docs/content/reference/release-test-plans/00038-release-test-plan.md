@@ -1,21 +1,21 @@
 ---
-title: "Release 00038: 2026.10.1"
+title: "Release 00038: 2026.10.0"
 layout: sub-navigation
 sectionKey: Reference
 includeInBreadcrumbs: true
 eleventyNavigation:
-  key: "Release 00038: 2026.10.1"
+  key: "Release 00038: 2026.10.0"
   parent: Release Test Plans
   order: 38
 ---
 
 Release Date: TBC
 
-Release Label: 2026.10.1
+Release Label: 2026.10.0
 
 ## Introduction
 
-This document outlines the approach to testing release `2026.10.1`, covering the necessary testing activities.
+This document outlines the approach to testing release `2026.10.0`, covering the necessary testing activities.
 
 This is the LAA release. It integrates the Local Authority (LAA) school risk tool into the FBIT service. This involves ingesting the 2025 and 2026 LAA data, processing it to calculate the school risk scores, and displaying the resulting risk pages and downloadable data. It also includes the October 2026 dependency updates.
 
@@ -56,6 +56,12 @@ Functional validation and regression testing were completed in the lower environ
   - All planned smoke, sanity and UAT activities are executed and pass.
   - No critical or high-severity defects remain open.
   - Client sign-off of UAT in pre-production is obtained, and stakeholders confirm readiness for release.
+
+## Risks and Mitigations
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| The sitemap changes require manual steps to be performed in the pre-production and production environments before the release begins. If these manual steps are not completed, the deployment may fail. | Deployment failure and a blocked release. | Carry out the required manual steps proactively in each environment before starting the release. |
 
 ## Roles and Responsibilities
 
