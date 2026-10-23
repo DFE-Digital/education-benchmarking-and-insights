@@ -168,6 +168,21 @@ public record SchoolCharacteristicResponse
     public decimal? PercentWithASD { get; set; }
 
     /// <summary>
+    /// The school's Attainment 8 score.
+    /// </summary>
+    public decimal? Attainment8 { get; set; }
+
+    /// <summary>
+    /// The average Attainment 8 score for the school's local authority.
+    /// </summary>
+    public decimal? LocalAuthorityAvgAttainment8 { get; set; }
+
+    /// <summary>
+    /// The national average Attainment 8 score.
+    /// </summary>
+    public decimal? NationalAvgAttainment8 { get; set; }
+
+    /// <summary>
     /// The position of the school relative to others (if applicable).
     /// </summary>
     public string? SchoolPosition { get; set; }
