@@ -8,21 +8,21 @@ BEGIN
         SELECT 1
         FROM INFORMATION_SCHEMA.COLUMNS
         WHERE table_name = 'LocalAuthorityNonFinancial'
-          AND column_name = 'LocalAuthorityAttainment8'
+          AND column_name = 'LocalAuthorityAvgAttainment8'
     )
     BEGIN
     ALTER TABLE dbo.[LocalAuthorityNonFinancial]
-        ADD LocalAuthorityAttainment8 DECIMAL(18,2) NULL;
+        ADD LocalAuthorityAvgAttainment8 DECIMAL(18,2) NULL;
     END;
 
     IF NOT EXISTS (
         SELECT 1
         FROM INFORMATION_SCHEMA.COLUMNS
         WHERE table_name = 'LocalAuthorityNonFinancial'
-          AND column_name = 'NationalAverageAttainment8'
+          AND column_name = 'NationalAvgAttainment8'
     )
     BEGIN
     ALTER TABLE dbo.[LocalAuthorityNonFinancial]
-        ADD NationalAverageAttainment8 DECIMAL(18,2) NULL;
+        ADD NationalAvgAttainment8 DECIMAL(18,2) NULL;
     END;
 END;
