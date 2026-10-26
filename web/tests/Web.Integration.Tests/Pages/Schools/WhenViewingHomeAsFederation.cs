@@ -20,7 +20,13 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
     [InlineData(false, true, true, true)]
     public async Task CanDisplay(bool isNonLeadFederation, bool ks4ProgressBandingEnabled, bool hasProgressIndicator, bool withUserDefinedUserData)
     {
-        var (page, school, _) = await SetupNavigateInitPage(isNonLeadFederation, ks4ProgressBandingEnabled, hasProgressIndicator, withUserDefinedUserData);
+        var (page, school, _) = await SetupNavigateInitPage(
+            isNonLeadFederation,
+            ks4ProgressBandingEnabled: ks4ProgressBandingEnabled,
+            hasProgressIndicator: hasProgressIndicator,
+            attainment8Enabled: false,
+            hasAttainment8: false,
+            withUserDefinedUserData);
 
         AssertPageLayout(page, school, ks4ProgressBandingEnabled, hasProgressIndicator, withUserDefinedUserData);
     }
@@ -141,6 +147,8 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         bool isNonLeadFederation = false,
         bool ks4ProgressBandingEnabled = true,
         bool hasProgressIndicator = true,
+        bool attainment8Enabled = false,
+        bool hasAttainment8 = false,
         bool withUserDefinedUserData = false)
     {
         var federationLeadSchool = new FederationSchool
@@ -177,6 +185,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
 
         var characteristic = Fixture.Build<SchoolCharacteristic>()
                     .With(x => x.KS4ProgressBanding, hasProgressIndicator ? "Well above average" : null)
+                    .With(x => x.Attainment8, hasAttainment8 ? 1.0m : null)
                     .Create();
 
         var userDefinedSetUserData = new[]
@@ -190,9 +199,18 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
 
         var userDefinedRatings = withUserDefinedUserData ? CreateRagRatings(school.URN!) : [];
 
-        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding, FeatureFlags.KS4ProgressBandingSchoolHome];
+        List<string> features = [];
+        if (!ks4ProgressBandingEnabled)
+        {
+            features.Add(FeatureFlags.KS4ProgressBanding);
+            features.Add(FeatureFlags.KS4ProgressBandingSchoolHome);
+        }
+        if (!attainment8Enabled)
+        {
+            features.Add(FeatureFlags.Attainment8);
+        }
         var page = await Client
-            .SetupDisableFeatureFlags(features)
+            .SetupDisableFeatureFlags(features.ToArray())
             .SetupEstablishment(school)
             .SetupSchool(school)
             .SetupMetricRagRating([], userDefinedRatings)

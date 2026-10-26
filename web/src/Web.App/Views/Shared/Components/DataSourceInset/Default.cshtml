@@ -25,6 +25,13 @@
                         <a class="govuk-link govuk-link--no-visited-state" href="@Model.CompareSchoolPerformanceUrl">Compare school and college performance in England</a>
                     </p>
                 }
+                @if (Model.ShowAttainment8)
+                {
+                    <p class="govuk-body">
+                        Attainment 8 data uses the latest data available from the academic year @(Model.Attainment8Year - 1) to @Model.Attainment8Year and is taken from
+                        <a class="govuk-link govuk-link--no-visited-state" href="@Model.CompareSchoolPerformanceUrl">Compare school and college performance in England</a>
+                    </p>
+                }
             </div>
         }
     </div>

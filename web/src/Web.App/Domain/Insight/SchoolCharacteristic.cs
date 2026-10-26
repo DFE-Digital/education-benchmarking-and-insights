@@ -34,6 +34,9 @@ public record SchoolCharacteristic
     public decimal? PercentWithMLD { get; set; }
     public decimal? PercentWithHI { get; set; }
     public decimal? PercentWithASD { get; set; }
+    public decimal? Attainment8 { get; set; }
+    public decimal? LocalAuthorityAvgAttainment8 { get; set; }
+    public decimal? NationalAvgAttainment8 { get; set; }
 
     public string? SchoolPosition { get; set; }
 

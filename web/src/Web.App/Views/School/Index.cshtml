@@ -1,6 +1,7 @@
 @using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
+@inject Microsoft.FeatureManagement.IFeatureManager FeatureManager
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
     var additionText = string.IsNullOrEmpty(Model.UserDefinedSetId)
@@ -9,6 +10,24 @@
         {
             "You are now comparing with your chosen schools."
         };
+
+    var showKs4Progress = await FeatureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
+                          && await FeatureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBandingSchoolHome);
+    var showAttainment8 = await FeatureManager.IsEnabledAsync(FeatureFlags.Attainment8);
+
+    var resourceList = new List<Resources>
+    {
+        Resources.SchoolResources,
+        Resources.SchoolHistoricData,
+        Resources.SchoolDetails,
+        Resources.DataSource,
+        Resources.FinancialBenchmarkingInsightsSummary
+    };
+
+    if (showKs4Progress || showAttainment8)
+    {
+        resourceList.Add(Resources.SchoolPerformance);
+    }
 }
 
 @if (Model is { PeriodCoveredByReturn: < 12 })
@@ -44,18 +63,21 @@
     @await Html.PartialAsync("_FederationSchools", Model)
 }
 
-<feature name="@($"{FeatureFlags.KS4ProgressBanding},{FeatureFlags.KS4ProgressBandingSchoolHome}")">
+@if (showKs4Progress || showAttainment8)
+{
     @await Component.InvokeAsync("DataSourceInset", new
     {
         organisationType = OrganisationTypes.School,
         sourceType = DataSourceTypes.Spending,
         isPartOfTrust = Model.IsPartOfTrust,
-        showKs4Progress = Model.HasProgressIndicator,
+        showKs4Progress = showKs4Progress && Model.HasProgressIndicator,
+        showAttainment8 = showAttainment8 && Model.HasAttainment8,
         urn = Model.Urn,
         additionText
     })
-</feature>
-<feature name="@($"{FeatureFlags.KS4ProgressBanding},{FeatureFlags.KS4ProgressBandingSchoolHome}")" negate="true">
+}
+else
+{
     @await Component.InvokeAsync("DataSource", new
     {
         organisationType = OrganisationTypes.School,
@@ -63,13 +85,20 @@
         isPartOfTrust = Model.IsPartOfTrust,
         additionText
     })
-</feature>
+}
 
 @await Html.PartialAsync("_SchoolKeyInformation", Model)
 
 @await Html.PartialAsync("_SpendingPriorities", Model)
 
-@await Html.PartialAsync("_Performance", Model)
+@if (showKs4Progress)
+{
+    @await Html.PartialAsync("_Ks4ProgressPerformance", Model)
+}
+@if (showAttainment8)
+{
+    @await Html.PartialAsync("_Attainment8Performance", Model)
+}
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
@@ -77,35 +106,11 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<feature name="@($"{FeatureFlags.KS4ProgressBanding},{FeatureFlags.KS4ProgressBandingSchoolHome}")">
-    @await Component.InvokeAsync("Resources", new
-    {
-        identifier = Model.Urn,
-        resources = new[]
-        {
-            Resources.SchoolResources,
-            Resources.SchoolHistoricData,
-            Resources.SchoolDetails,
-            Resources.DataSource,
-            Resources.FinancialBenchmarkingInsightsSummary,
-            Resources.SchoolPerformance
-        }
-    })
-</feature>
-<feature name="@($"{FeatureFlags.KS4ProgressBanding},{FeatureFlags.KS4ProgressBandingSchoolHome}")" negate="true">
-    @await Component.InvokeAsync("Resources", new
-    {
-        identifier = Model.Urn,
-        resources = new[]
-        {
-            Resources.SchoolResources,
-            Resources.SchoolHistoricData,
-            Resources.SchoolDetails,
-            Resources.DataSource,
-            Resources.FinancialBenchmarkingInsightsSummary
-        }
-    })
-</feature>
+@await Component.InvokeAsync("Resources", new
+{
+    identifier = Model.Urn,
+    resources = resourceList.ToArray()
+})
 
 @* TODO: review for public beta
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

@@ -23,6 +23,7 @@ public class SchoolController(
     IBalanceApi balanceApi,
     IMetricRagRatingApi metricRagRatingApi,
     IUserDataService userDataService,
+    IFinanceService financeService,
     ICensusApi censusApi,
     ICommercialResourcesService commercialResourcesService,
     ISchoolInsightApi schoolInsightApi,
@@ -64,12 +65,14 @@ public class SchoolController(
                         : await RagRatingsUserDefined(comparatorSet);
                     var characteristic = await SchoolCharacteristic(urn);
                     var compareSchoolPerformanceUrl = uriBuilder.CompareSchoolPerformanceUrl(urn);
+                    var years = await financeService.GetYears();
 
                     var viewModel = new SchoolViewModel(
                         school,
                         balance,
                         ratings,
                         characteristic,
+                        years,
                         comparatorGenerated,
                         comparatorReverted,
                         comparatorSet,
@@ -212,7 +215,7 @@ public class SchoolController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedData(urn);
 
                 var school = await School(urn);
-                var viewModel = new SchoolViewModel(school, customDataGenerated);
+                var viewModel = new SchoolCustomisedDataViewModel(school, customDataGenerated);
 
                 return View(viewModel);
             }
