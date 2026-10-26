@@ -41,6 +41,14 @@ The Data pipeline elements will not be controlled by the feature flag i.e. they 
 
 This option would enable the Attainment-8 feature to be shown in the service based on the RunID (year) that is currently set for the service.  The RunID is a configuration value which controls the overall data context that should be applied to the FBIT service.  Additional logic would be added to the front-end code controller layer that loads the Progress-8 feature into the service if the RunID for the service is set to 2026.
 
+## Analysis
+
+Option 1 would require modification at many different levels of the service - data pipeline, platform APIs, and web - some of which would subsequently need to be backed out once the service reverts to displaying Progess-8 in 2027.
+
+Option 2 would allow for any Attainment-8 specific display code to be backed out with a simple feature flag adjustment, making the work much lower risk, and lower effort.
+
+Option 3 would increase code complexity, for no greater benefit that either option 1 or 2.
+
 ## Decision
 
 **Option 2.**
