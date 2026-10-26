@@ -1,21 +1,23 @@
 ---
-title: "Release 00038: 2026.10.0"
+title: "Release 00038: 2026.10.1"
 layout: sub-navigation
 sectionKey: Reference
 includeInBreadcrumbs: true
 eleventyNavigation:
-  key: "Release 00038: 2026.10.0"
+  key: "Release 00038: 2026.10.1"
   parent: Release Test Plans
   order: 38
 ---
 
+_Release version incremented to 2026.10.1 after 2026.10.0 was discarded due to a pupil absence display defect spotted in UAT._
+
 Release Date: TBC
 
-Release Label: 2026.10.0
+Release Label: 2026.10.1
 
 ## Introduction
 
-This document outlines the approach to testing release `2026.10.0`, covering the necessary testing activities.
+This document outlines the approach to testing release `2026.10.1`, covering the necessary testing activities.
 
 This is the LAA release. It integrates the Local Authority (LAA) school risk tool into the FBIT service. This involves ingesting the 2025 and 2026 LAA data, processing it to calculate the school risk scores, and displaying the resulting risk pages and downloadable data. It also includes the October 2026 dependency updates.
 
@@ -91,7 +93,11 @@ Functional validation and regression testing were completed in the lower environ
 
 **Release Overview:**
 
-To be completed post-release.
+During UAT a defect was found in the pupil absence indicator. The "Current % total pupil absence" figure was displayed 100 times too high (for example 571% instead of 5.71%), because the data pipeline held the value in percentage points while the service formats it as a proportion. The risk scores, flags and grades were not affected, but a fix was required in the data pipeline to output the value on the correct scale.
+
+As a result, release 2026.10.0 was discarded and the fix for the absence display issue is included in this release.
+
+- **New Release Version:** 2026.10.1
 
 **Azure DevOps tickets included in this release:**
 
