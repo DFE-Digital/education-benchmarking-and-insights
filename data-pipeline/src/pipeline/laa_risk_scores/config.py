@@ -205,14 +205,14 @@ DEFAULT_RISK_CONFIG: list = [
         condition_column="TypeOfEstablishment (code)",
         special_values=[7, 8, 12, 42, 44],
         standard_rules=[
-            MetricRule(0, 5, 0.0, RiskFlag.NO_FLAG.value, "left"),
-            MetricRule(5, 6, 0.25, RiskFlag.MINOR.value, "left"),
-            MetricRule(6, np.inf, 0.5, RiskFlag.MINOR.value, "left"),
+            MetricRule(0, 0.05, 0.0, RiskFlag.NO_FLAG.value, "left"),
+            MetricRule(0.05, 0.06, 0.25, RiskFlag.MINOR.value, "left"),
+            MetricRule(0.06, np.inf, 0.5, RiskFlag.MINOR.value, "left"),
         ],
         special_rules=[
-            MetricRule(0, 15, 0.0, RiskFlag.NO_FLAG.value, "left"),
-            MetricRule(15, 25, 0.25, RiskFlag.MINOR.value, "left"),
-            MetricRule(25, np.inf, 0.5, RiskFlag.MINOR.value, "left"),
+            MetricRule(0, 0.15, 0.0, RiskFlag.NO_FLAG.value, "left"),
+            MetricRule(0.15, 0.25, 0.25, RiskFlag.MINOR.value, "left"),
+            MetricRule(0.25, np.inf, 0.5, RiskFlag.MINOR.value, "left"),
         ],
     ),
     ParentalPreferenceMetric(

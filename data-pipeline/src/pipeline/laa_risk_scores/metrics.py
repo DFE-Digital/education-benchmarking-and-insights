@@ -457,7 +457,8 @@ class PupilAbsenceMetric(ConditionalRiskMetric):
     )
 
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        return df["sess_overall_percent"]
+        """Percentages are scaled to decimals for frontend formatting"""
+        return df["sess_overall_percent"] / 100
 
 
 @dataclass
