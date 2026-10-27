@@ -31,6 +31,9 @@
     "percentWithMLD": 0,
     "percentWithHI": 100,
     "percentWithASD": 55,
+    "attainment8": 1.1,
+    "localAuthorityAvgAttainment8": 1.2,
+    "nationalAvgAttainment8": 0.9,
     "schoolPosition": "Surplus",
     "periodCoveredByReturn": 12,
     "address": "London, ABC127"
