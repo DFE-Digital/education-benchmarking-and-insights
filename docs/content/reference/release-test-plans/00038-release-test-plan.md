@@ -11,7 +11,7 @@ eleventyNavigation:
 
 _Release version incremented to 2026.10.1 after 2026.10.0 was discarded due to a pupil absence display defect spotted in UAT._
 
-Release Date: TBC
+Release Date: 27/10/2026
 
 Release Label: 2026.10.1
 
@@ -95,7 +95,7 @@ Functional validation and regression testing were completed in the lower environ
 
 During UAT a defect was found in the pupil absence indicator. The "Current % total pupil absence" figure was displayed 100 times too high (for example 571% instead of 5.71%), because the data pipeline held the value in percentage points while the service formats it as a proportion. The risk scores, flags and grades were not affected, but a fix was required in the data pipeline to output the value on the correct scale.
 
-As a result, release 2026.10.0 was discarded and the fix for the absence display issue is included in this release.
+As a result, release 2026.10.0 was discarded and the fix for the absence display issue is included in this release. The fix has been validated and the service is stable in production.
 
 - **New Release Version:** 2026.10.1
 
@@ -115,13 +115,13 @@ As a result, release 2026.10.0 was discarded and the fix for the absence display
 
 ### Test Summary Report
 
-**Summary of results:** Pre-production testing complete and passed. Production smoke testing pending.
+**Summary of results:** All testing complete and passed.
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |
 |-------------------------|:-----------:|:------:|:------:|:---------:|
 | Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |
 | Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |
-| Smoke Tests - Prod      |      1      |  TBC   |  TBC   |    TBC    |
-| Total                   |      3      |  TBC   |  TBC   |    TBC    |
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Total                   |      3      |   3    |   0    |   100%    |
 
-**User Acceptance Testing (UAT):** Conducted by clients/stakeholders in pre-production and recorded as an acceptance sign-off rather than a test count. Outcome: TBC.
+**User Acceptance Testing (UAT):** Conducted by clients/stakeholders in pre-production and recorded as an acceptance sign-off rather than a test count. One issue was identified during UAT (the pupil absence display defect described in the Release Overview), which was fixed and re-tested. The service is now stable. Outcome: passed.
