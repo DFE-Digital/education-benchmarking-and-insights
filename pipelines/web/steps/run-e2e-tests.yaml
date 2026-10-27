@@ -25,16 +25,6 @@ steps:
       script: |
         mkdir -p ${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/screenshots
 
-  - task: Bash@3
-    displayName: 'Install Playwright browsers (with diagnostics)'
-    inputs:
-      targetType: 'inline'
-      script: |
-        echo "--- Playwright env vars ---"; env | grep -i playwright || echo "(none set)"
-        echo "--- browser cache before ---"; ls -la "${HOME}/.cache/ms-playwright/" 2>/dev/null || echo "(no cache dir)"
-        pwsh ${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/playwright.ps1 install --with-deps chromium
-        echo "--- browser cache after ---"; ls -la "${HOME}/.cache/ms-playwright/" 2>/dev/null || echo "(no cache dir)"
-
   - task: DotNetCoreCLI@2
     displayName: 'Run e2e tests'
     retryCountOnTaskFailure: 2
