@@ -8,4 +8,5 @@ public class FinanceYears
     public string? Cfr { get; set; }
     public string? S251 { get; set; }
     public string? Ks4Progress { get; set; }
+    public string? Attainment8 { get; set; }
 }

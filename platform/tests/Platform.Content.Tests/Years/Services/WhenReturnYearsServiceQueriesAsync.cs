@@ -29,13 +29,15 @@ public class WhenReturnYearsServiceQueriesAsync
         const string cfr = nameof(cfr);
         const string s251 = nameof(s251);
         const string ks4Progress = nameof(ks4Progress);
+        const string attainment8 = nameof(attainment8);
 
         _connection
             .SetupSequence(c => c.QueryFirstOrDefaultAsync<string>(It.IsAny<PlatformQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(aar)
             .ReturnsAsync(cfr)
             .ReturnsAsync(s251)
-            .ReturnsAsync(ks4Progress);
+            .ReturnsAsync(ks4Progress)
+            .ReturnsAsync(attainment8);
 
         var actual = await _service.GetCurrentReturnYears(CancellationToken.None);
 
@@ -44,7 +46,8 @@ public class WhenReturnYearsServiceQueriesAsync
             Aar = aar,
             Cfr = cfr,
             S251 = s251,
-            Ks4Progress = ks4Progress
+            Ks4Progress = ks4Progress,
+            Attainment8 = attainment8
         };
         Assert.Equivalent(expected, actual);
     }
