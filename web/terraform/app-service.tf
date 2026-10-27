@@ -79,6 +79,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "FeatureManagement__HighNeedsBenchmarking"              = var.configuration[var.environment].features.HighNeedsBenchmarking
     "FeatureManagement__SchoolComparisonFilter"             = var.configuration[var.environment].features.SchoolComparisonFilter
     "FeatureManagement__LocalAuthorityRiskIndicators"       = var.configuration[var.environment].features.LocalAuthorityRiskIndicators
+    "FeatureManagement__Attainment8"                        = var.configuration[var.environment].features.Attainment8
     "Apis__School__Url"                                     = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.school-api-host.versionless_id})"
     "Apis__School__Key"                                     = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.school-api-key.versionless_id})"
     "Apis__Trust__Url"                                      = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.trust-api-host.versionless_id})"

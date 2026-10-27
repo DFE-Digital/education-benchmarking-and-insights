@@ -136,6 +136,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `SeniorLeadership`                  | Displays Benchmark senior leadership group page                                                                                  |
 | `HighNeedsBenchmarking`             | Toggles the alternative Local Authority High Needs benchmarking with separate EHCP and High Needs spending pages, including filters                                                                                  |
 | `SchoolComparisonFilter`                  | Toggles the alternative School Benchmark Spending page with filters |
+| `Attainment8`                  | Displays Attainment 8 information on cost comparison, workforce comparison and school homepage  |
 
 #### CacheOptions
 
