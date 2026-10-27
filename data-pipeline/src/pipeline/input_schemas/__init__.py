@@ -59,6 +59,7 @@ from .ilr import (
     ilr_fsm_sheet_name,
     ilr_index,
 )
+from .ks4 import ks4, ks4_column_mappings, ks4_index_col
 from .local_authority import (  # noqa
     la_budget,
     la_budget_column_eval,
@@ -151,6 +152,3 @@ ks2 = {
     "MATPROG": "string",
     "PTRWM_EXP": "string",
 }
-
-ks4_index_col = "URN"
-ks4 = {"URN": "Int64", "ATT8SCR": "float", "P8MEA": "float", "P8_BANDING": "string"}

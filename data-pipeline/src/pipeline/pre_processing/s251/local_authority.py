@@ -26,6 +26,7 @@ def build_local_authorities(
     dsg: pd.DataFrame,
     all_schools: pd.DataFrame,
     year: int,
+    ks4: tuple[pd.DataFrame, float] | None = None,
 ):
     """
     Build Local Authority data from various sources.
@@ -88,11 +89,44 @@ def build_local_authorities(
         year,
     )
 
+    if ks4 is not None:
+        la_avg_attainment, national_avg_attainment = ks4
+        local_authority_data_with_dsg_recoupments = (
+            local_authority_data_with_dsg_recoupments.merge(
+                la_avg_attainment,
+                left_on="old_la_code",
+                right_index=True,
+                how="left",
+            )
+        )
+        local_authority_data_with_dsg_recoupments["NationalAvgAttainment8"] = (
+            national_avg_attainment
+        )
+
+    local_authority_data_with_attainment8 = ensure_attainment8_columns_are_present(
+        local_authority_data_with_dsg_recoupments
+    )
+
     logger.info(
         f"Processed {len(local_authority_data.index)} combined Local Authority rows."
     )
 
-    return local_authority_data_with_dsg_recoupments
+    return local_authority_data_with_attainment8
+
+
+def ensure_attainment8_columns_are_present(
+    local_authority_data: pd.DataFrame,
+) -> pd.DataFrame:
+    attainment8_columns = [
+        "LocalAuthorityAvgAttainment8",
+        "NationalAvgAttainment8",
+    ]
+
+    for col in attainment8_columns:
+        if col not in local_authority_data.columns:
+            local_authority_data[col] = np.nan
+
+    return local_authority_data
 
 
 def ensure_dsg_recoupment_columns_are_present(local_authority_data) -> pd.DataFrame:
