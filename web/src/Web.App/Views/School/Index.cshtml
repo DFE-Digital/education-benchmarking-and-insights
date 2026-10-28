@@ -37,29 +37,16 @@
     @await Html.PartialAsync("_FederationSchools", Model)
 }
 
-@if (Model.ShowKs4Progress || Model.ShowAttainment8)
+@await Component.InvokeAsync("DataSourceInset", new
 {
-    @await Component.InvokeAsync("DataSourceInset", new
-    {
-        organisationType = OrganisationTypes.School,
-        sourceType = DataSourceTypes.Spending,
-        isPartOfTrust = Model.IsPartOfTrust,
-        showKs4Progress = Model is { ShowKs4Progress: true, HasProgressIndicator: true },
-        showAttainment8 = Model is { ShowAttainment8: true, HasAttainment8: true },
-        urn = Model.Urn,
-        additionText = Model.AdditionText
-    })
-}
-else
-{
-    @await Component.InvokeAsync("DataSource", new
-    {
-        organisationType = OrganisationTypes.School,
-        sourceType = DataSourceTypes.Spending,
-        isPartOfTrust = Model.IsPartOfTrust,
-        additionText = Model.AdditionText
-    })
-}
+    organisationType = OrganisationTypes.School,
+    sourceType = DataSourceTypes.Spending,
+    isPartOfTrust = Model.IsPartOfTrust,
+    showKs4Progress = Model is { ShowKs4Progress: true, HasProgressIndicator: true },
+    showAttainment8 = Model is { ShowAttainment8: true, HasAttainment8: true },
+    urn = Model.Urn,
+    additionText = Model.AdditionText
+})
 
 @await Html.PartialAsync("_SchoolKeyInformation", Model)
 
