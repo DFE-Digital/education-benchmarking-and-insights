@@ -13,6 +13,7 @@ public class DataSourceInsetViewComponent(IFinanceService financeService, IUriBu
         string sourceType,
         bool? isPartOfTrust,
         bool showKs4Progress = false,
+        bool showAttainment8 = false,
         string? urn = null,
         string[]? additionText = null
     )
@@ -31,7 +32,14 @@ public class DataSourceInsetViewComponent(IFinanceService financeService, IUriBu
             _ => []
         };
 
-        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, years.Ks4Progress, additionText, compareSchoolPerformanceUrl));
+        return View(new DataSourceInsetViewModel(
+            dataSource,
+            showKs4Progress,
+            years.Ks4Progress,
+            showAttainment8,
+            years.Attainment8,
+            additionText,
+            compareSchoolPerformanceUrl));
     }
 
     private static string[] GetSpendingDataSource(string organisationType, bool isPartOfTrust, FinanceYears years)

@@ -27,7 +27,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(EstablishmentTypes.Maintained, false, true, false, false, false)]
     public async Task CanDisplay(string financeType, bool isPartOfTrust, bool showBanner, bool ks4ProgressBandingEnabled, bool hasProgressIndicator, bool withUserDefinedUserData)
     {
-        var (page, school, _, banner, _) = await SetupNavigateInitPage(financeType, isPartOfTrust, showBanner, ks4ProgressBandingEnabled, hasProgressIndicator, withUserDefinedUserData);
+        var (page, school, _, banner, _) = await SetupNavigateInitPage(
+            financeType,
+            isPartOfTrust: isPartOfTrust,
+            showBanner: showBanner,
+            ks4ProgressBandingEnabled: ks4ProgressBandingEnabled,
+            hasProgressIndicator: hasProgressIndicator,
+            attainment8Enabled: false,
+            hasAttainment8: false,
+            withUserDefinedUserData: withUserDefinedUserData);
 
         AssertPageLayout(page, school, banner, ks4ProgressBandingEnabled, hasProgressIndicator, withUserDefinedUserData);
     }
@@ -184,8 +192,10 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         string financeType,
         bool isPartOfTrust = false,
         bool showBanner = false,
-        bool ks4ProgressBandingEnabled = true,
-        bool hasProgressIndicator = true,
+        bool ks4ProgressBandingEnabled = false,
+        bool hasProgressIndicator = false,
+        bool attainment8Enabled = false,
+        bool hasAttainment8 = false,
         bool withUserDefinedUserData = false)
     {
         var school = Fixture.Build<School>()
@@ -213,6 +223,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var characteristic = Fixture.Build<SchoolCharacteristic>()
             .With(x => x.KS4ProgressBanding, hasProgressIndicator ? "Well above average" : null)
+            .With(x => x.Attainment8, hasAttainment8 ? 1.0m : null)
             .Create();
 
         var userDefinedSetUserData = new[]
@@ -226,9 +237,19 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var userDefinedRatings = withUserDefinedUserData ? CreateRagRatings(school.URN!) : [];
 
-        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding, FeatureFlags.KS4ProgressBandingSchoolHome];
+        List<string> features = [];
+        if (!ks4ProgressBandingEnabled)
+        {
+            features.Add(FeatureFlags.KS4ProgressBanding);
+            features.Add(FeatureFlags.KS4ProgressBandingSchoolHome);
+        }
+        if (!attainment8Enabled)
+        {
+            features.Add(FeatureFlags.Attainment8);
+        }
+
         var page = await Client
-            .SetupDisableFeatureFlags(features)
+            .SetupDisableFeatureFlags(features.ToArray())
             .SetupEstablishment(school)
             .SetupSchool(school)
             .SetupMetricRagRating([], userDefinedRatings)
@@ -276,7 +297,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         DocumentAssert.Link(changeLinkElement, "Change school", Paths.SchoolSearch.ToAbsolute());
 
-        var toolsSection = page.GetElementById("benchmarking-and-planning-tools"); //NB: No RAG therefore section not shown
+        var toolsSection = page.GetElementById("benchmarking-and-planning-tools"); //NB: No RAG therefore, section not shown
         DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsSection?.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();

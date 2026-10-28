@@ -1,0 +1,64 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolViewModel
+
+@if (!Model.HasAttainment8)
+{
+    return;
+}
+
+<div class="govuk-grid-row" data-test-id="school-performance-attainment-8">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Performance for this school</h2>
+    </div>
+    <div class="govuk-grid-column-one-half">
+        <div class="stat-boxes">
+            <div class="stat-box">
+                <h3 class="govuk-heading-s">Attainment 8</h3>
+                <dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-margin-bottom-0">
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key govuk-!-width-one-half govuk-!-padding-top-0">
+                            Score
+                        </dt>
+                        <dd class="govuk-summary-list__value govuk-!-padding-top-0">
+                            @Model.Attainment8.ToSimpleDisplay()
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key govuk-!-width-one-half govuk-!-padding-top-0">
+                            @Model.LaName average
+                        </dt>
+                        <dd class="govuk-summary-list__value govuk-!-padding-top-0">
+                            @Model.LocalAuthorityAvgAttainment8.ToSimpleDisplay()
+                        </dd>
+                    </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key govuk-!-width-one-half govuk-!-padding-top-0">
+                            National average
+                        </dt>
+                        <dd class="govuk-summary-list__value govuk-!-padding-top-0">
+                            @Model.NationalAvgAttainment8.ToSimpleDisplay()
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <details class="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    View more details on this score
+                </span>
+            </summary>
+            <div class="govuk-details__text">
+                <p class="govuk-body">
+                    The service currently shows Attainment 8 scores for academic year @(Model.Attainment8Year-1) to @Model.Attainment8Year. The
+                    scores only show when data is available for the school on
+                    <a class="govuk-link govuk-link--no-visited-state" href="@Model.CompareSchoolPerformanceUrl">Compare
+                        school and college performance in England</a>.
+                </p>
+                <p class="govuk-body">
+                    This score shows pupils' average results across 8 GCSE-level qualifications, including English and maths, at the end of key stage 4.
+                </p>
+            </div>
+        </details>
+    </div>
+</div>
