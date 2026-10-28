@@ -75,7 +75,7 @@ public class SchoolSeniorLeadershipSteps(PageDriver driver)
     public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
     {
         Assert.NotNull(_schoolHomePage);
-        await _schoolHomePage.IsDisplayed(isMissingRags: true, hasProgressIndicators: true);
+        await _schoolHomePage.IsDisplayed(isMissingRags: true);
     }
 
     [Then("the tooltip for '(.*)' is correctly displayed")]
