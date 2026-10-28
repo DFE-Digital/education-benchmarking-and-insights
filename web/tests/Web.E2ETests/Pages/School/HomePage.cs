@@ -74,14 +74,14 @@ public class HomePage(IPage page)
         bool isUserDefinedComparator = false,
         bool isMissingRags = false,
         bool isCustomData = false,
-        bool hasProgressIndicators = false)
+        bool hasPerformanceIndicators = false)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
 
         List<string> expectedH2Texts = ["Benchmarking and planning tools", "Resources"];
 
-        if (hasProgressIndicators)
+        if (hasPerformanceIndicators)
         {
             expectedH2Texts.Insert(0, "Performance for this school");
         }

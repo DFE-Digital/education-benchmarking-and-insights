@@ -26,7 +26,7 @@ public class HomeSteps(PageDriver driver)
         await page.GotoAndWaitForLoadAsync(url);
 
         _schoolHomePage = new HomePage(page);
-        await _schoolHomePage.IsDisplayed();
+        await _schoolHomePage.IsDisplayed(hasPerformanceIndicators: true);
     }
 
     [Given("I am on part year school homepage for school with urn '(.*)'")]
