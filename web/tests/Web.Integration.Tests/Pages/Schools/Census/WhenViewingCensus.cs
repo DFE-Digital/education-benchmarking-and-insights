@@ -72,10 +72,10 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
             ks4ProgressBandingEnabled,
             withEmptyComparatorSet: true);
 
-        var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]"); ;
+        var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]");
         Assert.NotNull(comparatorSetDetailsElement);
 
-        AssertMissingComparatorSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled);
+        AssertMissingComparatorSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school);
     }
 
     [Theory]
@@ -272,8 +272,8 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
                 }
             default:
                 {
-                    var text = GetPlainText(dataSourceElement);
-                    AssertNoBanding(text);
+                    var text = GetInsetText(dataSourceElement);
+                    AssertNoIndicators(text);
                     break;
                 }
         }
@@ -287,149 +287,82 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
         }
         if (withCustomUserData)
         {
-            AssertCustomDataCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled);
+            AssertCustomDataCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school);
         }
         else if (withUserDefinedUserData)
         {
-            AssertUserDefinedSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled);
+            AssertUserDefinedSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school);
         }
         else
         {
-            AssertComparatorSetDetailsDefaultContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled);
+            AssertComparatorSetDetailsDefaultContent(comparatorSetDetailsElement, school);
         }
     }
 
-    private static void AssertComparatorSetDetailsDefaultContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled)
+    private static void AssertComparatorSetDetailsDefaultContent(IElement comparatorSetDetailsElement, School school)
     {
-        if (ks4ProgressBandingEnabled)
-        {
-            var introParagraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
-            Assert.Equal(1, introParagraphs.Length);
-            Assert.Equal("You can:", introParagraphs[0].TextContent.Trim());
+        var introParagraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
+        Assert.Equal(1, introParagraphs.Length);
+        Assert.Equal("You can:", introParagraphs[0].TextContent.Trim());
 
-            var listItems = comparatorSetDetailsElement.QuerySelectorAll("ul[data-testid='actions-list'] li");
-            Assert.Equal(3, listItems.Length);
+        var listItems = comparatorSetDetailsElement.QuerySelectorAll("ul[data-testid='actions-list'] li");
+        Assert.Equal(3, listItems.Length);
 
-            DocumentAssert.TextEqual(listItems[0], "view the set of similar schools we've chosen to benchmark this school's pupil and workforce data against", true);
-            DocumentAssert.Link(listItems[0].QuerySelector("a"), "view the set of similar schools we've chosen", Paths.SchoolComparatorsWorkforce(school.URN).ToAbsolute());
+        DocumentAssert.TextEqual(listItems[0], "view the set of similar schools we've chosen to benchmark this school's pupil and workforce data against", true);
+        DocumentAssert.Link(listItems[0].QuerySelector("a"), "view the set of similar schools we've chosen", Paths.SchoolComparatorsWorkforce(school.URN).ToAbsolute());
 
-            DocumentAssert.TextEqual(listItems[1], "create or save your own set of schools to benchmark against", true);
-            DocumentAssert.Link(listItems[1].QuerySelector("a"), "create or save your own set of schools", Paths.SchoolComparatorsCreate(school.URN).ToAbsolute());
+        DocumentAssert.TextEqual(listItems[1], "create or save your own set of schools to benchmark against", true);
+        DocumentAssert.Link(listItems[1].QuerySelector("a"), "create or save your own set of schools", Paths.SchoolComparatorsCreate(school.URN).ToAbsolute());
 
-            DocumentAssert.TextEqual(listItems[2], "change the data for this school", true);
-            DocumentAssert.Link(listItems[2].QuerySelector("a"), "change the data", Paths.SchoolCustomData(school.URN).ToAbsolute());
-        }
-        else
-        {
-            var paragraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
-            Assert.Equal(3, paragraphs.Length);
-
-            DocumentAssert.TextEqual(paragraphs[0], "We've chosen this set of similar schools to benchmark this school's pupil and workforce data against.", true);
-            DocumentAssert.Link(paragraphs[0].QuerySelector("a"), "We've chosen this set of similar schools", Paths.SchoolComparatorsWorkforce(school.URN).ToAbsolute());
-
-            DocumentAssert.TextEqual(paragraphs[1], "Create or save your own set of schools to benchmark against");
-            DocumentAssert.Link(paragraphs[1].QuerySelector("a"), "Create or save your own set of schools to benchmark against", Paths.SchoolComparatorsCreate(school.URN).ToAbsolute());
-
-            DocumentAssert.TextEqual(paragraphs[2], "Change the data for this school");
-            DocumentAssert.Link(paragraphs[2].QuerySelector("a"), "Change the data for this school", Paths.SchoolCustomData(school.URN).ToAbsolute());
-        }
+        DocumentAssert.TextEqual(listItems[2], "change the data for this school", true);
+        DocumentAssert.Link(listItems[2].QuerySelector("a"), "change the data", Paths.SchoolCustomData(school.URN).ToAbsolute());
     }
 
-    private static void AssertMissingComparatorSetCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled)
+    private static void AssertMissingComparatorSetCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school)
     {
-        if (ks4ProgressBandingEnabled)
-        {
-            var introParagraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
-            Assert.Equal(2, introParagraphs.Length);
-            DocumentAssert.TextEqual(introParagraphs[0], "There is not enough information available to create a set of similar schools.", true);
-            DocumentAssert.TextEqual(introParagraphs[1], "You can:");
+        var introParagraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
+        Assert.Equal(2, introParagraphs.Length);
+        DocumentAssert.TextEqual(introParagraphs[0], "There is not enough information available to create a set of similar schools.", true);
+        DocumentAssert.TextEqual(introParagraphs[1], "You can:");
 
-            var listItems = comparatorSetDetailsElement.QuerySelectorAll("ul[data-testid='actions-list'] li");
-            Assert.Equal(2, listItems.Length);
+        var listItems = comparatorSetDetailsElement.QuerySelectorAll("ul[data-testid='actions-list'] li");
+        Assert.Equal(2, listItems.Length);
 
-            DocumentAssert.TextEqual(listItems[0], "create or save your own set of schools to benchmark against", true);
-            DocumentAssert.Link(listItems[0].QuerySelector("a"), "create or save your own set of schools", Paths.SchoolComparatorsCreate(school.URN).ToAbsolute());
+        DocumentAssert.TextEqual(listItems[0], "create or save your own set of schools to benchmark against", true);
+        DocumentAssert.Link(listItems[0].QuerySelector("a"), "create or save your own set of schools", Paths.SchoolComparatorsCreate(school.URN).ToAbsolute());
 
-            DocumentAssert.TextEqual(listItems[1], "change the data for this school", true);
-            DocumentAssert.Link(listItems[1].QuerySelector("a"), "change the data", Paths.SchoolCustomData(school.URN).ToAbsolute());
-        }
-        else
-        {
-            var warning = comparatorSetDetailsElement.QuerySelector("div.govuk-warning-text strong.govuk-warning-text__text");
-            Assert.NotNull(warning);
-            DocumentAssert.TextEqual(warning, "Warning There isn't enough information available to create a set of similar schools.", true);
-
-            var paragraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
-            Assert.NotNull(paragraphs);
-            Assert.Equal(2, paragraphs.Length);
-
-            DocumentAssert.TextEqual(paragraphs[0], "Create or save your own set of schools to benchmark against");
-            DocumentAssert.Link(paragraphs[0].QuerySelector("a"), "Create or save your own set of schools to benchmark against", Paths.SchoolComparatorsCreate(school.URN).ToAbsolute());
-
-            DocumentAssert.TextEqual(paragraphs[1], "Change the data for this school");
-            DocumentAssert.Link(paragraphs[1].QuerySelector("a"), "Change the data for this school", Paths.SchoolCustomData(school.URN).ToAbsolute());
-        }
+        DocumentAssert.TextEqual(listItems[1], "change the data for this school", true);
+        DocumentAssert.Link(listItems[1].QuerySelector("a"), "change the data", Paths.SchoolCustomData(school.URN).ToAbsolute());
     }
 
-    private static void AssertUserDefinedSetCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled)
+    private static void AssertUserDefinedSetCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school)
     {
-        if (ks4ProgressBandingEnabled)
-        {
-            var paragraphs = comparatorSetDetailsElement.QuerySelectorAll(":scope > p.govuk-body");
-            Assert.NotNull(paragraphs);
-            Assert.Equal(2, paragraphs.Length);
+        var paragraphs = comparatorSetDetailsElement.QuerySelectorAll(":scope > p.govuk-body");
+        Assert.NotNull(paragraphs);
+        Assert.Equal(2, paragraphs.Length);
 
-            DocumentAssert.TextEqual(paragraphs[0], "You are now comparing with your chosen schools.");
-            DocumentAssert.TextEqual(paragraphs[1], "Change your similar schools.");
-            DocumentAssert.Link(paragraphs[1].QuerySelector("a"), "Change your similar schools.", Paths.SchoolComparatorsUserDefined(school.URN).ToAbsolute());
-        }
-        else
-        {
-            var paragraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
-            Assert.NotNull(paragraphs);
-            Assert.Equal(2, paragraphs.Length);
-
-            DocumentAssert.TextEqual(paragraphs[0], "You are now comparing with your chosen schools.");
-            DocumentAssert.TextEqual(paragraphs[1], "Change your similar schools");
-            DocumentAssert.Link(paragraphs[1].QuerySelector("a"), "Change your similar schools", Paths.SchoolComparatorsUserDefined(school.URN).ToAbsolute());
-        }
+        DocumentAssert.TextEqual(paragraphs[0], "You are now comparing with your chosen schools.");
+        DocumentAssert.TextEqual(paragraphs[1], "Change your similar schools.");
+        DocumentAssert.Link(paragraphs[1].QuerySelector("a"), "Change your similar schools.", Paths.SchoolComparatorsUserDefined(school.URN).ToAbsolute());
     }
 
-    private static void AssertCustomDataCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled)
+    private static void AssertCustomDataCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school)
     {
-        if (ks4ProgressBandingEnabled)
-        {
-            var paragraphs = comparatorSetDetailsElement.QuerySelectorAll(":scope > p.govuk-body");
-            Assert.NotNull(paragraphs);
-            Assert.Equal(2, paragraphs.Length);
+        var paragraphs = comparatorSetDetailsElement.QuerySelectorAll(":scope > p.govuk-body");
+        Assert.NotNull(paragraphs);
+        Assert.Equal(2, paragraphs.Length);
 
-            DocumentAssert.TextEqual(paragraphs[0], "The information displayed is the originally reported data, not the customised data that was provided.");
-            DocumentAssert.TextEqual(paragraphs[1], "You can:");
+        DocumentAssert.TextEqual(paragraphs[0], "The information displayed is the originally reported data, not the customised data that was provided.");
+        DocumentAssert.TextEqual(paragraphs[1], "You can:");
 
-            var listItems = comparatorSetDetailsElement.QuerySelectorAll("ul[data-testid='actions-list'] li");
-            Assert.Equal(2, listItems.Length);
+        var listItems = comparatorSetDetailsElement.QuerySelectorAll("ul[data-testid='actions-list'] li");
+        Assert.Equal(2, listItems.Length);
 
-            DocumentAssert.TextEqual(listItems[0], "view the set of similar schools we've chosen to benchmark this school's pupil and workforce data against", true);
-            DocumentAssert.Link(listItems[0].QuerySelector("a"), "view the set of similar schools we've chosen", Paths.SchoolComparatorsWorkforce(school.URN).ToAbsolute());
+        DocumentAssert.TextEqual(listItems[0], "view the set of similar schools we've chosen to benchmark this school's pupil and workforce data against", true);
+        DocumentAssert.Link(listItems[0].QuerySelector("a"), "view the set of similar schools we've chosen", Paths.SchoolComparatorsWorkforce(school.URN).ToAbsolute());
 
-            DocumentAssert.TextEqual(listItems[1], "view custom data set");
-            DocumentAssert.Link(listItems[1].QuerySelector("a"), "view custom data set", Paths.SchoolCustomisedData(school.URN).ToAbsolute());
-        }
-        else
-        {
-            var paragraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
-            Assert.NotNull(paragraphs);
-            Assert.Equal(3, paragraphs.Length);
-
-            DocumentAssert.TextEqual(paragraphs[0], "We've chosen this set of similar schools to benchmark this school's pupil and workforce data against.", true);
-            DocumentAssert.Link(paragraphs[0].QuerySelector("a"), "We've chosen this set of similar schools", Paths.SchoolComparatorsWorkforce(school.URN).ToAbsolute());
-
-            DocumentAssert.TextEqual(paragraphs[1], "The information displayed is the originally reported data, not the customised data that was provided.");
-
-            DocumentAssert.TextEqual(paragraphs[2], "View custom data set");
-            DocumentAssert.Link(paragraphs[2].QuerySelector("a"), "View custom data set", Paths.SchoolCustomisedData(school.URN).ToAbsolute());
-
-        }
+        DocumentAssert.TextEqual(listItems[1], "view custom data set");
+        DocumentAssert.Link(listItems[1].QuerySelector("a"), "view custom data set", Paths.SchoolCustomisedData(school.URN).ToAbsolute());
     }
 
     private static IHtmlCollection<IElement> GetInsetText(IElement element)
@@ -437,13 +370,6 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
         var inset = element.QuerySelector(".govuk-inset-text");
         Assert.NotNull(inset);
         var text = inset.QuerySelectorAll("p");
-        Assert.NotNull(text);
-        return text;
-    }
-
-    private static IHtmlCollection<IElement> GetPlainText(IElement element)
-    {
-        var text = element.QuerySelectorAll("p");
         Assert.NotNull(text);
         return text;
     }
@@ -462,13 +388,5 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
     {
         Assert.Equal(1, text.Length);
         DocumentAssert.TextEqual(text[0], "Workforce data is taken from the workforce census. Pupil data is taken from the school census data set in January.");
-    }
-
-    private static void AssertNoBanding(IHtmlCollection<IElement> text)
-    {
-        Assert.Equal(3, text.Length);
-        DocumentAssert.TextEqual(text[0], "Benchmark your pupil and workforce data against similar schools.");
-        DocumentAssert.TextEqual(text[1], "Workforce data is taken from the workforce census.");
-        DocumentAssert.TextEqual(text[2], "Pupil data is taken from the school census data set in January.");
     }
 }
