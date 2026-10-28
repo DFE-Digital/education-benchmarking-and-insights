@@ -25,7 +25,4 @@ _ks4_column_mappings_base = {
     "P8_BANDING": "Progress8Banding",
 }
 
-ks4_column_mappings = {
-    "default": _ks4_column_mappings_base,
-    2026: _ks4_column_mappings_base,
-}
+ks4_column_mappings = {"default": _ks4_column_mappings_base}

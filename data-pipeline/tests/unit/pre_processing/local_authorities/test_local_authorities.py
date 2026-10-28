@@ -72,7 +72,7 @@ def test_local_authorities_with_ks4_data_populates_attainment8(
         la_dsg_preprocessed,
         la_all_schools,
         year,
-        ks4=(la_attainment, national_attainment),
+        ks4_la=(la_attainment, national_attainment),
     )
 
     assert result["LocalAuthorityAvgAttainment8"].iloc[0] == pytest.approx(

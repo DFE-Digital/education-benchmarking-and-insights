@@ -26,7 +26,7 @@ def build_local_authorities(
     dsg: pd.DataFrame,
     all_schools: pd.DataFrame,
     year: int,
-    ks4: tuple[pd.DataFrame, float] | None = None,
+    ks4_la: tuple[pd.DataFrame, float] | None = None,
 ):
     """
     Build Local Authority data from various sources.
@@ -89,8 +89,8 @@ def build_local_authorities(
         year,
     )
 
-    if ks4 is not None:
-        la_avg_attainment, national_avg_attainment = ks4
+    if ks4_la is not None:
+        la_avg_attainment, national_avg_attainment = ks4_la
         local_authority_data_with_dsg_recoupments = (
             local_authority_data_with_dsg_recoupments.merge(
                 la_avg_attainment,
