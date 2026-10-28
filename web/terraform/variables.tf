@@ -28,7 +28,7 @@ variable "configuration" {
       SeniorLeadership                  = optional(bool, true)
       HighNeedsBenchmarking             = optional(bool, true)
       SchoolComparisonFilter            = optional(bool, true)
-      LocalAuthorityRiskIndicators      = optional(bool, false)
+      LocalAuthorityRiskIndicators      = optional(bool, true)
       Attainment8                       = optional(bool, false)
     })
     CacheOptions = object({
@@ -60,7 +60,6 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                         = true,
-        LocalAuthorityRiskIndicators = true,
         KS4ProgressBanding           = false,
         KS4ProgressBandingSchoolHome = false,
         Attainment8                  = true
@@ -93,7 +92,6 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                         = true,
-        LocalAuthorityRiskIndicators = true,
         KS4ProgressBanding           = false,
         KS4ProgressBandingSchoolHome = false,
         Attainment8                  = true
@@ -123,7 +121,6 @@ variable "configuration" {
       waf_mode                       = "Prevention"
       features = {
         News                         = true,
-        LocalAuthorityRiskIndicators = true,
         KS4ProgressBanding           = false,
         KS4ProgressBandingSchoolHome = false,
         Attainment8                  = true
@@ -156,7 +153,6 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                         = true,
-        LocalAuthorityRiskIndicators = true,
         KS4ProgressBanding           = false,
         KS4ProgressBandingSchoolHome = false,
         Attainment8                  = true
