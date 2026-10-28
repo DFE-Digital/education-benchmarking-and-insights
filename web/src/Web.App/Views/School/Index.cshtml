@@ -1,33 +1,7 @@
 @using Web.App.ViewModels
-@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
-@inject Microsoft.FeatureManagement.IFeatureManager FeatureManager
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
-    var additionText = string.IsNullOrEmpty(Model.UserDefinedSetId)
-        ? null
-        : new[]
-        {
-            "You are now comparing with your chosen schools."
-        };
-
-    var showKs4Progress = await FeatureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
-                          && await FeatureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBandingSchoolHome);
-    var showAttainment8 = await FeatureManager.IsEnabledAsync(FeatureFlags.Attainment8);
-
-    var resourceList = new List<Resources>
-    {
-        Resources.SchoolResources,
-        Resources.SchoolHistoricData,
-        Resources.SchoolDetails,
-        Resources.DataSource,
-        Resources.FinancialBenchmarkingInsightsSummary
-    };
-
-    if (showKs4Progress || showAttainment8)
-    {
-        resourceList.Add(Resources.SchoolPerformance);
-    }
 }
 
 @if (Model is { PeriodCoveredByReturn: < 12 })
@@ -63,17 +37,17 @@
     @await Html.PartialAsync("_FederationSchools", Model)
 }
 
-@if (showKs4Progress || showAttainment8)
+@if (Model.ShowKs4Progress || Model.ShowAttainment8)
 {
     @await Component.InvokeAsync("DataSourceInset", new
     {
         organisationType = OrganisationTypes.School,
         sourceType = DataSourceTypes.Spending,
         isPartOfTrust = Model.IsPartOfTrust,
-        showKs4Progress = showKs4Progress && Model.HasProgressIndicator,
-        showAttainment8 = showAttainment8 && Model.HasAttainment8,
+        showKs4Progress = Model is { ShowKs4Progress: true, HasProgressIndicator: true },
+        showAttainment8 = Model is { ShowAttainment8: true, HasAttainment8: true },
         urn = Model.Urn,
-        additionText
+        additionText = Model.AdditionText
     })
 }
 else
@@ -83,7 +57,7 @@ else
         organisationType = OrganisationTypes.School,
         sourceType = DataSourceTypes.Spending,
         isPartOfTrust = Model.IsPartOfTrust,
-        additionText
+        additionText = Model.AdditionText
     })
 }
 
@@ -91,11 +65,11 @@ else
 
 @await Html.PartialAsync("_SpendingPriorities", Model)
 
-@if (showKs4Progress)
+@if (Model.ShowKs4Progress)
 {
     @await Html.PartialAsync("_Ks4ProgressPerformance", Model)
 }
-@if (showAttainment8)
+@if (Model.ShowAttainment8)
 {
     @await Html.PartialAsync("_Attainment8Performance", Model)
 }
@@ -109,7 +83,7 @@ else
 @await Component.InvokeAsync("Resources", new
 {
     identifier = Model.Urn,
-    resources = resourceList.ToArray()
+    resources = Model.Resources
 })
 
 @* TODO: review for public beta

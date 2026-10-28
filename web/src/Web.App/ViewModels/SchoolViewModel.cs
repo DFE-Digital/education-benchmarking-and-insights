@@ -18,7 +18,9 @@ public class SchoolViewModel : ISchoolKeyInformationViewModel
         bool? comparatorReverted = false,
         string? userDefinedSetId = null,
         string? customDataId = null,
-        string? compareSchoolPerformanceUrl = null)
+        string? compareSchoolPerformanceUrl = null,
+        bool showKs4Progress = false,
+        bool showAttainment8 = false)
     {
         _school = school;
         UserDefinedSetId = userDefinedSetId;
@@ -31,11 +33,14 @@ public class SchoolViewModel : ISchoolKeyInformationViewModel
         KS4Progress = characteristic?.KS4Progress;
         KS4ProgressBanding = characteristic?.KS4ProgressBanding.ToBanding();
         Ks4ProgressYear = years.Ks4Progress;
+        ShowKs4Progress = showKs4Progress;
         Attainment8Year = years.Attainment8;
         Attainment8 = characteristic?.Attainment8;
         LocalAuthorityAvgAttainment8 = characteristic?.LocalAuthorityAvgAttainment8;
         NationalAvgAttainment8 = characteristic?.NationalAvgAttainment8;
+        ShowAttainment8 = showAttainment8;
         CompareSchoolPerformanceUrl = compareSchoolPerformanceUrl;
+
 
         var ratingsArray = ratings.ToArray();
 
@@ -46,6 +51,22 @@ public class SchoolViewModel : ISchoolKeyInformationViewModel
             .ThenByDescending(x => x.Decile)
             .ThenByDescending(x => x.Value)
             .Take(3);
+
+        var resourcesList = new List<Components.Resources>
+        {
+            Components.Resources.SchoolResources,
+            Components.Resources.SchoolHistoricData,
+            Components.Resources.SchoolDetails,
+            Components.Resources.DataSource,
+            Components.Resources.FinancialBenchmarkingInsightsSummary
+        };
+
+        if (ShowKs4Progress || ShowAttainment8)
+        {
+            resourcesList.Add(Components.Resources.SchoolPerformance);
+        }
+
+        Resources = resourcesList.ToArray();
     }
 
     public string? Name => _school.SchoolName;
@@ -82,16 +103,24 @@ public class SchoolViewModel : ISchoolKeyInformationViewModel
     public KS4ProgressBandings.Banding? KS4ProgressBanding { get; }
     public bool HasProgressIndicator => KS4Progress.HasValue && KS4ProgressBanding.HasValue;
     public int? Ks4ProgressYear { get; }
+    public bool ShowKs4Progress { get; }
 
     public decimal? Attainment8 { get; }
     public decimal? LocalAuthorityAvgAttainment8 { get; }
     public decimal? NationalAvgAttainment8 { get; }
     public bool HasAttainment8 => Attainment8.HasValue;
     public int Attainment8Year { get; }
+    public bool ShowAttainment8 { get; }
 
     public string? CompareSchoolPerformanceUrl { get; }
 
     public string? OverallPhase => _school.OverallPhase;
     public decimal? InYearBalance { get; }
     public decimal? RevenueReserve { get; }
+
+    public Components.Resources[] Resources { get; }
+
+    public string[]? AdditionText => !string.IsNullOrEmpty(UserDefinedSetId)
+        ? ["You are now comparing with your chosen schools."]
+        : null;
 }

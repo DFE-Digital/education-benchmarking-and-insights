@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Builders;
@@ -27,7 +28,8 @@ public class SchoolController(
     ICensusApi censusApi,
     ICommercialResourcesService commercialResourcesService,
     ISchoolInsightApi schoolInsightApi,
-    IUriBuilder uriBuilder)
+    IUriBuilder uriBuilder,
+    IFeatureManager featureManager)
     : Controller
 {
     [HttpGet]
@@ -67,6 +69,9 @@ public class SchoolController(
                     var compareSchoolPerformanceUrl = uriBuilder.CompareSchoolPerformanceUrl(urn);
                     var years = await financeService.GetYears();
 
+                    var showKs4Progress = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding) && await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBandingSchoolHome);
+                    var showAttainment8 = await featureManager.IsEnabledAsync(FeatureFlags.Attainment8);
+
                     var viewModel = new SchoolViewModel(
                         school,
                         balance,
@@ -77,7 +82,9 @@ public class SchoolController(
                         comparatorReverted,
                         comparatorSet,
                         customData,
-                        compareSchoolPerformanceUrl);
+                        compareSchoolPerformanceUrl,
+                        showKs4Progress,
+                        showAttainment8);
                     return View(viewModel);
                 }
             }
