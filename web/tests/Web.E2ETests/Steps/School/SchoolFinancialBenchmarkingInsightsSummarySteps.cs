@@ -139,7 +139,7 @@ public class SchoolFinancialBenchmarkingInsightsSummarySteps(PageDriver driver)
     public async Task ThenIAmDirectedToSchoolHomePageForTheSchoolWithUrn(string urn)
     {
         Assert.NotNull(_homePage);
-        await _homePage.IsDisplayed();
+        await _homePage.IsDisplayed(hasPerformanceIndicators: true);
     }
 
     [When("I click on the financial benchmarking and insight tool link under key information")]

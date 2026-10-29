@@ -259,7 +259,7 @@ public class BenchmarkCensusSteps(PageDriver driver)
     public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
     {
         Assert.NotNull(_schoolHomePage);
-        await _schoolHomePage.IsDisplayed(hasPerformanceIndicators: true);
+        await _schoolHomePage.IsDisplayed();
     }
 
     [Then("the following is shown for '(.*)'")]
