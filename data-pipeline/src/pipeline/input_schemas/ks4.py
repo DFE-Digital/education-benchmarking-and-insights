@@ -7,17 +7,12 @@ _ks4_base = {
     "ATT8SCR": "float",
     "P8MEA": "float",
     "P8_BANDING": "string",
+    "RECTYPE": "Int64",
+    "LEA": "Int64"
 }
 
-_ks4_schema_2025 = evolve_schema(
-    _ks4_base,
-    additions={"RECTYPE": "Int64", "LEA": "Int64"},
-)
 
-ks4 = {
-    "default": _ks4_base,
-    2025: _ks4_schema_2025,
-}
+ks4 = {"default": _ks4_base}
 
 _ks4_column_mappings_base = {
     "ATT8SCR": "AverageAttainment",
