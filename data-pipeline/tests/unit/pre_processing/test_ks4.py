@@ -83,7 +83,7 @@ def test_prepare_la_ks4_data_extracts_la_average_attainment():
         ]
     )
 
-    la_df, _ = prepare_la_ks4_data(ks4_excel, year=2026)
+    la_df, _ = prepare_la_ks4_data(ks4_excel, year=2025)
 
     assert la_df.loc[201, "LocalAuthorityAvgAttainment8"] == pytest.approx(46.2)
     assert la_df.loc[202, "LocalAuthorityAvgAttainment8"] == pytest.approx(44.8)
@@ -97,7 +97,7 @@ def test_prepare_la_ks4_data_replaces_suppressed_la_attainment_with_zero(
         [{"RECTYPE": 4, "LEA": 201, "ATT8SCR": suppressed_value}]
     )
 
-    la_df, _ = prepare_la_ks4_data(ks4_excel, year=2026)
+    la_df, _ = prepare_la_ks4_data(ks4_excel, year=2025)
 
     assert la_df.loc[201, "LocalAuthorityAvgAttainment8"] == 0.0
 
@@ -110,7 +110,7 @@ def test_prepare_la_ks4_data_extracts_national_average_attainment():
         ]
     )
 
-    _, national_avg = prepare_la_ks4_data(ks4_excel, year=2026)
+    _, national_avg = prepare_la_ks4_data(ks4_excel, year=2025)
 
     assert national_avg == pytest.approx(45.9)
 
@@ -118,13 +118,13 @@ def test_prepare_la_ks4_data_extracts_national_average_attainment():
 def test_prepare_la_ks4_data_without_national_row_returns_nan():
     ks4_excel = _make_ks4_excel([{"RECTYPE": 4, "LEA": 201, "ATT8SCR": "46.2"}])
 
-    _, national_avg = prepare_la_ks4_data(ks4_excel, year=2026)
+    _, national_avg = prepare_la_ks4_data(ks4_excel, year=2025)
 
     assert np.isnan(national_avg)
 
 
 def test_prepare_la_ks4_data_with_none_path_returns_empty_dataframe_and_nan():
-    la_df, national_avg = prepare_la_ks4_data(None, year=2026)
+    la_df, national_avg = prepare_la_ks4_data(None, year=2025)
 
     assert la_df.empty
     assert np.isnan(national_avg)
