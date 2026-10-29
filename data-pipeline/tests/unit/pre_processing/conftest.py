@@ -140,6 +140,8 @@ def ks4_data() -> pd.DataFrame:
             "ATT8SCR": ["0.1", "SUPP", "NE"],
             "P8MEA": ["0.1", "SUPP", "NE"],
             "P8_BANDING": ["Average", "Average", "Average"],
+            "LEA": [1, 2, 3],
+            "RECTYPE": [3, 4, 5]
         }
     )
 
