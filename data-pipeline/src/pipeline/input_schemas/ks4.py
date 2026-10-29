@@ -9,14 +9,14 @@ _ks4_base = {
     "P8_BANDING": "string",
 }
 
-_ks4_schema_2026 = evolve_schema(
+_ks4_schema_2025 = evolve_schema(
     _ks4_base,
     additions={"RECTYPE": "Int64", "LEA": "Int64"},
 )
 
 ks4 = {
     "default": _ks4_base,
-    2026: _ks4_schema_2026,
+    2025: _ks4_schema_2025,
 }
 
 _ks4_column_mappings_base = {
