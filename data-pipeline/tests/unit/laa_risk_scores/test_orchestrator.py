@@ -1,183 +1,178 @@
+from io import BytesIO, StringIO
 from unittest.mock import patch
 
+import numpy as np
 import pandas as pd
 import pytest
+from azure.core.exceptions import ResourceNotFoundError
 
-from pipeline.utils.database import insert_laa_risk_scores
+from pipeline.laa_risk_scores.orchestrator import (
+    create_laa_risk_scores_download_file,
+    run_laa_risk_scores_pipeline,
+)
 
 
-def test_insert_laa_risk_scores_mapping():
-    indicators_df = pd.DataFrame(
+def _build_cfr_parquet_bytes(urn: int, reserve: float, income: float) -> BytesIO:
+    df = pd.DataFrame(
         {
-            "URN": [1001],
-            "RunId": ["2026"],
-            "RiskGroup": ["Financial"],
-            "RiskIndicator": ["MetricA"],
-            "RiskIndicatorValue": ["10.5"],
-            "RiskIndicatorValueFormatting": ["Percentage"],
-            "RiskIndicatorFlag": ["Minor"],
-            "RiskIndicatorContribution": [2.0],
-            "RiskIndicatorContributionMax": [5.0],
-        }
+            "Lead school in federation": ["0"],
+            "TypeOfEstablishment (code)": [1],
+            "Overall Phase": ["Primary"],
+            "Revenue reserve": [reserve],
+            "Total Income": [income],
+            "Total Expenditure": [950_000.0],
+            "Number of pupils": [200.0],
+            "Other costs_Interest charges for loan and bank": [0.0],
+            "TotalPupilsSixthForm": [0.0],
+            "Ks2Progress": [1.5],
+            "Progress8Measure": [np.nan],
+            "PTRWM_EXP": [0.75],
+            "AverageAttainment": [np.nan],
+            "Teaching and Teaching support staff_Teaching staff": [500_000.0],
+            "Teaching and Teaching support staff_Supply teaching staff": [10_000.0],
+            "Teaching and Teaching support staff_Education support staff": [100_000.0],
+            "Non-educational support staff and services_Administrative and clerical staff": [
+                40_000.0
+            ],
+            "Non-educational support staff and services_Other staff": [20_000.0],
+            "Other costs_Indirect employee expenses": [5_000.0],
+            "Other costs_Staff development and training": [5_000.0],
+            "Other costs_Supply teacher insurance": [2_000.0],
+            "Other costs_Staff-related insurance": [2_000.0],
+            "Administrative supplies_Administrative supplies (non educational)": [
+                6_000.0
+            ],
+            "Teaching and Teaching support staff_Agency supply teaching staff": [
+                10_000.0
+            ],
+            "Non-educational support staff and services_Professional services (non-curriculum)": [
+                10_000.0
+            ],
+            "Other costs_PFI charges": [0.0],
+            "Income_Receipts supply teacher insurance": [10_000.0],
+            "Income_Catering services": [30_000.0],
+            "Income_Other Revenue Income": [10_000.0],
+            "Premises staff and services_Premises staff": [20_000.0],
+            "Premises staff and services_Maintenance of premises": [15_000.0],
+            "Other costs_Grounds maintenance": [5_000.0],
+            "Premises staff and services_Cleaning and caretaking": [10_000.0],
+            "Utilities_Water and sewerage": [5_000.0],
+            "Premises staff and services_Other occupation costs": [5_000.0],
+        },
+        index=pd.Index([urn], name="URN"),
     )
-    headers_df = pd.DataFrame(
-        {
-            "URN": [1001],
-            "RunId": ["2026"],
-            "EducationalPerformance": [3.0],
-            "EducationalPerformanceMax": [10.0],
-            "Financial": [2.0],
-            "FinancialMax": [10.0],
-            "SchoolAndPupil": [1.0],
-            "SchoolAndPupilMax": [10.0],
-            "Overall": [6.0],
-            "OverallMax": [30.0],
-            "OverallGrade": ["Green"],
-        }
-    )
-
-    with patch("pipeline.utils.database._write_data") as mock_write_data:
-        insert_laa_risk_scores("2026", indicators_df, headers_df, engine="mock_engine")
-
-        assert mock_write_data.call_count == 2
-
-        # Check first write (indicators)
-        first_call_args = mock_write_data.call_args_list[0][1]
-        assert first_call_args["table"] == "LASchoolRiskIndicators"
-        assert first_call_args["run_id"] == "2026"
-        assert first_call_args["engine"] == "mock_engine"
-        written_indicators_df = first_call_args["df"]
-
-        expected_indicators_cols = [
-            "URN",
-            "RunId",
-            "RiskGroup",
-            "RiskIndicator",
-            "RiskIndicatorValue",
-            "RiskIndicatorValueFormatting",
-            "RiskIndicatorFlag",
-            "RiskIndicatorContribution",
-            "RiskIndicatorContributionMax",
-        ]
-        assert list(written_indicators_df.columns) == expected_indicators_cols
-
-        # Check second write (headers)
-        second_call_args = mock_write_data.call_args_list[1][1]
-        assert second_call_args["table"] == "LASchoolRiskIndicatorsHeaders"
-        assert second_call_args["run_id"] == "2026"
-        assert second_call_args["engine"] == "mock_engine"
-        written_headers_df = second_call_args["df"]
-
-        expected_headers_cols = [
-            "URN",
-            "RunId",
-            "EducationalPerformance",
-            "EducationalPerformanceMax",
-            "Financial",
-            "FinancialMax",
-            "SchoolAndPupil",
-            "SchoolAndPupilMax",
-            "Overall",
-            "OverallMax",
-            "OverallGrade",
-        ]
-        assert list(written_headers_df.columns) == expected_headers_cols
+    buf = BytesIO()
+    df.to_parquet(buf)
+    buf.seek(0)
+    return buf
 
 
-from pipeline.laa_risk_scores.orchestrator import run_laa_risk_scores_pipeline
+def _fake_get_blob_for_run(container_name: str, blob_name: str) -> BytesIO:
+    if container_name == "pre-processed" and blob_name.endswith(
+        "maintained_schools.parquet"
+    ):
+        return _build_cfr_parquet_bytes(urn=1001, reserve=80_000.0, income=1_000_000.0)
+
+    if blob_name in (
+        "default/2026/1a_Absence_3term_school.csv",
+        "default/2025/1a_Absence_3term_school.csv",
+    ):
+        return BytesIO(
+            b"time_period,school_urn,sess_overall_percent\n202425,1001,4.0\n"
+        )
+    if blob_name in (
+        "default/2026/capacity_school_200910-202425.csv",
+        "default/2025/capacity_school_200910-202425.csv",
+    ):
+        return BytesIO(b"time_period,school_urn,school_places\n202425,1001,200.0\n")
+    if blob_name in (
+        "default/2026/specialist-provision_school_202223-202425.csv",
+        "default/2025/specialist-provision_school_202223-202425.csv",
+    ):
+        return BytesIO(b"time_period,school_urn,school_places\n202425,1001,20.0\n")
+    if blob_name in (
+        "default/2026/AppsandOffers_2026_SchoolLevel29062026.csv",
+        "default/2025/AppsandOffers_2025_SchoolLevel07102025.csv",
+    ):
+        return BytesIO(
+            b"time_period,school_urn,times_put_as_1st_preference,total_number_places_offered\n"
+            b"202425,1001,110.0,100.0\n"
+            b"202526,1001,110.0,100.0\n"
+        )
+
+    raise AssertionError(f"Unexpected blob requested: {container_name}/{blob_name}")
 
 
-@patch("pipeline.laa_risk_scores.orchestrator.load_laa_risk_score_data")
-@patch("pipeline.laa_risk_scores.orchestrator.load_laa_extra_ancillary_data")
-@patch("pipeline.laa_risk_scores.orchestrator.preprocess_laa_extra_ancillary_data")
-@patch("pipeline.laa_risk_scores.orchestrator.preprocess_laa_data")
-@patch("pipeline.laa_risk_scores.orchestrator.derive_laa_risk_scores")
-@patch("pipeline.laa_risk_scores.orchestrator.insert_laa_risk_scores")
-@patch("pipeline.laa_risk_scores.orchestrator.create_laa_risk_scores_download_file")
-def test_run_laa_risk_scores_pipeline_coordination(
-    mock_create_download,
-    mock_insert_db,
-    mock_derive,
-    mock_preprocess_laa_data,
-    mock_preprocess_ancillary,
-    mock_load_ancillary,
-    mock_load_data,
+@pytest.mark.parametrize("cfr_year,academic_year", [(2025, 202425), (2026, 202526)])
+@patch("pipeline.laa_risk_scores.loader.get_blob")
+@patch("pipeline.laa_risk_scores.orchestrator.write_blob")
+@patch("pipeline.utils.database._write_data")
+def test_run_laa_risk_scores_pipeline_executes_end_to_end_with_isolated_io(
+    mock_db_write_data,
+    mock_write_blob,
+    mock_get_blob,
+    cfr_year: int,
+    academic_year: int,
 ):
-    mock_load_ancillary.return_value = {
-        "absences_raw": pd.DataFrame({"URN": [1]}),
-        "capacity_raw": pd.DataFrame({"URN": [2]}),
-        "capacity_special_raw": pd.DataFrame({"URN": [3]}),
-        "parental_preference_raw": pd.DataFrame({"URN": [4]}),
-    }
-    mock_preprocess_ancillary.return_value = (
-        pd.DataFrame({"abs": [1]}),
-        pd.DataFrame({"cap": [2]}),
-        pd.DataFrame({"pref": [3]}),
-    )
-    mock_load_data.return_value = (
-        pd.DataFrame({"c1": [1]}),
-        pd.DataFrame({"c2": [2]}),
-        pd.DataFrame({"c3": [3]}),
-        pd.DataFrame({"c4": [4]}),
-        pd.DataFrame({"c5": [5]}),
-    )
-    mock_preprocess_laa_data.return_value = pd.DataFrame({"preprocessed": [1]})
-    mock_derive.return_value = (
-        pd.DataFrame({"raw_with_metrics": [0]}),
-        pd.DataFrame({"indicators": [1]}),
-        pd.DataFrame({"headers": [2]}),
-    )
+    mock_get_blob.side_effect = _fake_get_blob_for_run
+    run_id = str(cfr_year)
 
-    run_laa_risk_scores_pipeline(2025, "2026")
+    result = run_laa_risk_scores_pipeline(cfr_year=cfr_year, run_id=run_id)
 
-    mock_load_ancillary.assert_called_once_with(2025)
-    mock_preprocess_ancillary.assert_called_once_with(
-        absences_raw=mock_load_ancillary.return_value["absences_raw"],
-        capacity_raw=mock_load_ancillary.return_value["capacity_raw"],
-        capacity_special_raw=mock_load_ancillary.return_value["capacity_special_raw"],
-        parental_preference_raw=mock_load_ancillary.return_value[
-            "parental_preference_raw"
-        ],
-        cfr_year=2025,
-    )
-    mock_load_data.assert_called_once_with(2025)
-    mock_preprocess_laa_data.assert_called_once_with(
-        cfr_data_this_year=mock_load_data.return_value[0],
-        cfr_data_year_minus_one=mock_load_data.return_value[1],
-        cfr_data_year_minus_two=mock_load_data.return_value[2],
-        cfr_data_year_minus_three=mock_load_data.return_value[3],
-        cfr_data_year_minus_four=mock_load_data.return_value[4],
-        absences=mock_preprocess_ancillary.return_value[0],
-        capacity=mock_preprocess_ancillary.return_value[1],
-        parental_preference=mock_preprocess_ancillary.return_value[2],
-        cfr_year=2025,
-    )
-    mock_derive.assert_called_once_with(
-        mock_preprocess_laa_data.return_value, cfr_year=2025, run_id="2026"
-    )
-    mock_insert_db.assert_called_once()
-    insert_kwargs = mock_insert_db.call_args.kwargs
-    pd.testing.assert_frame_equal(
-        insert_kwargs["indicators_df"], mock_derive.return_value[1]
-    )
-    pd.testing.assert_frame_equal(
-        insert_kwargs["headers_df"], mock_derive.return_value[2]
-    )
-    assert insert_kwargs["run_id"] == 2026
+    assert len(result) == 1
+    assert result.loc[result["URN"] == 1001, "school_places"].iloc[0] == 220.0
+    assert result.loc[result["URN"] == 1001, "PTRWM_EXP"].iloc[0] == 75.0
 
-    mock_create_download.assert_called_once()
-    download_args, _ = mock_create_download.call_args
-    pd.testing.assert_frame_equal(download_args[0], mock_derive.return_value[0])
-    assert download_args[1] == 2025
-    assert download_args[2] == 2026
+    assert mock_db_write_data.call_count == 2
+    indicators_call = mock_db_write_data.call_args_list[0].kwargs
+    headers_call = mock_db_write_data.call_args_list[1].kwargs
+
+    assert indicators_call["table"] == "LASchoolRiskIndicators"
+    assert indicators_call["run_id"] == run_id
+    written_indicators = indicators_call["df"]
+    assert set(written_indicators["URN"]) == {1001}
+    assert (written_indicators["RiskIndicatorContribution"] == 0.0).all()
+
+    assert headers_call["table"] == "LASchoolRiskIndicatorsHeaders"
+    assert headers_call["run_id"] == run_id
+    written_headers = headers_call["df"]
+    assert written_headers.loc[0, "URN"] == 1001
+    assert written_headers.loc[0, "Overall"] == 0.0
+    assert written_headers.loc[0, "OverallGrade"] == "A*"
+
+    mock_write_blob.assert_called_once()
+    container, blob_path, csv_payload = mock_write_blob.call_args.args
+    assert container == "artifacts"
+    assert blob_path == f"default/{run_id}/laa_risk_scores_download.csv"
+    exported_df = pd.read_csv(StringIO(csv_payload))
+    assert exported_df.loc[0, "URN"] == 1001
+    assert exported_df.loc[
+        0, f"Current revenue reserve as % income ({academic_year})"
+    ] == pytest.approx(0.08)
 
 
-from pipeline.laa_risk_scores.orchestrator import create_laa_risk_scores_download_file
+@patch("pipeline.laa_risk_scores.loader.get_blob")
+def test_run_laa_risk_scores_pipeline_raises_value_error_when_historic_cfr_parquet_missing(
+    mock_get_blob,
+):
+    def _fail_on_missing_historical_parquet(container_name: str, blob_name: str):
+        if blob_name == "default/2022/maintained_schools.parquet":
+            raise ResourceNotFoundError("Blob not found")
+        return _fake_get_blob_for_run(container_name, blob_name)
+
+    mock_get_blob.side_effect = _fail_on_missing_historical_parquet
+
+    with pytest.raises(
+        ValueError,
+        match="Cannot compute historical financial risk metrics without historic CFR data going back 4 years",
+    ):
+        run_laa_risk_scores_pipeline(cfr_year=2026, run_id="2026")
 
 
 @patch("pipeline.laa_risk_scores.orchestrator.write_blob")
-def test_create_laa_risk_scores_download_file(mock_write_blob):
-    # Setup some mock data including school metadata, raw columns, metric outputs, and overall risk indicators
+def test_create_laa_risk_scores_download_file_exports_only_schema_columns_to_csv(
+    mock_write_blob,
+):
     df = pd.DataFrame(
         {
             "URN": [10001, 10002],
@@ -189,32 +184,23 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
             "NetExpenditure": [950000.0, 480000.0],
             "Current revenue reserve as % income (202526)": [0.15, -0.024],
             "Current revenue reserve as % income (202526)_Score": [0.0, 0.5],
-            "Current revenue reserve as % income (202526)_Risk": ["No Risk", "Minor"],
+            "Current revenue reserve as % income (202526)_Risk": ["No flag", "Minor"],
             "Previous revenue reserve as % income (202425)": [0.10, -0.015],
             "Previous revenue reserve as % income (202425)_Score": [0.0, 0.25],
-            "Previous revenue reserve as % income (202425)_Risk": ["No Risk", "Minor"],
+            "Previous revenue reserve as % income (202425)_Risk": ["No flag", "Minor"],
             "SomeUnrelatedColumn": ["unrelated1", "unrelated2"],
         }
     )
 
     create_laa_risk_scores_download_file(df, 2026, 2026)
 
-    # Verify write_blob coordination
     mock_write_blob.assert_called_once()
-    call_args = mock_write_blob.call_args[0]
+    container, blob_path, csv_str = mock_write_blob.call_args.args
 
-    assert call_args[0] == "artifacts"
-    assert call_args[1] == "default/2026/laa_risk_scores_download.csv"
+    assert container == "artifacts"
+    assert blob_path == "default/2026/laa_risk_scores_download.csv"
 
-    # Let's convert the output string back to a DataFrame to verify columns and rows
-    csv_str = call_args[2]
-    written_df = (
-        pd.read_csv(pd.compat.StringIO(csv_str))
-        if hasattr(pd, "compat") and hasattr(pd.compat, "StringIO")
-        else pd.read_csv(pd.io.common.StringIO(csv_str))
-    )
-
-    # Should contain all the LAA columns that were in original df
+    written_df = pd.read_csv(StringIO(csv_str))
     expected_cols = [
         "URN",
         "TypeOfEstablishment (code)",
