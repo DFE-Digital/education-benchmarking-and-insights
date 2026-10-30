@@ -21,7 +21,7 @@ from .high_needs_places import prepare_high_needs_places_data
 from .hospital_schools import prepare_hospital_schools_data
 from .ilr import build_ilr_data
 from .ks2 import prepare_ks2_data
-from .ks4 import prepare_ks4_data
+from .ks4 import prepare_ks4_data, prepare_la_ks4_data
 from .la_statistical_neighbours import prepare_la_statistical_neighbours
 from .lookup_la import prepare_lookup_la_data
 from .ons_population_estimates import prepare_ons_population_estimates
@@ -114,6 +114,18 @@ def pre_process_ks4(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     write_blob("pre-processed", f"{run_type}/{run_id}/ks4.parquet", ks4.to_parquet())
 
     return ks4
+
+
+def pre_process_la_ks4(s251_year: int) -> tuple[pd.DataFrame, float] | None:
+    logger.info(f"Processing LA KS4 Data: default/{s251_year}/ks4.xlsx")
+
+    if ks4_data := try_get_blob(raw_container, f"default/{s251_year}/ks4.xlsx"):
+        la_ks4 = prepare_la_ks4_data(ks4_data, year=s251_year)
+        logger.info(f"Preprocessed LA KS4 data for {s251_year}")
+        return la_ks4
+
+    logger.info(f"LA KS4 data for {s251_year} not found")
+    return None
 
 
 def pre_process_academy_ar(

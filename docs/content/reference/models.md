@@ -266,6 +266,16 @@ _Mappings_ and _Derivations_ will be listed.
 | ATT8SCR     | float     |
 | P8MEA       | float     |
 | P8_BANDING  | string    |
+| RECTYPE     | Int64     |
+| LEA         | Int64     |
+
+**ks4 Mappings:**
+
+| Column From | Column To          |
+|-------------|--------------------|
+| ATT8SCR     | AverageAttainment  |
+| P8MEA       | Progress8Measure   |
+| P8_BANDING  | Progress8Banding   |
 
 **aar:**
 
@@ -747,6 +757,14 @@ erDiagram
         nvarchar Name
     }
 
+    LocalAuthorityNonFinancial {
+        nvarchar RunType
+        nvarchar RunId
+        nvarchar LaCode
+        decimal LocalAuthorityAvgAttainment8
+        decimal NationalAvgAttainment8
+    }
+
     MetricRAG {
         nvarchar RunType
         nvarchar RunId
@@ -791,6 +809,7 @@ erDiagram
         decimal PercentWithoutEducationalHealthCarePlan
         decimal KS2Progress
         decimal KS4Progress
+        decimal Attainment8
         decimal PredictedPercentChangePupils3To5Years
         decimal PercentWithVI
         decimal PercentWithSPLD
@@ -1209,6 +1228,7 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 | ks2                           | MATPROG                                                                                                                                                                               |                                                                         | N/A - only used in computation          |                                                                                                                                                              |
 | ks2                           | WRITPROG                                                                                                                                                                              |                                                                         | N/A - only used in computation          |                                                                                                                                                              |
 | ks4                           | P8MEA                                                                                                                                                                                 | Progress8Measure                                                        | KS4Progress                             |                                                                                                                                                              |
+| ks4                           | ATT8SCR                                                                                                                                                                               | AverageAttainment                                                       | Attainment8                             |                                                                                                                                                              |
 | N/A - undefined               | N/A                                                                                                                                                                                   | N/A                                                                     | PredictedPercentChangePupils3To5Years   |                                                                                                                                                              |
 | N/A - computed                |                                                                                                                                                                                       | Percentage Primary Need VI                                              | PercentWithVI                           | Computed as Primary Need VI / Total Pupils                                                                                                                   |
 | sen                           | Primary Need VI                                                                                                                                                                       |                                                                         | N/A - only used in computation          |                                                                                                                                                              |
@@ -1317,6 +1337,16 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |---------------|-----------------|----------------------------|-----------------------|-------------------------|
 | gias          | LA (code)       | LA Code                    | Code                  |                         |
 | gias          | LA (name)       | LA Name                    | Name                  |                         |
+
+**LocalAuthorityNonFinancial:**
+
+| raw file name                 | raw column name | pre-processing column name   | sql table column name        | notes on transformation                                                                      |
+|-------------------------------|-----------------|------------------------------|------------------------------|----------------------------------------------------------------------------------------------|
+| N/A - defined in pipeline run |                 |                              | RunType                      |                                                                                              |
+| N/A - defined in pipeline run |                 |                              | RunId                        |                                                                                              |
+| s251                          | old_la_code     | LaCode                       | LaCode                       |                                                                                              |
+| ks4 (2026 onwards)            | ATT8SCR         | LocalAuthorityAvgAttainment8 | LocalAuthorityAvgAttainment8 | Sourced from row where RECTYPE = 4 and matched on LEA code. NULL for runs prior to 2026.    |
+| ks4 (2026 onwards)            | ATT8SCR         | NationalAvgAttainment8       | NationalAvgAttainment8       | Sourced from row where RECTYPE = 5. NULL for runs prior to 2026.                             |
 
 **BudgetForecastReturnMetric:**
 

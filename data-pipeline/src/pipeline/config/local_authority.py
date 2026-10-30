@@ -98,6 +98,8 @@ la_db_non_financial_projections = {
     "EHCPHospital": "EHCPHospital",
     "EHCPPost16": "EHCPPost16",
     "EHCPOther": "EHCPOther",
+    "LocalAuthorityAvgAttainment8": "LocalAuthorityAvgAttainment8",
+    "NationalAvgAttainment8": "NationalAvgAttainment8",
 }
 
 la_statistical_neighbours_projections = {

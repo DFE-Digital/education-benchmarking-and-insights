@@ -39,6 +39,7 @@ from .ancillary.main import (
     pre_process_ilr_data,
     pre_process_ks2,
     pre_process_ks4,
+    pre_process_la_ks4,
     pre_process_la_statistical_neighbours,
     pre_process_lookup_la_data,
     pre_process_ons_population_estimates,
@@ -628,6 +629,7 @@ def get_s251_ancillary_data(
         "sen2": pre_process_sen2(s251_year, run_id),
         "place_numbers": pre_process_high_needs_places(s251_year),
         "dsg": pre_process_dsg(s251_year),
+        "ks4_la": pre_process_la_ks4(s251_year),
     }
     return s251_ancillary_data
 

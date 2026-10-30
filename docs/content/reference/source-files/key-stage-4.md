@@ -41,6 +41,8 @@ For example; for academic year ending July 2024 data is published on October 202
 | ATT8SCR    | float  |     |
 | P8MEA      | float  |     |
 | P8_BANDING | string |     |
+| RECTYPE    | Int64  |     |
+| LEA        | Int64  |     |
 
 **Validation:**
 

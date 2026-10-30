@@ -32,6 +32,55 @@ def test_local_authorities(
     )
 
     assert len(result.index) > 0
+    assert result["LocalAuthorityAvgAttainment8"].isna().all()
+    assert result["NationalAvgAttainment8"].isna().all()
+
+
+@pytest.mark.parametrize(
+    "la_code,expected_la_attainment",
+    [
+        (101, 46.2),
+        (999, np.nan),
+    ],
+)
+def test_local_authorities_with_ks4_data_populates_attainment8(
+    la_budget: pd.DataFrame,
+    la_outturn: pd.DataFrame,
+    la_statistical_neighbours_df: pd.DataFrame,
+    la_ons_preprocessed: pd.DataFrame,
+    la_sen2_preprocessed: pd.DataFrame,
+    la_place_numbers: pd.DataFrame,
+    la_dsg_preprocessed: pd.DataFrame,
+    la_all_schools: pd.DataFrame,
+    la_code: int,
+    expected_la_attainment: float,
+):
+    year = 2024
+    la_attainment = pd.DataFrame(
+        {"LocalAuthorityAvgAttainment8": [46.2]},
+        index=pd.Index([la_code], name="LEA", dtype="Int64"),
+    )
+    national_attainment = 45.9
+
+    result = local_authority.build_local_authorities(
+        io.StringIO(la_budget.to_csv()),
+        io.StringIO(la_outturn.to_csv(encoding="cp1252")),
+        la_statistical_neighbours_df,
+        la_ons_preprocessed,
+        la_sen2_preprocessed,
+        la_place_numbers,
+        la_dsg_preprocessed,
+        la_all_schools,
+        year,
+        ks4_la=(la_attainment, national_attainment),
+    )
+
+    assert result["LocalAuthorityAvgAttainment8"].iloc[0] == pytest.approx(
+        expected_la_attainment, nan_ok=True
+    )
+    assert result["NationalAvgAttainment8"].iloc[0] == pytest.approx(
+        national_attainment
+    )
 
 
 @pytest.fixture
