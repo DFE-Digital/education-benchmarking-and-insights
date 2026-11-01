@@ -38,7 +38,7 @@
   "devDependencies": {
     "@dotenvx/dotenvx": "^1.75.1",
     "@types/express": "^5.0.6",
-    "@types/node": "^25.9.8",
+    "@types/node": "^25.9.9",
     "@types/nunjucks": "^3.2.6",
     "@types/trusted-types": "^2.0.7",
     "gts": "6.0.2",
