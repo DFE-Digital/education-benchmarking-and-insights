@@ -26,7 +26,7 @@
     <PackageVersion Include="Dapper.Contrib" Version="2.0.78" />
     <PackageVersion Include="Dapper.SqlBuilder" Version="2.1.89" />
     <PackageVersion Include="dbup-sqlserver" Version="5.0.40" />
-    <PackageVersion Include="FluentValidation" Version="12.1.1" />
+    <PackageVersion Include="FluentValidation" Version="12.2.0" />
     <PackageVersion Include="Microsoft.ApplicationInsights" Version="2.23.0" />
     <PackageVersion Include="Microsoft.ApplicationInsights.WorkerService" Version="2.23.0" />
     <PackageVersion Include="Microsoft.Azure.Core.NewtonsoftJson" Version="2.0.0" />
