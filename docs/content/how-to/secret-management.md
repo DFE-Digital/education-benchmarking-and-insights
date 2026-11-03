@@ -31,7 +31,7 @@ Azure Functions bindings require environment variables, often provided via `loca
 
 To comply with our security principles, `local.settings.json` **MUST** be encrypted at rest on your local machine whenever it contains sensitive information, despite being ignored by git.
 
-For instructions on adding, encrypting, and decrypting host settings, see the [Encrypted local.settings.json section in the Platform APIs Guide](/reference/platform-apis/#encrypted-localsettingsjson).
+For instructions on adding, encrypting, and decrypting host settings, see the [Encrypted local.settings.json section in the Platform APIs Guide](/reference/platform-apis/#encrypted-local-settings-json).
 
 **Note**: Never leave `local.settings.json` in a decrypted state within the workspace.
 

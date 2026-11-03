@@ -33,7 +33,7 @@ Before starting, ensure the following tools are installed on your machine:
 - **Git Bash (Windows):** Required for Windows users to execute `make` commands correctly in a Bash environment.
 - **Python 3.x:** Required for certain build scripts and pre-commit hooks.
 - **pre-commit:** For running local quality checks before committing.
-- **Docker & Docker Compose:** Required for running local dependencies (SQL Server, Redis, etc.) and the data pipeline. See the [Local Environment with Docker guide](06_Local-Environment-with-Docker.md) for setup instructions.
+- **Docker & Docker Compose:** Required for running local dependencies (SQL Server, Redis, etc.) and the data pipeline. See the [Local Environment with Docker guide](/how-to/local-docker/) for setup instructions.
 
 ### Recommended IDEs
 

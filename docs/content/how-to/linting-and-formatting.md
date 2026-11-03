@@ -37,7 +37,6 @@ For the `web`, `platform`, and `core-infrastructure` modules, we use standard .N
 - **Manual Execution:** Run `dotnet format` from the respective module root directory (`web/`, `platform/`, or `core-infrastructure/`).
 - **IDE Integration (Recommended):**
   - **Rider / Visual Studio:** Both natively support `.editorconfig`. Formatting on save or using the built-in "Reformat Code" shortcut will automatically apply these rules.
-  - See [Rider Configuration](/how-to/rider-configuration/) for more details.
 
 ## TypeScript & JavaScript (Front-end Components & Web)
 

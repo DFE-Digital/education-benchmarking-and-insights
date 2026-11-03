@@ -64,7 +64,7 @@ The `<button>` elements are designed to be very similar to the GOV.UK Design Sys
 1. Inconsistent styling across browsers
    - Overriding button styles to mimic links may lead to inconsistent or unexpected UI on some devices or browsers.
 
-The MOJ component runs client side, which may be why `<button>` was chosen originally. It is assumed that as per GDS, a significant amount of [user research](design-system.service.gov.uk/community/design-system-working-group/) has gone into the usability of this component. Even so, if feedback is received that advises that this is not suitable for use across FBIT than the `<a>` should be reverted to instead (see below).
+The MOJ component runs client side, which may be why `<button>` was chosen originally. It is assumed that as per GDS, a significant amount of [user research](https://design-system.service.gov.uk/community/design-system-working-group/) has gone into the usability of this component. Even so, if feedback is received that advises that this is not suitable for use across FBIT than the `<a>` should be reverted to instead (see below).
 
 ### `aria-` attributes
 

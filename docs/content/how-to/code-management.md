@@ -22,7 +22,7 @@ We follow a strict security process to protect our code. Access is granted based
 
 We use a **trunk-based** approach, a strategy where all developers work on a single branch (the main branch or "trunk") and merge changes frequently.
 
-* **What is Trunk-based?** Instead of working on long-running branches for weeks, we break work into the smallest possible parts to keep the codebase moving. This often involves merging incomplete features hidden behind feature toggles. See the [Feature Flags Management Guide](12_Feature-Flags-Management-Guide.md) for more details.
+* **What is Trunk-based?** Instead of working on long-running branches for weeks, we break work into the smallest possible parts to keep the codebase moving. This often involves merging incomplete features hidden behind feature toggles. See the [Feature Flags Management Guide](/how-to/feature-flags/) for more details.
 * **Why we use it:** This approach increases our **speed** by allowing us to release features faster, **reduces conflict** by preventing "merge hell," and improves **team visibility** by keeping everyone aligned in real-time.
 * **Short-lived Branches:** We create small branches that are merged back into main as soon as possible, typically within a day or two.
 * **Rebasing:** When updating branches with the latest changes from `main`, we prefer rebasing (e.g., `git pull --rebase origin main`) over merging. This avoids unnecessary "merge commits" and keeps the PR history focused on the actual changes, making it easier for team members to review.
@@ -48,7 +48,7 @@ We use automation to handle repetitive tasks, allowing the team to focus on logi
   * **Task:** The task ID and a **kebab-case** description (e.g., `5678-add-login-validation`).
   * **Rule:** We create branches **per task** to keep changes focused.
   * **Example:** `feature/1234/5678-add-login-validation`
-* **Pre-commit Hooks:** We use [pre-commit](https://pre-commit.com/) to automatically run a set of quality checks before every commit. This includes formatting checks for Python code and linting for Markdown files. See the [Pre-commit Hooks Guide](04_Pre-commit-Hooks.md) for more details.
+* **Pre-commit Hooks:** We use [pre-commit](https://pre-commit.com/) to automatically run a set of quality checks before every commit. This includes formatting checks for Python code and linting for Markdown files. See the [Pre-commit Hooks Guide](/how-to/pre-commit-hooks/) for more details.
 * **PR Labels:**
  Every PR must have a label to help us organise our work. Labels allow anyone to see immediately if a PR is a bug fix, a new feature, or a documentation update.
 * **Commit Title Standards:** PR titles must follow the [Conventional Commits](https://www.conventionalcommits.org) standard using the pattern `<type>(<optional-scope>): <description>`. This consistent structure allows us to generate automatic changelogs and makes our project history easy to read.

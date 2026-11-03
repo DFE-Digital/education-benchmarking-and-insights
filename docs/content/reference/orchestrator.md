@@ -16,7 +16,7 @@ The Pipeline Orchestrator manages the asynchronous execution lifecycle of backgr
 
 Upon receiving completion signals (`JobFinishedQueue`), the orchestrator performs state updates, triggers indexers, purges distributed caches, and handles secondary post-processing tasks such as transferring artifacts (e.g., Local Authority Risk Score files) to storage containers accessible by the web app behind Azure Front Door.
 
-For a deeper dive into trigger parameter mechanics, correlation tokens (`jobId`), and run types (`runId`), see the [Pipeline Trigger Message Concepts](/explanation/pipeline-trigger-message) explanation guide.
+For a deeper dive into trigger parameter mechanics, correlation tokens (`jobId`), and run types (`runId`), see the [Pipeline Trigger Message Concepts](/explanation/pipeline-trigger-message/) explanation guide.
 
 ## Orchestrations
 
@@ -151,4 +151,4 @@ Because the destination storage resource is created late in the deployment cycle
 
 - **Automatic Resolution:** As soon as the Web layer finishes deployment and populates the Key Vault secret, Azure App Service resolves the Key Vault reference immediately on subsequent function invocations without requiring a Function App restart or manual configuration sync.
 
-For an in-depth explanation of this deployment sequence pattern and its operational tradeoffs, see the [Pipeline Orchestrator Deployment & Secret Resolution](/explanation/pipeline-orchestrator-deployment-and-secrets) explanation guide.
+For an in-depth explanation of this deployment sequence pattern and its operational tradeoffs, see the [Pipeline Orchestrator Deployment & Secret Resolution](/explanation/pipeline-orchestrator-deployment-and-secrets/) explanation guide.

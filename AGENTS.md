@@ -29,7 +29,7 @@ For specialized rules and procedural workflows, refer to their respective `AGENT
 
 - [Core Infrastructure](./core-infrastructure/AGENTS.md)
 - [Data Pipeline](./data-pipeline/AGENTS.md)
-- [Documentation](./documentation/AGENTS.md)
+- [Documentation](./docs/README.md)
 - [Front-end Components](./front-end-components/AGENTS.md)
 - [Pipelines](./pipelines/AGENTS.md)
 - [Platform (API)](./platform/AGENTS.md)

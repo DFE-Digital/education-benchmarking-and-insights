@@ -28,3 +28,7 @@ $_font-family: 'Inter', sans-serif;
     }
   }
 }
+
+.app-search__wrapper {
+  --govuk-text-colour: #{govuk.govuk-colour("black")};
+}

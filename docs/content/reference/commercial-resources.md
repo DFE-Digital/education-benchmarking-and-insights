@@ -127,7 +127,7 @@ Spending Priorities.
 
 Resources retrieved via the Content API call ([see API Reference](#api-reference)) are cached in-memory, as they are infrequently updated. See `CommercialResourcesService` [here](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Services/CommercialResourcesService.cs)
 
-`CommercialResourcesBuilder` groups and sorts the resources. See [here](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Domain/CommercialResources.cs#L11)
+`CommercialResourcesBuilder` groups and sorts the resources. See [here](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Domain/Content/CommercialResources.cs#L11)
 
 Within each of the views listed above, partials display:
 
