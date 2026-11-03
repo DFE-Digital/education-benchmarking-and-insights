@@ -12,7 +12,7 @@ The process of releasing data on the service is the responsibility of the develo
 
 **Sourcing the data:**
 
-There are three financial data releases produced each year on the service. Non-financial and auxiliary data releases are not covered in this section, but should be updated as described in `1_Data-Sources.md`. The three financial datasets, and their respective dates at which they become available to the FBIT team are are:
+There are three financial data releases produced each year on the service. Non-financial and auxiliary data releases are not covered in this section, but should be updated as described in [Data Sources](/reference/sources/). The three financial datasets, and their respective dates at which they become available to the FBIT team are are:
 
 * BFR - August
 * CFR - September
@@ -30,7 +30,7 @@ Once the data has been sourced, it should be stored in the following [sharepoint
 
 Once the respective datasets have been retrieved, they will need to be cleaned. Some checkpoints for cleaning the data should be to:
 
-* Ensure the column names and data types for each column are what is expected in the pipeline. This can be validated using the ERD in `2_Data-models.md`. If the data types are not in the expected format, they may not be interpreted by the pipeline and cause a failure.
+* Ensure the column names and data types for each column are what is expected in the pipeline. This can be validated using the ERD in [Data Models](/reference/models/). If the data types are not in the expected format, they may not be interpreted by the pipeline and cause a failure.
 * If the business requirements of FBIT changes, it must be ensured that new columns are available in the new datasets, for example currently the total number of sixth form students is computed as the number of boys and girls in year groups 12 and 13, however this may be expanded to capture a broaded range of genders in the future which will need to be accounted for.
 * Similarly, previously used columns in the service which are being discontinued for a period of time, such as the KS2 and KS4 data between 2020 - 2022, should be sufficiently accounted for.
 

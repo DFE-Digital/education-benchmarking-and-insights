@@ -9,8 +9,8 @@ The Financial Benchmarking and Insights Tool (FBIT) provides a single service fo
 
 ## Primary Resources
 
-- 🚀 **[Getting Started](./documentation/developers/01_Getting-Started.md)**: Onboarding instructions, local environment setup, and common `make` commands.
-- 📚 **[Documentation Index](./documentation/README.md)**: Full directory of architecture, design, and operational guides.
+- 🚀 **[Getting Started](./docs/content/tutorials/getting-started.md)**: Onboarding instructions, local environment setup, and common `make` commands.
+- 📚 **[Documentation Index](./docs/README.md)**: Full directory of architecture, design, and operational guides.
 - 🛠️ **[Contributing](./CONTRIBUTING.md)**: Guidelines for opening issues and pull requests.
 
 ## Project Status
@@ -46,7 +46,7 @@ The Financial Benchmarking and Insights Tool (FBIT) provides a single service fo
 - **`core-infrastructure/`**: Terraform IaC and .NET DbUp migrations.
 - **`pipelines/`**: YAML-based CI/CD pipeline definitions for Azure DevOps.
 - **`support-analytics/`**: Log Analytics queries and KQL for operational monitoring.
-- **`documentation/`**: Docs-as-code generation pipeline (Markdown/Pandoc).
+- **`docs/`**: Docs-as-code static site (Markdown/Eleventy).
 
 ### Core Architecture & Data Flow
 

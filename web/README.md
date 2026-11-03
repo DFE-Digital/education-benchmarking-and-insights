@@ -238,7 +238,7 @@ To use the GOV.UK Design System, progressive enhancements and front-end componen
 > **💡 Tip**: To find the location of your user `.npmrc` file use the `npm config -ls l` command.
 
 For more information on managing the progressive enhancements please refer to
-the [documented feature](../documentation/features/8_Progressive_Enhancements.md).
+the [documented feature](../docs/content/reference/progressive-enhancements.md).
 
 ##### Bypass ADO auth
 
@@ -373,4 +373,4 @@ This is also performed automatically by the CI/CD pipeline. In ReSharper/Rider, 
 `Reformat and Cleanup...` may be used to apply the settings using the layering order above. This may also be achieved
 in the IDE at a project or file level or via the keyboard shortcut `Ctrl+E, C`.
 
-- **Markdown & Pre-commit:** Markdown files are linted via [pre-commit hooks](../documentation/developers/04_Pre-commit-Hooks.md). Developers are encouraged to install pre-commit locally to catch these issues before pushing.
+- **Markdown & Pre-commit:** Markdown files are linted via [pre-commit hooks](../docs/content/how-to/pre-commit-hooks.md). Developers are encouraged to install pre-commit locally to catch these issues before pushing.

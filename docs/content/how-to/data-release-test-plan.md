@@ -30,7 +30,7 @@ Following the same split as the service documents (see the service [Test Plan](/
 
 ## When each plan is produced
 
-Individual plans are produced ahead of each release, on the calendar documented in [Releases Timeline](/reference/timeline/).
+Individual plans are produced ahead of each release, on the calendar documented in [Releases](/reference/releases/).
 
 ## Reusable Per-Release Plan Template
 

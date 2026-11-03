@@ -90,7 +90,7 @@ This document defines **how ingestion testing is approached**, including the sco
 
 The service performs four data releases each year: S251, BFR, CFR and AAR. From the 2025-2026 cycle the Local Authority Risk Analysis (LAA) risk indicators are refreshed alongside CFR (see [decision 0023](/reference/decisions/0023-laa-risk-indicators-data-architecture/)).
 
-These releases all follow the ingestion validation model above, but differ in their primary files, business logic and ancillary datasets. The table below describes the **types** of files involved rather than exact filenames, as filenames can change from cycle to cycle. The current source and ancillary files for each release are maintained in [Data Sources](/reference/sources/), and the data engineer confirms the exact files in scope in the individual release plan at kickoff. Release timings, sourcing and the pipeline trigger are in [Releases Timeline](/reference/timeline/).
+These releases all follow the ingestion validation model above, but differ in their primary files, business logic and ancillary datasets. The table below describes the **types** of files involved rather than exact filenames, as filenames can change from cycle to cycle. The current source and ancillary files for each release are maintained in [Data Sources](/reference/sources/), and the data engineer confirms the exact files in scope in the individual release plan at kickoff. Release timings, sourcing and the pipeline trigger are in [Releases](/reference/releases/).
 
 | Aspect | BFR | CFR | S251 | AAR |
 |---|---|---|---|---|
@@ -125,5 +125,5 @@ The specific checks are captured in the LAA block of the [Data Release Test Plan
 ## Supporting Documents
 
 - Data Sources: [Data Sources](/reference/sources/)
-- Releases: [Releases Timeline](/reference/timeline/)
+- Releases: [Releases](/reference/releases/)
 - Validation Scripts: for schema, mapping, and regression checks

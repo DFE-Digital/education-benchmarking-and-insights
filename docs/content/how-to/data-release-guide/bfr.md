@@ -41,7 +41,7 @@ WHERE RunId like '<year>' AND RunType like 'default'
 To assure the quality of the BFR ingestion pipeline do some spot checks on forecasts and pupil numbers. BFR uses [specific row/line mappings](/explanation/bfr/) (`EFALineNo`) in `BFR_SOFA_raw.csv` and `BFR_3Y_raw.csv` to compute Statement of Financial Activities (SOFA) and multi-year forecasts.
 
 * Select 3 Multi-Academy Trusts in the source CSV and record their values for key `EFALineNo` fields (such as line numbers for total income, staff costs, and total forecasted expenditure).
-* Query the `BudgetForecastReturn` and `BudgetForecastReturnMetric` tables for those specific trusts and verify that the financial amounts written correspond exactly to [those line numbers](/explanation/bfr/#efalineno).
+* Query the `BudgetForecastReturn` and `BudgetForecastReturnMetric` tables for those specific trusts and verify that the financial amounts written correspond exactly to [those line numbers](/explanation/bfr/#efa-line-no).
 
 ### 2. BFR-Specific Pupil Count Validation
 

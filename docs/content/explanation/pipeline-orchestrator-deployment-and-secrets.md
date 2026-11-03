@@ -10,7 +10,7 @@ eleventyNavigation:
 
 This document explains the infrastructure deployment sequencing, Key Vault reference resolution mechanics, and resilient error-handling strategies behind the Pipeline Orchestrator's storage configurations.
 
-For specific configuration schemas and implementation detail, see the [Pipeline Orchestrator](/reference/orchestrator).
+For specific configuration schemas and implementation detail, see the [Pipeline Orchestrator](/reference/orchestrator/).
 
 ## 1. Infrastructure Deployment Sequencing
 

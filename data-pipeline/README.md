@@ -4,7 +4,7 @@ This folder contains all of the code, build and terraform required to run and de
 
 For more information on the FBIT pipelines see either
 
-* [The documentation folder in this repository](https://github.com/DFE-Digital/education-benchmarking-and-insights/tree/main/documentation)
+* [The documentation folder in this repository](https://github.com/DFE-Digital/education-benchmarking-and-insights/tree/main/docs)
 * Or in the FBIT sharepoint technical folder.
 
 Within the FBIT service, there is an [Azure container app](terraform/container_apps.tf) for each type of run in the data pipeline (default/custom).
@@ -34,7 +34,7 @@ When a message is placed in a run queue, a worker container is triggered to spaw
 * Python > 3.11
 * [Poetry](https://python-poetry.org/docs/)
 * A correctly setup .env file in root of the `data-pipeline` folder
-* [Pre-commit hooks](../documentation/developers/04_Pre-commit-Hooks.md) installed to ensure Python (Black) and Markdown linting checks run automatically on every commit.
+* [Pre-commit hooks](../docs/content/how-to/pre-commit-hooks.md) installed to ensure Python (Black) and Markdown linting checks run automatically on every commit.
 
 Once the above dependencies are installed and working correctly we can install the required project dependencies by running:
 
@@ -86,14 +86,14 @@ These steps will avoid SSL errors due to DfE kit/VPN.
 
 ### Running the pipeline locally
 
-> **Warning:** These instructions run the pipeline **locally only**, against the Azurite emulator. Do not use them to run the pipeline on a deployed environment. To run the pipeline, follow the [Running the pipeline doc](../documentation/data/05_Releases.md), which triggers the run through the `data-pipeline-job-pending` queue and the Orchestrator. Triggering the pipeline by posting directly to `data-pipeline-job-default-start` bypasses the Orchestrator and risks the service not operating correctly.
+> **Warning:** These instructions run the pipeline **locally only**, against the Azurite emulator. Do not use them to run the pipeline on a deployed environment. To run the pipeline, follow the [Running the pipeline doc](../docs/content/reference/releases.md), which triggers the run through the `data-pipeline-job-pending` queue and the Orchestrator. Triggering the pipeline by posting directly to `data-pipeline-job-default-start` bypasses the Orchestrator and risks the service not operating correctly.
 
 To run the pipeline locally, follow these steps:
 
 1. Start the local dependencies:
 
     Start the backing services (Azurite and SQL Server) via the centralized Docker Compose setup.
-    See the [Local Environment with Docker guide](../documentation/developers/06_Local-Environment-with-Docker.md) for instructions.
+    See the [Local Environment with Docker guide](../docs/content/how-to/local-docker.md) for instructions.
 
 1. Add data to Azurite:
 
