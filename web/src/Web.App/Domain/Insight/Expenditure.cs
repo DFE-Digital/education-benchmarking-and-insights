@@ -167,9 +167,9 @@ public record ExpenditureHistoryRows
     public IEnumerable<ExpenditureHistory> Rows { get; set; } = [];
 }
 
-public record SchoolExpenditureWithProgress : SchoolExpenditure
+public record SchoolExpenditureWithPerformance : SchoolExpenditure
 {
-    public SchoolExpenditureWithProgress(SchoolExpenditure expenditure, KS4ProgressBanding? banding) : base(expenditure)
+    public SchoolExpenditureWithPerformance(SchoolExpenditure expenditure, KS4ProgressBanding? banding) : base(expenditure)
     {
         TotalExpenditure = expenditure.TotalExpenditure;
         TotalTeachingSupportStaffCosts = expenditure.TotalTeachingSupportStaffCosts;
@@ -227,6 +227,9 @@ public record SchoolExpenditureWithProgress : SchoolExpenditure
             ProgressBanding = banding.Banding.ToStringValue();
         }
     }
+
+    [PropertyOrder(int.MaxValue - 1)]
+    public bool TopRankedAttainment8 { get; set; }
 
     [PropertyOrder(int.MaxValue)]
     public string? ProgressBanding { get; set; }

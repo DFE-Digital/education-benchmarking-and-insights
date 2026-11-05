@@ -913,6 +913,11 @@ table#current-comparators-la {
       stroke: govuk-colour("light-blue");
     }
 
+    &.chart-cell__group-top-ranked-attainment8 {
+      fill: govuk-colour("turquoise");
+      stroke: govuk-colour("turquoise");
+    }
+
     &.chart-data-stack-0 {
       fill: govuk-colour("light-blue");
       stroke: govuk-colour("light-blue");
@@ -940,6 +945,10 @@ table#current-comparators-la {
     &.chart-legend-above-average {
       fill: govuk-colour("light-blue");
       stroke: govuk-colour("light-blue");
+    }
+    &.chart-legend-top-5-for-attainment-8 {
+      fill: govuk-colour("turquoise");
+      stroke: govuk-colour("turquoise");
     }
   }
 
@@ -1255,6 +1264,17 @@ table#current-comparators-la {
 .options-form .options-form__checkboxes {
   flex: 0.5 1 auto;
   min-width: 0;
+
+  &--attainment {
+    flex: 0 1 18.75rem;
+    max-width: 18.75rem;
+
+    .govuk-checkboxes__hint {
+      display: block;
+      width: 100%;
+      white-space: normal;
+    }
+  }
 }
 
 .actions-form

@@ -31,12 +31,14 @@ public class SchoolComparisonController(
     ISchoolComparatorSetService schoolComparatorSetService,
     ICostCodesService costCodesService,
     IProgressBandingsService progressBandingsService,
+    IComparatorSetRankingService attainment8ComparatorSetRankingService,
     IFeatureManager featureManager)
     : Controller
 {
     [HttpGet]
     [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
     public async Task<IActionResult> Index(
+        bool displayAttainment8,
         string urn,
         SchoolSpendingCategories.SubCategoryFilter[] selectedSubCategories,
         SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs,
@@ -67,19 +69,47 @@ public class SchoolComparisonController(
                     customComparatorSet = userDefinedSet?.Set;
                 }
 
-                var bandings = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
+                var showKs4Progress = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding);
+                var showAttainment8 = await featureManager.IsEnabledAsync(FeatureFlags.Attainment8);
+
+                // these two feature flags are mutually exclusive and therefore here we guard against incorrect config
+                if (showKs4Progress && showAttainment8)
+                {
+                    showKs4Progress = false;
+                    showAttainment8 = false;
+
+                    logger.LogWarning(
+                        "An error detected in feature management for school comparison: {KS4ProgressBanding} and {Attainment8} are both true",
+                        nameof(FeatureFlags.KS4ProgressBanding),
+                        nameof(FeatureFlags.Attainment8));
+                    // TODO: alert as well as log
+                }
+
+                var bandings = showKs4Progress
                     ? await progressBandingsService.GetKS4ProgressBandings(customComparatorSet ?? defaultComparatorSet?.All ?? [])
+                    : null;
+
+                var topRankedBuilding = showAttainment8
+                    ? await attainment8ComparatorSetRankingService.GetTopRankedAsync(
+                        urn,
+                        customComparatorSet ?? defaultComparatorSet?.Building ?? [])
+                    : null;
+
+                var topRankedPupil = showAttainment8
+                    ? await attainment8ComparatorSetRankingService.GetTopRankedAsync(
+                        urn,
+                        customComparatorSet ?? defaultComparatorSet?.Pupil ?? [])
                     : null;
 
                 SpendingComparisonSubCategoriesViewModel? subCategories = null;
 
-                SchoolExpenditureWithProgress[]? buildingResult = null;
-                SchoolExpenditureWithProgress[]? pupilResult = null;
+                SchoolExpenditureWithPerformance[]? buildingResult = null;
+                SchoolExpenditureWithPerformance[]? pupilResult = null;
 
                 if (await featureManager.IsEnabledAsync(FeatureFlags.SchoolComparisonFilter))
                 {
-                    buildingResult = MergeProgressBandings(await GetDefaultSchoolExpenditure(urn, true, resultAs), bandings);
-                    pupilResult = MergeProgressBandings(await GetDefaultSchoolExpenditure(urn, false, resultAs), bandings);
+                    buildingResult = MergePerformance(await GetDefaultSchoolExpenditure(urn, true, resultAs), bandings, topRankedBuilding ?? []);
+                    pupilResult = MergePerformance(await GetDefaultSchoolExpenditure(urn, false, resultAs), bandings, topRankedPupil ?? []);
 
                     subCategories = new SpendingComparisonSubCategoriesViewModel(
                         buildingResult,
@@ -88,7 +118,7 @@ public class SchoolComparisonController(
                         urn,
                         costCodes);
 
-                    var charts = await BuildCharts(urn, subCategories, resultAs, bandingsAs);
+                    var charts = await BuildCharts(urn, subCategories, resultAs, bandingsAs, displayAttainment8);
 
                     subCategories.Groups.ForEach(group =>
                     {
@@ -113,13 +143,16 @@ public class SchoolComparisonController(
                     bandings,
                     subCategories,
                     buildingResult,
-                    pupilResult)
+                    pupilResult,
+                    showAttainment8 ? topRankedBuilding : [],
+                    showAttainment8 ? topRankedPupil : [])
                 {
                     SelectedSubCategories = selectedSubCategories,
                     ViewAs = viewAs,
                     ResultAs = resultAs,
                     BandingsAs = bandingsAs,
-                    ExpandFilterGroup = expandFilterGroup
+                    ExpandFilterGroup = expandFilterGroup,
+                    DisplayAttainment8 = displayAttainment8
                 };
 
                 var viewName = await GetViewName(nameof(Index));
@@ -137,7 +170,8 @@ public class SchoolComparisonController(
         string urn,
         SpendingComparisonSubCategoriesViewModel subCategories,
         SchoolSpendingDimensions.ResultAsOptions resultAs,
-        SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs)
+        SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs,
+        bool displayAttainment8)
     {
         var requests = subCategories
             .Groups
@@ -153,7 +187,8 @@ public class SchoolComparisonController(
                     }) ?? string.Empty),
                 resultAs,
                 x.group.ComparatorSetType,
-                bandingsAs));
+                bandingsAs,
+                displayAttainment8));
 
         ChartResponse[] charts = [];
         try
@@ -171,8 +206,9 @@ public class SchoolComparisonController(
     }
 
     [HttpPost]
-    public IActionResult Index(string urn, int[]? selectedSubCategories, int viewAs, int resultAs, int[]? bandingsAs) => RedirectToAction("Index", new
+    public IActionResult Index(bool displayAttainment8, string urn, int[]? selectedSubCategories, int viewAs, int resultAs, int[]? bandingsAs) => RedirectToAction("Index", new
     {
+        displayAttainment8,
         urn,
         selectedSubCategories,
         viewAs,
@@ -245,8 +281,37 @@ public class SchoolComparisonController(
                     pupilResult = await GetDefaultSchoolExpenditure(urn, false);
                 }
 
+                var showKs4Progress = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding);
+                var showAttainment8 = await featureManager.IsEnabledAsync(FeatureFlags.Attainment8);
+
+                // these two feature flags are mutually exclusive and therefore here we guard against incorrect config
+                if (showKs4Progress && showAttainment8)
+                {
+                    showKs4Progress = false;
+                    showAttainment8 = false;
+
+                    logger.LogWarning(
+                        "An error detected in feature management for school comparison: {KS4ProgressBanding} and {Attainment8} are both true",
+                        nameof(FeatureFlags.KS4ProgressBanding),
+                        nameof(FeatureFlags.Attainment8));
+                    // TODO: alert as well as log
+                }
+
+                // TODO: refactor here move the comparator set out of the private methods
+                var topRankedBuilding = showAttainment8
+                    ? await attainment8ComparatorSetRankingService.GetTopRankedAsync(
+                        urn,
+                        buildingResult?.Select(x => x.URN).ToArray() ?? [])
+                    : null;
+
+                var topRankedPupil = showAttainment8
+                    ? await attainment8ComparatorSetRankingService.GetTopRankedAsync(
+                        urn,
+                        pupilResult?.Select(x => x.URN).ToArray() ?? [])
+                    : null;
+
                 KS4ProgressBandings? bandings = null;
-                if (await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding))
+                if (showKs4Progress)
                 {
                     var urns = buildingResult?
                         .Where(r => !string.IsNullOrWhiteSpace(r.URN))
@@ -257,14 +322,22 @@ public class SchoolComparisonController(
                     bandings = await progressBandingsService.GetKS4ProgressBandings(urns?.ToArray() ?? []);
                 }
 
-                string[] exclude = bandings == null || bandings.Items.Length == 0
-                    ? [nameof(SchoolExpenditure.TotalInternalFloorArea), nameof(SchoolExpenditureWithProgress.ProgressBanding)]
-                    : [nameof(SchoolExpenditure.TotalInternalFloorArea)];
+                List<string> exclude = [nameof(SchoolExpenditure.TotalInternalFloorArea)];
+
+                if (!showKs4Progress)
+                {
+                    exclude.Add(nameof(SchoolExpenditureWithPerformance.ProgressBanding));
+                }
+
+                if (!showAttainment8)
+                {
+                    exclude.Add(nameof(SchoolExpenditureWithPerformance.TopRankedAttainment8));
+                }
 
                 IEnumerable<CsvResult> csvResults =
                 [
-                    new(MergeProgressBandings(buildingResult, bandings), $"comparison-{urn}-building.csv", exclude),
-                    new(MergeProgressBandings(pupilResult, bandings), $"comparison-{urn}-pupil.csv", exclude)
+                    new(MergePerformance(buildingResult, bandings, topRankedBuilding ?? []), $"comparison-{urn}-building.csv", [.. exclude]),
+                    new(MergePerformance(pupilResult, bandings, topRankedPupil ?? []), $"comparison-{urn}-pupil.csv", [.. exclude])
                 ];
                 return new CsvResults(csvResults, $"comparison-{urn}.zip");
             }
@@ -355,15 +428,53 @@ public class SchoolComparisonController(
         return query;
     }
 
-    private static SchoolExpenditureWithProgress[] MergeProgressBandings(SchoolExpenditure[]? expenditures, KS4ProgressBandings? bandings)
+    private static SchoolExpenditureWithPerformance[] MergePerformance(
+        SchoolExpenditure[]? expenditures,
+        KS4ProgressBandings? bandings,
+        IReadOnlyList<string> topRanked)
+    {
+        var expendituresWithBanding = MergeProgressBandings(expenditures, bandings);
+        return MergeTopRanked(expendituresWithBanding, topRanked);
+    }
+
+    private static SchoolExpenditureWithPerformance[] MergeProgressBandings(
+        SchoolExpenditure[]? expenditures,
+        KS4ProgressBandings? bandings)
     {
         if (expenditures == null)
         {
             return [];
         }
         return bandings == null
-            ? expenditures.Select(e => new SchoolExpenditureWithProgress(e, null)).ToArray()
-            : expenditures.Select(e => new SchoolExpenditureWithProgress(e, bandings[e.URN])).ToArray();
+            ? expenditures.Select(e => new SchoolExpenditureWithPerformance(e, null)).ToArray()
+            : expenditures.Select(e => new SchoolExpenditureWithPerformance(e, bandings[e.URN])).ToArray();
+    }
+
+    private static SchoolExpenditureWithPerformance[] MergeTopRanked(
+        SchoolExpenditureWithPerformance[]? expenditures,
+        IReadOnlyList<string>? topRanked)
+    {
+        if (expenditures == null || expenditures.Length == 0)
+        {
+            return [];
+        }
+
+        if (topRanked == null || topRanked.Count == 0)
+        {
+            return expenditures;
+        }
+
+        var topSet = new HashSet<string>(topRanked, StringComparer.OrdinalIgnoreCase);
+
+        foreach (var expenditure in expenditures)
+        {
+            if (topSet.Contains(expenditure.URN!))
+            {
+                expenditure.TopRankedAttainment8 = true;
+            }
+        }
+
+        return expenditures;
     }
 
     private async Task<string> GetViewName(string baseViewName)

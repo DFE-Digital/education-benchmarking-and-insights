@@ -25,6 +25,7 @@
     sourceType = DataSourceTypes.Spending,
     isPartOfTrust = Model.IsPartOfTrust,
     showKs4Progress = Model.HasProgressIndicators,
+    showAttainment8 = Model.HasTopRankedAttainment8,
     urn = Model.Urn
 })
 
@@ -140,6 +141,40 @@
                     </fieldset>
                 </div>
             }
+
+            @if (Model.HasTopRankedAttainment8)
+            {
+                var isChecked = Model.DisplayAttainment8;
+                var hintId = isChecked ? "attainment-top5-hint" : null;
+
+                <div class="govuk-form-group options-form__checkboxes--attainment" data-test-id="progress-checkboxes">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-label">
+                            Highlight schools
+                        </legend>
+                        <div class="govuk-checkboxes govuk-checkboxes--small progress-checkboxes" data-module="govuk-checkboxes">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input"
+                                       id="@nameof(SchoolComparisonViewModel.DisplayAttainment8)"
+                                       name="@nameof(SchoolComparisonViewModel.DisplayAttainment8)"
+                                       type="checkbox"
+                                       value="true"
+                                       aria-describedby="@hintId"
+                                       @(isChecked ? "checked" : "")/>
+                                <label class="govuk-label govuk-checkboxes__label" for="@nameof(SchoolComparisonViewModel.DisplayAttainment8)">
+                                    Top 5 for Attainment 8
+                                </label>
+                                @if (isChecked)
+                                {
+                                    <div id="attainment-top5-hint" class="govuk-hint govuk-checkboxes__hint">Of similar schools, excluding this one</div>
+                                }
+                                <input type="hidden" name="@nameof(SchoolComparisonViewModel.DisplayAttainment8)" value="false" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            }
+
             <div class="options-form__apply">
                 <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
                     Apply
@@ -167,7 +202,7 @@
                             }
                             else
                             {
-                                @await Html.PartialAsync("_SchoolComparisonTable", new SchoolSpendingDataViewModel(subCategory, Model.ResultAs, Model.Urn!, Model.BandingsAs))
+                                @await Html.PartialAsync("_SchoolComparisonTable", new SchoolSpendingDataViewModel(subCategory, Model.ResultAs, Model.Urn!, Model.BandingsAs, Model.DisplayAttainment8))
                             }
                         </section>
                     }
