@@ -15,8 +15,8 @@ public class SchoolComparisonViewModel(
     SchoolComparatorSet? defaultComparatorSet = null,
     KS4ProgressBandings? ks4ProgressBandings = null,
     SpendingComparisonSubCategoriesViewModel? subCategories = null,
-    SchoolExpenditureWithProgress[]? buildingResult = null,
-    SchoolExpenditureWithProgress[]? pupilResult = null)
+    SchoolExpenditureWithPerformance[]? buildingResult = null,
+    SchoolExpenditureWithPerformance[]? pupilResult = null)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;

@@ -167,9 +167,9 @@ public record ExpenditureHistoryRows
     public IEnumerable<ExpenditureHistory> Rows { get; set; } = [];
 }
 
-public record SchoolExpenditureWithProgress : SchoolExpenditure
+public record SchoolExpenditureWithPerformance : SchoolExpenditure
 {
-    public SchoolExpenditureWithProgress(SchoolExpenditure expenditure, KS4ProgressBanding? banding) : base(expenditure)
+    public SchoolExpenditureWithPerformance(SchoolExpenditure expenditure, KS4ProgressBanding? banding) : base(expenditure)
     {
         TotalExpenditure = expenditure.TotalExpenditure;
         TotalTeachingSupportStaffCosts = expenditure.TotalTeachingSupportStaffCosts;

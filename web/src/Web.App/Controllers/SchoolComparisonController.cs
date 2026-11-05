@@ -67,14 +67,30 @@ public class SchoolComparisonController(
                     customComparatorSet = userDefinedSet?.Set;
                 }
 
-                var bandings = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
+                var showKs4Progress = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding);
+                var showAttainment8 = await featureManager.IsEnabledAsync(FeatureFlags.Attainment8);
+
+                // these two feature flags are mutually exclusive and therefore here we guard against incorrect config
+                if (showKs4Progress && showAttainment8)
+                {
+                    showKs4Progress = false;
+                    showAttainment8 = false;
+
+                    logger.LogWarning(
+                        "An error detected in feature management for school comparison: {KS4ProgressBanding} and {Attainment8} are both true",
+                        nameof(FeatureFlags.KS4ProgressBanding),
+                        nameof(FeatureFlags.Attainment8));
+                    // TODO: alert as well as log
+                }
+
+                var bandings = showKs4Progress
                     ? await progressBandingsService.GetKS4ProgressBandings(customComparatorSet ?? defaultComparatorSet?.All ?? [])
                     : null;
 
                 SpendingComparisonSubCategoriesViewModel? subCategories = null;
 
-                SchoolExpenditureWithProgress[]? buildingResult = null;
-                SchoolExpenditureWithProgress[]? pupilResult = null;
+                SchoolExpenditureWithPerformance[]? buildingResult = null;
+                SchoolExpenditureWithPerformance[]? pupilResult = null;
 
                 if (await featureManager.IsEnabledAsync(FeatureFlags.SchoolComparisonFilter))
                 {
@@ -258,7 +274,7 @@ public class SchoolComparisonController(
                 }
 
                 string[] exclude = bandings == null || bandings.Items.Length == 0
-                    ? [nameof(SchoolExpenditure.TotalInternalFloorArea), nameof(SchoolExpenditureWithProgress.ProgressBanding)]
+                    ? [nameof(SchoolExpenditure.TotalInternalFloorArea), nameof(SchoolExpenditureWithPerformance.ProgressBanding)]
                     : [nameof(SchoolExpenditure.TotalInternalFloorArea)];
 
                 IEnumerable<CsvResult> csvResults =
@@ -355,15 +371,15 @@ public class SchoolComparisonController(
         return query;
     }
 
-    private static SchoolExpenditureWithProgress[] MergeProgressBandings(SchoolExpenditure[]? expenditures, KS4ProgressBandings? bandings)
+    private static SchoolExpenditureWithPerformance[] MergeProgressBandings(SchoolExpenditure[]? expenditures, KS4ProgressBandings? bandings)
     {
         if (expenditures == null)
         {
             return [];
         }
         return bandings == null
-            ? expenditures.Select(e => new SchoolExpenditureWithProgress(e, null)).ToArray()
-            : expenditures.Select(e => new SchoolExpenditureWithProgress(e, bandings[e.URN])).ToArray();
+            ? expenditures.Select(e => new SchoolExpenditureWithPerformance(e, null)).ToArray()
+            : expenditures.Select(e => new SchoolExpenditureWithPerformance(e, bandings[e.URN])).ToArray();
     }
 
     private async Task<string> GetViewName(string baseViewName)
