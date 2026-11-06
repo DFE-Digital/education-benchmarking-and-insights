@@ -383,7 +383,9 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         bool withEmptyComparatorSet = false,
         bool chartApiError = false,
         bool hasProgressIndicatorsWellAboveAverage = false,
-        bool hasProgressIndicatorsAboveAverage = false)
+        bool hasProgressIndicatorsAboveAverage = false,
+        bool attainment8Enabled = false,
+        bool hasAttainment8 = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -429,6 +431,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
                 Fixture.Build<SchoolCharacteristic>()
                     .With(x => x.URN, e.URN)
                     .With(x => x.KS4ProgressBanding, bandings[i])
+                    .With(x => x.Attainment8, hasAttainment8 ? 1.0m : null)
                     .Create())
             .ToArray();
 
@@ -460,13 +463,17 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         {
             disabledFeatures.Add(FeatureFlags.SchoolComparisonFilter);
         }
+        if (!attainment8Enabled)
+        {
+            disabledFeatures.Add(FeatureFlags.Attainment8);
+        }
 
         var horizontalBarChart = new ChartResponse
         {
             Html = "<svg />"
         };
 
-        var client = Client.SetupDisableFeatureFlags(disabledFeatures.ToArray())
+        var client = Client.SetupDisableFeatureFlags([.. disabledFeatures])
             .SetupEstablishment(school)
             .SetupSchool(school)
             .SetupInsights()
