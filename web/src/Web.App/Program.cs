@@ -53,6 +53,8 @@ builder.Services
     .AddScoped<ITrustItSpendChartService, TrustItSpendChartService>()
     .AddScoped<IProgressBandingsService, ProgressBandingsService>()
     .AddScoped<IComparatorSetRankingService, Attainment8ComparatorSetRankingService>()
+    .AddScoped<ISchoolPerformanceDataService, SchoolPerformanceDataService>()
+    .AddScoped<IComparisonExpenditureService, ComparisonExpenditureService>()
     .AddValidation()
     .AddActionResults();
 
