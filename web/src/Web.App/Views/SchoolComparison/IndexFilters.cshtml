@@ -25,7 +25,7 @@
     sourceType = DataSourceTypes.Spending,
     isPartOfTrust = Model.IsPartOfTrust,
     showKs4Progress = Model.HasProgressIndicators,
-    showAttainment8 = Model.HasTopRankedAttainment8,
+    showAttainment8 = Model is { HasTopRankedAttainment8: true, DisplayAttainment8: true },
     urn = Model.Urn
 })
 
