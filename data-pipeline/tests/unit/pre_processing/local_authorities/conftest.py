@@ -474,6 +474,69 @@ def la_sen2_preprocessed(la_sen2_raw) -> pd.DataFrame:
 
 
 @pytest.fixture
+def la_sen2_caseload_2025_raw() -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "time_period": [202425, 202425, 202324],
+            "time_identifier": ["Academic year"] * 3,
+            "geographic_level": ["Local authority", "National", "Local authority"],
+            "country_code": ["E92000001"] * 3,
+            "country_name": ["England"] * 3,
+            "region_code": ["E13000001", "", "E13000001"],
+            "region_name": ["Yorkshire and The Humber", "", "Yorkshire and The Humber"],
+            "new_la_code": ["E10000000", "z", "E10000000"],
+            "old_la_code": [101, np.nan, 101],
+            "la_name": ["West Yorkshire", "", "West Yorkshire"],
+            "breakdown_topic": ["All EHC plans"] * 3,
+            "breakdown": ["All EHC plans", "All EHC plans", "All EHC plans"],
+            "ehcplans": [100, 1000, 90],
+            "mainstream_la_maintained": [10, 100, 10],
+            "mainstream_academy": [5, 50, 5],
+            "mainstream_free_school": [2, 20, 2],
+            "mainstream_la_maintained_resourced_provision": [1, 10, 1],
+            "mainstream_la_maintained_senunit": [1, 10, 1],
+            "mainstream_academy_resourced_provision": [1, 10, 1],
+            "mainstream_academy_senunit": [1, 10, 1],
+            "mainstream_free_school_resourced_provision": [1, 10, 1],
+            "mainstream_free_school_senunit": [1, 10, 1],
+            "mainstream_independent": [3, 30, 3],
+            "mainstream_total": [26, 260, 26],
+            "mainstream_total_pc": [26.0, 26.0, 26.0],
+            "special_la_maintained": [20, 200, 20],
+            "special_academy_free": [15, 150, 15],
+            "special_independent": [4, 40, 4],
+            "special_non_maintained": [2, 20, 2],
+            "special_total": [41, 410, 41],
+            "special_total_pc": [41.0, 41.0, 41.0],
+            "ap_pru_la_maintained": [3, 30, 3],
+            "ap_pru_academy": [2, 20, 2],
+            "ap_pru_free_school": [1, 10, 1],
+            "ap_pru_total": [6, 60, 6],
+            "AP_PRU_total_pc": [6.0, 6.0, 6.0],
+            "general_fe_tertiary_colleges": [8, 80, 8],
+            "specialist_post_16_institutions": [4, 40, 4],
+            "ukrlp_provider": [1, 10, 1],
+            "fe_total": [13, 130, 13],
+            "fe_total_pc": [13.0, 13.0, 13.0],
+            "ed_elsewhere_pc": [1.0, 1.0, 1.0],
+            "nm_early_years_pc": [1.0, 1.0, 1.0],
+            "placement_unknown_pc": [1.0, 1.0, 1.0],
+        }
+    )
+
+
+@pytest.fixture
+def la_sen2_caseload_2026_raw(la_sen2_caseload_2025_raw: pd.DataFrame) -> pd.DataFrame:
+    df = la_sen2_caseload_2025_raw.copy()
+    df["time_period"] = [202526, 202526, 202425]
+    df.rename(columns={"AP_PRU_total_pc": "ap_pru_total_pc"}, inplace=True)
+    df.drop(columns=["special_academy_free"], inplace=True)
+    df["special_academy"] = [10, 100, 10]
+    df["special_free_school"] = [5, 50, 5]
+    return df
+
+
+@pytest.fixture
 def la_place_numbers() -> pd.DataFrame:
     """
     Minimal high needs place-numbers frame keyed by URN, with just the

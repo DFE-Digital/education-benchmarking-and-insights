@@ -19,7 +19,7 @@ eleventyNavigation:
 * census_pupils.csv
 * census_workforce.csv
 * sen.csv
-* sen2_estab_caseload.csv
+* caseload.csv (from 2025 onwards; sen2_estab_caseload.csv for 2024 and earlier)
 * cdc.csv
 * ks2.csv
 * ks4.csv

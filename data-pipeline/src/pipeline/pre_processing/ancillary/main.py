@@ -4,6 +4,7 @@ from pipeline.input_schemas import (
     dsg_filenames,
     head_teacher_breakdowns_filenames,
     high_needs_places_filenames,
+    la_sen2_filenames,
 )
 from pipeline.pre_processing.aar.academies import prepare_aar_data
 from pipeline.pre_processing.aar.central_services import prepare_central_services_data
@@ -332,12 +333,13 @@ def pre_process_ons_population_estimates(s251_year, run_id):
 
 
 def pre_process_sen2(s251_year, run_id):
+    filename = la_sen2_filenames.get(s251_year, la_sen2_filenames["default"])
     logger.info(
-        f"Reading LA SEN2 ECHP plan data: default/{s251_year}/sen2_estab_caseload.csv"
+        f"Reading LA SEN2 ECHP plan data: default/{s251_year}/{filename}"
     )
     la_sen2_data = get_blob(
         raw_container,
-        f"default/{s251_year}/sen2_estab_caseload.csv",
+        f"default/{s251_year}/{filename}",
     )
     sen2 = prepare_sen2_data(la_sen2_data, s251_year)
     return sen2

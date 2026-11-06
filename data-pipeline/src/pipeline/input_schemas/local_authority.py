@@ -1,3 +1,5 @@
+from .utils import evolve_schema
+
 la_section_251_index_column = ["new_la_code", "old_la_code"]
 la_budget = {
     "default": {
@@ -578,6 +580,132 @@ la_ons_population = {
 }
 
 la_sen2_index_column = ["new_la_code", "old_la_code"]
+la_sen2_filenames = {
+    "default": "sen2_estab_caseload.csv",
+    2025: "caseload.csv",
+    2026: "caseload.csv",
+}
+la_sen2_caseload_drop_columns = {
+    "default": [
+        "breakdown_topic",
+        "mainstream_total_pc",
+        "special_total_pc",
+        "fe_total_pc",
+        "ed_elsewhere_pc",
+        "nm_early_years_pc",
+        "placement_unknown_pc",
+        "ap_pru_total_pc",
+    ],
+    2025: [
+        "breakdown_topic",
+        "mainstream_total_pc",
+        "special_total_pc",
+        "fe_total_pc",
+        "ed_elsewhere_pc",
+        "nm_early_years_pc",
+        "placement_unknown_pc",
+        "AP_PRU_total_pc",
+    ],
+    2026: [
+        "breakdown_topic",
+        "mainstream_total_pc",
+        "special_total_pc",
+        "fe_total_pc",
+        "ed_elsewhere_pc",
+        "nm_early_years_pc",
+        "placement_unknown_pc",
+        "ap_pru_total_pc",
+    ],
+}
+la_sen2_caseload_time_period = {
+    2025: {202425: "2025", "202425": "2025"},
+    2026: {202526: "2026", "202526": "2026"},
+}
+la_sen2_caseload_na_columns = {
+    "default": [
+        "Sixth form college",
+        "Other FE",
+        "Hospital School",
+    ],
+}
+_la_sen2_caseload_column_mappings_2025 = {
+    "ehcplans": "Total",
+    "mainstream_la_maintained": "Mainstream - LA maintained",
+    "mainstream_academy": "Mainstream - Academy",
+    "mainstream_la_maintained_resourced_provision": "Mainstream - LA maintained - Resourced provision",
+    "ap_pru_academy": "AP/PRU - Academy",
+    "ap_pru_free_school": "AP/PRU - Free school",
+    "ap_pru_la_maintained": "AP/PRU - LA maintained",
+    "general_fe_tertiary_colleges": "General FE and tertiary colleges/HE",
+    "mainstream_la_maintained_senunit": "Mainstream - LA maintained - SEN unit",
+    "mainstream_academy_senunit": "Mainstream - Academy - SEN unit",
+    "mainstream_academy_resourced_provision": "Mainstream - Academy - Resourced Provision",
+    "mainstream_free_school_senunit": "Mainstream - Free school - SEN unit",
+    "mainstream_free_school_resourced_provision": "Mainstream - Free school - Resourced provision",
+    "mainstream_free_school": "Mainstream - Free school",
+    "mainstream_independent": "Mainstream - Independent",
+    "special_independent": "Special - Independent",
+    "special_non_maintained": "Special - Non-maintained",
+    "special_la_maintained": "Special - LA maintained",
+    "special_academy_free": "Special - Academy/free",
+    "specialist_post_16_institutions": "Specialist post-16 institutions",
+}
+la_sen2_caseload_column_mappings = {
+    2025: _la_sen2_caseload_column_mappings_2025,
+    2026: evolve_schema(
+        _la_sen2_caseload_column_mappings_2025,
+        removals=["special_academy_free"],
+        additions={
+            "special_academy": "Special - Academy/free",
+            "special_free_school": "Special - Academy/free",
+        },
+    ),
+}
+la_sen2_caseload_id_vars = {
+    "default": [
+        "time_period",
+        "time_identifier",
+        "geographic_level",
+        "country_code",
+        "country_name",
+        "region_code",
+        "region_name",
+        "new_la_code",
+        "old_la_code",
+        "la_name",
+        "breakdown",
+    ],
+}
+la_sen2_caseload_group_rules = {
+    "default": [
+        ("Specialist post-16 institutions", "Further education"),
+        ("Sixth form college", "Further education"),
+        ("FE", "Further education"),
+        ("Mainstream", "Mainstream school"),
+        ("Special", "Special school"),
+        ("Hospital School", "Special school"),
+        ("AP/PRU", "Alternative provision/Pupil referral unit"),
+        ("Total", "Total"),
+    ],
+}
+la_sen2_caseload_final_order = {
+    "default": [
+        "time_period",
+        "time_identifier",
+        "geographic_level",
+        "country_code",
+        "country_name",
+        "region_code",
+        "region_name",
+        "new_la_code",
+        "old_la_code",
+        "la_name",
+        "establishment_group",
+        "establishment_type",
+        "ehcp_or_statement",
+        "num_caseload",
+    ],
+}
 la_sen2 = {
     "default": {
         "time_period": "string",
@@ -757,48 +885,51 @@ la_sen2_eval = {
             "`EHCPPost16`"
         ),
     },
-    2025: {
-        "EHCPTotal": "`Total__Total`",
-        "EHCPMainstream": (
-            "`Mainstream school__Mainstream - LA maintained` + "
-            "`Mainstream school__Mainstream - Free school` + "
-            "`Mainstream school__Mainstream - Academy`"
-        ),
-        "EHCPResourced": (
-            "`Mainstream school__Mainstream - Academy - Resourced Provision` + "
-            "`Mainstream school__Mainstream - Academy - SEN unit` + "
-            "`Mainstream school__Mainstream - Free school - Resourced provision` + "
-            "`Mainstream school__Mainstream - Free school - SEN unit` + "
-            "`Mainstream school__Mainstream - LA maintained - Resourced provision` + "
-            "`Mainstream school__Mainstream - LA maintained - SEN unit`"
-        ),
-        "EHCPSpecial": (
-            "`Special school__Special - LA maintained` + "
-            "`Special school__Special - Academy/free`"
-        ),
-        "EHCPIndependent": (
-            "`Mainstream school__Mainstream - Independent` + "
-            "`Special school__Special - Independent` + "
-            "`Special school__Special - Non-maintained`"
-        ),
-        "EHCPHospital": (
-            "`Alternative provision/Pupil referral unit__AP/PRU - Academy` + "
-            "`Alternative provision/Pupil referral unit__AP/PRU - Free school` + "
-            "`Alternative provision/Pupil referral unit__AP/PRU - LA maintained`"
-        ),
-        "EHCPPost16": (
-            "`Further education__General FE and tertiary colleges/HE` + "
-            "`Further education__Specialist post-16 institutions`"
-        ),
-        "EHCPOther": (
-            "`EHCPTotal` - "
-            "`EHCPMainstream` - "
-            "`EHCPResourced` - "
-            "`EHCPSpecial` - "
-            "`EHCPIndependent` - "
-            "`EHCPHospital` - "
-            "`EHCPPost16`"
-        ),
-    },
+    2025: (
+        _la_sen2_eval_2025 := {
+            "EHCPTotal": "`Total__Total`",
+            "EHCPMainstream": (
+                "`Mainstream school__Mainstream - LA maintained` + "
+                "`Mainstream school__Mainstream - Free school` + "
+                "`Mainstream school__Mainstream - Academy`"
+            ),
+            "EHCPResourced": (
+                "`Mainstream school__Mainstream - Academy - Resourced Provision` + "
+                "`Mainstream school__Mainstream - Academy - SEN unit` + "
+                "`Mainstream school__Mainstream - Free school - Resourced provision` + "
+                "`Mainstream school__Mainstream - Free school - SEN unit` + "
+                "`Mainstream school__Mainstream - LA maintained - Resourced provision` + "
+                "`Mainstream school__Mainstream - LA maintained - SEN unit`"
+            ),
+            "EHCPSpecial": (
+                "`Special school__Special - LA maintained` + "
+                "`Special school__Special - Academy/free`"
+            ),
+            "EHCPIndependent": (
+                "`Mainstream school__Mainstream - Independent` + "
+                "`Special school__Special - Independent` + "
+                "`Special school__Special - Non-maintained`"
+            ),
+            "EHCPHospital": (
+                "`Alternative provision/Pupil referral unit__AP/PRU - Academy` + "
+                "`Alternative provision/Pupil referral unit__AP/PRU - Free school` + "
+                "`Alternative provision/Pupil referral unit__AP/PRU - LA maintained`"
+            ),
+            "EHCPPost16": (
+                "`Further education__General FE and tertiary colleges/HE` + "
+                "`Further education__Specialist post-16 institutions`"
+            ),
+            "EHCPOther": (
+                "`EHCPTotal` - "
+                "`EHCPMainstream` - "
+                "`EHCPResourced` - "
+                "`EHCPSpecial` - "
+                "`EHCPIndependent` - "
+                "`EHCPHospital` - "
+                "`EHCPPost16`"
+            ),
+        }
+    ),
+    2026: _la_sen2_eval_2025,
 }
 la_sen2_columns = {k: list(v.keys()) for k, v in la_sen2_eval.items()}
