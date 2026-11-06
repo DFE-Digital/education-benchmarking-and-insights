@@ -51,136 +51,145 @@
                     {
                         <div id="page-actions-button"></div>
                     }
-                    <a href="@Url.Action("Download", "SchoolComparison", new
-                             {
-                                 urn = Model.Urn
-                             })" role="button"
-                   class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                    Download page data
-                </a>
+                    <a href="@Url.Action("Download", "SchoolComparison", new { urn = Model.Urn })"
+                       role="button"
+                       class="govuk-button govuk-button--secondary"
+                       data-module="govuk-button">
+                        Download page data
+                    </a>
                 </div>
             </div>
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-            @using (Html.BeginForm(FormMethod.Post, true, new
+            @using (Html.BeginForm("Index", "SchoolComparison", new { urn = Model.Urn }, FormMethod.Post, true, new
             {
                 @class = "options-form",
                 novalidate = "novalidate",
                 role = "search"
             }))
-        {
-            <div class="options-form__view-as">
-                <fieldset class="govuk-fieldset">
-                    <legend class="govuk-label">
-                        View as
-                    </legend>
-                    <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
-                         id="@nameof(SchoolComparisonViewModel.ViewAs)">
-                        @foreach (var view in Views.All)
-                        {
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input"
-                                       id="view-@view"
-                                       name="@nameof(SchoolComparisonViewModel.ViewAs)" type="radio"
-                                       value="@((int)view)"
-                                       @(Model.ViewAs == view ? "checked" : "")>
-                                <label class="govuk-label govuk-radios__label"
-                                       for="view-@view">
-                                    @view.GetDescription()
-                                </label>
-                            </div>
-                        }
-                    </div>
-                </fieldset>
-            </div>
-
-            <div class="options-form__compare-by">
-                <label class="govuk-label" for="@nameof(SchoolComparisonViewModel.ResultAs)">
-                    Compare by
-                </label>
-                <select class="govuk-select" id="@nameof(SchoolComparisonViewModel.ResultAs)" name="@nameof(SchoolComparisonViewModel.ResultAs)">
-                    @foreach (var option in SchoolSpendingDimensions.AllResultsAsOptions)
-                    {
-                        <option
-                            value="@((int)option)"
-                            selected="@(Model.ResultAs == option ? "selected" : null)">
-                            @option.GetResultsAsDescription()
-                        </option>
-                    }
-                </select>
-            </div>
-
-            @if (Model.HasProgressIndicators)
             {
-                <div class="govuk-form-group options-form__checkboxes" data-test-id="progress-checkboxes">
+                foreach (var sub in Model.SelectedSubCategories)
+                {
+                    <input type="hidden" name="@nameof(Model.SelectedSubCategories)" value="@((int)sub)" />
+                }
+
+                <div class="options-form__view-as">
                     <fieldset class="govuk-fieldset">
                         <legend class="govuk-label">
-                            School performance
+                            View as
                         </legend>
-                        <div class="govuk-checkboxes govuk-checkboxes--small progress-checkboxes" data-module="govuk-checkboxes">
-                            <input type="hidden" name="@nameof(SchoolComparisonViewModel.BandingsAs)" value="" />
-                            @foreach (var option in Model.AvailableBandingsAs)
+                        <div class="govuk-radios govuk-radios--small"
+                             data-module="govuk-radios"
+                             id="@nameof(SchoolComparisonViewModel.ViewAs)">
+                            @foreach (var view in Views.All)
                             {
-                                var id = $"banding-{option}";
-                                var isChecked = Model.BandingsAs.Contains(option);
-
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input"
-                                           id="@id"
-                                           name="@nameof(SchoolComparisonViewModel.BandingsAs)"
-                                           type="checkbox"
-                                           value="@((int)option)"
-                                           @(isChecked ? "checked" : "") />
-
-                                    <label class="govuk-label govuk-checkboxes__label" for="@id">
-                                        @option.GetBandingAsDescription()
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input"
+                                           id="view-@view"
+                                           name="@nameof(SchoolComparisonViewModel.ViewAs)"
+                                           type="radio"
+                                           value="@((int)view)"
+                                           @(Model.ViewAs == view ? "checked" : null)>
+                                    <label class="govuk-label govuk-radios__label" for="view-@view">
+                                        @view.GetDescription()
                                     </label>
                                 </div>
                             }
                         </div>
                     </fieldset>
                 </div>
-            }
 
-            @if (Model.HasTopRankedAttainment8)
-            {
-                var isChecked = Model.DisplayAttainment8;
-                var hintId = isChecked ? "attainment-top5-hint" : null;
+                <div class="options-form__compare-by">
+                    <label class="govuk-label" for="@nameof(SchoolComparisonViewModel.ResultAs)">
+                        Compare by
+                    </label>
+                    <select class="govuk-select"
+                            id="@nameof(SchoolComparisonViewModel.ResultAs)"
+                            name="@nameof(SchoolComparisonViewModel.ResultAs)">
+                        @foreach (var option in SchoolSpendingDimensions.AllResultsAsOptions)
+                        {
+                            <option value="@((int)option)"
+                                    selected="@(Model.ResultAs == option ? "selected" : null)">
+                                @option.GetResultsAsDescription()
+                            </option>
+                        }
+                    </select>
+                </div>
 
-                <div class="govuk-form-group options-form__checkboxes--attainment" data-test-id="progress-checkboxes">
-                    <fieldset class="govuk-fieldset">
-                        <legend class="govuk-label">
-                            Highlight schools
-                        </legend>
-                        <div class="govuk-checkboxes govuk-checkboxes--small progress-checkboxes" data-module="govuk-checkboxes">
-                            <div class="govuk-checkboxes__item">
-                                <input class="govuk-checkboxes__input"
-                                       id="@nameof(SchoolComparisonViewModel.DisplayAttainment8)"
-                                       name="@nameof(SchoolComparisonViewModel.DisplayAttainment8)"
-                                       type="checkbox"
-                                       value="true"
-                                       aria-describedby="@hintId"
-                                       @(isChecked ? "checked" : "")/>
-                                <label class="govuk-label govuk-checkboxes__label" for="@nameof(SchoolComparisonViewModel.DisplayAttainment8)">
-                                    Top 5 for Attainment 8
-                                </label>
-                                @if (isChecked)
+                @if (Model.HasProgressIndicators)
+                {
+                    <div class="govuk-form-group options-form__checkboxes" data-test-id="progress-checkboxes">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-label">
+                                School performance
+                            </legend>
+                            <div class="govuk-checkboxes govuk-checkboxes--small progress-checkboxes" data-module="govuk-checkboxes">
+                                @foreach (var option in Model.AvailableBandingsAs)
                                 {
-                                    <div id="attainment-top5-hint" class="govuk-hint govuk-checkboxes__hint">Of similar schools, excluding this one</div>
+                                    var id = $"banding-{option}";
+                                    var isChecked = Model.BandingsAs.Contains(option);
+
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input"
+                                               id="@id"
+                                               name="@nameof(SchoolComparisonViewModel.BandingsAs)"
+                                               type="checkbox"
+                                               value="@((int)option)"
+                                               @(isChecked ? "checked" : null) />
+
+                                        <label class="govuk-label govuk-checkboxes__label" for="@id">
+                                            @option.GetBandingAsDescription()
+                                        </label>
+                                    </div>
                                 }
-                                <input type="hidden" name="@nameof(SchoolComparisonViewModel.DisplayAttainment8)" value="false" />
                             </div>
-                        </div>
-                    </fieldset>
+                        </fieldset>
+                    </div>
+                }
+
+                @if (Model.HasTopRankedAttainment8)
+                {
+                    var isChecked = Model.DisplayAttainment8;
+                    var hintId = isChecked ? "attainment-top5-hint" : null;
+
+                    <div class="govuk-form-group options-form__checkboxes options-form__checkboxes--attainment" data-test-id="progress-checkboxes">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-label">
+                                Highlight schools
+                            </legend>
+                            <div class="govuk-checkboxes govuk-checkboxes--small progress-checkboxes" data-module="govuk-checkboxes">
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input"
+                                           id="@nameof(SchoolComparisonViewModel.DisplayAttainment8)"
+                                           name="@nameof(SchoolComparisonViewModel.DisplayAttainment8)"
+                                           type="checkbox"
+                                           value="true"
+                                           aria-describedby="@hintId"
+                                           @(isChecked ? "checked" : null) />
+
+                                    <label class="govuk-label govuk-checkboxes__label" for="@nameof(SchoolComparisonViewModel.DisplayAttainment8)">
+                                        Top 5 for Attainment 8
+                                    </label>
+
+                                    @if (isChecked)
+                                    {
+                                        <div id="attainment-top5-hint" class="govuk-hint govuk-checkboxes__hint">
+                                            Of similar schools, excluding this one
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                }
+
+                <div class="options-form__apply">
+                    <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                        Apply
+                    </button>
                 </div>
             }
 
-            <div class="options-form__apply">
-                <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-                    Apply
-                </button>
-            </div>
-        }
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
             @foreach (var group in Model.Groups.Where(group => group.Items.Any()))

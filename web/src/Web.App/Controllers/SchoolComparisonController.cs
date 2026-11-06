@@ -38,8 +38,8 @@ public class SchoolComparisonController(
     [HttpGet]
     [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
     public async Task<IActionResult> Index(
-        bool displayAttainment8,
         string urn,
+        bool displayAttainment8,
         SchoolSpendingCategories.SubCategoryFilter[] selectedSubCategories,
         SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs,
         Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart,
@@ -206,15 +206,39 @@ public class SchoolComparisonController(
     }
 
     [HttpPost]
-    public IActionResult Index(bool displayAttainment8, string urn, int[]? selectedSubCategories, int viewAs, int resultAs, int[]? bandingsAs) => RedirectToAction("Index", new
+    public IActionResult Index(
+        string urn,
+        int[]? selectedSubCategories,
+        int viewAs,
+        int resultAs,
+        int[]? bandingsAs,
+        bool displayAttainment8 = false)
     {
-        displayAttainment8,
-        urn,
-        selectedSubCategories,
-        viewAs,
-        resultAs,
-        bandingsAs
-    });
+        var routeValues = new RouteValueDictionary
+        {
+            { nameof(urn), urn },
+        };
+
+        if (displayAttainment8)
+        {
+            routeValues.Add(nameof(displayAttainment8), true);
+        }
+
+        if (selectedSubCategories is { Length: > 0 })
+        {
+            routeValues.Add(nameof(selectedSubCategories), selectedSubCategories);
+        }
+
+        routeValues.Add(nameof(viewAs), viewAs);
+        routeValues.Add(nameof(resultAs), resultAs);
+
+        if (bandingsAs is { Length: > 0 })
+        {
+            routeValues.Add(nameof(bandingsAs), bandingsAs);
+        }
+
+        return RedirectToAction("Index", routeValues);
+    }
 
     [HttpGet]
     [Route("custom-data")]
