@@ -545,6 +545,24 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupExpenditureWithException()
+    {
+        ExpenditureApi.Reset();
+        ExpenditureApi
+            .Setup(api => api.SchoolHistory(It.IsAny<string>(), It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        ExpenditureApi
+            .Setup(api => api.SchoolHistoryComparatorSetAverage(It.IsAny<string>(), It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        ExpenditureApi
+            .Setup(api => api.SchoolHistoryNationalAverage(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        ExpenditureApi
+            .Setup(api => api.School(It.IsAny<string>(), It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        ExpenditureApi
+            .Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        ExpenditureApi
+            .Setup(api => api.SchoolCustom(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupSchoolInsight(School school, SchoolCharacteristic? characteristic = null)
     {
         SchoolInsightApi.Reset();

@@ -218,7 +218,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
     {
         const string urn = "123456";
         var response = await _client
-            .SetupComparatorSetApiWithException()
+            .SetupExpenditureWithException()
             .Get(Paths.SchoolComparisonDownload(urn));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
