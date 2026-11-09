@@ -203,8 +203,8 @@ public class SchoolComparisonController(
 
                 var perf = await performanceDataService.GetPerformanceDataAsync(
                     urn,
-                    expenditures.BuildingExpenditure?.Select(x => x.URN!).ToArray(),
-                    expenditures.PupilExpenditure?.Select(x => x.URN!).ToArray());
+                    expenditures.BuildingExpenditure?.Where(x => !string.IsNullOrWhiteSpace(x.URN)).Select(x => x.URN!).ToArray(),
+                    expenditures.PupilExpenditure?.Where(x => !string.IsNullOrWhiteSpace(x.URN)).Select(x => x.URN!).ToArray());
 
                 List<string> exclude = [nameof(SchoolExpenditure.TotalInternalFloorArea)];
                 if (!perf.ShowKs4Progress) exclude.Add(nameof(SchoolExpenditureWithPerformance.ProgressBanding));
@@ -255,8 +255,9 @@ public class SchoolComparisonController(
                 .GetResultOrDefault<ChartResponse[]>() ?? [];
 
             var chartMap = charts
-                .Where(c => c.Id != null)
-                .ToDictionary(c => c.Id!, c => c.Html);
+                .Where(c => !string.IsNullOrEmpty(c.Id))
+                .GroupBy(c => c.Id!)
+                .ToDictionary(g => g.Key, g => g.First().Html);
 
             foreach (var item in subCategories.Groups.SelectMany(g => g.Items))
             {
