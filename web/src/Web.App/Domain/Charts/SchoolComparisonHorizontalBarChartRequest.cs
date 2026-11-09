@@ -42,7 +42,7 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
             GroupedKeys[GroupType.PartYear] = partYear;
         }
 
-        if (bandingsAs.Length == 0 && !displayAttainment8)
+        if (bandingsAs is not { Length: > 0 } && !displayAttainment8)
         {
             return;
         }
@@ -85,10 +85,8 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
             if (items.Length > 0)
             {
                 GroupedKeys?[GroupType.TopRankedAttainment8] = items;
+                legendLabels.Add("Top 5 for Attainment 8");
             }
-
-            // TODO: move this somewhere to avoid magic strings
-            legendLabels.Add("Top 5 for Attainment 8");
         }
 
         LegendLabels = [.. legendLabels];
