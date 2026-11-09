@@ -49,7 +49,7 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
 
         var legendLabels = new List<string>
         {
-            "Your chosen school"
+            ChartLegendLabels.ChosenSchool
         };
 
         // use only full year records for performance to prevent overlap with part‑year grouping
@@ -85,7 +85,7 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
             if (items.Length > 0)
             {
                 GroupedKeys?[GroupType.TopRankedAttainment8] = items;
-                legendLabels.Add("Top 5 for Attainment 8");
+                legendLabels.Add(ChartLegendLabels.TopRankedAttainment8);
             }
         }
 

@@ -31,7 +31,7 @@
             }
             @if (Model.DisplayAttainment8)
             {
-                <th scope="col" class="govuk-table__header">Top 5 for Attainment 8</th>
+                <th scope="col" class="govuk-table__header">@ChartLegendLabels.TopRankedAttainment8</th>
             }
         </tr>
         </thead>
@@ -70,7 +70,7 @@
                         @if (row.TopRankedAttainment8)
                         {
                             <strong class="govuk-tag govuk-tag--turquoise govuk-!-font-size-16">
-                                Top 5 for Attainment 8
+                                @ChartLegendLabels.TopRankedAttainment8
                             </strong>
                         }
                     </td>
