@@ -6,6 +6,7 @@ using AutoFixture;
 using Web.App;
 using Web.App.Domain;
 using Web.App.Domain.Content;
+using Web.App.Extensions;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools;
@@ -186,6 +187,68 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     {
         var (page, _, _, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, ks4ProgressBandingEnabled: ks4ProgressBandingEnabled, hasProgressIndicator: hasProgressIndicator);
         AssertResources(page, expectedComparePerformanceVisible);
+    }
+
+    [Theory]
+    [InlineData(false, true, false)]
+    [InlineData(false, false, false)]
+    [InlineData(true, false, false)]
+    [InlineData(true, true, true)]
+    public async Task CanDisplayAttainment8Performance(bool attainment8Enabled, bool hasAttainment8, bool expectedVisible)
+    {
+        var (page, school, _, _, characteristic) = await SetupNavigateInitPage(
+            EstablishmentTypes.Maintained,
+            ks4ProgressBandingEnabled: false,
+            attainment8Enabled: attainment8Enabled,
+            hasAttainment8: hasAttainment8);
+        AssertAttainment8Performance(page, school, characteristic, expectedVisible);
+    }
+
+    [Theory]
+    [InlineData(false, true, false)]
+    [InlineData(false, false, false)]
+    [InlineData(true, false, false)]
+    [InlineData(true, true, true)]
+    public async Task CanDisplayAttainment8DataSource(bool attainment8Enabled, bool hasAttainment8, bool expectedVisible)
+    {
+        var (page, _, _, _, _) = await SetupNavigateInitPage(
+            EstablishmentTypes.Maintained,
+            ks4ProgressBandingEnabled: false,
+            attainment8Enabled: attainment8Enabled,
+            hasAttainment8: hasAttainment8);
+        AssertAttainment8DataSource(page, expectedVisible);
+    }
+
+    [Theory]
+    [InlineData(false, false)]
+    [InlineData(true, true)]
+    public async Task CanDisplayResourcesWhenAttainment8Enabled(bool attainment8Enabled, bool expectedComparePerformanceVisible)
+    {
+        var (page, _, _, _, _) = await SetupNavigateInitPage(
+            EstablishmentTypes.Maintained,
+            ks4ProgressBandingEnabled: false,
+            attainment8Enabled: attainment8Enabled);
+        AssertResources(page, expectedComparePerformanceVisible);
+    }
+
+    [Theory(Skip = "Pending finance-type-aware Attainment 8 year: maintained should show cfr_year, academies aar_year. The home page currently renders the single FinanceYears.Attainment8 value for both. Enable once the display fix lands.")]
+    [InlineData(EstablishmentTypes.Maintained, false, 2021)]
+    [InlineData(EstablishmentTypes.Academies, true, 2022)]
+    public async Task CanDisplayAttainment8AcademicYearByFinanceType(string financeType, bool isPartOfTrust, int expectedYear)
+    {
+        var (page, _, _, _, _) = await SetupNavigateInitPage(
+            financeType,
+            isPartOfTrust: isPartOfTrust,
+            ks4ProgressBandingEnabled: false,
+            attainment8Enabled: true,
+            hasAttainment8: true);
+
+        var dataSource = page.QuerySelector("div[data-test-id='data-source-wrapper']");
+        Assert.NotNull(dataSource);
+        var attainmentLine = dataSource.QuerySelectorAll("p.govuk-body")
+            .FirstOrDefault(p => p.TextContent.Contains("Attainment 8 data uses the latest data available from the academic year"));
+        Assert.NotNull(attainmentLine);
+        Assert.Contains($"academic year {expectedYear - 1} to {expectedYear}", attainmentLine.TextContent);
     }
 
     private async Task<(IHtmlDocument page, School school, SchoolBalance balance, Banner? banner, SchoolCharacteristic characteristic)> SetupNavigateInitPage(
@@ -388,6 +451,50 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var resource6 = resources.ElementAtOrDefault(5);
         Assert.NotNull(resource6);
         DocumentAssert.Heading3(resource6, "Compare school and college performance in England");
+    }
+
+    private static void AssertAttainment8Performance(IHtmlDocument page, School school, SchoolCharacteristic characteristic, bool expectedVisible)
+    {
+        var section = page.QuerySelector("div[data-test-id='school-performance-attainment-8']");
+        if (!expectedVisible)
+        {
+            Assert.Null(section);
+            return;
+        }
+
+        Assert.NotNull(section);
+        DocumentAssert.Heading2(section, "Performance for this school");
+
+        var statBox = section.QuerySelector("div.stat-box");
+        Assert.NotNull(statBox);
+        DocumentAssert.Heading3(statBox, "Attainment 8");
+
+        var defList = statBox.QuerySelector("dl");
+        Assert.NotNull(defList);
+        DocumentAssert.TextEqual(
+            defList,
+            $"Score {characteristic.Attainment8.ToSimpleDisplay()} {school.LAName} average {characteristic.LocalAuthorityAvgAttainment8.ToSimpleDisplay()} National average {characteristic.NationalAvgAttainment8.ToSimpleDisplay()}",
+            true);
+
+        Assert.NotNull(section.QuerySelector("details"));
+    }
+
+    private static void AssertAttainment8DataSource(IHtmlDocument page, bool expectedVisible)
+    {
+        var dataSourceElement = page.QuerySelector("div[data-test-id='data-source-wrapper']");
+        Assert.NotNull(dataSourceElement);
+
+        var attainmentLine = dataSourceElement.QuerySelectorAll("p.govuk-body")
+            .FirstOrDefault(p => p.TextContent.Contains("Attainment 8 data uses the latest data available from the academic year"));
+
+        if (!expectedVisible)
+        {
+            Assert.Null(attainmentLine);
+            return;
+        }
+
+        Assert.NotNull(attainmentLine);
+        Assert.Contains("Compare school and college performance in England", attainmentLine.TextContent);
     }
 
     private static void AssertDataSource(

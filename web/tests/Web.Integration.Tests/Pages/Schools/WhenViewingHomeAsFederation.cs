@@ -143,6 +143,31 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         AssertAppHeadlines(page, school, balance);
     }
 
+    [Fact]
+    public async Task CanDisplayAttainment8ForFederationLead()
+    {
+        var (page, _, _) = await SetupNavigateInitPage(
+            isNonLeadFederation: false,
+            ks4ProgressBandingEnabled: false,
+            attainment8Enabled: true,
+            hasAttainment8: true);
+
+        var section = page.QuerySelector("div[data-test-id='school-performance-attainment-8']");
+        Assert.NotNull(section);
+        DocumentAssert.Heading2(section, "Performance for this school");
+
+        var statBox = section.QuerySelector("div.stat-box");
+        Assert.NotNull(statBox);
+        DocumentAssert.Heading3(statBox, "Attainment 8");
+
+        // The lead school shows its own Attainment 8 (seeded to 1.0 -> "1"), not an aggregated value.
+        var scoreValue = statBox.QuerySelectorAll("dd").FirstOrDefault();
+        Assert.NotNull(scoreValue);
+        Assert.Equal("1", scoreValue.TextContent.Trim());
+
+        Assert.NotNull(section.QuerySelector("details"));
+    }
+
     private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(
         bool isNonLeadFederation = false,
         bool ks4ProgressBandingEnabled = true,
