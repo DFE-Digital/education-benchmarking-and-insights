@@ -52,7 +52,7 @@ builder.Services
     .AddScoped<ICostCodesService, CostCodesService>()
     .AddScoped<ITrustItSpendChartService, TrustItSpendChartService>()
     .AddScoped<IProgressBandingsService, ProgressBandingsService>()
-    .AddScoped<IComparatorSetRankingService, Attainment8ComparatorSetRankingService>()
+    .AddScoped<IComparatorSetRankingService, ComparatorSetRankingService>()
     .AddScoped<ISchoolPerformanceDataService, SchoolPerformanceDataService>()
     .AddScoped<IComparisonExpenditureService, ComparisonExpenditureService>()
     .AddValidation()

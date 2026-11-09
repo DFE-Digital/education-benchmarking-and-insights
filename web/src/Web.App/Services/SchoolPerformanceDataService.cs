@@ -53,11 +53,11 @@ public class SchoolPerformanceDataService(
             : null;
 
         var topBuilding = showAttainment8
-            ? await attainment8RankingService.GetTopRankedAsync(urn, buildingUrns ?? [])
+            ? await attainment8RankingService.GetTopRankedAttainment8Async(urn, buildingUrns ?? [])
             : [];
 
         var topPupil = showAttainment8
-            ? await attainment8RankingService.GetTopRankedAsync(urn, pupilUrns ?? [])
+            ? await attainment8RankingService.GetTopRankedAttainment8Async(urn, pupilUrns ?? [])
             : [];
 
         return new PerformanceDataResult(showKs4Progress, showAttainment8, bandings, topBuilding, topPupil);

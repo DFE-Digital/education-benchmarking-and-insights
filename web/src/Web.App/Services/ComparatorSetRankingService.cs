@@ -1,5 +1,4 @@
 ﻿using Web.App.Domain;
-using Web.App.Domain.Schools;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 
@@ -7,12 +6,12 @@ namespace Web.App.Services;
 
 public interface IComparatorSetRankingService
 {
-    Task<IReadOnlyList<string>> GetTopRankedAsync(string currentUrn, string?[] comparatorUrns, int count = 5, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<string>> GetTopRankedAttainment8Async(string currentUrn, string?[] comparatorUrns, int count = 5, CancellationToken cancellationToken = default);
 }
 
-public class Attainment8ComparatorSetRankingService(ISchoolApi schoolApi) : IComparatorSetRankingService
+public class ComparatorSetRankingService(ISchoolApi schoolApi) : IComparatorSetRankingService
 {
-    public async Task<IReadOnlyList<string>> GetTopRankedAsync(string currentUrn, string?[] comparatorUrns, int count = 5, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<string>> GetTopRankedAttainment8Async(string currentUrn, string?[] comparatorUrns, int count = 5, CancellationToken cancellationToken = default)
     {
         if (count <= 0)
         {
