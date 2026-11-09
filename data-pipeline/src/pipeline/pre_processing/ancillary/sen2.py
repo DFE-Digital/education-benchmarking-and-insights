@@ -42,11 +42,14 @@ def pivot_sen2_caseload_data(
         na_values={col: na_values for col in [*column_mappings, "old_la_code"]},
     )
 
-    df = df[df["breakdown"] == "All EHC plans"].copy()
-    df["breakdown"] = "Total"
-    df[legacy_na_columns] = pd.NA
     academic_year = int(f"{year - 1}{year % 100:02d}")
-    df["time_period"] = df["time_period"].replace({academic_year: str(year)})
+    df = df[
+        (df["time_period"] == academic_year)
+        & (df["breakdown"] == "All EHC plans")
+    ]
+    df["breakdown"] = "Total"
+    df["time_period"] = year
+    df[legacy_na_columns] = pd.NA
     df = df.rename(columns=column_mappings)
 
     # Combine split establishment columns that map to the same target name
