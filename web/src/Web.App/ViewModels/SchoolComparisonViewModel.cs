@@ -81,8 +81,13 @@ public class SchoolComparisonViewModel(
         FinanceTools.Spending,
         FinanceTools.BenchmarkCensus);
 
-    public SchoolComparisonChartTooltipData[] TooltipData =>
-        (pupilResult?.Concat(buildingResult!) ?? [])
+    private static SchoolComparisonChartTooltipData[] MapTooltipData(
+        IEnumerable<SchoolExpenditureWithPerformance>? records,
+        string setType,
+        SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs,
+        bool displayAttainment8) =>
+    [
+        .. (records ?? [])
         .Select(x =>
         {
             var banding = x.ProgressBanding.ToBanding() ?? KS4ProgressBandings.Banding.Unknown;
@@ -90,6 +95,7 @@ public class SchoolComparisonViewModel(
             return new SchoolComparisonChartTooltipData
             {
                 Urn = x.URN,
+                SetType = setType,
                 SchoolName = x.SchoolName,
                 SchoolType = x.SchoolType,
                 LAName = x.LAName,
@@ -97,11 +103,18 @@ public class SchoolComparisonViewModel(
                 PeriodCoveredByReturn = x.PeriodCoveredByReturn,
                 ProgressBanding = x.ProgressBanding,
                 ProgressBandingColour = banding.ToGdsColour(),
-                ShouldShowTag = KS4ProgressBandings.ShouldShowTagForSchoolSpending(banding, BandingsAs)
+                ShouldShowKs4ProgressTag = KS4ProgressBandings.ShouldShowTagForSchoolSpending(banding, bandingsAs),
+                TopRankedAttainment8 = x.TopRankedAttainment8,
+                ShouldShowAttainment8Tag = displayAttainment8 && x.TopRankedAttainment8
             };
         })
-        .Distinct()
-        .ToArray();
+    ];
+
+    public SchoolComparisonChartTooltipData[] TooltipData =>
+    [
+        .. MapTooltipData(buildingResult, ComparatorSetTypes.Building, BandingsAs, DisplayAttainment8),
+        .. MapTooltipData(pupilResult, ComparatorSetTypes.Pupil, BandingsAs, DisplayAttainment8)
+    ];
 }
 
 public class SchoolSpendingDataViewModel(

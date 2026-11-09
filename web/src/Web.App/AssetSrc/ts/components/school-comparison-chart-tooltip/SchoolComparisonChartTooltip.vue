@@ -76,7 +76,7 @@ watch(tooltip, () => {
           {{ datum?.totalPupils?.toString() }}
         </td>
       </tr>
-      <tr v-if="(datum?.shouldShowTag)" class="govuk-table__row">
+      <tr v-if="(datum?.shouldShowKs4ProgressTag)" class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Progress 8 banding</th>
         <td class="govuk-table__cell">
           <strong
@@ -86,6 +86,14 @@ watch(tooltip, () => {
               'govuk-!-font-size-16'
             ]">
             {{ datum?.progressBanding }}
+          </strong>
+        </td>
+      </tr>
+      <tr v-if="datum?.shouldShowAttainment8Tag" class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Attainment 8</th>
+        <td class="govuk-table__cell">
+          <strong class="govuk-tag govuk-tag--turquoise govuk-!-font-size-16 app-attainment8-tag">
+            Top 5 for Attainment 8
           </strong>
         </td>
       </tr>
