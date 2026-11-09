@@ -37,7 +37,6 @@ public class DataSourceInsetViewComponent(IFinanceService financeService, IUriBu
             showKs4Progress,
             years.Ks4Progress,
             showAttainment8,
-            years.Attainment8,
             additionText,
             compareSchoolPerformanceUrl));
     }
