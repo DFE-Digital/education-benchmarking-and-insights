@@ -231,26 +231,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         AssertResources(page, expectedComparePerformanceVisible);
     }
 
-    [Theory(Skip = "Pending finance-type-aware Attainment 8 year: maintained should show cfr_year, academies aar_year. The home page currently renders the single FinanceYears.Attainment8 value for both. Enable once the display fix lands.")]
-    [InlineData(EstablishmentTypes.Maintained, false, 2021)]
-    [InlineData(EstablishmentTypes.Academies, true, 2022)]
-    public async Task CanDisplayAttainment8AcademicYearByFinanceType(string financeType, bool isPartOfTrust, int expectedYear)
-    {
-        var (page, _, _, _, _) = await SetupNavigateInitPage(
-            financeType,
-            isPartOfTrust: isPartOfTrust,
-            ks4ProgressBandingEnabled: false,
-            attainment8Enabled: true,
-            hasAttainment8: true);
-
-        var dataSource = page.QuerySelector("div[data-test-id='data-source-wrapper']");
-        Assert.NotNull(dataSource);
-        var attainmentLine = dataSource.QuerySelectorAll("p.govuk-body")
-            .FirstOrDefault(p => p.TextContent.Contains("Attainment 8 data uses the latest data available from the academic year"));
-        Assert.NotNull(attainmentLine);
-        Assert.Contains($"academic year {expectedYear - 1} to {expectedYear}", attainmentLine.TextContent);
-    }
-
     private async Task<(IHtmlDocument page, School school, SchoolBalance balance, Banner? banner, SchoolCharacteristic characteristic)> SetupNavigateInitPage(
         string financeType,
         bool isPartOfTrust = false,
@@ -485,7 +465,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.NotNull(dataSourceElement);
 
         var attainmentLine = dataSourceElement.QuerySelectorAll("p.govuk-body")
-            .FirstOrDefault(p => p.TextContent.Contains("Attainment 8 data uses the latest data available from the academic year"));
+            .FirstOrDefault(p => p.TextContent.Contains("Attainment 8 data is taken from"));
 
         if (!expectedVisible)
         {

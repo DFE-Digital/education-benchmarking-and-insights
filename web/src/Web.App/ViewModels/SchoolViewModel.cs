@@ -34,7 +34,6 @@ public class SchoolViewModel : ISchoolKeyInformationViewModel
         KS4ProgressBanding = characteristic?.KS4ProgressBanding.ToBanding();
         Ks4ProgressYear = years.Ks4Progress;
         ShowKs4Progress = showKs4Progress;
-        Attainment8Year = years.Attainment8;
         Attainment8 = characteristic?.Attainment8;
         LocalAuthorityAvgAttainment8 = characteristic?.LocalAuthorityAvgAttainment8;
         NationalAvgAttainment8 = characteristic?.NationalAvgAttainment8;
@@ -109,7 +108,6 @@ public class SchoolViewModel : ISchoolKeyInformationViewModel
     public decimal? LocalAuthorityAvgAttainment8 { get; }
     public decimal? NationalAvgAttainment8 { get; }
     public bool HasAttainment8 => Attainment8.HasValue;
-    public int Attainment8Year { get; }
     public bool ShowAttainment8 { get; }
 
     public string? CompareSchoolPerformanceUrl { get; }
