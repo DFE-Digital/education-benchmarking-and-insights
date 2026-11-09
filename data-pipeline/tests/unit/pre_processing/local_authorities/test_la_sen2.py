@@ -91,12 +91,12 @@ def test_sen2_2026_caseload_handles_suppressed_values_in_split_columns(
         (2026, "special_free_school", "la_sen2_caseload_2026_raw"),
     ],
 )
-def test_pivot_sen2_caseload_missing_expected_column_raises_key_error(
+def test_pivot_sen2_caseload_missing_expected_column_raises_value_error(
     request, year: int, missing_col: str, fixture_name: str
 ):
     df = request.getfixturevalue(fixture_name).drop(columns=[missing_col])
 
-    with pytest.raises(KeyError, match=missing_col):
+    with pytest.raises(ValueError, match=missing_col):
         pivot_sen2_caseload_data(io.StringIO(df.to_csv(index=False)), year)
 
 
@@ -109,9 +109,7 @@ def test_pivot_sen2_caseload_normalises_groups_and_time_period(
 
     assert pivoted["time_period"].dtype == "string"
     assert "2026" in pivoted["time_period"].values
-    groups = dict(
-        zip(pivoted["establishment_type"], pivoted["establishment_group"])
-    )
+    groups = dict(zip(pivoted["establishment_type"], pivoted["establishment_group"]))
     assert groups["Sixth form college"] == "Further education"
     assert groups["Hospital School"] == "Special school"
     assert "mainstream_total" not in groups

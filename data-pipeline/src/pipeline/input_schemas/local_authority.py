@@ -617,10 +617,6 @@ la_sen2_caseload_drop_columns = {
         "ap_pru_total_pc",
     ],
 }
-la_sen2_caseload_time_period = {
-    2025: {202425: "2025", "202425": "2025"},
-    2026: {202526: "2026", "202526": "2026"},
-}
 la_sen2_caseload_na_columns = {
     "default": [
         "Sixth form college",
@@ -677,53 +673,42 @@ la_sen2_caseload_id_vars = {
     ],
 }
 la_sen2_caseload_group_rules = {
-    "default": [
-        ("Specialist post-16 institutions", "Further education"),
-        ("Sixth form college", "Further education"),
-        ("FE", "Further education"),
-        ("Mainstream", "Mainstream school"),
-        ("Special", "Special school"),
-        ("Hospital School", "Special school"),
-        ("AP/PRU", "Alternative provision/Pupil referral unit"),
-        ("Total", "Total"),
-    ],
-}
-la_sen2_caseload_final_order = {
-    "default": [
-        "time_period",
-        "time_identifier",
-        "geographic_level",
-        "country_code",
-        "country_name",
-        "region_code",
-        "region_name",
-        "new_la_code",
-        "old_la_code",
-        "la_name",
-        "establishment_group",
-        "establishment_type",
-        "ehcp_or_statement",
-        "num_caseload",
-    ],
+    "default": {
+        "Total": "Total",
+        "Mainstream - LA maintained": "Mainstream school",
+        "Mainstream - Academy": "Mainstream school",
+        "Mainstream - LA maintained - Resourced provision": "Mainstream school",
+        "Mainstream - LA maintained - SEN unit": "Mainstream school",
+        "Mainstream - Academy - SEN unit": "Mainstream school",
+        "Mainstream - Academy - Resourced Provision": "Mainstream school",
+        "Mainstream - Free school - SEN unit": "Mainstream school",
+        "Mainstream - Free school - Resourced provision": "Mainstream school",
+        "Mainstream - Free school": "Mainstream school",
+        "Mainstream - Independent": "Mainstream school",
+        "Special - Independent": "Special school",
+        "Special - Non-maintained": "Special school",
+        "Special - LA maintained": "Special school",
+        "Special - Academy/free": "Special school",
+        "Hospital School": "Special school",
+        "AP/PRU - Academy": "Alternative provision/Pupil referral unit",
+        "AP/PRU - Free school": "Alternative provision/Pupil referral unit",
+        "AP/PRU - LA maintained": "Alternative provision/Pupil referral unit",
+        "General FE and tertiary colleges/HE": "Further education",
+        "Specialist post-16 institutions": "Further education",
+        "Sixth form college": "Further education",
+        "Other FE": "Further education",
+    },
 }
 la_sen2 = {
     "default": {
         "time_period": "string",
-        # "time_identifier": "string",
-        # "geographic_level": "string",
-        # "country_code": "string",
-        # "country_name": "string",
-        # "region_code": "string",
-        # "region_name": "string",
         "new_la_code": "string",
         "old_la_code": "Int64",
-        # "la_name": "string",
         "establishment_group": "string",
         "establishment_type": "string",
         "ehcp_or_statement": "string",
         "num_caseload": "Int64",
-        # "pc_caseload": "float",
-    },
+    }
 }
 la_sen2_na_values = {
     "default": {

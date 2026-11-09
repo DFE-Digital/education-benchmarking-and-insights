@@ -18,50 +18,45 @@ def pivot_sen2_caseload_data(
     :param year: financial year in question
     :return: unpivoted Local Authority SEN2 caseload data
     """
-    df = pd.read_csv(caseload_filepath_or_buffer)
-    df = df[df["breakdown"] == "All EHC plans"].copy()
-    drop_cols = input_schemas.la_sen2_caseload_drop_columns.get(
-        year, input_schemas.la_sen2_caseload_drop_columns["default"]
-    )
-    df.drop(columns=drop_cols, inplace=True, errors="ignore")
-    df["breakdown"] = "Total"
-
-    academic_time_period = int(f"{year - 1}{year % 100:02d}")
-    time_period_map = input_schemas.la_sen2_caseload_time_period.get(
-        year,
-        {academic_time_period: str(year), str(academic_time_period): str(year)},
-    )
-    df["time_period"] = df["time_period"].replace(time_period_map).astype("string")
-
-    na_cols = input_schemas.la_sen2_caseload_na_columns.get(
-        year, input_schemas.la_sen2_caseload_na_columns["default"]
-    )
-    df[na_cols] = "x"
-
-    rename_columns = input_schemas.la_sen2_caseload_column_mappings.get(
+    schema = input_schemas.la_sen2.get(year, input_schemas.la_sen2["default"])
+    na_values = input_schemas.la_sen2_na_values.get(
+        year, input_schemas.la_sen2_na_values["default"]
+    )["num_caseload"]
+    column_mappings = input_schemas.la_sen2_caseload_column_mappings.get(
         year, input_schemas.la_sen2_caseload_column_mappings[2026]
     )
-    missing_rename_cols = set(rename_columns.keys()) - set(df.columns)
-    if missing_rename_cols:
-        raise KeyError(f"Expected columns missing from input: {missing_rename_cols}")
-
-    df.rename(columns=rename_columns, inplace=True)
-
-    for col in df.columns[df.columns.duplicated()].unique():
-        combined = (
-            df[col]
-            .apply(pd.to_numeric, errors="coerce")
-            .sum(axis=1, min_count=1)
-            .astype("Int64")
-            .astype("object")
-        )
-        df.drop(columns=[col], inplace=True)
-        df[col] = combined
-
+    legacy_na_columns = input_schemas.la_sen2_caseload_na_columns.get(
+        year, input_schemas.la_sen2_caseload_na_columns["default"]
+    )
     id_vars = input_schemas.la_sen2_caseload_id_vars.get(
         year, input_schemas.la_sen2_caseload_id_vars["default"]
     )
-    value_vars = list(dict.fromkeys(list(rename_columns.values()) + list(na_cols)))
+    group_rules = input_schemas.la_sen2_caseload_group_rules.get(
+        year, input_schemas.la_sen2_caseload_group_rules["default"]
+    )
+    usecols = id_vars + list(column_mappings.keys())
+
+    df = pd.read_csv(
+        caseload_filepath_or_buffer,
+        usecols=usecols,
+        na_values={col: na_values for col in [*column_mappings, "old_la_code"]},
+    )
+
+    df = df[df["breakdown"] == "All EHC plans"].copy()
+    df["breakdown"] = "Total"
+    df[legacy_na_columns] = pd.NA
+    academic_year = int(f"{year - 1}{year % 100:02d}")
+    df["time_period"] = df["time_period"].replace({academic_year: str(year)})
+    df = df.rename(columns=column_mappings)
+
+    # Combine split establishment columns that map to the same target name
+    # (e.g. 2026 special academy and special free school columns).
+    for col in df.columns[df.columns.duplicated()].unique():
+        combined = df[col].sum(axis=1, min_count=1)
+        df = df.drop(columns=[col])
+        df[col] = combined
+
+    value_vars = list(column_mappings.values()) + legacy_na_columns
     df = df.melt(
         id_vars=id_vars,
         value_vars=value_vars,
@@ -69,41 +64,19 @@ def pivot_sen2_caseload_data(
         value_name="num_caseload",
     )
 
-    df["num_caseload"] = df["num_caseload"].fillna("x")
+    df["establishment_group"] = df["establishment_type"].map(group_rules).fillna("z")
 
-    group_rules = input_schemas.la_sen2_caseload_group_rules.get(
-        year, input_schemas.la_sen2_caseload_group_rules["default"]
-    )
+    df = df.rename(columns={"breakdown": "ehcp_or_statement"})
+    output_columns = [
+        col for col in id_vars if col != "breakdown" and col in df.columns
+    ] + [
+        "establishment_group",
+        "establishment_type",
+        "ehcp_or_statement",
+        "num_caseload",
+    ]
 
-    def assign_group(name: str) -> str:
-        for pattern, group in group_rules:
-            if pattern in name:
-                return group
-        return "z"
-
-    type_to_group = {t: assign_group(t) for t in df["establishment_type"].unique()}
-    df["establishment_group"] = df["establishment_type"].map(type_to_group)
-
-    df.rename(columns={"breakdown": "ehcp_or_statement"}, inplace=True)
-
-    final_order = input_schemas.la_sen2_caseload_final_order.get(
-        year, input_schemas.la_sen2_caseload_final_order["default"]
-    )
-    df = df[final_order].copy()
-
-    schema = input_schemas.la_sen2.get(year, input_schemas.la_sen2["default"])
-    na_values = input_schemas.la_sen2_na_values.get(
-        year, input_schemas.la_sen2_na_values["default"]
-    )
-    for col, col_dtype in schema.items():
-        if col_dtype == "Int64":
-            df[col] = pd.to_numeric(df[col], errors="coerce").astype("Int64")
-        else:
-            if col in na_values:
-                df[col] = df[col].replace(na_values[col], pd.NA)
-            df[col] = df[col].astype(col_dtype)
-
-    return df
+    return df[output_columns].astype(schema)
 
 
 def prepare_sen2_data(
