@@ -150,7 +150,6 @@
                 @if (Model.HasTopRankedAttainment8)
                 {
                     var isChecked = Model.DisplayAttainment8;
-                    var hintId = isChecked ? "attainment-top5-hint" : null;
 
                     <div class="govuk-form-group options-form__checkboxes options-form__checkboxes--attainment" data-test-id="attainment8-checkboxes">
                         <fieldset class="govuk-fieldset">
@@ -164,19 +163,18 @@
                                            name="@nameof(SchoolComparisonViewModel.DisplayAttainment8)"
                                            type="checkbox"
                                            value="true"
-                                           aria-describedby="@hintId"
+                                           data-aria-controls="attainment-conditional-hint"
                                            @(isChecked ? "checked" : null) />
 
                                     <label class="govuk-label govuk-checkboxes__label" for="@nameof(SchoolComparisonViewModel.DisplayAttainment8)">
                                         @ChartLegendLabels.TopRankedAttainment8
                                     </label>
-
-                                    @if (isChecked)
-                                    {
-                                        <div id="attainment-top5-hint" class="govuk-hint govuk-checkboxes__hint">
-                                            Of similar schools, excluding this one
-                                        </div>
-                                    }
+                                </div>
+                                <div class="govuk-checkboxes__conditional @(isChecked ? "" : "govuk-checkboxes__conditional--hidden")"
+                                     id="attainment-conditional-hint">
+                                    <div class="govuk-hint">
+                                        Of similar schools, excluding this one
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
