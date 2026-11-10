@@ -29,6 +29,10 @@
             {
                 <th scope="col" class="govuk-table__header">Progress 8 banding</th>
             }
+            @if (Model.DisplayAttainment8)
+            {
+                <th scope="col" class="govuk-table__header">@ChartLegendLabels.TopRankedAttainment8</th>
+            }
         </tr>
         </thead>
         <tbody class="govuk-table__body">
@@ -58,6 +62,17 @@
                 {
                     <td class="govuk-table__cell">
                         @await Html.PartialAsync("_ProgressBandingCell", new ProgressBandingCellViewModel(Model.BandingsAs, row.ProgressBanding))
+                    </td>
+                }
+                @if (Model.DisplayAttainment8)
+                {
+                    <td class="govuk-table__cell">
+                        @if (row.TopRankedAttainment8)
+                        {
+                            <strong class="govuk-tag govuk-tag--turquoise govuk-!-font-size-16">
+                                @ChartLegendLabels.TopRankedAttainment8
+                            </strong>
+                        }
                     </td>
                 }
             </tr>

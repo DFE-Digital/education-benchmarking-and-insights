@@ -9,8 +9,8 @@ public class SpendingComparisonSubCategoriesViewModel
     public List<SchoolSpendingComparisonGroup> Groups { get; } = [];
 
     public SpendingComparisonSubCategoriesViewModel(
-        SchoolExpenditureWithProgress[] buildingResult,
-        SchoolExpenditureWithProgress[] pupilResult,
+        SchoolExpenditureWithPerformance[] buildingResult,
+        SchoolExpenditureWithPerformance[] pupilResult,
         SchoolSpendingCategories.SubCategoryFilter[] filters,
         string urn,
         CostCodes costCodes)
@@ -47,7 +47,7 @@ public class SpendingComparisonSubCategoriesViewModel
 
     private static BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> BuildSubCategory(
         SchoolSpendingCategories.SubCategoryFilter filter,
-        SchoolExpenditureWithProgress[] expenditures,
+        SchoolExpenditureWithPerformance[] expenditures,
         string urn,
         string[] costCodes)
     {
@@ -61,7 +61,8 @@ public class SpendingComparisonSubCategoriesViewModel
                 Expenditure = filter.GetValue(e),
                 TotalPupils = e.TotalPupils,
                 PeriodCoveredByReturn = e.PeriodCoveredByReturn,
-                ProgressBanding = e.ProgressBanding
+                ProgressBanding = e.ProgressBanding,
+                TopRankedAttainment8 = e.TopRankedAttainment8
             })
             .Where(x => x.Urn == urn || x.Expenditure is > 0)
             .OrderByDescending(x => x.Expenditure)

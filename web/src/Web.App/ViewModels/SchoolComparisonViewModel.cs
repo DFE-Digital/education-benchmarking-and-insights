@@ -15,8 +15,11 @@ public class SchoolComparisonViewModel(
     SchoolComparatorSet? defaultComparatorSet = null,
     KS4ProgressBandings? ks4ProgressBandings = null,
     SpendingComparisonSubCategoriesViewModel? subCategories = null,
-    SchoolExpenditureWithProgress[]? buildingResult = null,
-    SchoolExpenditureWithProgress[]? pupilResult = null)
+    SchoolExpenditureWithPerformance[]? buildingResult = null,
+    SchoolExpenditureWithPerformance[]? pupilResult = null,
+    IReadOnlyList<string>? topRankedAttainment8Building = null,
+    IReadOnlyList<string>? topRankedAttainment8Pupil = null
+    )
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
@@ -35,6 +38,7 @@ public class SchoolComparisonViewModel(
         .Where(i => i.Banding is KS4ProgressBandings.Banding.WellAboveAverage or KS4ProgressBandings.Banding.AboveAverage)
         .ToArray() ?? [];
     public bool HasProgressIndicators => WellOrAboveAverageKS4ProgressBandingsInComparatorSet.Length > 0;
+    public bool HasTopRankedAttainment8 => topRankedAttainment8Building?.Count > 0 || topRankedAttainment8Pupil?.Count > 0;
 
     public SchoolSpendingDimensions.BandingsAsOptions[] AvailableBandingsAs =>
         WellOrAboveAverageKS4ProgressBandingsInComparatorSet
@@ -63,6 +67,8 @@ public class SchoolComparisonViewModel(
     public SchoolSpendingDimensions.ResultAsOptions ResultAs { get; init; } = SchoolSpendingDimensions.ResultAsOptions.SpendPerUnit;
 
     public SchoolSpendingDimensions.BandingsAsOptions[] BandingsAs { get; init; } = [];
+
+    public bool DisplayAttainment8 { get; init; }
 
     public FinanceToolsViewModel Tools => new(
         school.URN,
@@ -102,12 +108,14 @@ public class SchoolSpendingDataViewModel(
     BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> subCategory,
     SchoolSpendingDimensions.ResultAsOptions resultAs,
     string urn,
-    SchoolSpendingDimensions.BandingsAsOptions[]? bandingsAs = null)
+    SchoolSpendingDimensions.BandingsAsOptions[]? bandingsAs = null,
+    bool displayAttainment8 = false)
 {
     public BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> SubCategory => subCategory;
     public SchoolSpendingDimensions.ResultAsOptions ResultAs => resultAs;
     public SchoolSpendingDimensions.BandingsAsOptions[]? BandingsAs => bandingsAs;
     public string Urn => urn;
+    public bool DisplayAttainment8 => displayAttainment8;
 }
 
 public class ProgressBandingCellViewModel(

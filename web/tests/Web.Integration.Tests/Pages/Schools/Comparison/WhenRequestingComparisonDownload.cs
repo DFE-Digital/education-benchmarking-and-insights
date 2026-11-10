@@ -20,7 +20,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async Task CanReturnOkForDefaultComparatorSet(bool ks4ProgressBandingEnabled)
+    public async Task CanReturnOkForDefaultComparatorSet(bool ks4ProgressBandingEnabled, bool attainment8Enabled = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -35,9 +35,17 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .With(x => x.Building, ["building"])
             .Create();
 
-        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
+        var disabledFeatures = new List<string>();
+        if (!ks4ProgressBandingEnabled)
+        {
+            disabledFeatures.Add(FeatureFlags.KS4ProgressBanding);
+        }
+        if (!attainment8Enabled)
+        {
+            disabledFeatures.Add(FeatureFlags.Attainment8);
+        }
         var response = await _client
-            .SetupDisableFeatureFlags(features)
+            .SetupDisableFeatureFlags([.. disabledFeatures])
             .SetupComparatorSet(school, comparatorSet)
             .SetupExpenditure(school, expenditures: _schoolExpenditures)
             .SetupSchoolInsight(characteristics)
@@ -69,7 +77,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async Task CanReturnOkForUserDefinedComparatorSet(bool ks4ProgressBandingEnabled)
+    public async Task CanReturnOkForUserDefinedComparatorSet(bool ks4ProgressBandingEnabled, bool attainment8Enabled = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -91,9 +99,17 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             }
         };
 
-        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
+        var disabledFeatures = new List<string>();
+        if (!ks4ProgressBandingEnabled)
+        {
+            disabledFeatures.Add(FeatureFlags.KS4ProgressBanding);
+        }
+        if (!attainment8Enabled)
+        {
+            disabledFeatures.Add(FeatureFlags.Attainment8);
+        }
         var response = await _client
-            .SetupDisableFeatureFlags(features)
+            .SetupDisableFeatureFlags([.. disabledFeatures])
             .SetupComparatorSet(school, comparatorSet)
             .SetupExpenditure(school, expenditures: _schoolExpenditures)
             .SetupSchoolInsight(characteristics)
@@ -126,7 +142,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public async Task CanReturnOkForCustomDataComparatorSet(bool ks4ProgressBandingEnabled)
+    public async Task CanReturnOkForCustomDataComparatorSet(bool ks4ProgressBandingEnabled, bool attainment8Enabled = false)
     {
         const string customDataId = nameof(customDataId);
         const string schoolUrn = "123456";
@@ -151,9 +167,17 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .With(x => x.KS4ProgressBanding, "Well above average")
             .CreateMany().ToArray();
 
-        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
+        var disabledFeatures = new List<string>();
+        if (!ks4ProgressBandingEnabled)
+        {
+            disabledFeatures.Add(FeatureFlags.KS4ProgressBanding);
+        }
+        if (!attainment8Enabled)
+        {
+            disabledFeatures.Add(FeatureFlags.Attainment8);
+        }
         var response = await _client
-            .SetupDisableFeatureFlags(features)
+            .SetupDisableFeatureFlags([.. disabledFeatures])
             .SetupCustomComparatorSet(school, comparatorSet, userDefinedComparatorSet)
             .SetupExpenditure(
                 school,
@@ -194,7 +218,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
     {
         const string urn = "123456";
         var response = await _client
-            .SetupComparatorSetApiWithException()
+            .SetupExpenditureWithException()
             .Get(Paths.SchoolComparisonDownload(urn));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);

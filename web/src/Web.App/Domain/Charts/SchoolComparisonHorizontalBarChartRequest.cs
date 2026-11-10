@@ -13,7 +13,8 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
         Func<string, string?> linkFormatter,
         SchoolSpendingDimensions.ResultAsOptions resultsAs,
         string comparatorSetType,
-        SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs)
+        SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs,
+        bool displayAttainment8)
     {
         BarHeight = 22;
         Data = filteredData;
@@ -41,17 +42,17 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
             GroupedKeys[GroupType.PartYear] = partYear;
         }
 
-        if (bandingsAs.Length == 0)
+        if (bandingsAs is not { Length: > 0 } && !displayAttainment8)
         {
             return;
         }
 
         var legendLabels = new List<string>
         {
-            "Your chosen school"
+            ChartLegendLabels.ChosenSchool
         };
 
-        // use only full year records for banding groups to prevent overlap with part‑year grouping
+        // use only full year records for performance to prevent overlap with part‑year grouping
         var fullYearData = filteredData
             .Where(x => x.PeriodCoveredByReturn == 12)
             .ToArray();
@@ -74,7 +75,21 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
             legendLabels.Add(KS4ProgressBandings.Banding.AboveAverage.ToStringValue());
         }
 
-        LegendLabels = legendLabels.ToArray();
+        if (displayAttainment8)
+        {
+            var items = fullYearData
+                .Where(x => x.TopRankedAttainment8)
+                .Select(x => x.Urn!)
+                .ToArray();
+
+            if (items.Length > 0)
+            {
+                GroupedKeys?[GroupType.TopRankedAttainment8] = items;
+                legendLabels.Add(ChartLegendLabels.TopRankedAttainment8);
+            }
+        }
+
+        LegendLabels = legendLabels.Count > 1 ? [.. legendLabels] : null;
     }
 
     private void AddBandingGroup(

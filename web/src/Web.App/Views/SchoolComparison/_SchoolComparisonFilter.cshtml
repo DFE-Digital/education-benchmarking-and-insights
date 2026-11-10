@@ -1,6 +1,24 @@
 @using Web.App.Domain.Schools
-@using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolComparisonViewModel
+
+@{
+    var baseRouteValues = new RouteValueDictionary
+    {
+        { "urn", Model.Urn },
+        { "viewAs", (int)Model.ViewAs },
+        { "resultAs", (int)Model.ResultAs }
+    };
+
+    if (Model.DisplayAttainment8)
+    {
+        baseRouteValues.Add("displayAttainment8", true);
+    }
+
+    for (var i = 0; i < Model.BandingsAs.Length; i++)
+    {
+        baseRouteValues.Add($"bandingsAs[{i}]", (int)Model.BandingsAs[i]);
+    }
+}
 
 <div class="app-filter">
     <div class="app-filter__header">
@@ -16,7 +34,7 @@
                 <h2 class="govuk-heading-m">
                     Selected filters
                 </h2>
-                <a href="@Url.Action("Index", "SchoolComparison", new { Model.Urn, viewAs = (int)Model.ViewAs, resultAs = (int)Model.ResultAs }))"
+                <a href="@Url.Action("Index", "SchoolComparison", baseRouteValues)"
                    class="govuk-link govuk-link--no-visited-state">Clear</a>
             </div>
             @foreach (var group in Model.SelectedGroups)
@@ -26,30 +44,44 @@
                 <ul class="govuk-list">
                     @foreach (var item in group.SelectedItems(Model.SelectedIds))
                     {
+                        var removeRouteValues = new RouteValueDictionary(baseRouteValues);
+                        var remainingSubCategories = Model.SelectedSubCategories
+                            .Where(x => (int)x != item.SubCategoryId)
+                            .Select(x => (int)x)
+                            .ToArray();
+
+                        for (var i = 0; i < remainingSubCategories.Length; i++)
+                        {
+                            removeRouteValues.Add($"selectedSubCategories[{i}]", remainingSubCategories[i]);
+                        }
+
                         <li>
-                            <a href="@Url.Action("Index", new {
-                                        Model.Urn,
-                                        viewAs = (int)Model.ViewAs,
-                                        resultAs = (int)Model.ResultAs,
-                                        selectedSubCategories = Model.SelectedSubCategories
-                                            .Where(x => (int)x != item.SubCategoryId)
-                                            .Select(x => (int)x)
-                                             })"
-                           class="app-filter__tag">
-                            @item.SubCategory
-                        </a>
+                            <a href="@Url.Action("Index", removeRouteValues)"
+                               class="app-filter__tag">
+                                @item.SubCategory
+                            </a>
                         </li>
                     }
                 </ul>
             }
         </div>
     }
+
     <div class="app-filter__body">
-        @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+        @using (Html.BeginForm("Index", "SchoolComparison", new { urn = Model.Urn }, FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
         {
-            <input type="hidden"
-                   name="@nameof(LocalAuthorityHighNeedsSpendingViewModel.SelectedSubCategories)"
-                   value="@Model.SelectedSubCategories"/>
+            <input type="hidden" name="viewAs" value="@((int)Model.ViewAs)" />
+            <input type="hidden" name="resultAs" value="@((int)Model.ResultAs)" />
+
+            @if (Model.DisplayAttainment8)
+            {
+                <input type="hidden" name="displayAttainment8" value="true" />
+            }
+
+            foreach (var banding in Model.BandingsAs)
+            {
+                <input type="hidden" name="bandingsAs" value="@((int)banding)" />
+            }
 
             <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
                 @for (var i = 0; i < Model.AllGroups.Length; i++)
@@ -64,8 +96,7 @@
                     <div class="govuk-accordion__section@(expandAccordion ? " govuk-accordion__section--expanded" : "")">
                         <div class="govuk-accordion__section-header">
                             <h2 class="govuk-accordion__section-heading">
-                                <span class="govuk-accordion__section-button"
-                                      id="@headingId">
+                                <span class="govuk-accordion__section-button" id="@headingId">
                                     @group.Key.GetCategoryGroupDescription()
 
                                     @if (groupSelectedCount > 0)
@@ -74,7 +105,6 @@
                                             @($"{groupSelectedCount} selected")
                                         </span>
                                     }
-
                                 </span>
                             </h2>
                         </div>
@@ -83,7 +113,6 @@
                             <div class="govuk-form-group">
                                 <fieldset class="govuk-fieldset">
                                     <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
-
                                         @foreach (var sub in group.Value)
                                         {
                                             var id = (int)sub;
@@ -95,15 +124,13 @@
                                                        name="@nameof(Model.SelectedSubCategories)"
                                                        value="@id"
                                                        type="checkbox"
-                                                       @(isChecked ? "checked" : "") />
+                                                       @(isChecked ? "checked" : null) />
 
-                                                <label class="govuk-label govuk-checkboxes__label"
-                                                       for="subcategory-@id">
+                                                <label class="govuk-label govuk-checkboxes__label" for="subcategory-@id">
                                                     @sub.GetHeading()
                                                 </label>
                                             </div>
                                         }
-
                                     </div>
                                 </fieldset>
                             </div>

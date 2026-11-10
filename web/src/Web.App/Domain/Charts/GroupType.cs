@@ -8,4 +8,5 @@ public static class GroupType
     public const string Previous = "previous";
     public const string Progress8WellAboveAverage = "banding-well-above-average";
     public const string Progress8AboveAverage = "banding-above-average";
+    public const string TopRankedAttainment8 = "top-ranked-attainment8";
 }
