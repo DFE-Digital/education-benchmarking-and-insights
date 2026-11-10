@@ -47,7 +47,7 @@
     "jest-theories": "^1.5.1",
     "prettier": "^3.9.10",
     "rimraf": "^6.1.2",
-    "swagger-ui-dist": "^5.33.0",
+    "swagger-ui-dist": "^5.34.1",
     "ts-jest": "^29.4.15",
     "ts-oas": "0.6.1",
     "tsc-alias": "^1.9.9",
