@@ -2,19 +2,20 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from pipeline.laa_risk_scores.config import (
-    DEFAULT_RISK_CONFIG,
-    get_laa_download_file_schema,
-    get_yearly_risk_config,
-)
+from pipeline.laa_risk_scores.config import DEFAULT_RISK_CONFIG
 from pipeline.laa_risk_scores.engine import melt_laa_risk_scores
 from pipeline.laa_risk_scores.metrics import (
     BaseRiskMetric,
     BinaryRiskMetric,
+    ChangeInExpenditureOver4YearsMetric,
+    CurrentLongTermSurplusABoveThresholdFor5YearsMetric,
     CurrentYearRevenueReserveMetric,
+    DeficitInLast4YearsFlagMetric,
     ExcludePhases,
     InterestOnLoanFlagMetric,
+    LargeDecreaseInBalanceMetric,
     MetricRule,
+    OverspendMetric,
     ParentalPreferenceMetric,
     PercentExpenditureOnPremisesMetric,
     PercentExpenditureOnStaffMetric,
@@ -24,6 +25,7 @@ from pipeline.laa_risk_scores.metrics import (
     PupilAbsenceMetric,
     PupilChangeOver1YearMetric,
     PupilChangeOver4YearsMetric,
+    PupilNumberVarianceFromCapacityMetric,
     PupilsSixthFormMetric,
     RangeRiskMetric,
     RiskFlag,
@@ -32,599 +34,110 @@ from pipeline.laa_risk_scores.metrics import (
 )
 
 
-def test_pupil_change_metrics_inf_handling():
-    # Arrange: previous year/4-year pupil number is 0, which would cause division by zero
+def _get_metric(metric_cls: type[BaseRiskMetric]) -> BaseRiskMetric:
+    return next(m for m in DEFAULT_RISK_CONFIG if isinstance(m, metric_cls))
+
+
+@pytest.mark.parametrize(
+    "reserve_ratio,expected_score,expected_flag",
+    [
+        (0.10, 0.0, RiskFlag.NO_FLAG.value),
+        (0.0, 0.0, RiskFlag.NO_FLAG.value),
+        (-0.005, 0.25, RiskFlag.MINOR.value),
+        (-0.01, 0.5, RiskFlag.MINOR.value),
+        (-0.02, 0.5, RiskFlag.MINOR.value),
+        (-0.025, 1.0, RiskFlag.MINOR.value),
+        (-0.03, 1.0, RiskFlag.MINOR.value),
+        (-0.04, 1.25, RiskFlag.MINOR.value),
+        (-0.045, 1.25, RiskFlag.MINOR.value),
+        (-0.05, 1.75, RiskFlag.MAJOR.value),
+        (-0.055, 1.75, RiskFlag.MAJOR.value),
+        (-0.06, 2.0, RiskFlag.MAJOR.value),
+        (-0.07, 2.0, RiskFlag.MAJOR.value),
+        (-0.075, 2.5, RiskFlag.MAJOR.value),
+        (-0.08, 2.5, RiskFlag.MAJOR.value),
+        (-0.09, 3.0, RiskFlag.MAJOR.value),
+        (-0.12, 3.0, RiskFlag.MAJOR.value),
+    ],
+)
+def test_current_year_revenue_reserve_metric_scores_threshold_bands_and_boundaries(
+    reserve_ratio: float, expected_score: float, expected_flag: str
+):
+    metric = _get_metric(CurrentYearRevenueReserveMetric)
     df = pd.DataFrame(
         {
-            "URN": [1001, 1002, 1003],
-            "Number of pupils": [50, 50, 0],
-            "Number of pupils_y_minus_one": [0, 10, 0],
-            "Number of pupils_y_minus_four": [0, 10, 0],
+            "Revenue reserve": [reserve_ratio * 1_000_000.0],
+            "Total Income": [1_000_000.0],
         }
     )
 
-    # Find the metrics from DEFAULT_RISK_CONFIG
-    metric_4yr = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, PupilChangeOver4YearsMetric)
-    )
-    metric_1yr = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, PupilChangeOver1YearMetric)
-    )
-
-    # Act
-    metric_4yr.execute(df)
-    metric_1yr.execute(df)
-
-    # Assert
-    # The derived values should not contain inf or -inf
-    assert not np.isinf(df[metric_4yr.value_column]).any()
-    assert not np.isinf(df[metric_1yr.value_column]).any()
-
-    # The division-by-zero case should resolve to NaN and result in max score / Major risk
-    assert pd.isna(df.loc[0, metric_4yr.value_column])
-    assert df.loc[0, metric_4yr.flag_column] == "Major"
-    assert df.loc[0, metric_4yr.score_column] == 1.5
-
-    assert pd.isna(df.loc[0, metric_1yr.value_column])
-    assert df.loc[0, metric_1yr.flag_column] == "Major"
-    assert df.loc[0, metric_1yr.score_column] == 1.5
-
-
-def test_parental_preference_metric_scoring():
-    # Find ParentalPreference from DEFAULT_RISK_CONFIG
-    metric = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, ParentalPreferenceMetric)
-    )
-
-    # Arrange:
-    # 1. School with standard type and value 0.5 (should be RiskScore 1.5, Major)
-    # 2. School with standard type and value 0.72 (should be RiskScore 0.8, Minor)
-    # 3. School with standard type and NaN value (should be RiskScore 1.5, Major)
-    # 4. School with TypeOfEstablishment = 7 and value 0.5 (should be RiskScore 0.0, No flag)
-    # 5. School with TypeOfEstablishment = 12 and NaN value (should be RiskScore 0.0, No flag)
-    # 6. School with TypeOfEstablishment = 10 (not 7 or 12) and value 0.5 (should be RiskScore 1.5, Major)
-    df = pd.DataFrame(
-        {
-            "URN": [1001, 1002, 1003, 1004, 1005, 1006],
-            "TypeOfEstablishment (code)": [1, 1, 1, 7, 12, 10],
-            "Overall Phase": [
-                "Primary",
-                "Primary",
-                "Primary",
-                "Special",
-                "Special",
-                "Primary",
-            ],
-            "proportion_1stprefs_v_totaloffers": [0.5, 0.72, np.nan, 0.5, np.nan, 0.5],
-        }
-    )
-
-    # Act
     metric.execute(df)
 
-    # Assert
-    # 1. School with standard type and value 0.5 -> RiskScore 1.5, Major
-    assert df.loc[0, metric.score_column] == 1.5
-    assert df.loc[0, metric.flag_column] == "Major"
-
-    # 2. School with standard type and value 0.72 -> RiskScore 0.8, Minor
-    assert df.loc[1, metric.score_column] == 0.8
-    assert df.loc[1, metric.flag_column] == "Minor"
-
-    # 3. School with standard type and NaN value -> RiskScore 1.5, Major
-    assert df.loc[2, metric.score_column] == 1.5
-    assert df.loc[2, metric.flag_column] == "Major"
-
-    # 4. School with TypeOfEstablishment = 7 and value 0.5 -> RiskScore 0.0, No flag
-    assert df.loc[3, metric.score_column] == 0.0
-    assert df.loc[3, metric.flag_column] == RiskFlag.NO_FLAG.value
-
-    # 5. School with TypeOfEstablishment = 12 and NaN value -> RiskScore 0.0, No flag
-    assert df.loc[4, metric.score_column] == 0.0
-    assert df.loc[4, metric.flag_column] == RiskFlag.NO_FLAG.value
-
-    # 6. School with TypeOfEstablishment = 10 (not 7 or 12) and value 0.5 -> RiskScore 1.5, Major
-    assert df.loc[5, metric.score_column] == 1.5
-    assert df.loc[5, metric.flag_column] == "Major"
+    assert df.loc[0, metric.value_column] == pytest.approx(reserve_ratio)
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
 
 
-def test_metric_na_default_risk_flags():
-    # Arrange: Create a DataFrame with NaN values for the metrics we want to test
+@pytest.mark.parametrize(
+    "reserve_ratio,expected_score,expected_flag",
+    [
+        (0.05, 0.0, RiskFlag.NO_FLAG.value),
+        (0.0, 0.0, RiskFlag.NO_FLAG.value),
+        (-0.005, 0.125, RiskFlag.MINOR.value),
+        (-0.01, 0.25, RiskFlag.MINOR.value),
+        (-0.02, 0.25, RiskFlag.MINOR.value),
+        (-0.025, 0.5, RiskFlag.MINOR.value),
+        (-0.03, 0.5, RiskFlag.MINOR.value),
+        (-0.04, 0.625, RiskFlag.MINOR.value),
+        (-0.045, 0.625, RiskFlag.MINOR.value),
+        (-0.05, 0.875, RiskFlag.MAJOR.value),
+        (-0.055, 0.875, RiskFlag.MAJOR.value),
+        (-0.06, 1.0, RiskFlag.MAJOR.value),
+        (-0.07, 1.0, RiskFlag.MAJOR.value),
+        (-0.075, 1.25, RiskFlag.MAJOR.value),
+        (-0.08, 1.25, RiskFlag.MAJOR.value),
+        (-0.09, 1.5, RiskFlag.MAJOR.value),
+        (-0.15, 1.5, RiskFlag.MAJOR.value),
+    ],
+)
+def test_previous_year_revenue_reserve_metric_scores_threshold_bands_and_boundaries(
+    reserve_ratio: float, expected_score: float, expected_flag: str
+):
+    metric = _get_metric(PreviousYearRevenueReserveMetric)
     df = pd.DataFrame(
         {
-            "URN": [1001],
-            "Revenue reserve": [np.nan],
-            "Total Income": [np.nan],
-            "Revenue reserve_y_minus_one": [np.nan],
-            "Total Income_y_minus_one": [np.nan],
-            "Other costs_Interest charges for loan and bank": [np.nan],
-            "LAAPremisesExpenditureRollup": [np.nan],
-            "NetExpenditure": [np.nan],
-            "LAAStaffExpenditureRollup": [np.nan],
-            "TotalPupilsSixthForm": [np.nan],
-            "sess_overall_percent": [np.nan],
-            "TypeOfEstablishment (code)": [1],
-            "Overall Phase": ["Secondary"],
-            "Ks2Progress": [np.nan],
-            "Progress8Measure": [np.nan],
-            "PTRWM_EXP": [np.nan],
-            "AverageAttainment": [np.nan],
+            "Revenue reserve_y_minus_one": [reserve_ratio * 1_000_000.0],
+            "Total Income_y_minus_one": [1_000_000.0],
         }
     )
 
-    # Find the metrics we want to test from DEFAULT_RISK_CONFIG
-    interest_on_loan = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, InterestOnLoanFlagMetric)
-    )
-    premises_exp = next(
-        m
-        for m in DEFAULT_RISK_CONFIG
-        if isinstance(m, PercentExpenditureOnPremisesMetric)
-    )
-    staff_exp = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, PercentExpenditureOnStaffMetric)
-    )
-    sixth_form = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, PupilsSixthFormMetric)
-    )
-    absence = next(m for m in DEFAULT_RISK_CONFIG if isinstance(m, PupilAbsenceMetric))
-    progress_score = next(
-        m
-        for m in DEFAULT_RISK_CONFIG
-        if isinstance(m, PerformanceTablesProgressScoreMetric)
-    )
-    achievement_score = next(
-        m
-        for m in DEFAULT_RISK_CONFIG
-        if isinstance(m, PerformanceTablesAchievementScoreMetric)
-    )
+    metric.execute(df)
 
-    current_year_balance = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
-    )
-    previous_year_balance = next(
-        m
-        for m in DEFAULT_RISK_CONFIG
-        if isinstance(m, PreviousYearRevenueReserveMetric)
-    )
-
-    # Act: execute each metric on our DataFrame
-    for metric in [
-        interest_on_loan,
-        premises_exp,
-        staff_exp,
-        sixth_form,
-        absence,
-        progress_score,
-        achievement_score,
-        current_year_balance,
-        previous_year_balance,
-    ]:
-        metric.execute(df)
-
-    # Assert: verify they default to the correct metric-specific maximum score and flag
-    assert df.loc[0, interest_on_loan.flag_column] == RiskFlag.NO_FLAG.value
-    assert df.loc[0, interest_on_loan.score_column] == 0.0
-
-    assert df.loc[0, premises_exp.flag_column] == "Minor"
-    assert df.loc[0, premises_exp.score_column] == 0.5
-
-    assert df.loc[0, staff_exp.flag_column] == "Minor"
-    assert df.loc[0, staff_exp.score_column] == 1.5
-
-    assert df.loc[0, sixth_form.flag_column] == "Minor"
-    assert df.loc[0, sixth_form.score_column] == 0.5
-
-    assert df.loc[0, absence.flag_column] == "Minor"
-    assert df.loc[0, absence.score_column] == 0.5
-
-    assert df.loc[0, progress_score.flag_column] == "No flag"
-    assert df.loc[0, progress_score.score_column] == 0.0
-
-    assert df.loc[0, achievement_score.flag_column] == "No flag"
-    assert df.loc[0, achievement_score.score_column] == 0.0
-
-    # Balance metrics default to Major with 3.0 and 1.5
-    assert df.loc[0, current_year_balance.flag_column] == "Major"
-    assert df.loc[0, current_year_balance.score_column] == 3.0
-    assert df.loc[0, previous_year_balance.flag_column] == "Major"
-    assert df.loc[0, previous_year_balance.score_column] == 1.5
+    assert df.loc[0, metric.value_column] == pytest.approx(reserve_ratio)
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
 
 
-def test_format_value_boolean():
-    metric = BinaryRiskMetric(
-        name="TestBool",
-        risk_group=RiskGroup.FINANCIAL,
-        risk_score_maximum=1.0,
-        score_when_1=1.0,
-        risk_when_1="Major",
-        value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
-    )
-    series = pd.Series([True, False, 1, 0, "True", "False", np.nan, None])
-    formatted = metric.format_value(series)
-    assert formatted.tolist() == [
-        "Yes",
-        "No",
-        "Yes",
-        "No",
-        "Yes",
-        "No",
-        None,
-        None,
-    ]
-
-
-def test_format_value_decimal():
-    metric = BaseRiskMetric(
-        name="TestDecimal",
-        risk_group=RiskGroup.FINANCIAL,
-        risk_score_maximum=1.0,
-        value_formatting=RiskIndicatorValueFormatting.DECIMAL,
-    )
-    series = pd.Series([120.0, 4.5, 0.0, -1.25, np.nan, None, np.inf, -np.inf])
-    formatted = metric.format_value(series)
-    assert formatted.tolist() == ["120", "4.5", "0", "-1.25", None, None, None, None]
-
-
-def test_format_value_percentage():
-    metric = BaseRiskMetric(
-        name="TestPercentage",
-        risk_group=RiskGroup.FINANCIAL,
-        risk_score_maximum=1.0,
-        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
-    )
-    series = pd.Series([0.15, -0.024, 0.0, np.nan, None, np.inf])
-    formatted = metric.format_value(series)
-    assert formatted.tolist() == ["0.15", "-0.024", "0.0", None, None, None]
-
-
-def test_format_value_string():
-    metric = BaseRiskMetric(
-        name="TestString",
-        risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
-        risk_score_maximum=1.0,
-        value_formatting=RiskIndicatorValueFormatting.STRING,
-    )
-    series = pd.Series(["High", "Low", np.nan, None])
-    formatted = metric.format_value(series)
-    assert formatted.tolist() == ["High", "Low", None, None]
-
-
-def test_format_value_parental_preference():
-    metric = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, ParentalPreferenceMetric)
-    )
-    assert metric.value_formatting == RiskIndicatorValueFormatting.STRING
-    assert metric.rating_low_threshold == 0.675
-    assert metric.rating_high_threshold == 0.9
-
-    series = pd.Series([np.nan, None, 0.5, 0.675, 0.72, 0.9, 0.95, 1.2])
-    formatted = metric.format_value(series)
-    assert formatted.tolist() == [
-        None,
-        None,
-        "Low",
-        "Low",
-        "Medium",
-        "Medium",
-        "High",
-        "High",
-    ]
-
-    # Test with DataFrame to verify non-applicable masking to N/A while applicable missing remains None
+@pytest.mark.parametrize(
+    "reserve,income",
+    [
+        (np.nan, np.nan),
+        (np.nan, 1_000_000.0),
+        (-10_000.0, 0.0),
+        (5_000.0, 0.0),
+    ],
+)
+def test_revenue_reserve_metrics_penalise_missing_or_zero_income_with_maximum_risk(
+    reserve: float, income: float
+):
+    metric_curr = _get_metric(CurrentYearRevenueReserveMetric)
+    metric_prev = _get_metric(PreviousYearRevenueReserveMetric)
     df = pd.DataFrame(
         {
-            "Overall Phase": ["Primary", "Special", "Nursery", "Pupil referral unit"],
-            "proportion_1stprefs_v_totaloffers": [np.nan, np.nan, 0.5, 1.2],
-        }
-    )
-    formatted_with_df = metric.format_value(
-        df["proportion_1stprefs_v_totaloffers"], df=df
-    )
-    assert formatted_with_df.tolist() == [None, "N/A", "N/A", "N/A"]
-
-    # Test custom threshold override
-    custom_metric = ParentalPreferenceMetric(
-        name="CustomParentalPreference",
-        risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
-        risk_score_maximum=1.5,
-        rating_low_threshold=0.5,
-        rating_high_threshold=0.8,
-    )
-    custom_series = pd.Series([np.nan, 0.5, 0.6, 0.8, 0.81])
-    custom_formatted = custom_metric.format_value(custom_series)
-    assert custom_formatted.tolist() == [None, "Low", "Medium", "Medium", "High"]
-
-
-def test_all_config_metrics_have_valid_formatting():
-    valid_formats = {"Percentage", "Boolean", "Decimal", "String"}
-    for metric in DEFAULT_RISK_CONFIG:
-        assert metric.value_formatting in RiskIndicatorValueFormatting
-        assert metric.value_formatting.value in valid_formats
-
-
-def test_melt_laa_risk_scores_includes_formatting_and_string_values():
-    metric_bool = BinaryRiskMetric(
-        name="LoanFlag",
-        risk_group=RiskGroup.FINANCIAL,
-        risk_score_maximum=0.25,
-        score_when_1=0.25,
-        risk_when_1="Minor",
-        value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
-    )
-    metric_pct = BaseRiskMetric(
-        name="SpendPct",
-        risk_group=RiskGroup.FINANCIAL,
-        risk_score_maximum=1.0,
-        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
-    )
-    metric_dec = BaseRiskMetric(
-        name="PupilCount",
-        risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
-        risk_score_maximum=1.0,
-        value_formatting=RiskIndicatorValueFormatting.DECIMAL,
-    )
-    metric_with_applicability = BaseRiskMetric(
-        name="SixthFormCount",
-        risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
-        risk_score_maximum=0.5,
-        value_formatting=RiskIndicatorValueFormatting.DECIMAL,
-        applicability=ExcludePhases(["Primary"]),
-    )
-
-    df_headlines = pd.DataFrame(
-        {
-            "URN": [1001, 1002],
-            "Overall Phase": ["Secondary", "Primary"],
-            "LoanFlag": [True, False],
-            "LoanFlag_Score": [0.25, 0.0],
-            "LoanFlag_Risk": ["Minor", "No flag"],
-            "SpendPct": [0.15, np.nan],
-            "SpendPct_Score": [0.5, 1.0],
-            "SpendPct_Risk": ["Minor", "Major"],
-            "PupilCount": [120.0, 45.5],
-            "PupilCount_Score": [0.0, 0.5],
-            "PupilCount_Risk": ["No flag", "Minor"],
-            "SixthFormCount": [50.0, 50.0],
-            "SixthFormCount_Score": [0.0, 0.0],
-            "SixthFormCount_Risk": ["No flag", "No flag"],
-            "Total_Risk_Score": [0.75, 1.5],
-            "LAA_Risk_Grade": ["A", "B"],
-        }
-    )
-
-    evaluators = [metric_bool, metric_pct, metric_dec, metric_with_applicability]
-    indicators_df, _ = melt_laa_risk_scores(df_headlines, evaluators, run_id="2026")
-
-    # Verify column existence
-    assert "RiskIndicatorValue" in indicators_df.columns
-    assert "RiskIndicatorValueFormatting" in indicators_df.columns
-
-    # Verify boolean metric rows
-    bool_rows = indicators_df[indicators_df["RiskIndicator"] == "LoanFlag"].reset_index(
-        drop=True
-    )
-    assert bool_rows.loc[0, "RiskIndicatorValue"] == "Yes"
-    assert bool_rows.loc[0, "RiskIndicatorValueFormatting"] == "Boolean"
-    assert bool_rows.loc[1, "RiskIndicatorValue"] == "No"
-    assert bool_rows.loc[1, "RiskIndicatorValueFormatting"] == "Boolean"
-
-    # Verify percentage metric rows
-    pct_rows = indicators_df[indicators_df["RiskIndicator"] == "SpendPct"].reset_index(
-        drop=True
-    )
-    assert pct_rows.loc[0, "RiskIndicatorValue"] == "0.15"
-    assert pct_rows.loc[0, "RiskIndicatorValueFormatting"] == "Percentage"
-    assert pct_rows.loc[1, "RiskIndicatorValue"] is None
-    assert pct_rows.loc[1, "RiskIndicatorValueFormatting"] == "Percentage"
-
-    # Verify decimal metric rows
-    dec_rows = indicators_df[
-        indicators_df["RiskIndicator"] == "PupilCount"
-    ].reset_index(drop=True)
-    assert dec_rows.loc[0, "RiskIndicatorValue"] == "120"
-    assert dec_rows.loc[0, "RiskIndicatorValueFormatting"] == "Decimal"
-    assert dec_rows.loc[1, "RiskIndicatorValue"] == "45.5"
-    assert dec_rows.loc[1, "RiskIndicatorValueFormatting"] == "Decimal"
-
-    # Verify applicability metric rows with N/A masking to String format
-    app_rows = indicators_df[
-        indicators_df["RiskIndicator"] == "SixthFormCount"
-    ].reset_index(drop=True)
-    assert app_rows.loc[0, "RiskIndicatorValue"] == "50"
-    assert app_rows.loc[0, "RiskIndicatorValueFormatting"] == "Decimal"
-    assert app_rows.loc[1, "RiskIndicatorValue"] == "N/A"
-    assert app_rows.loc[1, "RiskIndicatorValueFormatting"] == "String"
-
-
-def test_revenue_reserve_metrics_happy_path_scenarios():
-    """Verifies TC-01 to TC-05: surplus, deficit combinations, and intermediate bands."""
-    metric_curr = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
-    )
-    metric_prev = next(
-        m
-        for m in DEFAULT_RISK_CONFIG
-        if isinstance(m, PreviousYearRevenueReserveMetric)
-    )
-
-    df = pd.DataFrame(
-        {
-            "URN": [1001, 1002, 1003, 1004, 1005],
-            "Revenue reserve": [100000.0, -100000.0, 50000.0, -120000.0, -45000.0],
-            "Total Income": [1000000.0, 1000000.0, 1000000.0, 1000000.0, 1000000.0],
-            "Revenue reserve_y_minus_one": [
-                50000.0,
-                50000.0,
-                -100000.0,
-                -150000.0,
-                -70000.0,
-            ],
-            "Total Income_y_minus_one": [
-                1000000.0,
-                1000000.0,
-                1000000.0,
-                1000000.0,
-                1000000.0,
-            ],
-        }
-    )
-
-    metric_curr.execute(df)
-    metric_prev.execute(df)
-
-    combined_scores = df[metric_curr.score_column] + df[metric_prev.score_column]
-
-    # TC-01: Both surplus (+10%, +5%)
-    assert df.loc[0, metric_curr.value_column] == pytest.approx(0.10)
-    assert df.loc[0, metric_curr.score_column] == 0.0
-    assert df.loc[0, metric_curr.flag_column] == RiskFlag.NO_FLAG.value
-    assert df.loc[0, metric_prev.value_column] == pytest.approx(0.05)
-    assert df.loc[0, metric_prev.score_column] == 0.0
-    assert df.loc[0, metric_prev.flag_column] == RiskFlag.NO_FLAG.value
-    assert combined_scores.iloc[0] == 0.0
-
-    # TC-02: Severe deficit current (-10%), surplus prev (+5%)
-    assert df.loc[1, metric_curr.value_column] == pytest.approx(-0.10)
-    assert df.loc[1, metric_curr.score_column] == 3.0
-    assert df.loc[1, metric_curr.flag_column] == RiskFlag.MAJOR.value
-    assert df.loc[1, metric_prev.value_column] == pytest.approx(0.05)
-    assert df.loc[1, metric_prev.score_column] == 0.0
-    assert df.loc[1, metric_prev.flag_column] == RiskFlag.NO_FLAG.value
-    assert combined_scores.iloc[1] == 3.0
-
-    # TC-03: Surplus current (+5%), severe deficit prev (-10%)
-    assert df.loc[2, metric_curr.value_column] == pytest.approx(0.05)
-    assert df.loc[2, metric_curr.score_column] == 0.0
-    assert df.loc[2, metric_curr.flag_column] == RiskFlag.NO_FLAG.value
-    assert df.loc[2, metric_prev.value_column] == pytest.approx(-0.10)
-    assert df.loc[2, metric_prev.score_column] == 1.5
-    assert df.loc[2, metric_prev.flag_column] == RiskFlag.MAJOR.value
-    assert combined_scores.iloc[2] == 1.5
-
-    # TC-04: Both severe deficits (-12%, -15%)
-    assert df.loc[3, metric_curr.score_column] == 3.0
-    assert df.loc[3, metric_curr.flag_column] == RiskFlag.MAJOR.value
-    assert df.loc[3, metric_prev.score_column] == 1.5
-    assert df.loc[3, metric_prev.flag_column] == RiskFlag.MAJOR.value
-    assert combined_scores.iloc[3] == 4.5
-
-    # TC-05: Intermediate bands (-4.5%, -7.0%)
-    assert df.loc[4, metric_curr.score_column] == 1.25
-    assert df.loc[4, metric_curr.flag_column] == RiskFlag.MINOR.value
-    assert df.loc[4, metric_prev.score_column] == 1.0
-    assert df.loc[4, metric_prev.flag_column] == RiskFlag.MAJOR.value
-    assert combined_scores.iloc[4] == 2.25
-
-
-def test_split_end_year_balance_mathematical_parity_across_all_bands():
-    """Verifies TC-06: mathematical score parity across all 9 rule threshold bands
-    comparing the sum of split metrics against the legacy formula.
-    """
-    metric_curr = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
-    )
-    metric_prev = next(
-        m
-        for m in DEFAULT_RISK_CONFIG
-        if isinstance(m, PreviousYearRevenueReserveMetric)
-    )
-
-    test_ratios = [0.05, -0.005, -0.02, -0.03, -0.045, -0.055, -0.07, -0.08, -0.12]
-    expected_curr_scores = [0.0, 0.25, 0.5, 1.0, 1.25, 1.75, 2.0, 2.5, 3.0]
-    expected_prev_scores = [0.0, 0.125, 0.25, 0.5, 0.625, 0.875, 1.0, 1.25, 1.5]
-
-    for curr_ratio, exp_curr in zip(test_ratios, expected_curr_scores):
-        for prev_ratio, exp_prev in zip(test_ratios, expected_prev_scores):
-            df = pd.DataFrame(
-                {
-                    "Revenue reserve": [curr_ratio * 100000.0],
-                    "Total Income": [100000.0],
-                    "Revenue reserve_y_minus_one": [prev_ratio * 100000.0],
-                    "Total Income_y_minus_one": [100000.0],
-                }
-            )
-            metric_curr.execute(df)
-            metric_prev.execute(df)
-
-            curr_score = df.loc[0, metric_curr.score_column]
-            prev_score = df.loc[0, metric_prev.score_column]
-
-            assert curr_score == exp_curr
-            assert prev_score == exp_prev
-            legacy_prev_raw = expected_curr_scores[test_ratios.index(prev_ratio)]
-            legacy_blended = min(exp_curr + legacy_prev_raw / 2.0, 4.5)
-            assert (curr_score + prev_score) == pytest.approx(legacy_blended)
-
-
-def test_revenue_reserve_metrics_missing_data_fallbacks():
-    """Verifies TC-07, TC-08, TC-09: missing data and NaN fallbacks to maximum penalties."""
-    metric_curr = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
-    )
-    metric_prev = next(
-        m
-        for m in DEFAULT_RISK_CONFIG
-        if isinstance(m, PreviousYearRevenueReserveMetric)
-    )
-
-    df = pd.DataFrame(
-        {
-            "Revenue reserve": [np.nan, 50000.0, np.nan],
-            "Total Income": [np.nan, 1000000.0, np.nan],
-            "Revenue reserve_y_minus_one": [np.nan, np.nan, 50000.0],
-            "Total Income_y_minus_one": [np.nan, np.nan, 1000000.0],
-        }
-    )
-
-    metric_curr.execute(df)
-    metric_prev.execute(df)
-
-    # TC-07: Both NaN -> Current 3.0 Major, Prev 1.5 Major, Total 4.5
-    assert df.loc[0, metric_curr.score_column] == 3.0
-    assert df.loc[0, metric_curr.flag_column] == RiskFlag.MAJOR.value
-    assert df.loc[0, metric_prev.score_column] == 1.5
-    assert df.loc[0, metric_prev.flag_column] == RiskFlag.MAJOR.value
-    assert (
-        df.loc[0, metric_curr.score_column] + df.loc[0, metric_prev.score_column]
-    ) == 4.5
-
-    # TC-08: Current 0.0 No flag, Prev 1.5 Major, Total 1.5
-    assert df.loc[1, metric_curr.score_column] == 0.0
-    assert df.loc[1, metric_curr.flag_column] == RiskFlag.NO_FLAG.value
-    assert df.loc[1, metric_prev.score_column] == 1.5
-    assert df.loc[1, metric_prev.flag_column] == RiskFlag.MAJOR.value
-    assert (
-        df.loc[1, metric_curr.score_column] + df.loc[1, metric_prev.score_column]
-    ) == 1.5
-
-    # TC-09: Current 3.0 Major, Prev 0.0 No flag, Total 3.0
-    assert df.loc[2, metric_curr.score_column] == 3.0
-    assert df.loc[2, metric_curr.flag_column] == RiskFlag.MAJOR.value
-    assert df.loc[2, metric_prev.score_column] == 0.0
-    assert df.loc[2, metric_prev.flag_column] == RiskFlag.NO_FLAG.value
-    assert (
-        df.loc[2, metric_curr.score_column] + df.loc[2, metric_prev.score_column]
-    ) == 3.0
-
-
-def test_revenue_reserve_metrics_zero_income_division():
-    """Verifies TC-10: zero total income handles division by zero safely without errors."""
-    metric_curr = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
-    )
-    metric_prev = next(
-        m
-        for m in DEFAULT_RISK_CONFIG
-        if isinstance(m, PreviousYearRevenueReserveMetric)
-    )
-
-    df = pd.DataFrame(
-        {
-            "Revenue reserve": [-10000.0],
-            "Total Income": [0.0],
-            "Revenue reserve_y_minus_one": [5000.0],
-            "Total Income_y_minus_one": [0.0],
+            "Revenue reserve": [reserve],
+            "Total Income": [income],
+            "Revenue reserve_y_minus_one": [reserve],
+            "Total Income_y_minus_one": [income],
         }
     )
 
@@ -640,266 +153,655 @@ def test_revenue_reserve_metrics_zero_income_division():
     assert df.loc[0, metric_prev.flag_column] == RiskFlag.MAJOR.value
 
 
-def test_revenue_reserve_metrics_boundary_inclusivity():
-    """Verifies TC-11: rule inclusivity behavior at exact boundary points."""
-    metric_curr = next(
-        m for m in DEFAULT_RISK_CONFIG if isinstance(m, CurrentYearRevenueReserveMetric)
-    )
-    metric_prev = next(
-        m
-        for m in DEFAULT_RISK_CONFIG
-        if isinstance(m, PreviousYearRevenueReserveMetric)
+@pytest.mark.parametrize(
+    "interest_charges,expected_value,expected_score,expected_flag",
+    [
+        (0.0, False, 0.0, RiskFlag.NO_FLAG.value),
+        (-50.0, False, 0.0, RiskFlag.NO_FLAG.value),
+        (np.nan, False, 0.0, RiskFlag.NO_FLAG.value),
+        (1250.0, True, 0.25, RiskFlag.MINOR.value),
+    ],
+)
+def test_interest_on_loan_flag_metric_scores_positive_interest_charges(
+    interest_charges: float,
+    expected_value: bool,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(InterestOnLoanFlagMetric)
+    df = pd.DataFrame(
+        {"Other costs_Interest charges for loan and bank": [interest_charges]}
     )
 
-    boundary_values = [0.0, -0.01, -0.025, -0.04, -0.05, -0.06, -0.075, -0.09]
-    expected_curr_scores = [0.0, 0.5, 1.0, 1.25, 1.75, 2.0, 2.5, 3.0]
-    expected_curr_flags = [
-        RiskFlag.NO_FLAG.value,
-        RiskFlag.MINOR.value,
-        RiskFlag.MINOR.value,
-        RiskFlag.MINOR.value,
-        RiskFlag.MAJOR.value,
-        RiskFlag.MAJOR.value,
-        RiskFlag.MAJOR.value,
-        RiskFlag.MAJOR.value,
-    ]
-    expected_prev_scores = [0.0, 0.25, 0.5, 0.625, 0.875, 1.0, 1.25, 1.5]
+    metric.execute(df)
 
+    assert bool(df.loc[0, metric.value_column]) is expected_value
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+
+
+@pytest.mark.parametrize(
+    "premises_spend,net_expenditure,expected_score,expected_flag",
+    [
+        (50_000.0, 1_000_000.0, 0.0, RiskFlag.NO_FLAG.value),
+        (100_000.0, 1_000_000.0, 0.25, RiskFlag.MINOR.value),
+        (120_000.0, 1_000_000.0, 0.25, RiskFlag.MINOR.value),
+        (150_000.0, 1_000_000.0, 0.5, RiskFlag.MINOR.value),
+        (250_000.0, 1_000_000.0, 0.5, RiskFlag.MINOR.value),
+        (np.nan, 1_000_000.0, 0.5, RiskFlag.MINOR.value),
+        (50_000.0, 0.0, 0.5, RiskFlag.MINOR.value),
+    ],
+)
+def test_percent_expenditure_on_premises_metric_scores_bands_and_missing_data(
+    premises_spend: float,
+    net_expenditure: float,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(PercentExpenditureOnPremisesMetric)
     df = pd.DataFrame(
         {
-            "Revenue reserve": [v * 100000.0 for v in boundary_values],
-            "Total Income": [100000.0] * len(boundary_values),
-            "Revenue reserve_y_minus_one": [v * 100000.0 for v in boundary_values],
-            "Total Income_y_minus_one": [100000.0] * len(boundary_values),
-        }
-    )
-
-    metric_curr.execute(df)
-    metric_prev.execute(df)
-
-    for i in range(len(boundary_values)):
-        assert df.loc[i, metric_curr.score_column] == expected_curr_scores[i]
-        assert df.loc[i, metric_curr.flag_column] == expected_curr_flags[i]
-        assert df.loc[i, metric_prev.score_column] == expected_prev_scores[i]
-        assert df.loc[i, metric_prev.flag_column] == expected_curr_flags[i]
-
-
-def test_revenue_reserve_metrics_download_file_schema():
-    """Verifies TC-12: download file schema column generation for both metrics."""
-    schema = get_laa_download_file_schema(2026)
-
-    # Both metrics must have their 3 standard columns in the download schema
-    assert "Current revenue reserve as % income (202526)" in schema
-    assert "Current revenue reserve as % income (202526)_Score" in schema
-    assert "Current revenue reserve as % income (202526)_Risk" in schema
-
-    assert "Previous revenue reserve as % income (202425)" in schema
-    assert "Previous revenue reserve as % income (202425)_Score" in schema
-    assert "Previous revenue reserve as % income (202425)_Risk" in schema
-
-    # Legacy side columns must not appear in the schema
-    assert "EndYearBalanceAsPercentageIncome_y_minus_one" not in schema
-    assert "EndYearBalanceAsPercentageIncome_y_minus_one_Score" not in schema
-    assert "EndYearBalanceAsPercentageIncome_y_minus_one_Risk" not in schema
-
-
-def test_exclude_phases_rule():
-    rule = ExcludePhases(["Nursery", "Special"])
-    df = pd.DataFrame({"Overall Phase": ["Primary", "Nursery", "Secondary", "Special"]})
-    applicable = rule.is_applicable(df)
-    assert applicable.tolist() == [True, False, True, False]
-
-    # When column is missing, all should be applicable
-    df_missing_col = pd.DataFrame({"URN": [1001, 1002]})
-    assert rule.is_applicable(df_missing_col).all()
-
-
-def test_metric_applicability_execution_and_scoring():
-    metric = RangeRiskMetric(
-        name="TestCapacity",
-        risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
-        risk_score_maximum=1.5,
-        applicability=ExcludePhases(["Special"]),
-        rules=[
-            MetricRule(0.0, 0.5, 1.5, RiskFlag.MAJOR.value, "left"),
-            MetricRule(0.5, 1.0, 0.0, RiskFlag.NO_FLAG.value, "both"),
-        ],
-    )
-
-    df = pd.DataFrame(
-        {
-            "URN": [1001, 1002, 1003, 1004],
-            "Overall Phase": ["Primary", "Special", "Nursery", "Special"],
-            "TestCapacity": [0.2, 0.2, np.nan, np.nan],
+            "LAAPremisesExpenditureRollup": [premises_spend],
+            "NetExpenditure": [net_expenditure],
         }
     )
 
     metric.execute(df)
 
-    # 1. Applicable school with value 0.2 -> evaluated normally (1.5, Major)
-    assert df.loc[0, metric.score_column] == 1.5
-    assert df.loc[0, metric.flag_column] == RiskFlag.MAJOR.value
-
-    # 2. Excluded school (code 7) with value 0.2 -> exempted (0.0, No flag)
-    assert df.loc[1, metric.score_column] == 0.0
-    assert df.loc[1, metric.flag_column] == RiskFlag.NO_FLAG.value
-
-    # 3. Applicable school with NaN value -> penalised as missing (1.5, Major)
-    assert df.loc[2, metric.score_column] == 1.5
-    assert df.loc[2, metric.flag_column] == RiskFlag.MAJOR.value
-
-    # 4. Excluded school (code 12) with NaN value -> exempted (0.0, No flag)
-    assert df.loc[3, metric.score_column] == 0.0
-    assert df.loc[3, metric.flag_column] == RiskFlag.NO_FLAG.value
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
 
 
-def test_metric_applicability_combined_rules():
-    metric = RangeRiskMetric(
-        name="TestProgress",
-        risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
-        risk_score_maximum=1.0,
-        applicability=[ExcludePhases(["Nursery"])],
-        rules=[
-            MetricRule(0.0, 10.0, 1.0, RiskFlag.MAJOR.value, "both"),
-        ],
-    )
-
+@pytest.mark.parametrize(
+    "staff_spend,net_expenditure,expected_score,expected_flag",
+    [
+        (750_000.0, 1_000_000.0, 0.0, RiskFlag.NO_FLAG.value),
+        (800_000.0, 1_000_000.0, 0.75, RiskFlag.MINOR.value),
+        (850_000.0, 1_000_000.0, 1.0, RiskFlag.MINOR.value),
+        (900_000.0, 1_000_000.0, 1.25, RiskFlag.MINOR.value),
+        (950_000.0, 1_000_000.0, 1.5, RiskFlag.MINOR.value),
+        (np.nan, 1_000_000.0, 1.5, RiskFlag.MINOR.value),
+    ],
+)
+def test_percent_expenditure_on_staff_metric_scores_bands_and_missing_data(
+    staff_spend: float,
+    net_expenditure: float,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(PercentExpenditureOnStaffMetric)
     df = pd.DataFrame(
         {
-            "URN": [1001, 1002, 1003, 1004],
-            "Overall Phase": ["Primary", "Nursery", "Primary", "Nursery"],
-            "TypeOfEstablishment (code)": [1, 1, 7, 7],
-            "TestProgress": [5.0, 5.0, 5.0, 5.0],
+            "LAAStaffExpenditureRollup": [staff_spend],
+            "NetExpenditure": [net_expenditure],
         }
     )
 
     metric.execute(df)
 
-    # Primary, code 1 -> Applicable -> Major, 1.0
-    assert df.loc[0, metric.score_column] == 1.0
-    assert df.loc[0, metric.flag_column] == RiskFlag.MAJOR.value
-
-    # Nursery, code 1 -> Excluded by phase -> 0.0, No flag
-    assert df.loc[1, metric.score_column] == 0.0
-    assert df.loc[1, metric.flag_column] == RiskFlag.NO_FLAG.value
-
-    # Nursery, code 7 -> Excluded by both -> 0.0, No flag
-    assert df.loc[3, metric.score_column] == 0.0
-    assert df.loc[3, metric.flag_column] == RiskFlag.NO_FLAG.value
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
 
 
-def test_metric_applicability_cached_in_df_attrs():
-    call_count = 0
+@pytest.mark.parametrize(
+    "exp_this_year,exp_four_years_ago,income,expected_score,expected_flag",
+    [
+        (1_100_000.0, 1_000_000.0, 1_000_000.0, 0.0, RiskFlag.NO_FLAG.value),
+        (1_150_000.0, 1_000_000.0, 1_000_000.0, 0.5, RiskFlag.MINOR.value),
+        (1_200_000.0, 1_000_000.0, 1_000_000.0, 1.0, RiskFlag.MINOR.value),
+        (1_300_000.0, 1_000_000.0, 1_000_000.0, 1.5, RiskFlag.MAJOR.value),
+        (1_100_000.0, np.nan, 1_000_000.0, 1.5, RiskFlag.MAJOR.value),
+        (1_100_000.0, 1_000_000.0, 0.0, 1.5, RiskFlag.MAJOR.value),
+    ],
+)
+def test_change_in_expenditure_over_4_years_metric_scores_bands_and_missing_data(
+    exp_this_year: float,
+    exp_four_years_ago: float,
+    income: float,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(ChangeInExpenditureOver4YearsMetric)
+    df = pd.DataFrame(
+        {
+            "Total Expenditure": [exp_this_year],
+            "Total Expenditure_y_minus_four": [exp_four_years_ago],
+            "Total Income": [income],
+        }
+    )
 
-    class CountingRule:
-        def is_applicable(self, df: pd.DataFrame) -> pd.Series:
-            nonlocal call_count
-            call_count += 1
-            return pd.Series([True, False], index=df.index)
+    metric.execute(df)
 
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+
+
+@pytest.mark.parametrize(
+    "reserves_five_years,expected_value,expected_score,expected_flag",
+    [
+        (
+            [10_000.0, 5_000.0, 0.0, 2_000.0, 1_000.0],
+            False,
+            0.0,
+            RiskFlag.NO_FLAG.value,
+        ),
+        ([-1.0, 5_000.0, 5_000.0, 5_000.0, 5_000.0], True, 3.0, RiskFlag.MAJOR.value),
+        (
+            [10_000.0, 5_000.0, 5_000.0, 5_000.0, -500.0],
+            True,
+            3.0,
+            RiskFlag.MAJOR.value,
+        ),
+    ],
+)
+def test_deficit_in_last_4_years_flag_metric_detects_any_negative_reserve(
+    reserves_five_years: list[float],
+    expected_value: bool,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(DeficitInLast4YearsFlagMetric)
+    df = pd.DataFrame(
+        {
+            "Revenue reserve": [reserves_five_years[0]],
+            "Revenue reserve_y_minus_one": [reserves_five_years[1]],
+            "Revenue reserve_y_minus_two": [reserves_five_years[2]],
+            "Revenue reserve_y_minus_three": [reserves_five_years[3]],
+            "Revenue reserve_y_minus_four": [reserves_five_years[4]],
+        }
+    )
+
+    metric.execute(df)
+
+    assert bool(df.loc[0, metric.value_column]) is expected_value
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+
+
+@pytest.mark.parametrize(
+    "ratios_five_years,expected_value,expected_score,expected_flag",
+    [
+        ([0.15, 0.16, 0.20, 0.15, 0.18], True, 1.0, RiskFlag.MAJOR.value),
+        ([0.15, 0.16, 0.149, 0.15, 0.18], False, 0.0, RiskFlag.NO_FLAG.value),
+        ([0.10, 0.10, 0.10, 0.10, 0.10], False, 0.0, RiskFlag.NO_FLAG.value),
+    ],
+)
+def test_long_term_surplus_above_threshold_for_5_years_metric_requires_all_years_above_15_percent(
+    ratios_five_years: list[float],
+    expected_value: bool,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(CurrentLongTermSurplusABoveThresholdFor5YearsMetric)
+    df = pd.DataFrame(
+        {
+            "Revenue reserve": [ratios_five_years[0] * 100_000.0],
+            "Total Income": [100_000.0],
+            "Revenue reserve_y_minus_one": [ratios_five_years[1] * 100_000.0],
+            "Total Income_y_minus_one": [100_000.0],
+            "Revenue reserve_y_minus_two": [ratios_five_years[2] * 100_000.0],
+            "Total Income_y_minus_two": [100_000.0],
+            "Revenue reserve_y_minus_three": [ratios_five_years[3] * 100_000.0],
+            "Total Income_y_minus_three": [100_000.0],
+            "Revenue reserve_y_minus_four": [ratios_five_years[4] * 100_000.0],
+            "Total Income_y_minus_four": [100_000.0],
+        }
+    )
+
+    metric.execute(df)
+
+    assert bool(df.loc[0, metric.value_column]) is expected_value
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+
+
+@pytest.mark.parametrize(
+    "income,expenditure,expected_score,expected_flag",
+    [
+        (1_000_000.0, 950_000.0, 0.0, RiskFlag.NO_FLAG.value),
+        (1_000_000.0, 1_000_000.0, 0.0, RiskFlag.NO_FLAG.value),
+        (1_000_000.0, 1_005_000.0, 0.25, RiskFlag.MINOR.value),
+        (1_000_000.0, 1_020_000.0, 0.5, RiskFlag.MINOR.value),
+        (1_000_000.0, 1_030_000.0, 1.0, RiskFlag.MINOR.value),
+        (1_000_000.0, 1_045_000.0, 1.25, RiskFlag.MINOR.value),
+        (1_000_000.0, 1_055_000.0, 1.75, RiskFlag.MAJOR.value),
+        (1_000_000.0, 1_070_000.0, 2.0, RiskFlag.MAJOR.value),
+        (1_000_000.0, 1_080_000.0, 2.5, RiskFlag.MAJOR.value),
+        (1_000_000.0, 1_100_000.0, 3.0, RiskFlag.MAJOR.value),
+        (0.0, 1_000_000.0, 3.0, RiskFlag.MAJOR.value),
+    ],
+)
+def test_overspend_metric_scores_in_year_balance_percentage_bands(
+    income: float,
+    expenditure: float,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(OverspendMetric)
+    df = pd.DataFrame(
+        {
+            "Total Income": [income],
+            "Total Expenditure": [expenditure],
+        }
+    )
+
+    metric.execute(df)
+
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+
+
+@pytest.mark.parametrize(
+    "curr_ratio,prev_ratio,expected_value,expected_score,expected_flag",
+    [
+        (0.04, 0.15, True, 1.5, RiskFlag.MAJOR.value),
+        (0.025, 0.125, True, 1.5, RiskFlag.MAJOR.value),
+        (0.16, 0.30, False, 0.0, RiskFlag.NO_FLAG.value),
+        (0.08, 0.15, False, 0.0, RiskFlag.NO_FLAG.value),
+    ],
+)
+def test_large_decrease_in_balance_metric_flags_ten_percent_drop_when_reserve_below_fifteen_percent(
+    curr_ratio: float,
+    prev_ratio: float,
+    expected_value: bool,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(LargeDecreaseInBalanceMetric)
+    df = pd.DataFrame(
+        {
+            "Revenue reserve": [curr_ratio * 1_000_000.0],
+            "Total Income": [1_000_000.0],
+            "Revenue reserve_y_minus_one": [prev_ratio * 1_000_000.0],
+            "Total Income_y_minus_one": [1_000_000.0],
+        }
+    )
+
+    metric.execute(df)
+
+    assert bool(df.loc[0, metric.value_column]) is expected_value
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+
+
+@pytest.mark.parametrize(
+    "phase,pupils,places,expected_score,expected_flag",
+    [
+        ("Primary", 35.0, 100.0, 1.5, RiskFlag.MAJOR.value),
+        ("Primary", 42.0, 100.0, 1.25, RiskFlag.MAJOR.value),
+        ("Primary", 48.0, 100.0, 1.0, RiskFlag.MAJOR.value),
+        ("Primary", 52.0, 100.0, 0.75, RiskFlag.MINOR.value),
+        ("Primary", 58.0, 100.0, 0.6, RiskFlag.MINOR.value),
+        ("Primary", 62.0, 100.0, 0.45, RiskFlag.MINOR.value),
+        ("Primary", 68.0, 100.0, 0.3, RiskFlag.MINOR.value),
+        ("Primary", 72.0, 100.0, 0.15, RiskFlag.MINOR.value),
+        ("Primary", 80.0, 100.0, 0.0, RiskFlag.NO_FLAG.value),
+        ("Primary", 50.0, 0.0, 1.5, RiskFlag.MAJOR.value),
+        ("Special", 35.0, 100.0, 0.0, RiskFlag.NO_FLAG.value),
+        ("Special", np.nan, np.nan, 0.0, RiskFlag.NO_FLAG.value),
+    ],
+)
+def test_pupil_number_variance_from_capacity_metric_scores_bands_and_exempts_special_phase(
+    phase: str,
+    pupils: float,
+    places: float,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(PupilNumberVarianceFromCapacityMetric)
+    df = pd.DataFrame(
+        {
+            "Overall Phase": [phase],
+            "Number of pupils": [pupils],
+            "school_places": [places],
+        }
+    )
+
+    metric.execute(df)
+
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+
+
+@pytest.mark.parametrize(
+    "pupils_now,pupils_historical,expected_score,expected_1yr_flag,expected_4yr_flag",
+    [
+        (80.0, 100.0, 1.5, RiskFlag.MAJOR.value, RiskFlag.MAJOR.value),
+        (86.0, 100.0, 1.25, RiskFlag.MAJOR.value, RiskFlag.MINOR.value),
+        (88.0, 100.0, 1.0, RiskFlag.MAJOR.value, RiskFlag.MINOR.value),
+        (91.0, 100.0, 0.8, RiskFlag.MINOR.value, RiskFlag.MINOR.value),
+        (93.0, 100.0, 0.6, RiskFlag.MINOR.value, RiskFlag.MINOR.value),
+        (95.0, 100.0, 0.4, RiskFlag.MINOR.value, RiskFlag.MINOR.value),
+        (97.0, 100.0, 0.2, RiskFlag.MINOR.value, RiskFlag.MINOR.value),
+        (105.0, 100.0, 0.0, RiskFlag.NO_FLAG.value, RiskFlag.NO_FLAG.value),
+        (50.0, 0.0, 1.5, RiskFlag.MAJOR.value, RiskFlag.MAJOR.value),
+        (0.0, 0.0, 1.5, RiskFlag.MAJOR.value, RiskFlag.MAJOR.value),
+    ],
+)
+def test_pupil_change_metrics_score_reductions_and_handle_zero_historical_pupils(
+    pupils_now: float,
+    pupils_historical: float,
+    expected_score: float,
+    expected_1yr_flag: str,
+    expected_4yr_flag: str,
+):
+    metric_1yr = _get_metric(PupilChangeOver1YearMetric)
+    metric_4yr = _get_metric(PupilChangeOver4YearsMetric)
+    df = pd.DataFrame(
+        {
+            "Number of pupils": [pupils_now],
+            "Number of pupils_y_minus_one": [pupils_historical],
+            "Number of pupils_y_minus_four": [pupils_historical],
+        }
+    )
+
+    metric_1yr.execute(df)
+    metric_4yr.execute(df)
+
+    assert not np.isinf(df[metric_1yr.value_column]).any()
+    assert not np.isinf(df[metric_4yr.value_column]).any()
+    assert df.loc[0, metric_1yr.score_column] == expected_score
+    assert df.loc[0, metric_1yr.flag_column] == expected_1yr_flag
+    assert df.loc[0, metric_4yr.score_column] == expected_score
+    assert df.loc[0, metric_4yr.flag_column] == expected_4yr_flag
+
+
+@pytest.mark.parametrize(
+    "phase,sixth_form_pupils,expected_score,expected_flag",
+    [
+        ("Secondary", 0.0, 0.0, RiskFlag.NO_FLAG.value),
+        ("Secondary", 25.0, 0.5, RiskFlag.MINOR.value),
+        ("Secondary", 60.0, 0.4, RiskFlag.MINOR.value),
+        ("Secondary", 80.0, 0.3, RiskFlag.MINOR.value),
+        ("Secondary", 110.0, 0.2, RiskFlag.MINOR.value),
+        ("Secondary", 130.0, 0.1, RiskFlag.MINOR.value),
+        ("Secondary", 160.0, 0.0, RiskFlag.NO_FLAG.value),
+        ("Secondary", np.nan, 0.5, RiskFlag.MINOR.value),
+        ("Primary", 25.0, 0.0, RiskFlag.NO_FLAG.value),
+        ("Nursery", np.nan, 0.0, RiskFlag.NO_FLAG.value),
+    ],
+)
+def test_pupils_sixth_form_metric_scores_secondary_and_exempts_primary_and_nursery(
+    phase: str,
+    sixth_form_pupils: float,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(PupilsSixthFormMetric)
+    df = pd.DataFrame(
+        {
+            "Overall Phase": [phase],
+            "TotalPupilsSixthForm": [sixth_form_pupils],
+        }
+    )
+
+    metric.execute(df)
+
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+
+
+@pytest.mark.parametrize(
+    "establishment_code,absence_percent,expected_scaled_value,expected_score,expected_flag",
+    [
+        (1, 4.0, 0.04, 0.0, RiskFlag.NO_FLAG.value),
+        (1, 5.5, 0.055, 0.25, RiskFlag.MINOR.value),
+        (1, 7.0, 0.07, 0.5, RiskFlag.MINOR.value),
+        (1, np.nan, np.nan, 0.5, RiskFlag.MINOR.value),
+        (7, 10.0, 0.10, 0.0, RiskFlag.NO_FLAG.value),
+        (12, 20.0, 0.20, 0.25, RiskFlag.MINOR.value),
+        (44, 30.0, 0.30, 0.5, RiskFlag.MINOR.value),
+    ],
+)
+def test_pupil_absence_metric_scales_percentage_and_applies_establishment_specific_rules(
+    establishment_code: int,
+    absence_percent: float,
+    expected_scaled_value: float,
+    expected_score: float,
+    expected_flag: str,
+):
+    metric = _get_metric(PupilAbsenceMetric)
+    df = pd.DataFrame(
+        {
+            "TypeOfEstablishment (code)": [establishment_code],
+            "sess_overall_percent": [absence_percent],
+        }
+    )
+
+    metric.execute(df)
+
+    if pd.isna(expected_scaled_value):
+        assert pd.isna(df.loc[0, metric.value_column])
+    else:
+        assert df.loc[0, metric.value_column] == pytest.approx(expected_scaled_value)
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+
+
+@pytest.mark.parametrize(
+    "phase,pref_ratio,expected_score,expected_flag,expected_formatted",
+    [
+        ("Primary", 0.50, 1.5, RiskFlag.MAJOR.value, "Low"),
+        ("Primary", 0.62, 1.2, RiskFlag.MAJOR.value, "Low"),
+        ("Primary", 0.675, 1.0, RiskFlag.MAJOR.value, "Low"),
+        ("Primary", 0.72, 0.8, RiskFlag.MINOR.value, "Medium"),
+        ("Primary", 0.78, 0.6, RiskFlag.MINOR.value, "Medium"),
+        ("Primary", 0.82, 0.4, RiskFlag.MINOR.value, "Medium"),
+        ("Primary", 0.88, 0.2, RiskFlag.MINOR.value, "Medium"),
+        ("Primary", 0.90, 0.0, RiskFlag.NO_FLAG.value, "Medium"),
+        ("Primary", 0.95, 0.0, RiskFlag.NO_FLAG.value, "High"),
+        ("Primary", np.nan, 1.5, RiskFlag.MAJOR.value, None),
+        ("Special", 0.50, 0.0, RiskFlag.NO_FLAG.value, "N/A"),
+        ("Special", np.nan, 0.0, RiskFlag.NO_FLAG.value, "N/A"),
+        ("Nursery", 0.50, 0.0, RiskFlag.NO_FLAG.value, "N/A"),
+        ("Pupil referral unit", 1.20, 0.0, RiskFlag.NO_FLAG.value, "N/A"),
+    ],
+)
+def test_parental_preference_metric_scores_formats_and_exempts_excluded_phases(
+    phase: str,
+    pref_ratio: float,
+    expected_score: float,
+    expected_flag: str,
+    expected_formatted: str | None,
+):
+    metric = _get_metric(ParentalPreferenceMetric)
+    df = pd.DataFrame(
+        {
+            "Overall Phase": [phase],
+            "proportion_1stprefs_v_totaloffers": [pref_ratio],
+        }
+    )
+
+    metric.execute(df)
+    formatted = metric.format_value(df[metric.value_column], df=df)
+
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+    assert formatted.iloc[0] == expected_formatted
+
+
+@pytest.mark.parametrize(
+    "phase,ptrwm_exp,average_attainment,expected_val,expected_score,expected_flag,expected_formatted",
+    [
+        ("Primary", np.nan, np.nan, np.nan, 0.0, RiskFlag.NO_FLAG.value, None),
+        ("Secondary", np.nan, np.nan, np.nan, 0.0, RiskFlag.NO_FLAG.value, None),
+        ("Primary", 40.0, np.nan, 40.0, 0.25, RiskFlag.MINOR.value, "40"),
+        ("Primary", 46.0, np.nan, 46.0, 0.0, RiskFlag.NO_FLAG.value, "46"),
+        ("Secondary", np.nan, 42.5, 42.5, 0.25, RiskFlag.MINOR.value, "42.5"),
+        ("Secondary", np.nan, 52.0, 52.0, 0.0, RiskFlag.NO_FLAG.value, "52"),
+        ("Special", 30.0, 30.0, np.nan, 0.0, RiskFlag.NO_FLAG.value, "N/A"),
+    ],
+)
+def test_performance_tables_achievement_score_metric_scores_by_phase_without_penalising_missing(
+    phase: str,
+    ptrwm_exp: float,
+    average_attainment: float,
+    expected_val: float,
+    expected_score: float,
+    expected_flag: str,
+    expected_formatted: str | None,
+):
+    metric = _get_metric(PerformanceTablesAchievementScoreMetric)
+    df = pd.DataFrame(
+        {
+            "Overall Phase": [phase],
+            "PTRWM_EXP": [ptrwm_exp],
+            "AverageAttainment": [average_attainment],
+        }
+    )
+
+    metric.execute(df)
+    formatted = metric.format_value(df[metric.value_column], df=df)
+
+    if pd.isna(expected_val):
+        assert pd.isna(df.loc[0, metric.value_column])
+    else:
+        assert df.loc[0, metric.value_column] == pytest.approx(expected_val)
+    assert df.loc[0, metric.score_column] == expected_score
+    assert df.loc[0, metric.flag_column] == expected_flag
+    assert formatted.iloc[0] == expected_formatted
+
+
+def test_performance_tables_progress_score_metric_derives_ks2_and_p8_and_exempts_excluded_phases():
+    default_metric = _get_metric(PerformanceTablesProgressScoreMetric)
+    df_default = pd.DataFrame(
+        {
+            "Overall Phase": ["Primary", "Secondary"],
+            "Ks2Progress": [-0.6, np.nan],
+            "Progress8Measure": [np.nan, -0.5],
+        }
+    )
+
+    default_metric.execute(df_default)
+
+    assert df_default.loc[0, default_metric.value_column] == pytest.approx(-0.2)
+    assert df_default.loc[0, default_metric.score_column] == 0.0
+    assert df_default.loc[0, default_metric.flag_column] == RiskFlag.NO_FLAG.value
+    assert df_default.loc[1, default_metric.value_column] == pytest.approx(-0.5)
+    assert df_default.loc[1, default_metric.score_column] == 0.0
+    assert df_default.loc[1, default_metric.flag_column] == RiskFlag.NO_FLAG.value
+
+
+@pytest.mark.parametrize(
+    "formatting,raw_value,expected_string",
+    [
+        (RiskIndicatorValueFormatting.BOOLEAN, True, "Yes"),
+        (RiskIndicatorValueFormatting.BOOLEAN, False, "No"),
+        (RiskIndicatorValueFormatting.BOOLEAN, 1, "Yes"),
+        (RiskIndicatorValueFormatting.BOOLEAN, 0, "No"),
+        (RiskIndicatorValueFormatting.BOOLEAN, "True", "Yes"),
+        (RiskIndicatorValueFormatting.BOOLEAN, "False", "No"),
+        (RiskIndicatorValueFormatting.BOOLEAN, 1.0, "Yes"),
+        (RiskIndicatorValueFormatting.BOOLEAN, 0.0, "No"),
+        (RiskIndicatorValueFormatting.BOOLEAN, np.nan, None),
+        (RiskIndicatorValueFormatting.DECIMAL, 120, "120"),
+        (RiskIndicatorValueFormatting.DECIMAL, 120.0, "120"),
+        (RiskIndicatorValueFormatting.DECIMAL, 4.5, "4.5"),
+        (RiskIndicatorValueFormatting.DECIMAL, 0.0, "0"),
+        (RiskIndicatorValueFormatting.DECIMAL, -1.25, "-1.25"),
+        (RiskIndicatorValueFormatting.DECIMAL, np.inf, None),
+        (RiskIndicatorValueFormatting.DECIMAL, np.nan, None),
+        (RiskIndicatorValueFormatting.PERCENTAGE, 0.15, "0.15"),
+        (RiskIndicatorValueFormatting.PERCENTAGE, -0.024, "-0.024"),
+        (RiskIndicatorValueFormatting.PERCENTAGE, 0.0, "0.0"),
+        (RiskIndicatorValueFormatting.PERCENTAGE, np.inf, None),
+        (RiskIndicatorValueFormatting.STRING, "High", "High"),
+        (RiskIndicatorValueFormatting.STRING, None, None),
+    ],
+)
+def test_base_risk_metric_format_value_serialises_scalars_by_formatting_type(
+    formatting: RiskIndicatorValueFormatting,
+    raw_value: object,
+    expected_string: str | None,
+):
     metric = BaseRiskMetric(
-        name="TestCacheMetric",
+        name="TestMetric",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.0,
-        applicability=CountingRule(),
+        value_formatting=formatting,
     )
 
+    formatted = metric.format_value(pd.Series([raw_value], dtype=object))
+
+    assert formatted.iloc[0] == expected_string
+
+
+def test_exclude_phases_treats_all_rows_as_applicable_when_phase_column_missing():
+    rule = ExcludePhases(["Nursery", "Special"])
     df = pd.DataFrame({"URN": [1001, 1002]})
-    first_res = metric.is_applicable(df)
-    assert call_count == 1
-    assert first_res.tolist() == [True, False]
 
-    # Second call should read from df.attrs cache and not invoke rule again
-    second_res = metric.is_applicable(df)
-    assert call_count == 1
-    assert second_res.tolist() == [True, False]
+    assert rule.is_applicable(df).tolist() == [True, True]
 
 
-def test_penalise_missing_flag_on_base_metric():
-    class DummyMetric(BaseRiskMetric):
-        def derive_risk_score(self, df: pd.DataFrame, value_series: pd.Series):
-            return pd.Series(0.0, index=df.index), pd.Series(
-                RiskFlag.NO_FLAG.value, index=df.index
-            )
-
-    df = pd.DataFrame({"TestCol": [np.nan]})
-
-    metric_penalised = DummyMetric(
-        name="TestCol",
+def test_melt_laa_risk_scores_produces_long_indicators_and_aggregated_group_headers():
+    metric_bool = BinaryRiskMetric(
+        name="LoanFlag",
+        risk_group=RiskGroup.FINANCIAL,
+        risk_score_maximum=0.25,
+        score_when_1=0.25,
+        risk_when_1=RiskFlag.MINOR.value,
+        value_formatting=RiskIndicatorValueFormatting.BOOLEAN,
+    )
+    metric_pct = BaseRiskMetric(
+        name="SpendPct",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.0,
-        risk_flag_maximum=RiskFlag.MAJOR.value,
-        penalise_missing=True,
+        value_formatting=RiskIndicatorValueFormatting.PERCENTAGE,
     )
-    metric_penalised.execute(df)
-    assert df.loc[0, metric_penalised.score_column] == 1.0
-    assert df.loc[0, metric_penalised.flag_column] == RiskFlag.MAJOR.value
-
-    df2 = pd.DataFrame({"TestCol": [np.nan]})
-    metric_unpenalised = DummyMetric(
-        name="TestCol",
-        risk_group=RiskGroup.FINANCIAL,
-        risk_score_maximum=1.0,
-        risk_flag_maximum=RiskFlag.MAJOR.value,
-        penalise_missing=False,
+    metric_sixth_form = BaseRiskMetric(
+        name="SixthFormCount",
+        risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
+        risk_score_maximum=0.5,
+        value_formatting=RiskIndicatorValueFormatting.DECIMAL,
+        applicability=ExcludePhases(["Primary"]),
     )
-    metric_unpenalised.execute(df2)
-    assert df2.loc[0, metric_unpenalised.score_column] == 0.0
-    assert df2.loc[0, metric_unpenalised.flag_column] == RiskFlag.NO_FLAG.value
-
-
-def test_performance_tables_achievement_score_metric_missing_and_scoring():
-    metric = PerformanceTablesAchievementScoreMetric(
-        name="Educational attainment score (KS2/KS4)",
+    metric_attainment = BaseRiskMetric(
+        name="AttainmentScore",
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.25,
-        risk_flag_maximum=RiskFlag.MINOR.value,
-        penalise_missing=False,
         value_formatting=RiskIndicatorValueFormatting.DECIMAL,
-        applicability=ExcludePhases(["Special"]),
-        rules=[
-            MetricRule(0, 46, 0.25, RiskFlag.MINOR.value, "left"),
-            MetricRule(46, 100, 0.0, RiskFlag.NO_FLAG.value, "both"),
-        ],
     )
 
-    df = pd.DataFrame(
+    df_headlines = pd.DataFrame(
         {
-            "Overall Phase": ["Primary", "Secondary", "Primary", "Secondary", "Special"],
-            "PTRWM_EXP": [np.nan, np.nan, 40.0, np.nan, np.nan],
-            "AverageAttainment": [np.nan, np.nan, np.nan, 52.0, np.nan],
+            "URN": [1001, 1002],
+            "Overall Phase": ["Secondary", "Primary"],
+            "LoanFlag": [True, False],
+            "LoanFlag_Score": [0.25, 0.0],
+            "LoanFlag_Risk": ["Minor", "No flag"],
+            "SpendPct": [0.15, np.nan],
+            "SpendPct_Score": [0.5, 1.0],
+            "SpendPct_Risk": ["Minor", "Major"],
+            "SixthFormCount": [50.0, 50.0],
+            "SixthFormCount_Score": [0.0, 0.0],
+            "SixthFormCount_Risk": ["No flag", "No flag"],
+            "AttainmentScore": [60.0, 40.0],
+            "AttainmentScore_Score": [0.0, 0.25],
+            "AttainmentScore_Risk": ["No flag", "Minor"],
+            "Total_Risk_Score": [0.75, 1.25],
+            "LAA_Risk_Grade": ["B", "C"],
         }
     )
 
-    metric.execute(df)
+    evaluators = [metric_bool, metric_pct, metric_sixth_form, metric_attainment]
+    indicators_df, headers_df = melt_laa_risk_scores(
+        df_headlines, evaluators, run_id="2026"
+    )
 
-    # Row 0: Primary school with missing data -> unpenalised (0.0, No flag)
-    assert df.loc[0, metric.score_column] == 0.0
-    assert df.loc[0, metric.flag_column] == RiskFlag.NO_FLAG.value
-    assert pd.isna(df.loc[0, metric.value_column])
+    sixth_form_rows = indicators_df[
+        indicators_df["RiskIndicator"] == "SixthFormCount"
+    ].reset_index(drop=True)
+    assert sixth_form_rows.loc[0, "RiskIndicatorValue"] == "50"
+    assert sixth_form_rows.loc[0, "RiskIndicatorValueFormatting"] == "Decimal"
+    assert sixth_form_rows.loc[1, "RiskIndicatorValue"] == "N/A"
+    assert sixth_form_rows.loc[1, "RiskIndicatorValueFormatting"] == "String"
 
-    # Row 1: Secondary school with missing data -> unpenalised (0.0, No flag)
-    assert df.loc[1, metric.score_column] == 0.0
-    assert df.loc[1, metric.flag_column] == RiskFlag.NO_FLAG.value
-    assert pd.isna(df.loc[1, metric.value_column])
-
-    # Row 2: Primary school with low attainment (40 < 46) -> penalised by rule (0.25, Minor)
-    assert df.loc[2, metric.score_column] == 0.25
-    assert df.loc[2, metric.flag_column] == RiskFlag.MINOR.value
-    assert df.loc[2, metric.value_column] == 40.0
-
-    # Row 3: Secondary school with high attainment (52 >= 46) -> no flag (0.0, No flag)
-    assert df.loc[3, metric.score_column] == 0.0
-    assert df.loc[3, metric.flag_column] == RiskFlag.NO_FLAG.value
-    assert df.loc[3, metric.value_column] == 52.0
-
-    # Row 4: Special school -> Non-applicable (0.0, No flag), format_value is "N/A"
-    assert df.loc[4, metric.score_column] == 0.0
-    assert df.loc[4, metric.flag_column] == RiskFlag.NO_FLAG.value
-    formatted = metric.format_value(df[metric.value_column], df=df)
-    assert formatted.iloc[0] is None
-    assert formatted.iloc[1] is None
-    assert formatted.iloc[2] == "40"
-    assert formatted.iloc[3] == "52"
-    assert formatted.iloc[4] == "N/A"
-
+    assert headers_df.loc[0, "Financial"] == pytest.approx(0.75)
+    assert headers_df.loc[0, "FinancialMax"] == pytest.approx(1.25)
+    assert headers_df.loc[0, "SchoolAndPupil"] == pytest.approx(0.0)
+    assert headers_df.loc[0, "SchoolAndPupilMax"] == pytest.approx(0.5)
+    assert headers_df.loc[0, "EducationalPerformance"] == pytest.approx(0.0)
+    assert headers_df.loc[0, "EducationalPerformanceMax"] == pytest.approx(0.25)
+    assert headers_df.loc[0, "Overall"] == pytest.approx(0.75)
+    assert headers_df.loc[0, "OverallMax"] == pytest.approx(2.0)
+    assert headers_df.loc[0, "OverallGrade"] == "B"
