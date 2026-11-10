@@ -8,7 +8,20 @@ public record PerformanceDataResult(
     bool ShowAttainment8,
     KS4ProgressBandings? Bandings,
     IReadOnlyList<string> TopRankedBuilding,
-    IReadOnlyList<string> TopRankedPupil);
+    IReadOnlyList<string> TopRankedPupil)
+{
+    private bool HasTopRankedAttainment8 =>
+        ShowAttainment8 && (TopRankedBuilding.Count > 0 || TopRankedPupil.Count > 0);
+
+    public bool ResolveDisplayAttainment8(bool requestedByUser) =>
+        requestedByUser && HasTopRankedAttainment8;
+
+    public bool ShouldExcludeAttainment8Column =>
+        !HasTopRankedAttainment8;
+
+    public bool ShouldExcludeProgressBandingColumn =>
+        !ShowKs4Progress || Bandings == null || Bandings.Items.Length == 0;
+}
 
 public interface ISchoolPerformanceDataService
 {

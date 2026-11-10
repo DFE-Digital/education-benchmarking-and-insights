@@ -74,8 +74,7 @@ public class SchoolComparisonController(
 
                 var useFilters = await featureManager.IsEnabledAsync(FeatureFlags.SchoolComparisonFilter);
 
-                var hasTopRankedAttainment8 = perf.ShowAttainment8 && (perf.TopRankedBuilding.Count > 0 || perf.TopRankedPupil.Count > 0);
-                var effectiveDisplayAttainment8 = displayAttainment8 && hasTopRankedAttainment8;
+                var effectiveDisplayAttainment8 = perf.ResolveDisplayAttainment8(displayAttainment8);
 
                 if (useFilters)
                 {
@@ -211,12 +210,12 @@ public class SchoolComparisonController(
 
                 List<string> exclude = [nameof(SchoolExpenditure.TotalInternalFloorArea)];
 
-                if (!perf.ShowKs4Progress || perf.Bandings == null || perf.Bandings.Items.Length == 0)
+                if (perf.ShouldExcludeProgressBandingColumn)
                 {
                     exclude.Add(nameof(SchoolExpenditureWithPerformance.ProgressBanding));
                 }
 
-                if (!perf.ShowAttainment8 || (perf.TopRankedBuilding.Count == 0 && perf.TopRankedPupil.Count == 0))
+                if (perf.ShouldExcludeAttainment8Column)
                 {
                     exclude.Add(nameof(SchoolExpenditureWithPerformance.TopRankedAttainment8));
                 }
