@@ -104,16 +104,16 @@ To run the pipeline locally, follow these steps:
     ```json
     {
       "type": "default",
-      "runId": <year>,
+      "runId": 2025,
         "year": {
-            "aar": <year>,
-            "cfr": <year>,
-            "bfr": <year>,
-            "s251": <year>
+            "aar": 2025,
+            "cfr": 2025,
+            "bfr": 2025,
+            "s251": 2025
         },
-        "runUntil": <runUntilValue>,
-        "generateTransparencyFilesAndPrecursorFiles": <bool>,
-        "deriveLaaRiskScores": <bool>
+        "runUntil": "comparators",
+        "generateTransparencyFilesAndPrecursorFiles": false,
+        "deriveLaaRiskScores": false
     }
     ```
 
