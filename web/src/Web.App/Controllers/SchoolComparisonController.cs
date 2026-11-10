@@ -210,8 +210,16 @@ public class SchoolComparisonController(
                     expenditures.PupilExpenditure?.Where(x => !string.IsNullOrWhiteSpace(x.URN)).Select(x => x.URN!).ToArray());
 
                 List<string> exclude = [nameof(SchoolExpenditure.TotalInternalFloorArea)];
-                if (!perf.ShowKs4Progress) exclude.Add(nameof(SchoolExpenditureWithPerformance.ProgressBanding));
-                if (!perf.ShowAttainment8) exclude.Add(nameof(SchoolExpenditureWithPerformance.TopRankedAttainment8));
+
+                if (!perf.ShowKs4Progress || perf.Bandings == null || perf.Bandings.Items.Length == 0)
+                {
+                    exclude.Add(nameof(SchoolExpenditureWithPerformance.ProgressBanding));
+                }
+
+                if (!perf.ShowAttainment8 || (perf.TopRankedBuilding.Count == 0 && perf.TopRankedPupil.Count == 0))
+                {
+                    exclude.Add(nameof(SchoolExpenditureWithPerformance.TopRankedAttainment8));
+                }
 
                 var csvResults = new CsvResult[]
                 {
