@@ -51,22 +51,14 @@ public class SchoolComparisonController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var expenditure = await expenditureApi.School(urn).GetResultOrDefault<SchoolExpenditure>();
-                var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
-                var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 var costCodes = await costCodesService.GetCostCodes(school.IsPartOfTrust);
 
-                string[]? customComparatorSet = null;
-                if (userData.ComparatorSet != null)
-                {
-                    var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, userData.ComparatorSet)
-                        .GetResultOrDefault<UserDefinedSchoolComparatorSet>();
-                    customComparatorSet = userDefinedSet?.Set;
-                }
+                var (buildingUrns, pupilUrns, (customDataId, comparatorSetId), defaultComparatorSet) = await ResolveComparatorSetsAsync(urn);
 
                 var perf = await performanceDataService.GetPerformanceDataAsync(
                     urn,
-                    customComparatorSet ?? defaultComparatorSet?.Building ?? [],
-                    customComparatorSet ?? defaultComparatorSet?.Pupil ?? []);
+                    buildingUrns,
+                    pupilUrns);
 
                 SpendingComparisonSubCategoriesViewModel? subCategories = null;
                 SchoolExpenditureWithPerformance[]? buildingResult = null;
@@ -78,7 +70,12 @@ public class SchoolComparisonController(
 
                 if (useFilters)
                 {
-                    var expenditures = await comparisonExpenditureService.GetExpendituresAsync(User, urn, resultAs);
+                    var expenditures = await comparisonExpenditureService.GetExpendituresAsync(
+                        urn,
+                        buildingUrns,
+                        pupilUrns,
+                        resultAs,
+                        customDataId);
                     buildingResult = performanceDataService.Merge(expenditures.BuildingExpenditure, perf.Bandings, perf.TopRankedBuilding);
                     pupilResult = performanceDataService.Merge(expenditures.PupilExpenditure, perf.Bandings, perf.TopRankedPupil);
 
@@ -89,14 +86,14 @@ public class SchoolComparisonController(
                         urn,
                         costCodes);
 
-                    await PopulateChartsAsync(urn, subCategories, resultAs, bandingsAs, displayAttainment8);
+                    await PopulateChartsAsync(urn, subCategories, resultAs, bandingsAs, effectiveDisplayAttainment8);
                 }
 
                 var viewModel = new SchoolComparisonViewModel(
                     school,
                     costCodes,
-                    userData.ComparatorSet,
-                    userData.CustomData,
+                    comparatorSetId,
+                    customDataId,
                     expenditure,
                     defaultComparatorSet,
                     perf.Bandings,
@@ -200,8 +197,14 @@ public class SchoolComparisonController(
         {
             try
             {
+                var (buildingUrns, pupilUrns, (effectiveCustomDataId, _), _) = await ResolveComparatorSetsAsync(urn, customDataId);
+
                 var expenditures = await comparisonExpenditureService.GetExpendituresAsync(
-                    User, urn, SchoolSpendingDimensions.ResultAsOptions.Actuals, customDataId);
+                    urn,
+                    buildingUrns,
+                    pupilUrns,
+                    SchoolSpendingDimensions.ResultAsOptions.Actuals,
+                    effectiveCustomDataId);
 
                 var perf = await performanceDataService.GetPerformanceDataAsync(
                     urn,
@@ -281,5 +284,39 @@ public class SchoolComparisonController(
         {
             logger.LogWarning(e, "Unable to load charts from API");
         }
+    }
+
+    private async Task<(string[] BuildingUrns, string[] PupilUrns, (string? CustomData, string? ComparatorSet) UserData, SchoolComparatorSet? DefaultSet)> ResolveComparatorSetsAsync(
+        string urn,
+        string? customDataId = null)
+    {
+        var userData = await userDataService.GetSchoolDataAsync(User, urn);
+        var activeCustomDataId = customDataId ?? userData.CustomData;
+
+        if (!string.IsNullOrEmpty(customDataId))
+        {
+            var customSet = await comparatorSetApi.GetCustomSchoolAsync(urn, customDataId)
+                .GetResultOrDefault<SchoolComparatorSet>();
+
+            var customBuilding = customSet?.Building ?? [];
+            var customPupil = customSet?.Pupil ?? [];
+            return (customBuilding, customPupil, (activeCustomDataId, userData.ComparatorSet), customSet);
+        }
+
+        var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn)
+            .GetResultOrDefault<SchoolComparatorSet>();
+
+        string[]? customComparatorSet = null;
+        if (userData.ComparatorSet != null)
+        {
+            var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, userData.ComparatorSet)
+                .GetResultOrDefault<UserDefinedSchoolComparatorSet>();
+            customComparatorSet = userDefinedSet?.Set;
+        }
+
+        var buildingUrns = customComparatorSet ?? defaultComparatorSet?.Building ?? [];
+        var pupilUrns = customComparatorSet ?? defaultComparatorSet?.Pupil ?? [];
+
+        return (buildingUrns, pupilUrns, (userData.CustomData, userData.ComparatorSet), defaultComparatorSet);
     }
 }
