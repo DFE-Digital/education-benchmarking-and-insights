@@ -89,7 +89,7 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
             }
         }
 
-        LegendLabels = [.. legendLabels];
+        LegendLabels = legendLabels.Count > 1 ? [.. legendLabels] : null;
     }
 
     private void AddBandingGroup(
