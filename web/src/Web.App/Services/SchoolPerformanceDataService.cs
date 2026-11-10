@@ -52,12 +52,17 @@ public class SchoolPerformanceDataService(
                 (buildingUrns ?? []).Union(pupilUrns ?? []).Distinct().ToArray())
             : null;
 
+        var buildingSet = (buildingUrns ?? []).Distinct().ToArray();
+        var pupilSet = (pupilUrns ?? []).Distinct().ToArray();
+
         var topBuilding = showAttainment8
-            ? await attainment8RankingService.GetTopRankedAttainment8Async(urn, buildingUrns ?? [])
+            ? await attainment8RankingService.GetTopRankedAttainment8Async(urn, buildingSet)
             : [];
 
         var topPupil = showAttainment8
-            ? await attainment8RankingService.GetTopRankedAttainment8Async(urn, pupilUrns ?? [])
+            ? (buildingSet.Length == pupilSet.Length && buildingSet.All(pupilSet.Contains))
+                ? topBuilding
+                : await attainment8RankingService.GetTopRankedAttainment8Async(urn, pupilSet)
             : [];
 
         return new PerformanceDataResult(showKs4Progress, showAttainment8, bandings, topBuilding, topPupil);

@@ -26,64 +26,61 @@ public class ComparisonExpenditureService(
     ISchoolComparatorSetService schoolComparatorSetService) : IComparisonExpenditureService
 {
     public async Task<ComparisonExpenditureResult> GetExpendituresAsync(
-        ClaimsPrincipal user,
-        string urn,
-        SchoolSpendingDimensions.ResultAsOptions resultAs = SchoolSpendingDimensions.ResultAsOptions.Actuals,
-        string? customDataId = null)
+    ClaimsPrincipal user,
+    string urn,
+    SchoolSpendingDimensions.ResultAsOptions resultAs = SchoolSpendingDimensions.ResultAsOptions.Actuals,
+    string? customDataId = null)
     {
         if (customDataId != null)
         {
-            var building = await GetCustom(urn, true, customDataId);
-            var pupil = await GetCustom(urn, false, customDataId);
+            var customSet = await schoolComparatorSetService.ReadComparatorSet(urn, customDataId);
+            var customResult = await expenditureApi
+                .SchoolCustom(urn, customDataId, BuildQuery(resultAs: SchoolSpendingDimensions.ResultAsOptions.Actuals))
+                .GetResultOrDefault<SchoolExpenditure>();
+
+            var building = await GetCustomSet(urn, customSet?.Building, customResult, resultAs);
+            var pupil = await GetCustomSet(urn, customSet?.Pupil, customResult, resultAs);
             return new ComparisonExpenditureResult(building, pupil);
         }
 
-        var defaultBuilding = await GetDefault(user, urn, true, resultAs);
-        var defaultPupil = await GetDefault(user, urn, false, resultAs);
-        return new ComparisonExpenditureResult(defaultBuilding, defaultPupil);
+        var userData = await userDataService.GetSchoolDataAsync(user, urn);
+        if (string.IsNullOrEmpty(userData.ComparatorSet))
+        {
+            var defaultSet = await schoolComparatorSetService.ReadComparatorSet(urn);
+            var defaultBuilding = await QueryDefaultSet(defaultSet?.Building, resultAs);
+            var defaultPupil = await QueryDefaultSet(defaultSet?.Pupil, resultAs);
+            return new ComparisonExpenditureResult(defaultBuilding, defaultPupil);
+        }
+
+        var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(urn, userData.ComparatorSet);
+        var sharedExpenditures = await QueryDefaultSet(userDefinedSet?.Set, resultAs);
+        return new ComparisonExpenditureResult(sharedExpenditures, sharedExpenditures);
     }
 
-    private async Task<SchoolExpenditure[]?> GetCustom(string urn, bool useBuildingSet, string customDataId)
+    private async Task<SchoolExpenditure[]?> GetCustomSet(
+        string urn,
+        string[]? set,
+        SchoolExpenditure? customResult,
+        SchoolSpendingDimensions.ResultAsOptions resultAs)
     {
-        var customSet = await schoolComparatorSetService.ReadComparatorSet(urn, customDataId);
-        var set = useBuildingSet ? customSet?.Building : customSet?.Pupil;
         if (set == null || set.Length == 0) return [];
 
         var schools = set.Where(x => x != urn).ToArray();
-        var customResult = await expenditureApi
-            .SchoolCustom(urn, customDataId, BuildQuery(resultAs: SchoolSpendingDimensions.ResultAsOptions.Actuals))
-            .GetResultOrDefault<SchoolExpenditure>();
-
         var defaultResult = await expenditureApi
-            .QuerySchools(BuildQuery(schools))
+            .QuerySchools(BuildQuery(schools, resultAs))
             .GetResultOrDefault<SchoolExpenditure[]>();
 
         return customResult != null ? defaultResult?.Append(customResult).ToArray() : defaultResult;
     }
 
-    private async Task<SchoolExpenditure[]> GetDefault(
-        ClaimsPrincipal user,
-        string urn,
-        bool useBuildingSet,
+    private async Task<SchoolExpenditure[]> QueryDefaultSet(
+        string[]? set,
         SchoolSpendingDimensions.ResultAsOptions resultAs)
     {
-        var userData = await userDataService.GetSchoolDataAsync(user, urn);
-        if (string.IsNullOrEmpty(userData.ComparatorSet))
-        {
-            var defaultSet = await schoolComparatorSetService.ReadComparatorSet(urn);
-            var set = useBuildingSet ? defaultSet?.Building : defaultSet?.Pupil;
-            if (set == null || set.Length == 0) return [];
-
-            return await expenditureApi
-                .QuerySchools(BuildQuery(set, resultAs))
-                .GetResultOrThrow<SchoolExpenditure[]>();
-        }
-
-        var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(urn, userData.ComparatorSet);
-        if (userDefinedSet == null || userDefinedSet.Set.Length == 0) return [];
+        if (set == null || set.Length == 0) return [];
 
         return await expenditureApi
-            .QuerySchools(BuildQuery(userDefinedSet.Set, resultAs))
+            .QuerySchools(BuildQuery(set, resultAs))
             .GetResultOrThrow<SchoolExpenditure[]>();
     }
 
