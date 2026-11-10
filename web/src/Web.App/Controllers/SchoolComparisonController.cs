@@ -74,6 +74,9 @@ public class SchoolComparisonController(
 
                 var useFilters = await featureManager.IsEnabledAsync(FeatureFlags.SchoolComparisonFilter);
 
+                var hasTopRankedAttainment8 = perf.ShowAttainment8 && (perf.TopRankedBuilding.Count > 0 || perf.TopRankedPupil.Count > 0);
+                var effectiveDisplayAttainment8 = displayAttainment8 && hasTopRankedAttainment8;
+
                 if (useFilters)
                 {
                     var expenditures = await comparisonExpenditureService.GetExpendituresAsync(User, urn, resultAs);
@@ -109,7 +112,7 @@ public class SchoolComparisonController(
                     ResultAs = resultAs,
                     BandingsAs = bandingsAs,
                     ExpandFilterGroup = expandFilterGroup,
-                    DisplayAttainment8 = displayAttainment8
+                    DisplayAttainment8 = effectiveDisplayAttainment8
                 };
 
                 return View(useFilters ? $"{nameof(Index)}Filters" : nameof(Index), viewModel);
