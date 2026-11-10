@@ -44,6 +44,7 @@ public class ComparatorSetRankingService(ISchoolApi schoolApi) : IComparatorSetR
                 .Where(x => x.URN != currentUrn)
                 .Where(x => x.Attainment8.HasValue)
                 .OrderByDescending(x => x.Attainment8)
+                .ThenBy(x => x.URN)
                 .Take(count)
                 .Select(x => x.URN!)
         ];
