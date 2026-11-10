@@ -979,7 +979,7 @@
       "platform.functions": {
         "type": "Project",
         "dependencies": {
-          "FluentValidation": "[12.1.1, )",
+          "FluentValidation": "[12.2.0, )",
           "Microsoft.Azure.Core.NewtonsoftJson": "[2.0.0, )",
           "Microsoft.Azure.Functions.Worker.Core": "[2.52.0, )",
           "Microsoft.Azure.WebJobs": "[3.0.47, )",
@@ -1004,8 +1004,8 @@
           "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.6.0, )",
           "Microsoft.Extensions.Configuration.Binder": "[10.0.13, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.13, )",
-          "Microsoft.Extensions.Options": "[10.0.12, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.12, )"
+          "Microsoft.Extensions.Options": "[10.0.13, )",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.13, )"
         }
       },
       "platform.sql": {
@@ -1074,9 +1074,9 @@
       },
       "FluentValidation": {
         "type": "CentralTransitive",
-        "requested": "[12.1.1, )",
-        "resolved": "12.1.1",
-        "contentHash": "EPpkIe1yh1a0OXyC100oOA8WMbZvqUu5plwhvYcb7oSELfyUZzfxV48BLhvs3kKo4NwG7MGLNgy1RJiYtT8Dpw=="
+        "requested": "[12.2.0, )",
+        "resolved": "12.2.0",
+        "contentHash": "DR3lFbdnKucaaj1/8zMNOACMz/64igzox1yVZSFVsLxYB5mxAB+wFP1WZ8fjwrZnbU1KA1DoMzHKYKxUfuZ4wQ=="
       },
       "JsonSubTypes": {
         "type": "CentralTransitive",
@@ -1235,7 +1235,7 @@
       },
       "Microsoft.Extensions.Options": {
         "type": "CentralTransitive",
-        "requested": "[10.0.12, )",
+        "requested": "[10.0.13, )",
         "resolved": "10.0.13",
         "contentHash": "tmMJgdrE4uhf1JcNs9CV9moAHW+hmDuvgMiPpnQxarKaUxqI2eN33sYK5S4l9Uw+rG9PJvlm4qPxMhvolTDTaQ==",
         "dependencies": {
@@ -1245,7 +1245,7 @@
       },
       "Microsoft.Extensions.Options.ConfigurationExtensions": {
         "type": "CentralTransitive",
-        "requested": "[10.0.12, )",
+        "requested": "[10.0.13, )",
         "resolved": "10.0.13",
         "contentHash": "xVO5HhATc09WXuS/RaDmx8ZeWS0mTpT1L0tkEDMSBHtAnNpNsDr0ge0wIO2jinCWWqpq5dL1tRTzpYNVlvyqLw==",
         "dependencies": {
@@ -1258,7 +1258,7 @@
       },
       "Microsoft.Extensions.Primitives": {
         "type": "CentralTransitive",
-        "requested": "[10.0.12, )",
+        "requested": "[10.0.13, )",
         "resolved": "10.0.13",
         "contentHash": "ZjTwxzhiw2TMEzIbUDkMF0dfDB2I4NQgIfKD0ELu9/5Mk+SRGdKZcD0/lvBrRCAPo6KN2r0BW86MRancoyJkoA=="
       },
