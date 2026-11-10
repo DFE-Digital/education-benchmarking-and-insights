@@ -976,7 +976,7 @@
       "platform.domain": {
         "type": "Project",
         "dependencies": {
-          "JsonSubTypes": "[2.0.1, )",
+          "JsonSubTypes": "[2.2.0, )",
           "Newtonsoft.Json": "[13.0.4, )"
         }
       },
@@ -1156,11 +1156,11 @@
       },
       "JsonSubTypes": {
         "type": "CentralTransitive",
-        "requested": "[2.0.1, )",
-        "resolved": "2.0.1",
-        "contentHash": "1Po+Ypf0SjCeEKx5+C89Nb5OgTcqNvfS3uTI46MUM+KEp6Rq/M0h+vVsTUt/6DFRwZMTpsAJM4yJrZmEObVANA==",
+        "requested": "[2.2.0, )",
+        "resolved": "2.2.0",
+        "contentHash": "A88onSah6Q/UPD75qxdEZvaUW4kOUTKiQQ9GWjMUnpvV/L3aLO+48gk4RCEDDzU5pH/NmVqnsvQZh+zPzYBd1w==",
         "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
+          "Newtonsoft.Json": "13.0.4"
         }
       },
       "Microsoft.ApplicationInsights": {
