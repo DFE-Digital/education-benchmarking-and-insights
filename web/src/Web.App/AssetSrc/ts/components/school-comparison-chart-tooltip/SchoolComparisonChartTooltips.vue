@@ -56,12 +56,19 @@ const removeFocusListeners = (el: Element, d: SchoolComparisonChartTooltipPropsD
   el.removeEventListener("blur", eventListenerExit);
 };
 
+const findDatum = (el: Element): SchoolComparisonChartTooltipPropsData | undefined => {
+  const key = el.getAttribute(keyAttribute);
+  if (!key) return undefined;
+
+  const setType = el.closest("[data-set-type]")?.getAttribute("data-set-type");
+  return data.find((d) => d.urn === key && (!setType || d.setType === setType));
+};
+
 onMounted(() => {
   const elements = document.querySelectorAll(`[${keyAttribute}]`);
 
   elements.forEach((el) => {
-    const key = el.getAttribute(keyAttribute);
-    const datum = data.find((d) => d.urn === key);
+    const datum = findDatum(el);
     if (!datum) {
       return;
     }
@@ -81,8 +88,7 @@ onUnmounted(() => {
   const elements = document.querySelectorAll(`[${keyAttribute}]`);
 
   elements.forEach((el) => {
-    const key = el.getAttribute(keyAttribute);
-    const datum = data.find((d) => d.urn === key);
+    const datum = findDatum(el);
     if (!datum) {
       return;
     }

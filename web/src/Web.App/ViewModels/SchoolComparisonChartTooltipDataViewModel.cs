@@ -13,5 +13,8 @@ public record SchoolComparisonChartTooltipData : SchoolChartTooltipData
     public string? ProgressBanding { get; init; }
     public string? SchoolType { get; init; }
     public string? ProgressBandingColour { get; init; }
-    public bool ShouldShowTag { get; init; }
+    public bool ShouldShowKs4ProgressTag { get; init; }
+    public string? SetType { get; init; }
+    public bool TopRankedAttainment8 { get; init; }
+    public bool ShouldShowAttainment8Tag { get; init; }
 }

@@ -13,7 +13,9 @@ export interface SchoolComparisonChartTooltipPropsData {
   periodCoveredByReturn?: number;
   progressBanding?: string;
   progressBandingColour?: string;
-  shouldShowTag?: boolean;
+  shouldShowKs4ProgressTag?: boolean;
+  shouldShowAttainment8Tag?: boolean;
+  setType?: string;
 }
 
 export interface SchoolComparisonChartTooltipsProps {
