@@ -945,7 +945,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         BalanceHistoryRows? balanceHistoryNational = null,
         LocalAuthorityRiskIndicatorsHistoryRows? riskIndicatorsHistory = null,
         LocalAuthorityRiskIndicators? riskIndicators = null,
-        RisksMetrics[]? riskMetrics = null
+        RisksMetrics[]? riskMetrics = null,
+        SchoolCharacteristic[]? characteristics = null
         )
     {
         SchoolApi.Reset();
@@ -960,6 +961,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         SchoolApi.Setup(api => api.RisksHistoryAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(riskIndicatorsHistory));
         SchoolApi.Setup(api => api.RisksAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(riskIndicators));
         SchoolApi.Setup(api => api.RisksMetricsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(riskMetrics));
+        SchoolApi.Setup(api => api.QueryAsync(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(characteristics ?? []));
         return this;
     }
 

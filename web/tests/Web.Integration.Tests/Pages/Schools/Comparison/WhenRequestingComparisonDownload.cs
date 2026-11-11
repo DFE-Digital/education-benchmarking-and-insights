@@ -11,28 +11,38 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
     private readonly SchoolBenchmarkingWebAppClient _client;
     private readonly SchoolExpenditure[] _schoolExpenditures;
 
+    private const string BaseExpectedColumns =
+        "URN,SchoolName,SchoolType,LAName,PeriodCoveredByReturn,TotalPupils,TotalExpenditure,TotalTeachingSupportStaffCosts,TeachingStaffCosts,SupplyTeachingStaffCosts,EducationalConsultancyCosts,EducationSupportStaffCosts,AgencySupplyTeachingStaffCosts,TotalNonEducationalSupportStaffCosts,AdministrativeClericalStaffCosts,AuditorsCosts,OtherStaffCosts,ProfessionalServicesNonCurriculumCosts,TotalEducationalSuppliesCosts,ExaminationFeesCosts,LearningResourcesNonIctCosts,LearningResourcesIctCosts,TotalPremisesStaffServiceCosts,CleaningCaretakingCosts,MaintenancePremisesCosts,OtherOccupationCosts,PremisesStaffCosts,TotalUtilitiesCosts,EnergyCosts,WaterSewerageCosts,AdministrativeSuppliesNonEducationalCosts,TotalGrossCateringCosts,TotalNetCateringCosts,CateringStaffCosts,CateringSuppliesCosts,TotalOtherCosts,GroundsMaintenanceCosts,IndirectEmployeeExpenses,InterestChargesLoanBank,OtherInsurancePremiumsCosts,PrivateFinanceInitiativeCharges,RentRatesCosts,SpecialFacilitiesCosts,StaffDevelopmentTrainingCosts,StaffRelatedInsuranceCosts,SupplyTeacherInsurableCosts,CommunityFocusedSchoolStaff,CommunityFocusedSchoolCosts";
+
     public WhenRequestingComparisonDownload(SchoolBenchmarkingWebAppClient client) : base(client)
     {
         _client = client;
-        _schoolExpenditures = Fixture.Build<SchoolExpenditure>().CreateMany().ToArray();
+        _schoolExpenditures = [.. Fixture.Build<SchoolExpenditure>().CreateMany()];
     }
 
     [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public async Task CanReturnOkForDefaultComparatorSet(bool ks4ProgressBandingEnabled, bool attainment8Enabled = false)
+    [InlineData(false, false)]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public async Task CanReturnOkForDefaultComparatorSet(bool ks4ProgressBandingEnabled, bool attainment8Enabled)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
             .Create();
 
-        var characteristics = Fixture.Build<SchoolCharacteristic>()
-            .With(x => x.KS4ProgressBanding, "Well above average")
-            .CreateMany().ToArray();
+        var comparatorUrns = _schoolExpenditures.Select(x => x.URN!).ToArray();
+
+        var characteristics = _schoolExpenditures
+            .Select((e, i) => Fixture.Build<SchoolCharacteristic>()
+                .With(x => x.URN, e.URN)
+                .With(x => x.KS4ProgressBanding, "Well above average")
+                .With(x => x.Attainment8, attainment8Enabled ? 50.0m + i : null)
+                .Create())
+            .ToArray();
 
         var comparatorSet = Fixture.Build<SchoolComparatorSet>()
-            .With(x => x.Pupil, ["pupil"])
-            .With(x => x.Building, ["building"])
+            .With(x => x.Pupil, comparatorUrns)
+            .With(x => x.Building, comparatorUrns)
             .Create();
 
         var disabledFeatures = new List<string>();
@@ -44,8 +54,11 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
         {
             disabledFeatures.Add(FeatureFlags.Attainment8);
         }
+
         var response = await _client
             .SetupDisableFeatureFlags([.. disabledFeatures])
+            .SetupEstablishment(school)
+            .SetupSchool(school, characteristics: characteristics)
             .SetupComparatorSet(school, comparatorSet)
             .SetupExpenditure(school, expenditures: _schoolExpenditures)
             .SetupSchoolInsight(characteristics)
@@ -57,37 +70,41 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             "comparison-123456-pupil.csv",
             "comparison-123456-building.csv"
         };
+
+        var expectedColumns = BuildExpectedColumns(ks4ProgressBandingEnabled, attainment8Enabled);
+
         await foreach (var tuple in response.GetFilesFromZip())
         {
             Assert.Contains(tuple.fileName, expectedFileNames);
 
             var csvLines = tuple.content.Split(Environment.NewLine);
-            var expectedColumns =
-                "URN,SchoolName,SchoolType,LAName,PeriodCoveredByReturn,TotalPupils,TotalExpenditure,TotalTeachingSupportStaffCosts,TeachingStaffCosts,SupplyTeachingStaffCosts,EducationalConsultancyCosts,EducationSupportStaffCosts,AgencySupplyTeachingStaffCosts,TotalNonEducationalSupportStaffCosts,AdministrativeClericalStaffCosts,AuditorsCosts,OtherStaffCosts,ProfessionalServicesNonCurriculumCosts,TotalEducationalSuppliesCosts,ExaminationFeesCosts,LearningResourcesNonIctCosts,LearningResourcesIctCosts,TotalPremisesStaffServiceCosts,CleaningCaretakingCosts,MaintenancePremisesCosts,OtherOccupationCosts,PremisesStaffCosts,TotalUtilitiesCosts,EnergyCosts,WaterSewerageCosts,AdministrativeSuppliesNonEducationalCosts,TotalGrossCateringCosts,TotalNetCateringCosts,CateringStaffCosts,CateringSuppliesCosts,TotalOtherCosts,GroundsMaintenanceCosts,IndirectEmployeeExpenses,InterestChargesLoanBank,OtherInsurancePremiumsCosts,PrivateFinanceInitiativeCharges,RentRatesCosts,SpecialFacilitiesCosts,StaffDevelopmentTrainingCosts,StaffRelatedInsuranceCosts,SupplyTeacherInsurableCosts,CommunityFocusedSchoolStaff,CommunityFocusedSchoolCosts";
-            if (ks4ProgressBandingEnabled)
-            {
-                expectedColumns += ",ProgressBanding";
-            }
-
             Assert.Equal(expectedColumns, csvLines.First());
             Assert.Equal(_schoolExpenditures.Length, csvLines.Length - 1);
         }
     }
 
     [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public async Task CanReturnOkForUserDefinedComparatorSet(bool ks4ProgressBandingEnabled, bool attainment8Enabled = false)
+    [InlineData(false, false)]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public async Task CanReturnOkForUserDefinedComparatorSet(bool ks4ProgressBandingEnabled, bool attainment8Enabled)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
             .Create();
 
-        var characteristics = Fixture.Build<SchoolCharacteristic>()
-            .With(x => x.KS4ProgressBanding, "Well above average")
-            .CreateMany().ToArray();
+        var comparatorUrns = _schoolExpenditures.Select(x => x.URN!).ToArray();
+
+        var characteristics = _schoolExpenditures
+            .Select((e, i) => Fixture.Build<SchoolCharacteristic>()
+                .With(x => x.URN, e.URN)
+                .With(x => x.KS4ProgressBanding, "Well above average")
+                .With(x => x.Attainment8, attainment8Enabled ? 50.0m + i : null)
+                .Create())
+            .ToArray();
 
         var comparatorSet = Fixture.Build<UserDefinedSchoolComparatorSet>()
+            .With(x => x.Set, comparatorUrns)
             .Create();
 
         var userData = new[]
@@ -108,8 +125,11 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
         {
             disabledFeatures.Add(FeatureFlags.Attainment8);
         }
+
         var response = await _client
             .SetupDisableFeatureFlags([.. disabledFeatures])
+            .SetupEstablishment(school)
+            .SetupSchool(school, characteristics: characteristics)
             .SetupComparatorSet(school, comparatorSet)
             .SetupExpenditure(school, expenditures: _schoolExpenditures)
             .SetupSchoolInsight(characteristics)
@@ -122,27 +142,24 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             "comparison-123456-pupil.csv",
             "comparison-123456-building.csv"
         };
+
+        var expectedColumns = BuildExpectedColumns(ks4ProgressBandingEnabled, attainment8Enabled);
+
         await foreach (var tuple in response.GetFilesFromZip())
         {
             Assert.Contains(tuple.fileName, expectedFileNames);
 
             var csvLines = tuple.content.Split(Environment.NewLine);
-            var expectedColumns =
-                "URN,SchoolName,SchoolType,LAName,PeriodCoveredByReturn,TotalPupils,TotalExpenditure,TotalTeachingSupportStaffCosts,TeachingStaffCosts,SupplyTeachingStaffCosts,EducationalConsultancyCosts,EducationSupportStaffCosts,AgencySupplyTeachingStaffCosts,TotalNonEducationalSupportStaffCosts,AdministrativeClericalStaffCosts,AuditorsCosts,OtherStaffCosts,ProfessionalServicesNonCurriculumCosts,TotalEducationalSuppliesCosts,ExaminationFeesCosts,LearningResourcesNonIctCosts,LearningResourcesIctCosts,TotalPremisesStaffServiceCosts,CleaningCaretakingCosts,MaintenancePremisesCosts,OtherOccupationCosts,PremisesStaffCosts,TotalUtilitiesCosts,EnergyCosts,WaterSewerageCosts,AdministrativeSuppliesNonEducationalCosts,TotalGrossCateringCosts,TotalNetCateringCosts,CateringStaffCosts,CateringSuppliesCosts,TotalOtherCosts,GroundsMaintenanceCosts,IndirectEmployeeExpenses,InterestChargesLoanBank,OtherInsurancePremiumsCosts,PrivateFinanceInitiativeCharges,RentRatesCosts,SpecialFacilitiesCosts,StaffDevelopmentTrainingCosts,StaffRelatedInsuranceCosts,SupplyTeacherInsurableCosts,CommunityFocusedSchoolStaff,CommunityFocusedSchoolCosts";
-            if (ks4ProgressBandingEnabled)
-            {
-                expectedColumns += ",ProgressBanding";
-            }
-
             Assert.Equal(expectedColumns, csvLines.First());
             Assert.Equal(_schoolExpenditures.Length, csvLines.Length - 1);
         }
     }
 
     [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public async Task CanReturnOkForCustomDataComparatorSet(bool ks4ProgressBandingEnabled, bool attainment8Enabled = false)
+    [InlineData(false, false)]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public async Task CanReturnOkForCustomDataComparatorSet(bool ks4ProgressBandingEnabled, bool attainment8Enabled)
     {
         const string customDataId = nameof(customDataId);
         const string schoolUrn = "123456";
@@ -150,22 +167,28 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .With(x => x.URN, schoolUrn)
             .Create();
 
+        var comparatorUrns = _schoolExpenditures.Select(x => x.URN!).ToArray();
+
         var userDefinedComparatorSet = Fixture.Build<UserDefinedSchoolComparatorSet>()
+            .With(x => x.Set, comparatorUrns)
             .Create();
 
         var comparatorSet = Fixture.Build<SchoolComparatorSet>()
-            .With(x => x.Pupil, ["pupil"])
-            .With(x => x.Building, ["building"])
+            .With(x => x.Pupil, comparatorUrns)
+            .With(x => x.Building, comparatorUrns)
             .Create();
-
 
         var customDataExpenditure = Fixture.Build<SchoolExpenditure>()
             .With(x => x.URN, schoolUrn)
             .Create();
 
-        var characteristics = Fixture.Build<SchoolCharacteristic>()
-            .With(x => x.KS4ProgressBanding, "Well above average")
-            .CreateMany().ToArray();
+        var characteristics = _schoolExpenditures
+            .Select((e, i) => Fixture.Build<SchoolCharacteristic>()
+                .With(x => x.URN, e.URN)
+                .With(x => x.KS4ProgressBanding, "Well above average")
+                .With(x => x.Attainment8, attainment8Enabled ? 50.0m + i : null)
+                .Create())
+            .ToArray();
 
         var disabledFeatures = new List<string>();
         if (!ks4ProgressBandingEnabled)
@@ -176,8 +199,11 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
         {
             disabledFeatures.Add(FeatureFlags.Attainment8);
         }
+
         var response = await _client
             .SetupDisableFeatureFlags([.. disabledFeatures])
+            .SetupEstablishment(school)
+            .SetupSchool(school, characteristics: characteristics)
             .SetupCustomComparatorSet(school, comparatorSet, userDefinedComparatorSet)
             .SetupExpenditure(
                 school,
@@ -193,18 +219,14 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             "comparison-123456-pupil.csv",
             "comparison-123456-building.csv"
         };
+
+        var expectedColumns = BuildExpectedColumns(ks4ProgressBandingEnabled, attainment8Enabled);
+
         await foreach (var tuple in response.GetFilesFromZip())
         {
             Assert.Contains(tuple.fileName, expectedFileNames);
 
             var csvLines = tuple.content.Split(Environment.NewLine);
-            var expectedColumns =
-                "URN,SchoolName,SchoolType,LAName,PeriodCoveredByReturn,TotalPupils,TotalExpenditure,TotalTeachingSupportStaffCosts,TeachingStaffCosts,SupplyTeachingStaffCosts,EducationalConsultancyCosts,EducationSupportStaffCosts,AgencySupplyTeachingStaffCosts,TotalNonEducationalSupportStaffCosts,AdministrativeClericalStaffCosts,AuditorsCosts,OtherStaffCosts,ProfessionalServicesNonCurriculumCosts,TotalEducationalSuppliesCosts,ExaminationFeesCosts,LearningResourcesNonIctCosts,LearningResourcesIctCosts,TotalPremisesStaffServiceCosts,CleaningCaretakingCosts,MaintenancePremisesCosts,OtherOccupationCosts,PremisesStaffCosts,TotalUtilitiesCosts,EnergyCosts,WaterSewerageCosts,AdministrativeSuppliesNonEducationalCosts,TotalGrossCateringCosts,TotalNetCateringCosts,CateringStaffCosts,CateringSuppliesCosts,TotalOtherCosts,GroundsMaintenanceCosts,IndirectEmployeeExpenses,InterestChargesLoanBank,OtherInsurancePremiumsCosts,PrivateFinanceInitiativeCharges,RentRatesCosts,SpecialFacilitiesCosts,StaffDevelopmentTrainingCosts,StaffRelatedInsuranceCosts,SupplyTeacherInsurableCosts,CommunityFocusedSchoolStaff,CommunityFocusedSchoolCosts";
-            if (ks4ProgressBandingEnabled)
-            {
-                expectedColumns += ",ProgressBanding";
-            }
-
             // expenditures + custom data
             var expectedLength = _schoolExpenditures.Length + 1;
 
@@ -222,5 +244,22 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .Get(Paths.SchoolComparisonDownload(urn));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+    }
+
+    private static string BuildExpectedColumns(bool ks4ProgressBandingEnabled, bool attainment8Enabled)
+    {
+        var columns = BaseExpectedColumns;
+
+        if (attainment8Enabled)
+        {
+            columns += ",TopRankedAttainment8";
+        }
+
+        if (ks4ProgressBandingEnabled)
+        {
+            columns += ",ProgressBanding";
+        }
+
+        return columns;
     }
 }

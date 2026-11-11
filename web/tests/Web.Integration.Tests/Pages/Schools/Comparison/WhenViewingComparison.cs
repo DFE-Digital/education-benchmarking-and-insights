@@ -36,7 +36,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     [InlineData(EstablishmentTypes.Maintained, false, false, false)]
     public async Task CanDisplay(string financeType, bool ks4ProgressBandingEnabled, bool filtersEnabled, bool hasProgressIndicatorsWellAboveAverage)
     {
-        var (page, school, expenditure, characteristics) = await SetupNavigateInitPage(
+        var (page, school, expenditure, characteristics, _) = await SetupNavigateInitPage(
             financeType,
             ks4ProgressBandingEnabled,
             filtersEnabled,
@@ -62,7 +62,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         bool withCustomUserData,
         bool withUserDefinedUserData)
     {
-        var (page, school, expenditure, characteristics) = await SetupNavigateInitPage(
+        var (page, school, expenditure, characteristics, _) = await SetupNavigateInitPage(
             EstablishmentTypes.Maintained,
             ks4ProgressBandingEnabled,
             filtersEnabled,
@@ -89,13 +89,14 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     [InlineData(false, true)]
     public async Task CanDisplayCorrectComparatorSetDetailsWhenMissingComparatorSet(bool ks4ProgressBandingEnabled, bool filtersEnabled)
     {
-        var (page, school, expenditure, characteristics) = await SetupNavigateInitPage(
+        var (page, school, _, _, _) = await SetupNavigateInitPage(
             EstablishmentTypes.Maintained,
             ks4ProgressBandingEnabled,
             filtersEnabled,
             withEmptyComparatorSet: true);
 
-        var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]"); ;
+        var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]");
+
         Assert.NotNull(comparatorSetDetailsElement);
 
         AssertMissingComparatorSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled, filtersEnabled);
@@ -106,7 +107,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToCurriculumPlanning(string financeType)
     {
-        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
+        var (page, school, _, _, _) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[0].QuerySelector("h3 > a");
@@ -122,7 +123,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToCensusBenchmark(string financeType)
     {
-        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
+        var (page, school, _, _, _) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[1].QuerySelector("h3 > a");
@@ -138,7 +139,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToCustomData(string financeType)
     {
-        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
+        var (page, school, _, _, _) = await SetupNavigateInitPage(financeType);
 
         var anchor = page.QuerySelector("#custom-data-link");
         Assert.NotNull(anchor);
@@ -178,7 +179,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     [InlineData(EstablishmentTypes.Maintained, 1, "?viewAs=1&resultAs=0")]
     public async Task CanSubmitOptionsForViewAs(string financeType, int viewAs, string expectedQueryParams)
     {
-        var (page, school, expenditure, characteristics) = await SetupNavigateInitPage(financeType);
+        var (page, school, expenditure, characteristics, _) = await SetupNavigateInitPage(financeType);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply");
         Assert.NotNull(action);
@@ -213,7 +214,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     [InlineData(EstablishmentTypes.Maintained, 3, "?viewAs=0&resultAs=3")]
     public async Task CanSubmitOptionsForResultsAs(string financeType, int resultAs, string expectedQueryParams)
     {
-        var (page, school, expenditure, characteristics) = await SetupNavigateInitPage(financeType);
+        var (page, school, expenditure, characteristics, _) = await SetupNavigateInitPage(financeType);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply");
         Assert.NotNull(action);
@@ -252,7 +253,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         bool hasProgressIndicatorsAboveAverage,
         string expectedQueryParams)
     {
-        var (page, school, expenditure, characteristics) = await SetupNavigateInitPage(
+        var (page, school, expenditure, characteristics, _) = await SetupNavigateInitPage(
             financeType,
             hasProgressIndicatorsWellAboveAverage: hasProgressIndicatorsWellAboveAverage,
             hasProgressIndicatorsAboveAverage: hasProgressIndicatorsAboveAverage);
@@ -287,7 +288,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
 
     public async Task CanDisplayChartWarningWhenChartApiFails(string financeType)
     {
-        var (page, school, expenditure, characteristics) = await SetupNavigateInitPage(financeType, chartApiError: true);
+        var (page, school, expenditure, characteristics, _) = await SetupNavigateInitPage(financeType, chartApiError: true);
 
         AssertPageLayout(
             page,
@@ -305,7 +306,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     [InlineData(EstablishmentTypes.Maintained, 10, "?selectedSubCategories=10&viewAs=0&resultAs=0")]
     public async Task CanSubmitFilterOptionsForSubCategories(string financeType, int expectedSubCategoryId, string expectedQueryParams)
     {
-        var (page, school, expenditures, characteristics) = await SetupNavigateInitPage(financeType);
+        var (page, school, expenditures, characteristics, _) = await SetupNavigateInitPage(financeType);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
         Assert.NotNull(action);
@@ -339,7 +340,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         bool hasProgressIndicatorsAboveAverage,
         string expectedQueryParams)
     {
-        var (page, school, expenditure, characteristics) = await SetupNavigateInitPage(
+        var (page, school, expenditure, characteristics, _) = await SetupNavigateInitPage(
             EstablishmentTypes.Academies,
             hasProgressIndicatorsWellAboveAverage: hasProgressIndicatorsWellAboveAverage,
             hasProgressIndicatorsAboveAverage: hasProgressIndicatorsAboveAverage);
@@ -370,11 +371,76 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             hasProgressIndicatorsAboveAverage: hasProgressIndicatorsAboveAverage);
     }
 
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanSubmitOptionsForDisplayAttainment8(string financeType)
+    {
+        var (page, school, _, _, _) = await SetupNavigateInitPage(
+            financeType,
+            ks4ProgressBandingEnabled: false,
+            attainment8Enabled: true,
+            hasAttainment8: true);
+
+        AssertAttainment8CheckboxForm(page, isChecked: false);
+
+        var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply");
+        Assert.NotNull(action);
+        var form = action.Closest("form");
+        Assert.NotNull(form);
+
+        page = await Client.SubmitForm(form, action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "DisplayAttainment8", "true" }
+            });
+        });
+
+        DocumentAssert.AssertPageUrl(
+            page,
+            $"{Paths.SchoolComparison(school.URN)}?displayAttainment8=True&viewAs=0&resultAs=0".ToAbsolute());
+
+        AssertAttainment8CheckboxForm(page, isChecked: true);
+    }
+
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanDisplayAttainment8DataSourceWhenTop5Attainment8Selected(string financeType)
+    {
+        var (page, _, _, _, _) = await SetupNavigateInitPage(
+            financeType,
+            ks4ProgressBandingEnabled: false,
+            attainment8Enabled: true,
+            hasAttainment8: true,
+            displayAttainment8: true);
+
+        AssertAttainment8DataSourceText(page);
+    }
+
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanDisplayCorrect5SchoolsWithAttainment8ValueInTable(string financeType)
+    {
+        var (page, _, expenditures, _, top5Urns) = await SetupNavigateInitPage(
+            financeType,
+            ks4ProgressBandingEnabled: false,
+            attainment8Enabled: true,
+            hasAttainment8: true,
+            displayAttainment8: true,
+            viewAs: 1);
+
+        Assert.Equal(5, top5Urns.Length);
+        AssertAttainment8TableSection(page, expenditures, top5Urns);
+    }
+
     #endregion
 
     #region Methods
 
-    private async Task<(IHtmlDocument page, School school, SchoolExpenditure[] expenditures, SchoolCharacteristic[] characteristics)> SetupNavigateInitPage(
+    private async Task<(IHtmlDocument page, School school, SchoolExpenditure[] expenditures, SchoolCharacteristic[] characteristics, string[] top5Urns)> SetupNavigateInitPage(
         string financeType,
         bool ks4ProgressBandingEnabled = true,
         bool filtersEnabled = true,
@@ -385,7 +451,11 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         bool hasProgressIndicatorsWellAboveAverage = false,
         bool hasProgressIndicatorsAboveAverage = false,
         bool attainment8Enabled = false,
-        bool hasAttainment8 = false)
+        bool hasAttainment8 = false,
+        bool displayAttainment8 = false,
+        int viewAs = 0,
+        int resultAs = 0,
+        int? bandingsAs = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -393,21 +463,25 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             .With(x => x.TrustCompanyNumber, financeType == EstablishmentTypes.Academies ? "87654321" : string.Empty)
             .Create();
 
+        // 7 schools (1 target + 6 comparators) so exactly 5 comparators are top-ranked for attainment 8
+        var expenditures = Fixture.Build<SchoolExpenditure>()
+            .With(f => f.PeriodCoveredByReturn, 12)
+            .CreateMany(7)
+            .ToArray();
+
+        expenditures[0].URN = school.URN;
+
+        var comparatorUrns = expenditures.Skip(1).Select(x => x.URN!).ToArray();
+
         var comparatorSet = Fixture.Build<SchoolComparatorSet>()
-            .With(x => x.Building, ["building"])
+            .With(x => x.Building, comparatorUrns)
+            .With(x => x.Pupil, comparatorUrns)
             .Create();
 
         var emptyComparatorSet = Fixture.Build<SchoolComparatorSet>()
             .Without(x => x.Building)
             .Without(x => x.Pupil)
             .Create();
-
-        var expenditures = Fixture.Build<SchoolExpenditure>()
-            .With(f => f.PeriodCoveredByReturn, 12)
-            .CreateMany(3)
-            .ToArray();
-
-        expenditures[0].URN = school.URN;
 
         var bandings = new List<string>();
 
@@ -426,13 +500,44 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             bandings.Add("Below average");
         }
 
+        var top5Urns = new List<string>();
+
         var characteristics = expenditures
             .Select((e, i) =>
-                Fixture.Build<SchoolCharacteristic>()
+            {
+                decimal? attainmentScore = null;
+                if (!hasAttainment8)
+                {
+                    return Fixture.Build<SchoolCharacteristic>()
+                        .With(x => x.URN, e.URN)
+                        .With(x => x.KS4ProgressBanding, bandings[i])
+                        .With(x => x.Attainment8, attainmentScore)
+                        .Create();
+                }
+
+                if (e.URN == school.URN)
+                {
+                    // Target school score - excluded from comparators ranking
+                    attainmentScore = 55.0m;
+                }
+                else if (top5Urns.Count < 5)
+                {
+                    // Top 5 comparator schools
+                    attainmentScore = 90.0m - (top5Urns.Count * 10);
+                    top5Urns.Add(e.URN!);
+                }
+                else
+                {
+                    // 6th comparator school with the lowest score
+                    attainmentScore = 10.0m;
+                }
+
+                return Fixture.Build<SchoolCharacteristic>()
                     .With(x => x.URN, e.URN)
                     .With(x => x.KS4ProgressBanding, bandings[i])
-                    .With(x => x.Attainment8, hasAttainment8 ? 1.0m : null)
-                    .Create())
+                    .With(x => x.Attainment8, attainmentScore)
+                    .Create();
+            })
             .ToArray();
 
         var customUserData = new[]
@@ -475,7 +580,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
 
         var client = Client.SetupDisableFeatureFlags([.. disabledFeatures])
             .SetupEstablishment(school)
-            .SetupSchool(school)
+            .SetupSchool(school, characteristics: characteristics)
             .SetupInsights()
             .SetupSchoolInsight(characteristics)
             .SetupExpenditure(school, expenditures: expenditures)
@@ -491,9 +596,28 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             Client.SetupChartRenderingWithException<SchoolComparisonDatum>();
         }
 
-        var page = await client.Navigate(Paths.SchoolComparison(school.URN));
+        var queryParams = new List<string>();
+        if (displayAttainment8)
+        {
+            queryParams.Add("displayAttainment8=true");
+        }
+        if (viewAs != 0)
+        {
+            queryParams.Add($"viewAs={viewAs}");
+        }
+        if (resultAs != 0)
+        {
+            queryParams.Add($"resultAs={resultAs}");
+        }
+        if (bandingsAs.HasValue)
+        {
+            queryParams.Add($"bandingsAs={bandingsAs.Value}");
+        }
 
-        return (page, school, expenditures, characteristics);
+        var queryString = queryParams.Count > 0 ? $"?{string.Join("&", queryParams)}" : string.Empty;
+        var page = await client.Navigate($"{Paths.SchoolComparison(school.URN)}{queryString}");
+
+        return (page, school, expenditures, characteristics, [.. top5Urns]);
     }
 
     private static void AssertPageLayout(
@@ -535,7 +659,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
 
         var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]");
         Assert.NotNull(comparatorSetDetailsElement);
-        AssertComparatorSetDetails(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled, filtersEnabled, withCustomUserData, withUserDefinedUserData, false);
+        AssertComparatorSetDetails(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled, filtersEnabled, withCustomUserData, withUserDefinedUserData);
 
         if (!filtersEnabled)
         {
@@ -717,12 +841,12 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
                 var cells = row.TableCells();
                 var expected = expenditures.Single(e => e.SchoolName == cells[0]);
 
-                Assert.Equal(cells[0], expected.SchoolName);
-                Assert.Equal(cells[1], expected.LAName);
-                Assert.Equal(cells[2], expected.SchoolType);
-                Assert.Equal(cells[3], expected.TotalPupils.ToSimpleDisplay());
+                Assert.Equal(expected.SchoolName, cells[0]);
+                Assert.Equal(expected.LAName, cells[1]);
+                Assert.Equal(expected.SchoolType, cells[2]);
+                Assert.Equal(expected.TotalPupils?.ToString("N0"), cells[3]);
                 var value = match.Select(expected);
-                Assert.Equal(cells[4], value?.ToCurrency());
+                Assert.Equal(value?.ToCurrency(), cells[4]);
 
                 var progressIndicatorCell = cells.ElementAtOrDefault(5);
 
@@ -840,7 +964,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         }
     }
 
-    private static void AssertComparatorSetDetails(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled, bool filtersEnabled, bool withCustomUserData, bool withUserDefinedUserData, bool emptyComparatorSet)
+    private static void AssertComparatorSetDetails(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled, bool filtersEnabled, bool withCustomUserData, bool withUserDefinedUserData)
     {
         if (withCustomUserData)
         {
@@ -1006,6 +1130,82 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         }
 
         return ids.Select(id => AllSubCategories.First(c => c.Id == id)).ToArray();
+    }
+
+    private static void AssertAttainment8CheckboxForm(IHtmlDocument page, bool isChecked)
+    {
+        var attainmentCheckboxes = page.QuerySelector("[data-test-id='attainment8-checkboxes']");
+        Assert.NotNull(attainmentCheckboxes);
+
+        var checkbox = attainmentCheckboxes.QuerySelector("input#DisplayAttainment8");
+        Assert.NotNull(checkbox);
+        Assert.Equal(isChecked, checkbox.HasAttribute("checked"));
+
+        var hint = page.QuerySelector("#attainment-top5-hint");
+        if (isChecked)
+        {
+            Assert.NotNull(hint);
+            Assert.Equal("Of similar schools, excluding this one", hint.TextContent.Trim());
+        }
+        else
+        {
+            Assert.Null(hint);
+        }
+    }
+
+    private static void AssertAttainment8DataSourceText(IHtmlDocument page)
+    {
+        var dataSourceElement = page.QuerySelector("div[data-test-id='data-source-wrapper']");
+        Assert.NotNull(dataSourceElement);
+
+        Assert.Contains("Attainment 8", dataSourceElement.TextContent);
+        Assert.Contains("Compare school and college performance in England", dataSourceElement.TextContent);
+    }
+
+    private static void AssertAttainment8TableSection(
+        IHtmlDocument page,
+        SchoolExpenditure[] expenditures,
+        string[] top5Urns)
+    {
+        var sections = page.QuerySelectorAll("[data-testid=\"subcategory-section\"]");
+        Assert.NotEmpty(sections);
+
+        foreach (var section in sections)
+        {
+            var headers = section.QuerySelectorAll("thead th").Select(h => h.TextContent.Trim()).ToArray();
+            Assert.Contains(ChartLegendLabels.TopRankedAttainment8, headers);
+
+            var rows = section.QuerySelectorAll("tbody tr");
+            Assert.Equal(expenditures.Length, rows.Length);
+
+            var top5RenderedCount = 0;
+
+            foreach (var row in rows)
+            {
+                var schoolAnchor = row.QuerySelector("td:first-child a");
+                Assert.NotNull(schoolAnchor);
+
+                var href = schoolAnchor.GetAttribute("href") ?? string.Empty;
+                var rowUrn = href.Split('/', StringSplitOptions.RemoveEmptyEntries).Last();
+
+                var lastCell = row.QuerySelectorAll("td").Last();
+                var tag = lastCell.QuerySelector(".govuk-tag");
+
+                if (top5Urns.Contains(rowUrn))
+                {
+                    Assert.NotNull(tag);
+                    Assert.Equal(ChartLegendLabels.TopRankedAttainment8, tag.TextContent.Trim());
+                    top5RenderedCount++;
+                }
+                else
+                {
+                    Assert.Null(tag);
+                    Assert.Empty(lastCell.TextContent.Trim());
+                }
+            }
+
+            Assert.Equal(5, top5RenderedCount);
+        }
     }
 
     private static readonly (string Id, Func<SchoolExpenditure, decimal?> Select)[] Sections =
