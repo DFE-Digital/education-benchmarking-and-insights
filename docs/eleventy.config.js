@@ -7,7 +7,7 @@ export default function(eleventyConfig) {
 
   eleventyConfig.addPlugin(govukEleventyPlugin, {
     stylesheets: ['/assets/styles.css'],
-    titleSuffix: 'Accessing Childcare',
+    titleSuffix: 'FBIT',
     templates: {
       sitemap: true,
       searchIndex: true
