@@ -30,6 +30,7 @@ variable "configuration" {
       SchoolComparisonFilter            = optional(bool, true)
       LocalAuthorityRiskIndicators      = optional(bool, true)
       Attainment8                       = optional(bool, false)
+      SchoolCensusSsrCharts             = optional(bool, false)
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -62,7 +63,8 @@ variable "configuration" {
         News                         = true,
         KS4ProgressBanding           = false,
         KS4ProgressBandingSchoolHome = false,
-        Attainment8                  = true
+        Attainment8                  = true,
+        SchoolCensusSsrCharts        = true
       },
       CacheOptions = {
         ReturnYears = {

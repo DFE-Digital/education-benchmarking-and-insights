@@ -16,4 +16,5 @@ public static class FeatureFlags
     public const string SchoolComparisonFilter = nameof(SchoolComparisonFilter);
     public const string LocalAuthorityRiskIndicators = nameof(LocalAuthorityRiskIndicators);
     public const string Attainment8 = nameof(Attainment8);
+    public const string SchoolCensusSsrCharts = nameof(SchoolCensusSsrCharts);
 }
