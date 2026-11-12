@@ -163,7 +163,7 @@ public class BenchmarkSpendingSteps(PageDriver driver)
     public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
     {
         Assert.NotNull(_schoolHomePage);
-        await _schoolHomePage.IsDisplayed();
+        await _schoolHomePage.IsDisplayedBasicCheck();
     }
 
     [Then("I can view the benchmark spending tooltip")]

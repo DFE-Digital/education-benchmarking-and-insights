@@ -124,6 +124,11 @@ public class HomePage(IPage page)
         }
     }
 
+    public async Task IsDisplayedBasicCheck()
+    {
+        await PageH1Heading.ShouldBeVisible();
+    }
+
     public async Task<DetailsPage> ClickSchoolDetails()
     {
         await SchoolDetailsLink.Click();
