@@ -31,10 +31,10 @@ public class BenchmarkSpendingPage(IPage page)
 
     private ILocator MissingComparatorSetMessage => page.Locator(Selectors.MissingComparatorSetMessage);
 
-    private ILocator SchoolPerformanceCheckbox(string banding) => page.Locator(Selectors.GovCheckboxLabel,
+    private ILocator SchoolPerformanceCheckbox(string option) => page.Locator(Selectors.GovCheckboxLabel,
         new PageLocatorOptions
         {
-            HasText = banding
+            HasText = option
         });
     private ILocator ChartContainer(string chartName) =>
         page.Locator($"section[data-testid='subcategory-section']:has-text(\"{chartName}\")");
@@ -121,8 +121,7 @@ public class BenchmarkSpendingPage(IPage page)
 
     public async Task TabToSchoolName()
     {
-        await ResultAsSelector.FocusAsync();
-        await page.Keyboard.PressAsync("Tab"); // Apply button
+        await ApplyButton.Nth(1).FocusAsync();
         await page.Keyboard.PressAsync("Tab"); // First school link
     }
 
@@ -170,9 +169,9 @@ public class BenchmarkSpendingPage(IPage page)
         await SaveImagesModal.ShouldBeVisible();
     }
 
-    public async Task ClickSchoolPerformanceCheckbox(string banding)
+    public async Task ClickSchoolPerformanceCheckbox(string option)
     {
-        var checkbox = SchoolPerformanceCheckbox(banding);
+        var checkbox = SchoolPerformanceCheckbox(option);
         await checkbox.ShouldBeVisible();
         await checkbox.Click();
         await ClickApplyButton();

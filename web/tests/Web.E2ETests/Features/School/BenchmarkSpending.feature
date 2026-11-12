@@ -61,6 +61,19 @@ Feature: School benchmark spending
           | School type      | Community school |
           | Number of pupils | 114              |
 
+    @Attainment8Enabled
+    Scenario: View Attainment 8 details upon hover
+        Given I am on benchmark spending page for school with URN '777042'
+        When I click on benchmark spending 'Top 5 for Attainment 8' school performance
+        And I hover over a benchmark spending chart bar
+        Then additional benchmark spending information is displayed
+        And additional benchmark spending information contains
+          | Item             | Value                  |
+          | Local authority  | Redbridge              |
+          | School type      | Community school       |
+          | Number of pupils | 114                    |
+          | Attainment 8     | Top 5 for Attainment 8 |
+
     Scenario: Clicking school name in chart directs to homepage
         Given I am on benchmark spending page for school with URN '777042'
         When I select the school name on the benchmark spending chart

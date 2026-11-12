@@ -77,7 +77,7 @@ public class BenchmarkItSpendSteps(PageDriver driver)
     public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
     {
         Assert.NotNull(_schoolHomePage);
-        await _schoolHomePage.IsDisplayed();
+        await _schoolHomePage.IsDisplayedBasicCheck();
     }
 
     [Then("the tooltip for '(.*)' is correctly displayed")]

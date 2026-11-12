@@ -163,7 +163,7 @@ public class BenchmarkSpendingSteps(PageDriver driver)
     public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
     {
         Assert.NotNull(_schoolHomePage);
-        await _schoolHomePage.IsDisplayed();
+        await _schoolHomePage.IsDisplayedBasicCheck();
     }
 
     [Then("I can view the benchmark spending tooltip")]
@@ -202,10 +202,10 @@ public class BenchmarkSpendingSteps(PageDriver driver)
     }
 
     [When("I click on benchmark spending '(.*)' school performance")]
-    public async Task WhenIClickOnBenchmarkSpendingSchoolPerformance(string banding)
+    public async Task WhenIClickOnBenchmarkSpendingSchoolPerformance(string option)
     {
         Assert.NotNull(_benchmarkSpendingPage);
-        await _benchmarkSpendingPage.ClickSchoolPerformanceCheckbox(banding);
+        await _benchmarkSpendingPage.ClickSchoolPerformanceCheckbox(option);
     }
 
     private List<List<string>> GetExpectedTableData(Table table)
