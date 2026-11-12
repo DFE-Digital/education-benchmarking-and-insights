@@ -363,6 +363,7 @@ def pre_process_high_needs_places(s251_year):
         high_needs_places = prepare_high_needs_places_data(
             place_numbers_data, s251_year
         )
+        high_needs_places.columns = high_needs_places.columns.astype(str).str.replace("\n", "")
         logger.info(f"Preprocessed high needs places data for {s251_year}")
         return high_needs_places
     logger.info(f"High needs places data for {s251_year} not found")

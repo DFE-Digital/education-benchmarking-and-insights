@@ -2,7 +2,9 @@ import logging
 
 import pandas as pd
 
-import pipeline.input_schemas as input_schemas
+from pipeline.input_schemas import (
+    gias_index_col, gias_schema, gias_links_index_col, gias_links_schema
+)
 import pipeline.pre_processing.common.mappings as mappings
 
 logger = logging.getLogger("fbit-data-pipeline")
@@ -19,18 +21,18 @@ def prepare_combined_gias_data(base_data_path, links_data_path, year: int):
     gias = pd.read_csv(
         base_data_path,
         encoding="cp1252",
-        index_col=input_schemas.gias_index_col,
-        usecols=input_schemas.gias.get(year, input_schemas.gias["default"]).keys(),
-        dtype=input_schemas.gias.get(year, input_schemas.gias["default"]),
+        index_col=gias_index_col,
+        usecols=list(gias_schema.get(year, gias_schema["default"]).keys()),
+        dtype=gias_schema.get(year, gias_schema["default"]),
     )
     logger.info(f"GIAS Data raw {year=} shape: {gias.shape}")
 
     gias_links = pd.read_csv(
         links_data_path,
         encoding="cp1252",
-        index_col=input_schemas.gias_links_index_col,
-        usecols=input_schemas.gias_links.keys(),
-        dtype=input_schemas.gias_links,
+        index_col=gias_links_index_col,
+        usecols=gias_links_schema.keys(),
+        dtype=gias_links_schema,
     )
     logger.info(f"GIAS links Data raw {year=} shape: {gias_links.shape}")
 

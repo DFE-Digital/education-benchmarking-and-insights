@@ -13,9 +13,22 @@ def prepare_high_needs_places_data(
     place_numbers = pd.read_excel(
         place_numbers_data,
         sheet_name="High_Needs_Places",
-        engine="odf",
+        engine="calamine",
         usecols=place_cols,
         header=3,
         skiprows=None,
     )
     return place_numbers
+
+
+def clean_column_names(df: pd.DataFrame, replace_with: str = " ") -> pd.DataFrame:
+    """
+    Removes newline characters (\n and \r) from pandas DataFrame column names.
+    """
+    df = df.copy()
+    df.columns = (
+        df.columns.astype(str)
+        .str.replace(r"[\r\n]+", replace_with, regex=True)
+        .str.strip()
+    )
+    return df

@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 
 import pipeline.config as config
-import pipeline.input_schemas as input_schemas
+from pipeline.input_schemas import cdc_index_col, cdc_schema
 import pipeline.pre_processing.common.mappings as mappings
 
 logger = logging.getLogger("fbit-data-pipeline")
@@ -13,9 +13,9 @@ def prepare_cdc_data(cdc_file_path, current_year):
     cdc = pd.read_csv(
         cdc_file_path,
         encoding="utf8",
-        index_col=input_schemas.cdc_index_col,
-        usecols=input_schemas.cdc.keys(),
-        dtype=input_schemas.cdc,
+        index_col=cdc_index_col,
+        usecols=list(cdc_schema.keys()),
+        dtype=cdc_schema,
     )
     logger.info(f"CDC Data raw {current_year=} shape: {cdc.shape}")
 
