@@ -490,12 +490,13 @@ def _prepare_la_section_251_data(
     )
 
     df = df[~df["old_la_code"].isna()]
-    df = df[df["time_period"] == f"{year - 1}{year % 100:02d}"]
+    df = df[df["time_period"].astype(str) == f"{year - 1}{year % 100:02d}"]
     df = df[
         df[category_column].str.startswith(
             input_schemas.la_section_251_category_prefixes.get(
                 year, input_schemas.la_section_251_category_prefixes["default"]
-            )
+            ),
+            na=False,
         )
     ]
 

@@ -4,6 +4,8 @@ from pandas._typing import FilePath, ReadCsvBuffer
 from pipeline import input_schemas
 from pipeline.utils import log
 
+from .loader_config import la_budget_reader_config, la_outturn_reader_config
+
 logger = log.setup_logger(__name__)
 
 
@@ -62,7 +64,7 @@ def load_s251_budget(
         filepath_or_buffer,
         year,
         schema_by_year=input_schemas.la_budget,
-        reader_config_by_year=input_schemas.la_budget_reader_config,
+        reader_config_by_year=la_budget_reader_config,
         raw_column_mappings_by_year=input_schemas.la_budget_raw_column_mappings,
     )
     logger.info(f"Loaded S251 budget raw shape: {df.shape}")
@@ -78,7 +80,7 @@ def load_s251_outturn(
         filepath_or_buffer,
         year,
         schema_by_year=input_schemas.la_outturn,
-        reader_config_by_year=input_schemas.la_outturn_reader_config,
+        reader_config_by_year=la_outturn_reader_config,
         raw_column_mappings_by_year=input_schemas.la_outturn_raw_column_mappings,
     )
     logger.info(f"Loaded S251 outturn raw shape: {df.shape}")

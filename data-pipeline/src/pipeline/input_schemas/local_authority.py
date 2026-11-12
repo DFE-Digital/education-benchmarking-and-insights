@@ -12,20 +12,6 @@ la_budget_filename = {
     "default": "plannedexpenditure_schools_other_education_la_unrounded_data.csv",
     2026: "Local_authority_planned_expenditure_on_education_and_children_s_services_2015_to_2016_financial_year_to_2025_to_2026_financial_year.ods",
 }
-la_budget_reader_config = {
-    "default": {
-        "file_format": "csv",
-        "encoding": "utf-8",
-        "year_digits": 6,
-    },
-    2026: {
-        "file_format": "excel",
-        "engine": "calamine",
-        "sheet_name": "Planned_expenditure",
-        "header": 1,
-        "year_digits": 4,
-    },
-}
 la_budget = {
     "default": {
         "time_period": "string",
@@ -87,20 +73,6 @@ la_budget_raw_column_mappings = {
 la_outturn_filename = {
     "default": "s251_alleducation_la_regional_national.csv",
     2026: "outturn-return-local-authority-expenditure-on-schools-other-education-and-community-for-financial-year-2015-to-2016-to-financial-year-2025-to-2026.xlsx",
-}
-la_outturn_reader_config = {
-    "default": {
-        "file_format": "csv",
-        "encoding": "cp1252",
-        "year_digits": 6,
-    },
-    2026: {
-        "file_format": "excel",
-        "engine": "calamine",
-        "sheet_name": "LA_expenditure_by_year",
-        "header": 0,
-        "year_digits": 6,
-    },
 }
 la_outturn = {
     "default": {

@@ -18,17 +18,7 @@ def prepare_high_needs_places_data(
         header=3,
         skiprows=None,
     )
-    return place_numbers
-
-
-def clean_column_names(df: pd.DataFrame, replace_with: str = " ") -> pd.DataFrame:
-    """
-    Removes newline characters (\n and \r) from pandas DataFrame column names.
-    """
-    df = df.copy()
-    df.columns = (
-        df.columns.astype(str)
-        .str.replace(r"[\r\n]+", replace_with, regex=True)
-        .str.strip()
+    place_numbers.columns = place_numbers.columns.astype(str).str.replace(
+        r"[\r\n]+", "", regex=True
     )
-    return df
+    return place_numbers
