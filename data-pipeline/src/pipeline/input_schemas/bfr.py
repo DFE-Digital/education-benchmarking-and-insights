@@ -9,8 +9,8 @@ base_sofa_cols = {
 }
 
 _2025_sofa_cols = base_sofa_cols.copy()
-_2025_sofa_cols["Y3P1"] = 'float'
-_2025_sofa_cols["Y3P2"] = 'float'
+_2025_sofa_cols["Y3P1"] = "float"
+_2025_sofa_cols["Y3P2"] = "float"
 
 bfr_sofa_cols = {
     "default": base_sofa_cols,

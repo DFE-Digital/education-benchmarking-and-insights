@@ -3,8 +3,8 @@ import logging
 import pandas as pd
 
 import pipeline.config as config
-from pipeline.input_schemas import cdc_index_col, cdc_schema
 import pipeline.pre_processing.common.mappings as mappings
+from pipeline.input_schemas import cdc_index_col, cdc_schema
 
 logger = logging.getLogger("fbit-data-pipeline")
 
