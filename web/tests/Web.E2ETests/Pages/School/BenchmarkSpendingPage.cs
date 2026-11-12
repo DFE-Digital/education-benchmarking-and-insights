@@ -121,8 +121,7 @@ public class BenchmarkSpendingPage(IPage page)
 
     public async Task TabToSchoolName()
     {
-        await ResultAsSelector.FocusAsync();
-        await page.Keyboard.PressAsync("Tab"); // Apply button
+        await ApplyButton.Nth(1).FocusAsync();
         await page.Keyboard.PressAsync("Tab"); // First school link
     }
 
