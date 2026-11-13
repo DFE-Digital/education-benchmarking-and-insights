@@ -678,3 +678,163 @@ def la_dsg_preprocessed(la_dsg_raw, monkeypatch):
         ),
     )
     return prepare_dsg_data(la_dsg_raw, 9999)
+
+
+S251_2026_LINES = [
+    "1.0.2",
+    "1.2.1",
+    "1.2.2",
+    "1.2.3",
+    "1.2.4",
+    "1.2.5",
+    "1.2.6",
+    "1.2.7",
+    "1.2.8",
+    "1.2.9",
+    "1.2.10",
+    "1.2.11",
+    "1.2.13",
+    "1.4.11",
+    "1.9.3",
+    "2.1.1",
+    "2.1.2",
+    "2.1.4",
+    "2.1.6",
+    "2.1.7",
+]
+
+S251_BUDGET_2026_DESCRIPTIONS = [
+    "1.0.2 High needs place funding within Individual Schools Budget (before academy recoupment), excluding funding for 16-19 academies and free schools and FE colleges and independent learning providers",
+    "1.2.1 Top-up funding – maintained schools",
+    "1.2.2 Top-up funding – academies, free schools and colleges",
+    "1.2.3 Top-up and other funding – non-maintained and independent providers",
+    "1.2.4 Additional high needs targeted funding for mainstream schools and academies",
+    "1.2.5 SEN support services",
+    "1.2.6 Hospital education services",
+    "1.2.7 Other alternative provision services",
+    "1.2.8 Support for inclusion",
+    "1.2.9 Special schools and PRUs in financial difficulty",
+    "1.2.10 PFI/ BSF costs at special schools, AP/ PRUs and Post 16 institutions only",
+    "1.2.11 Direct payments (SEN and disability)",
+    "1.2.13 Therapies and other health related services",
+    "1.4.11 SEN transport",
+    "1.9.3 Dedicated Schools Grant carry forward to 2026-27",
+    "2.1.1 Educational psychology service",
+    "2.1.2 SEN administration, assessment and coordination and monitoring",
+    "2.1.4 Home to school transport (pre 16): SEN transport expenditure",
+    "2.1.6 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 16-18)",
+    "2.1.7 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 19-25)",
+]
+
+S251_OUTTURN_2026_DESCRIPTIONS = [
+    "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools",
+    "1.2.1 Top up funding - maintained schools",
+    "1.2.2 Top-up funding – academies, free schools and colleges",
+    "1.2.3 Top-up and other funding – non-maintained and independent providers",
+    "1.2.4 Additional high needs targeted funding for mainstream schools and academies",
+    "1.2.5 SEN support services",
+    "1.2.6 Hospital education services",
+    "1.2.7 Other alternative provision services",
+    "1.2.8 Support for inclusion",
+    "1.2.9 Special schools and PRUs in financial difficulty",
+    "1.2.10 PFI/ BSF costs at special schools, AP/ PRUs and Post 16 institutions only",
+    "1.2.11 Direct payments (SEN and disability)",
+    "1.2.13 Therapies and other health related services",
+    "1.4.11 SEN transport",
+    "1.9.3 Dedicated Schools Grant carry forward to 2025-26",
+    "2.1.1 Educational psychology service",
+    "2.1.2 SEN administration, assessment and coordination and monitoring",
+    "2.1.4 Home to school transport (pre 16): SEN transport expenditure",
+    "2.1.6 Home to post-16 provision: SEN/LLDD transport expenditure (aged 16-18)",
+    "2.1.7 Home to post-16 provision: SEN/LLDD transport expenditure (aged 19-25)",
+]
+
+
+def write_budget_2026_ods_bytes(df: pd.DataFrame) -> io.BytesIO:
+    """Write a Planned_expenditure sheet with Row 0 title banner and Row 1 headers."""
+    banner_row = ["Local authority planned expenditure 2015-16 to 2025-26"] + [""] * (
+        len(df.columns) - 1
+    )
+    header_row = list(df.columns)
+    sheet_df = pd.DataFrame([banner_row, header_row] + df.values.tolist())
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer, engine="odf") as writer:
+        sheet_df.to_excel(
+            writer, sheet_name="Planned_expenditure", index=False, header=False
+        )
+    buffer.seek(0)
+    return buffer
+
+
+def write_outturn_2026_xlsx_bytes(df: pd.DataFrame) -> io.BytesIO:
+    """Write an LA_expenditure_by_year sheet with Row 0 headers."""
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+        df.to_excel(writer, sheet_name="LA_expenditure_by_year", index=False)
+    buffer.seek(0)
+    return buffer
+
+
+@pytest.fixture
+def la_budget_2026() -> pd.DataFrame:
+    n = len(S251_BUDGET_2026_DESCRIPTIONS)
+    return pd.DataFrame(
+        {
+            "Financial year": [2526] * n,
+            "Table name": ["SchoolsBudget"] * n,
+            "Local authority number": [101] * n,
+            "Local authority name": ["West Yorkshire"] * n,
+            "Order line": list(range(1, n + 1)),
+            "Description": S251_BUDGET_2026_DESCRIPTIONS,
+            "Section 251 line": S251_2026_LINES,
+            "Early years": [10.0] * n,
+            "Primaries": [20.0] * n,
+            "Secondary": [30.0] * n,
+            "Special educational needs (SEN) special": [40.0] * n,
+            "Alternative Provision(AP)/ Pupil referral unit (PRU)": [50.0] * n,
+            "Post school": [60.0] * n,
+            "Gross": [250.0] * n,
+            "Income": [50.0] * n,
+            "Net": [200.0] * n,
+        }
+    )
+
+
+@pytest.fixture
+def la_outturn_2026() -> pd.DataFrame:
+    n = len(S251_OUTTURN_2026_DESCRIPTIONS)
+    return pd.DataFrame(
+        {
+            "time_period": [202526] * n,
+            "time_identifier": ["Financial year"] * n,
+            "geographic_level": ["Local authority"] * n,
+            "country_name": ["England"] * n,
+            "country_code": ["E92000001"] * n,
+            "region_name": ["Yorkshire and The Humber"] * n,
+            "region_code": ["E13000001"] * n,
+            "la_name": ["West Yorkshire"] * n,
+            "old_la_code": [101] * n,
+            "new_la_code": ["E10000000"] * n,
+            "RowOrder": list(range(1, n + 1)),
+            "Description": S251_OUTTURN_2026_DESCRIPTIONS,
+            "S251Line": S251_2026_LINES,
+            "EarlyYears": [15.0] * n,
+            "Primary": [25.0] * n,
+            "Secondary": [35.0] * n,
+            "SenSpecial": [45.0] * n,
+            "APPru": [55.0] * n,
+            "PostSchool": [65.0] * n,
+            "Gross": [350.0] * n,
+            "Income": [50.0] * n,
+            "Net": [300.0] * n,
+        }
+    )
+
+
+@pytest.fixture
+def la_place_numbers_2026() -> pd.DataFrame:
+    year = 2026
+    six_k_col, ten_k_col, post_16_col = input_schemas.get_six_and_ten_k_cols(year)
+    return pd.DataFrame(
+        {"URN": [3, 4], six_k_col: [10, 5], ten_k_col: [0, 3], post_16_col: [1, 1]}
+    )

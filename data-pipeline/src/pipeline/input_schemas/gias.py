@@ -1,5 +1,5 @@
 gias_index_col = "URN"
-gias = {
+gias_schema = {
     "default": {
         "URN": "Int64",
         "UKPRN": "Int64",

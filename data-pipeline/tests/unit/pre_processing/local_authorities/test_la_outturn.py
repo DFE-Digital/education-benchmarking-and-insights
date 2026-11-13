@@ -1,5 +1,3 @@
-import io
-
 import pandas as pd
 
 from pipeline import input_schemas
@@ -13,12 +11,8 @@ def test_la_outturn(la_outturn: pd.DataFrame):
     year = 2024
 
     result = local_authority._prepare_la_section_251_data(
-        io.StringIO(la_outturn.to_csv(encoding="cp1252")),
+        la_outturn,
         year,
-        usecols=input_schemas.la_outturn.get(
-            year, input_schemas.la_outturn["default"]
-        ).keys(),
-        dtype=input_schemas.la_outturn.get(year, input_schemas.la_outturn["default"]),
         category_column="category_of_expenditure",
         column_mappings=input_schemas.la_outturn_column_mappings.get(
             year,
@@ -30,7 +24,6 @@ def test_la_outturn(la_outturn: pd.DataFrame):
         column_pivot=input_schemas.la_outturn_pivot.get(
             year, input_schemas.la_outturn_pivot["default"]
         ),
-        encoding="cp1252",
     )
 
     assert len(la_outturn) == 20
@@ -47,12 +40,8 @@ def test_la_outturn_year(la_outturn: pd.DataFrame):
     year = 2024
 
     result = local_authority._prepare_la_section_251_data(
-        io.StringIO(combined.to_csv(encoding="cp1252")),
+        combined,
         year,
-        usecols=input_schemas.la_outturn.get(
-            year, input_schemas.la_outturn["default"]
-        ).keys(),
-        dtype=input_schemas.la_outturn.get(year, input_schemas.la_outturn["default"]),
         category_column="category_of_expenditure",
         column_mappings=input_schemas.la_outturn_column_mappings.get(
             year,
@@ -64,7 +53,6 @@ def test_la_outturn_year(la_outturn: pd.DataFrame):
         column_pivot=input_schemas.la_outturn_pivot.get(
             year, input_schemas.la_outturn_pivot["default"]
         ),
-        encoding="cp1252",
     )
 
     assert len(combined) == 40

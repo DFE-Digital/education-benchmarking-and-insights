@@ -2,6 +2,7 @@ high_needs_places_filenames = {
     2023: "High_needs_place_numbers_for_the_2022_to_2023_academic_year_September_2023_FINAL_v1.0.ods",
     2024: "High_needs_place_numbers_for_the_2023_to_2024_academic_year_September_2024_FINAL_v1.0.ods",
     2025: "High_needs_place_numbers_for_the_2024_to_2025_academic_year_September_2025_FINAL_v1.0.ods",
+    2026: "High_needs_place_numbers_for_2025_to_2026_AY_October_2026.xlsx",
 }
 
 high_needs_places_columns = {
@@ -22,6 +23,12 @@ high_needs_places_columns = {
         "2024 to 2025 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)",
         "2024 to 2025 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)",
         "2024 to 2025  mainstream free schools and academies - 16 to 18 places",
+    ],
+    2026: [
+        "URN",
+        "2025 to 2026 mainstream academies and free schools - \npre-16 SEN Unit/RP Places (@£6k)",
+        "2025 to 2026 mainstream academies and free schools - \npre-16 SEN Unit/RP Places (@£10k)",
+        "2025 to 2026  mainstream free schools and academies - 16 to 18 places",
     ],
 }
 

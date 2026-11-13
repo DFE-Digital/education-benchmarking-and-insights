@@ -1,5 +1,3 @@
-import io
-
 import pandas as pd
 
 from pipeline import input_schemas
@@ -13,12 +11,8 @@ def test_la_budget(la_budget: pd.DataFrame):
     year = 2024
 
     result = local_authority._prepare_la_section_251_data(
-        io.StringIO(la_budget.to_csv()),
+        la_budget,
         year,
-        usecols=input_schemas.la_budget.get(
-            year, input_schemas.la_budget["default"]
-        ).keys(),
-        dtype=input_schemas.la_budget.get(year, input_schemas.la_budget["default"]),
         category_column="category_of_planned_expenditure",
         column_mappings=input_schemas.la_budget_column_mappings.get(
             year,
@@ -46,12 +40,8 @@ def test_la_budget_year(la_budget: pd.DataFrame):
     year = 2024
 
     result = local_authority._prepare_la_section_251_data(
-        io.StringIO(combined.to_csv()),
+        combined,
         year,
-        usecols=input_schemas.la_budget.get(
-            year, input_schemas.la_budget["default"]
-        ).keys(),
-        dtype=input_schemas.la_budget.get(year, input_schemas.la_budget["default"]),
         category_column="category_of_planned_expenditure",
         column_mappings=input_schemas.la_budget_column_mappings.get(
             year,

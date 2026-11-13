@@ -334,9 +334,7 @@ def pre_process_ons_population_estimates(s251_year, run_id):
 
 def pre_process_sen2(s251_year, run_id):
     filename = la_sen2_filenames.get(s251_year, la_sen2_filenames["default"])
-    logger.info(
-        f"Reading LA SEN2 ECHP plan data: default/{s251_year}/{filename}"
-    )
+    logger.info(f"Reading LA SEN2 ECHP plan data: default/{s251_year}/{filename}")
     la_sen2_data = get_blob(
         raw_container,
         f"default/{s251_year}/{filename}",
@@ -386,6 +384,8 @@ def pre_process_hospital_schools_data(run_type, cfr_year):
 
 
 def pre_process_lookup_la_data(run_type, cfr_year):
-    if lookup_la_blob := try_get_blob(raw_container, f"default/{cfr_year}/Lookup_LACodes.csv"):
+    if lookup_la_blob := try_get_blob(
+        raw_container, f"default/{cfr_year}/Lookup_LACodes.csv"
+    ):
         return prepare_lookup_la_data(lookup_la_blob, year=cfr_year)
     return None

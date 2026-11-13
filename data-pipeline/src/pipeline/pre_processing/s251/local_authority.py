@@ -13,6 +13,8 @@ from pipeline.input_schemas import (
 )
 from pipeline.utils import log
 
+from .loader import load_s251_budget, load_s251_outturn
+
 logger = log.setup_logger(__name__)
 
 
@@ -364,13 +366,10 @@ def _build_section_251_data(
     :return: Section 251 data
     """
     logger.info("Processing Local Authority budget data.")
+    raw_budget_data = load_s251_budget(budget_filepath_or_buffer, year)
     la_budget_data = _prepare_la_section_251_data(
-        budget_filepath_or_buffer,
+        raw_budget_data,
         year,
-        usecols=input_schemas.la_budget.get(
-            year, input_schemas.la_budget["default"]
-        ).keys(),
-        dtype=input_schemas.la_budget.get(year, input_schemas.la_budget["default"]),
         category_column="category_of_planned_expenditure",
         column_mappings=input_schemas.la_budget_column_mappings.get(
             year,
@@ -381,6 +380,9 @@ def _build_section_251_data(
         ),
         column_pivot=input_schemas.la_budget_pivot.get(
             year, input_schemas.la_budget_pivot["default"]
+        ),
+        index_columns=input_schemas.la_budget_index_column.get(
+            year, input_schemas.la_budget_index_column["default"]
         ),
     ).rename(
         columns=input_schemas.la_section_251_column_mappings.get(
@@ -405,13 +407,10 @@ def _build_section_251_data(
     )
 
     logger.info("Preparing LA outturn data.")
+    raw_outturn_data = load_s251_outturn(outturn_filepath_or_buffer, year)
     la_outturn_data = _prepare_la_section_251_data(
-        outturn_filepath_or_buffer,
+        raw_outturn_data,
         year,
-        usecols=input_schemas.la_outturn.get(
-            year, input_schemas.la_outturn["default"]
-        ).keys(),
-        dtype=input_schemas.la_outturn.get(year, input_schemas.la_outturn["default"]),
         category_column="category_of_expenditure",
         column_mappings=input_schemas.la_outturn_column_mappings.get(
             year,
@@ -423,7 +422,9 @@ def _build_section_251_data(
         column_pivot=input_schemas.la_outturn_pivot.get(
             year, input_schemas.la_outturn_pivot["default"]
         ),
-        encoding="cp1252",
+        index_columns=input_schemas.la_outturn_index_column.get(
+            year, input_schemas.la_outturn_index_column["default"]
+        ),
     ).rename(
         columns=input_schemas.la_section_251_column_mappings.get(
             year,
@@ -453,65 +454,53 @@ def _build_section_251_data(
 
 
 def _prepare_la_section_251_data(
-    filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    df: pd.DataFrame,
     year: int,
-    usecols: list[str],
-    dtype: dict[str, str],
     category_column: str,
     column_mappings: dict[str, str],
     column_eval: dict[str, str],
     column_pivot: dict[str, list[str]],
-    encoding="utf-8",
+    index_columns: list[str] | None = None,
 ) -> pd.DataFrame:
     """
-    Prepare the Section 251 data ("budget" or "outturn").
+    Prepare normalised Section 251 data ("budget" or "outturn").
 
-    `time_period` will be of the form, e.g., `202223`—these should be
-    taken if the `year` is `2023`.
+    `time_period` must already be normalised to 6-digit form (e.g., `202526`)
+    for financial year `year`.
 
     Rows of interest are:
 
-    - if, for example, `year` is `2023` then `time_period` equals `202223`
+    - `time_period` matches `f"{year - 1}{year % 100:02d}"`
     - where `old_la_code` is not NULL
-    - `category_column` starts with a configured value
+    - `category_column` starts with configured Section 251 line prefixes
 
-    :param filepath_or_buffer: source for LA data
+    :param df: normalised raw LA Section 251 DataFrame
     :param year: financial year in question
-    :param usecols: subset of columns to select
-    :param dtype: data-types for selected columns
     :param category_column: column containing categories of interest
-    :param column_mappings: columns to be renamed
+    :param column_mappings: columns to be renamed after pivoting
     :param column_eval: columns to be derived
     :param column_pivot: column-pivot configuration
+    :param index_columns: index columns to set after pivoting
     :return: Local Authority Section 251 data
     """
-    df = pd.read_csv(
-        filepath_or_buffer,
-        usecols=usecols,
-        dtype=dtype,
-        na_values=input_schemas.la_section_251_na_values.get(
-            year, input_schemas.la_section_251_na_values["default"]
-        ),
-        keep_default_na=True,
-        encoding=encoding,
+    effective_index_columns = (
+        index_columns
+        if index_columns is not None
+        else input_schemas.la_section_251_index_column
     )
+
     df = df[~df["old_la_code"].isna()]
-
-    df = df[df["time_period"] == f"{year // 100}{(year % 100) - 1}{year % 100}"]
-
+    df = df[df["time_period"].astype(str) == f"{year - 1}{year % 100:02d}"]
     df = df[
         df[category_column].str.startswith(
             input_schemas.la_section_251_category_prefixes.get(
                 year, input_schemas.la_section_251_category_prefixes["default"]
             ),
+            na=False,
         )
     ]
 
-    df = (
-        df.pivot(**column_pivot)
-        .reset_index()
-        .set_index(input_schemas.la_section_251_index_column)
-    )
+    df = df.pivot(**column_pivot).reset_index().set_index(effective_index_columns)
     # note: converting columns to strings; tuple-columns resulting from
     # the above pivot cannot be easily renamed.
     df.columns = map(

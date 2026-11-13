@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 
 import pipeline.config as config
-from pipeline import input_schemas
+from pipeline.input_schemas import sen_index_col, sen_schema
 
 logger = logging.getLogger(__name__)
 
@@ -12,9 +12,9 @@ def prepare_sen_data(sen_path):
     sen = pd.read_csv(
         sen_path,
         encoding="cp1252",
-        index_col=input_schemas.sen_index_col,
-        dtype=input_schemas.sen,
-        usecols=input_schemas.sen.keys(),
+        index_col=sen_index_col,
+        dtype=sen_schema,
+        usecols=list(sen_schema.keys()),
     )
     logger.info(f"SEN data raw shape: {sen.shape}")
 
