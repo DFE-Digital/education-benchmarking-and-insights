@@ -2,10 +2,13 @@ import logging
 
 import pandas as pd
 
-from pipeline.input_schemas import (
-    gias_index_col, gias_schema, gias_links_index_col, gias_links_schema
-)
 import pipeline.pre_processing.common.mappings as mappings
+from pipeline.input_schemas import (
+    gias_index_col,
+    gias_links_index_col,
+    gias_links_schema,
+    gias_schema,
+)
 
 logger = logging.getLogger("fbit-data-pipeline")
 
