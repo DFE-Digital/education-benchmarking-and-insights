@@ -52,6 +52,8 @@ public class SchoolCensusController(
                 var userData = await UserData(urn);
                 var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
 
+                var showSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolCensusSsrCharts);
+
                 string[]? customComparatorSet = null;
                 if (userData.ComparatorSet != null)
                 {
@@ -64,7 +66,8 @@ public class SchoolCensusController(
                     ? await progressBandingsService.GetKS4ProgressBandings(customComparatorSet ?? defaultComparatorSet?.Pupil ?? [])
                     : null;
                 var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet, userData.CustomData, census, defaultComparatorSet, bandings);
-                return View(viewModel);
+
+                return View(showSsrCharts ? $"{nameof(Index)}Ssr" : nameof(Index), viewModel);
             }
             catch (Exception e)
             {
@@ -200,7 +203,7 @@ public class SchoolCensusController(
                     var urns = result
                         .Where(r => !string.IsNullOrWhiteSpace(r.URN))
                         .Select(r => r.URN!);
-                    bandings = await progressBandingsService.GetKS4ProgressBandings(urns?.ToArray() ?? []);
+                    bandings = await progressBandingsService.GetKS4ProgressBandings([.. urns]);
                 }
 
                 return new CsvResults([new CsvResult(MergeProgressBandings(result, bandings), $"census-{urn}.csv")], $"census-{urn}.zip");
@@ -277,7 +280,7 @@ public class SchoolCensusController(
         var customResult = await censusApi.GetCustom(urn, customDataId, customQuery).GetResultOrDefault<Census>();
 
         return customResult != null
-            ? defaultResults.Append(customResult).ToArray()
+            ? [.. defaultResults, customResult]
             : defaultResults;
     }
 
