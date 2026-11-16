@@ -69,7 +69,7 @@ For content managed via the database (such as [Service Banners](/reference/platf
 ### Design Standards Compliance
 
 - **Service Standard**: Every technical implementation must align with the [GDS Service Standard](https://www.gov.uk/service-manual/service-standard), which is a hard architectural constraint for this project.
-- **Sortable Tables Exception**: While standard GDS patterns are preferred, sortable table headers in this service use `<button>` elements styled as links. This is a deliberate design choice based on MOJ (Ministry of Justice) patterns and user research into table interactivity.
+- **Sortable Tables Exception**: While standard GDS patterns are preferred, sortable table headers in this service use `<button>` elements styled as links. This is a deliberate design choice based on MOJ (Ministry of Justice) patterns and user research into table interactivity; see [Sortable HTML Tables](/reference/platform-and-web/sortable-tables/) for full details and accessibility rationale.
 
 ### Accessibility
 

@@ -1,11 +1,11 @@
 ---
 title: "Sortable HTML Tables"
 layout: sub-navigation
-sectionKey: "How-to guides"
+sectionKey: Reference
 includeInBreadcrumbs: true
 eleventyNavigation:
   key: "Sortable HTML Tables"
-  parent: "How-to: Platform & Web"
+  parent: "Platform & Web"
 ---
 
 FBIT leverages the Ministry of Justice design pattern for the [Sortable table](https://design-patterns.service.justice.gov.uk/components/sortable-table/) component where there is a requirement for tables to have a header cell that may be selected by the user in order to sort the content of a table.

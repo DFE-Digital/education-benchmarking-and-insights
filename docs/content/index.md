@@ -13,7 +13,9 @@ Financial Benchmarking and Insights Tool is a service designed to help schools, 
 
 ## Documentation Structure
 
-This documentation site is organised according to the [Diátaxis framework](https://diataxis.fr/), separating content into four distinct quadrants based on what you need to achieve:
+This documentation site is organised according to the [Diátaxis framework](https://diataxis.fr/), separating content into four distinct quadrants based on what you need to achieve.
+
+The idea is that these 4 stages mirror the process of learning - first you get told what to do exactly, then less exactly, then you learn larger patterns of the service, then you understand why those patterns are in place:
 
 1. [Tutorials](/tutorials/) (Learning-oriented): End-to-end lessons that guide new contributors through a complete task to build early confidence.
 2. [How-to guides](/how-to/) (Task-oriented): Practical, step-by-step recipes that help you solve specific, real-world problems.

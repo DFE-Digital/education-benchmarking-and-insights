@@ -26,7 +26,6 @@ Configure your local engineering environment, adhere to repository code standard
 Build web user interfaces, publish server-rendered visualisations, manage dynamic content, and maintain platform APIs:
 
 * **[Web Assets](/how-to/platform-and-web/web-assets/):** Compile SASS styles, bundle TypeScript/JavaScript, and manage static front-end assets.
-* **[Sortable HTML Tables](/how-to/platform-and-web/sortable-tables/):** Implement accessible client-side table sorting with GOV.UK and MOJ design system patterns.
 * **[Chart Development Workflow](/how-to/platform-and-web/chart-development-workflow/):** Multi-disciplinary workflow between designers, engineers, and analysts for developing server-rendered SVG charts.
 * **[Feature Flags](/how-to/platform-and-web/feature-flags/):** Define, consume, and test runtime feature flags via Azure App Configuration.
 * **[Content Management](/how-to/platform-and-web/content-management/):** Update dynamic database-driven banners, advisory messages, and financial return year parameters.

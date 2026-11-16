@@ -15,7 +15,6 @@ Practical recipes for developing web user interfaces, API endpoints, server-rend
 ## UI Components & Design System
 
 * **[Web Assets](/how-to/platform-and-web/web-assets/):** Build and bundle frontend assets, compile SASS stylesheets, and manage static resources.
-* **[Sortable HTML Tables](/how-to/platform-and-web/sortable-tables/):** Implement accessible client-side table sorting using GOV.UK and MOJ design system patterns.
 * **[Chart Development Workflow](/how-to/platform-and-web/chart-development-workflow/):** Collaborative workflow between designers, engineers, and analysts for developing server-side rendered SVG charts.
 
 ## Service Configuration & Features

@@ -20,6 +20,7 @@ Technical specifications, API endpoint contracts, UI components, and state manag
 ## Web Application Design & Components
 
 * **[Branding & Design System](/reference/platform-and-web/branding/):** DfE Design System integration, GOV.UK Frontend macro styles, and typography tokens.
+* **[Sortable HTML Tables](/reference/platform-and-web/sortable-tables/):** Accessible table sorting composition, MOJ design pattern, button semantics, and ARIA state specifications.
 * **[Progressive Enhancements](/reference/platform-and-web/progressive-enhancements/):** Client-side enhancements for server-rendered HTML (dynamic sorting, chart tooltips, auto-complete).
 * **[Cookies Policy & Storage](/reference/platform-and-web/cookies/):** Cookie classifications, consent lifecycle, and persistence lifetimes.
 * **[Service Banners](/reference/platform-and-web/service-banners/):** Database-driven banner models, severity classifications, and dynamic display mechanisms.

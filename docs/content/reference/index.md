@@ -35,6 +35,7 @@ Technical contracts, API endpoint definitions, UI components, and state manageme
 * **[Chart Rendering API](/reference/platform-and-web/chart-rendering-api/):** Server-side SVG rendering contracts, payload parameters, and typography styling for chart images.
 * **[Line Chart Rendering](/reference/platform-and-web/line-chart/):** SVG line chart dimensions, axis scaling, trend points, and progressive enhancement layers.
 * **[Branding & Design System](/reference/platform-and-web/branding/):** DfE Design System integration, GOV.UK Frontend macro styles, and typography tokens.
+* **[Sortable HTML Tables](/reference/platform-and-web/sortable-tables/):** Accessible table sorting composition, MOJ design pattern, button semantics, and ARIA state specifications.
 * **[Progressive Enhancements](/reference/platform-and-web/progressive-enhancements/):** Client-side enhancements for server-rendered HTML (dynamic sorting, chart tooltips, auto-complete).
 * **[Cookies Policy & Storage](/reference/platform-and-web/cookies/):** Cookie classifications, consent lifecycle, and persistence lifetimes.
 * **[Service Banners](/reference/platform-and-web/service-banners/):** Database-driven banner models, severity classifications, and dynamic display mechanisms.
