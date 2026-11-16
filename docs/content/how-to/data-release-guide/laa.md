@@ -10,7 +10,7 @@ eleventyNavigation:
 
 The Local Authority Analysis (LAA) risk scores pipeline assesses maintained schools across financial, educational performance, and school characteristic indicators. LAA scores are computed alongside the annual Consistent Financial Reporting (CFR) data release.
 
-For conceptual background and indicator definitions, see the [LAA Risk Scores Explanation](/explanation/laa-risk-indicators/).
+For conceptual background and indicator definitions, see the [LAA Risk Scores Explanation](/explanation/domain-and-methodology/laa-risk-indicators/).
 
 ## Get the Data
 

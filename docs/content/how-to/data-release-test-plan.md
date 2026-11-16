@@ -11,30 +11,30 @@ eleventyNavigation:
 
 ## Purpose
 
-This document is the practical planning layer for the annual data releases. It sits beneath the data release strategy in [Test Strategy: Data Ingestion](/reference/test-strategy-data-ingestion/) and the [Data Release Test Approach](/reference/data-release-test-approach/), and above the dated per-release plans in [Data Release Test Plans](/reference/data-release-test-plans/). Its job is to make producing an individual release plan fast and consistent by providing a reusable template.
+This document is the practical planning layer for the annual data releases. It sits beneath the data release strategy in [Test Strategy: Data Ingestion](/explanation/engineering-practices/test-strategy-data-ingestion/) and the [Data Release Test Approach](/explanation/engineering-practices/data-release-test-approach/), and above the dated per-release plans in [Data Release Test Plans](/reference/quality-and-assurance/data-release-test-plans/). Its job is to make producing an individual release plan fast and consistent by providing a reusable template.
 
 ## How this differs from Strategy and Approach
 
 Following the same split as the service documents (see the service [Test Plan](/how-to/test-plan/)):
 
-- The [Data Ingestion Test Strategy](/reference/test-strategy-data-ingestion/) defines why, what and where, including the Data Releases variation matrix.
-- The [Data Release Test Approach](/reference/data-release-test-approach/) defines how QA works during a release.
+- The [Data Ingestion Test Strategy](/explanation/engineering-practices/test-strategy-data-ingestion/) defines why, what and where, including the Data Releases variation matrix.
+- The [Data Release Test Approach](/explanation/engineering-practices/data-release-test-approach/) defines how QA works during a release.
 - This Test Plan defines when each individual plan is produced and provides the template to generate it.
 
 ## How to use this plan
 
-1. Copy the [template](#reusable-per-release-plan-template) below into [`data-release-test-plans/`](/reference/data-release-test-plans/) as the next sequence number, named `0000N_<RELEASE>-<YYYY-YYYY>-data-release.md`.
-2. Fill the placeholders using the Per-Release Variation Matrix in [Test Strategy: Data Ingestion](/reference/test-strategy-data-ingestion/): choose the correct files, keep only the layers that apply, and add release specific business logic.
+1. Copy the [template](#reusable-per-release-plan-template) below into [`data-release-test-plans/`](/reference/quality-and-assurance/data-release-test-plans/) as the next sequence number, named `0000N_<RELEASE>-<YYYY-YYYY>-data-release.md`.
+2. Fill the placeholders using the Per-Release Variation Matrix in [Test Strategy: Data Ingestion](/explanation/engineering-practices/test-strategy-data-ingestion/): choose the correct files, keep only the layers that apply, and add release specific business logic.
 3. For a CFR release from 2025-2026 onward, keep the optional LAA Risk Indicator Validation block.
 4. Tick the exit criteria only as they are genuinely met.
 
 ## When each plan is produced
 
-Individual plans are produced ahead of each release, on the calendar documented in [Releases](/reference/releases/).
+Individual plans are produced ahead of each release, on the calendar documented in [Releases](/how-to/data-release-guide/).
 
 ## Reusable Per-Release Plan Template
 
-Copy the block below and replace the `<...>` placeholders. It mirrors the structure of the existing plans in [`data-release-test-plans/`](/reference/data-release-test-plans/); refer to the [Approach](/reference/data-release-test-approach/) for how each validation layer is performed rather than restating it in the plan.
+Copy the block below and replace the `<...>` placeholders. It mirrors the structure of the existing plans in [`data-release-test-plans/`](/reference/quality-and-assurance/data-release-test-plans/); refer to the [Approach](/explanation/engineering-practices/data-release-test-approach/) for how each validation layer is performed rather than restating it in the plan.
 
 ```markdown
 # Test Plan: <RELEASE> Data Release - <YYYY-YYYY>

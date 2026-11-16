@@ -141,7 +141,7 @@ Multiple implementation and deployment combinations leveraging Node.js Azure Fun
 
 **Performance:**
 
-Full details of the load tests summarised below may be found [here](/reference/performance-test-plans/0007-api-web-ssr-charts-load-test-plan/).
+Full details of the load tests summarised below may be found [here](/reference/quality-and-assurance/performance-test-plans/0007-api-web-ssr-charts-load-test-plan/).
 
 **Spending and Priorities page:**
 

@@ -26,7 +26,7 @@ Below is the complete chronological sequence from planning through to go-live, w
 ## Phase 1: Pre-Release (At least 2 Sprints Before)
 
 1. **Kickoff Meeting.** Hold a release kickoff session, run by engineers, with the engineering and project teams. Cover:
-   * Which data sources are being refreshed (check the [data sources docs](/reference/sources/)). This page also lists the SQL server locations for the main financial releases.
+   * Which data sources are being refreshed (check the [data sources docs](/reference/data-and-pipeline/sources/)). This page also lists the SQL server locations for the main financial releases.
    * Whether any additional data access is required. Most ancillary data is publicly available on gov.uk.
    * Any blockers the team foresees in the release, for example large schema changes.
 
@@ -49,7 +49,7 @@ Below is the complete chronological sequence from planning through to go-live, w
 
 ## Phase 3: Ingestion & Verification (Release Day)
 
-Once the cutoff data is prepared, one engineer should orchestrate the rest of the team through release and testing using the [test plans](/reference/data-release-test-plans/): UAT guides for manual verification of the new data.
+Once the cutoff data is prepared, one engineer should orchestrate the rest of the team through release and testing using the [test plans](/reference/quality-and-assurance/data-release-test-plans/): UAT guides for manual verification of the new data.
 
 1. **Scale Target SQL Database.** Scale the destination Azure SQL database (e.g. `s198t01-sql`) to **200 DTUs** via Settings > Compute and Storage, so the pipeline load doesn't impact the web service or other developers. Wait for this to take effect before proceeding.
 
@@ -59,7 +59,7 @@ Once the cutoff data is prepared, one engineer should orchestrate the rest of th
 
 4. **Trigger LAA Risk Derivations (CFR Only).** If this is a CFR release, you can optionally enable the `"deriveLaaRiskScores": true` parameter in your default start trigger message. This will automatically execute the LAA risk scores derivation pipeline at the end of the standard default pipeline run.
 
-5. **Execute Assurance & Coverage Queries.** Run the general checklist (row count verification, comparative non-null coverage checks, duplicate constraint checks) and release-specific logic validations (see [Assuring Pipeline Outputs](#assuring-pipeline-outputs-general-checks) below and the [Data Ingestion Test Strategy](/reference/test-strategy-data-ingestion/)).
+5. **Execute Assurance & Coverage Queries.** Run the general checklist (row count verification, comparative non-null coverage checks, duplicate constraint checks) and release-specific logic validations (see [Assuring Pipeline Outputs](#assuring-pipeline-outputs-general-checks) below and the [Data Ingestion Test Strategy](/explanation/engineering-practices/test-strategy-data-ingestion/)).
 
 6. **Descale SQL Database.** Restore the Azure SQL database DTUs to its original baseline.
 
@@ -128,7 +128,7 @@ To trigger a pipeline run once data is prepared, add a message to the `data-pipe
 
 > **Note:** The `deriveLaaRiskScores` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will execute the LAA risk scores derivations module (Maintained School Multi-Factor Risk Calculations) at the end of the standard default pipeline execution.
 
-For the full trigger payload schema definitions, optional parameter options, and concrete examples, please refer to the [Pipeline Payload Definitions and Schema Nuances](/reference/pipeline-trigger-message/) reference page.
+For the full trigger payload schema definitions, optional parameter options, and concrete examples, please refer to the [Pipeline Payload Definitions and Schema Nuances](/reference/data-and-pipeline/pipeline-trigger-message/) reference page.
 
 ### What year to use in data pipeline runs
 
@@ -168,7 +168,7 @@ And so on. `runId` should be the highest of the years of the 4 releases, and is 
 
 The year for a release corresponds to a directory location in the `raw` container. For the pipeline to run correctly, the correct data must be in the right directory in the `raw` container.
 
-For an in-depth explanation of the decoupling of `runId` and `year`, mismatched timelines, and user calculation isolation, see the [Pipeline Trigger Message Concepts](/explanation/pipeline-trigger-message/) explanation page.
+For an in-depth explanation of the decoupling of `runId` and `year`, mismatched timelines, and user calculation isolation, see the [Pipeline Trigger Message Concepts](/explanation/data-pipeline/pipeline-trigger-message/) explanation page.
 
 ### Checking for schema changes
 

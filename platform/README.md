@@ -90,7 +90,7 @@ dotnet user-secrets set "StorageSettings:LaaRiskFiles:SourceContainer" "artifact
 dotnet user-secrets set "StorageSettings:LaaRiskFiles:DestContainer" "files" --id "platform-local"
 ```
 
-For full details on local environment profiles and managing `local.settings.json`, please read the **Configuration Management** section in the [Platform APIs Developer Guide](../docs/content/reference/platform-apis.md#configuration-management).
+For full details on local environment profiles and managing `local.settings.json`, please read the **Configuration Management** section in the [Platform APIs Developer Guide](../docs/content/reference/platform-and-web/platform-apis.md#configuration-management).
 
 ### Running tests
 

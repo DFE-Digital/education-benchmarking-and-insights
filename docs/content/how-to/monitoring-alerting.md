@@ -11,6 +11,6 @@ eleventyNavigation:
 
 This guide covers monitoring and alerting procedures for the Financial Benchmarking and Insights Tool (FBIT).
 
-For active service alerts and metrics definitions, refer to the [Service Metrics and Measures](/reference/metrics/) reference documentation.
+For active service alerts and metrics definitions, refer to the [Service Metrics and Measures](/reference/infrastructure-and-operations/metrics/) reference documentation.
 
 For the operational monitoring runbook, see the [Monitoring and Alerting Runbook](https://educationgovuk.sharepoint.com/sites/DfEFinancialBenchmarking/Shared%20Documents/Runbooks/Monitoring%20and%20Alerting.docx).

@@ -238,7 +238,7 @@ To use the GOV.UK Design System, progressive enhancements and front-end componen
 > **💡 Tip**: To find the location of your user `.npmrc` file use the `npm config -ls l` command.
 
 For more information on managing the progressive enhancements please refer to
-the [documented feature](../docs/content/reference/progressive-enhancements.md).
+the [documented feature](../docs/content/reference/platform-and-web/progressive-enhancements.md).
 
 ##### Bypass ADO auth
 
