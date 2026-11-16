@@ -55,7 +55,7 @@ The backend API layer providing core benchmarking, school/trust insights, and se
 
 ## Getting started
 
-> Local dependencies (SQL Server, Azurite, and Redis) are managed via Docker Compose. See the [Local Environment with Docker guide](../docs/content/how-to/local-docker.md) for setup instructions.
+> Local dependencies (SQL Server, Azurite, and Redis) are managed via Docker Compose. See the [Local Environment with Docker guide](../docs/content/how-to/development-and-workflow/local-docker.md) for setup instructions.
 
 ### Environment Profiles
 

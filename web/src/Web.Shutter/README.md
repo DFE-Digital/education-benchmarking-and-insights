@@ -22,7 +22,7 @@ PORT=8080
 
 ### VS Code Extensions
 
-For code formatting and linting setup (ESLint, Prettier, Markdownlint), please refer to the centralized [Linting and Formatting guide](../../../docs/content/how-to/linting-and-formatting.md).
+For code formatting and linting setup (ESLint, Prettier, Markdownlint), please refer to the centralized [Linting and Formatting guide](../../../docs/content/how-to/development-and-workflow/linting-and-formatting.md).
 
 The following extension is also recommended for this specific project:
 

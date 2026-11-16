@@ -90,7 +90,7 @@ This document defines **how ingestion testing is approached**, including the sco
 
 The service performs four data releases each year: S251, BFR, CFR and AAR. From the 2025-2026 cycle the Local Authority Risk Analysis (LAA) risk indicators are refreshed alongside CFR (see [decision 0023](/reference/decisions/0023-laa-risk-indicators-data-architecture/)).
 
-These releases all follow the ingestion validation model above, but differ in their primary files, business logic and ancillary datasets. The table below describes the **types** of files involved rather than exact filenames, as filenames can change from cycle to cycle. The current source and ancillary files for each release are maintained in [Data Sources](/reference/data-and-pipeline/sources/), and the data engineer confirms the exact files in scope in the individual release plan at kickoff. Release timings, sourcing and the pipeline trigger are in the [Data Release Guide](/how-to/data-release-guide/).
+These releases all follow the ingestion validation model above, but differ in their primary files, business logic and ancillary datasets. The table below describes the **types** of files involved rather than exact filenames, as filenames can change from cycle to cycle. The current source and ancillary files for each release are maintained in [Data Sources](/reference/data-and-pipeline/sources/), and the data engineer confirms the exact files in scope in the individual release plan at kickoff. Release timings, sourcing and the pipeline trigger are in the [Data Release Guide](/how-to/data-and-pipeline/data-release-guide/).
 
 | Aspect | BFR | CFR | S251 | AAR |
 |---|---|---|---|---|
@@ -101,7 +101,7 @@ These releases all follow the ingestion validation model above, but differ in th
 | **LAA risk indicators** | No | Yes (from 2025-2026) | No | No |
 | **Completeness reporting** | Not required | Required | Required | Required |
 
-How QA works through a release is described in the [Data Release Test Approach](/explanation/engineering-practices/data-release-test-approach/), and the reusable template for an individual release plan is in the [Data Release Test Plan](/how-to/data-release-test-plan/). The individual dated plans live in [Data Release Test Plans](/reference/quality-and-assurance/data-release-test-plans/).
+How QA works through a release is described in the [Data Release Test Approach](/explanation/engineering-practices/data-release-test-approach/), and the reusable template for an individual release plan is in the [Data Release Test Plan](/how-to/quality-and-assurance/data-release-test-plan/). The individual dated plans live in [Data Release Test Plans](/reference/quality-and-assurance/data-release-test-plans/).
 
 ### Assuring the LAA Risk Indicators (CFR)
 
@@ -111,7 +111,7 @@ From the 2025-2026 cycle the CFR release also refreshes the LAA risk indicators 
 - The calculated figures are verified against the input files and the risk indicator webpage data download, since the non-financial datapoints cannot be queried in the database.
 - The headline and breakdown tables are confirmed to populate the risk indicator pages, and existing view latency is confirmed to be unaffected.
 
-The specific checks are captured in the LAA block of the [Data Release Test Plan](/how-to/data-release-test-plan/).
+The specific checks are captured in the LAA block of the [Data Release Test Plan](/how-to/quality-and-assurance/data-release-test-plan/).
 
 ## Risk Mitigation
 
@@ -125,5 +125,5 @@ The specific checks are captured in the LAA block of the [Data Release Test Plan
 ## Supporting Documents
 
 - Data Sources: [Data Sources](/reference/data-and-pipeline/sources/)
-- Releases: [Data Release Guide](/how-to/data-release-guide/)
+- Releases: [Data Release Guide](/how-to/data-and-pipeline/data-release-guide/)
 - Validation Scripts: for schema, mapping, and regression checks

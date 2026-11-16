@@ -13,7 +13,7 @@ eleventyNavigation:
 
 This document is the tactical companion to the data release strategy, which is the Data Releases section of [Test Strategy: Data Ingestion](/explanation/engineering-practices/test-strategy-data-ingestion/). It follows the same relationship that the service [Test Approach](/explanation/engineering-practices/test-approach/) has to the service [Test Strategy: Service](/explanation/engineering-practices/test-strategy-service/).
 
-The strategy defines what is tested for a data release and the validation model that is applied. This document describes how QA works to deliver that: how QA embeds with the data team, plans each release, and runs the checks step by step with the right people. It does not restate the validation model, nor the release process itself, which is in the [Data Release Guide](/how-to/data-release-guide/).
+The strategy defines what is tested for a data release and the validation model that is applied. This document describes how QA works to deliver that: how QA embeds with the data team, plans each release, and runs the checks step by step with the right people. It does not restate the validation model, nor the release process itself, which is in the [Data Release Guide](/how-to/data-and-pipeline/data-release-guide/).
 
 ## Objectives
 
@@ -36,7 +36,7 @@ A data release is delivered by QA working closely with the data analysts and dat
 
 QA produces the individual release plan for every release. This is where the approach becomes concrete, and it is done with the team, not in isolation.
 
-- At kickoff QA drafts the release plan from the template in the [Data Release Test Plan](/how-to/data-release-test-plan/), tailored to the release using the variation matrix in [Test Strategy: Data Ingestion](/explanation/engineering-practices/test-strategy-data-ingestion/): the right files, the checks that apply, and the release specific business logic.
+- At kickoff QA drafts the release plan from the template in the [Data Release Test Plan](/how-to/quality-and-assurance/data-release-test-plan/), tailored to the release using the variation matrix in [Test Strategy: Data Ingestion](/explanation/engineering-practices/test-strategy-data-ingestion/): the right files, the checks that apply, and the release specific business logic.
 - QA turns the validation model into concrete steps in the plan, names the owner for each step (analyst, engineer or QA), and agrees the order with the team.
 - QA writes and maintains the validation scripts, queries and completeness reports the plan depends on, so they are ready before the run and reusable next cycle.
 - QA agrees the cutoff and the `test`, `preprod` and `prod` run points with the team, and books the stakeholders for UAT.
@@ -45,7 +45,7 @@ The plan is a shared, living artefact for the release: the team works to it, and
 
 ## How QA engages across the release lifecycle
 
-The release runs in four phases, documented in the [Data Release Guide overview](/how-to/data-release-guide/). QA contributes to each phase as follows:
+The release runs in four phases, documented in the [Data Release Guide overview](/how-to/data-and-pipeline/data-release-guide/). QA contributes to each phase as follows:
 
 | Phase | How QA works |
 | :--- | :--- |
@@ -71,7 +71,7 @@ QA records the outcome of each check against the plan as it goes, so the plan do
 
 QA reuses the same assets each cycle rather than rebuilding them:
 
-- The assurance, reconciliation and coverage queries in the [Data Release Guide](/how-to/data-release-guide/).
+- The assurance, reconciliation and coverage queries in the [Data Release Guide](/how-to/data-and-pipeline/data-release-guide/).
 - The completeness report script in SharePoint under `Documents > General > Analytics Discovery > Completeness Report - Data Drops`.
 - The regression comparison queries over prior years, and the transparency file verification.
 
@@ -90,4 +90,4 @@ QA reuses the same assets each cycle rather than rebuilding them:
 | Cutoff sync | QA, analysts, engineers | Agree and enact the cutoff snapshot |
 | Sign-off review | QA, stakeholders, tech lead | Review evidence and take the go/no-go decision |
 
-Release communication follows the [Data Release Guide](/how-to/data-release-guide/) and [Release Communications](/how-to/release-communications/).
+Release communication follows the [Data Release Guide](/how-to/data-and-pipeline/data-release-guide/) and [Release Communications](/how-to/infrastructure-and-operations/release-communications/).

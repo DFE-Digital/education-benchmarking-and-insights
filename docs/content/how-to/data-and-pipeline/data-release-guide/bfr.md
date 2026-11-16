@@ -1,0 +1,56 @@
+---
+title: "BFR"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "BFR Release"
+  parent: "Data Release Guide"
+---
+
+BFR data is used for the forecast and risk tool. It doesn't need any ancillary data and just needs to be run through the data pipeline directly from the SQL tables. Increment the `bfr_year` when starting the data pipeline and place the new data in the new year's folder in blob storage.
+
+## Get the data
+
+BFR data is simply exported from the SQL tables outlined in the [data sources page.](/reference/data-and-pipeline/sources/) The files are:
+
+* BFR_3Y_raw.csv
+* BFR_SOFA_raw.csv
+
+## Test the data pipeline runs locally
+
+* [Set up the pipeline locally](/how-to/data-and-pipeline/data-release-guide/#testing-locally).
+* Add the new data to the relevant year folder in Azure
+* [Configure the schemas for the new files](/how-to/data-and-pipeline/data-release-guide/#checking-for-schema-changes) in `data-pipeline.src.pipeline.input_schemas.bfr`. For BFR, it may not be necessary.
+* Run the pipeline to test the new data. Debug and fix any issues, eg misconfigured schemas.
+* After configuration, run the pipeline successfully.
+* Check that the pipeline has deposited rows in SQL by querying the database tables for BFR (fill in the year):
+
+```sql
+SELECT * FROM [dbo].[BudgetForecastReturn]
+WHERE RunId like '<year>' AND RunType like 'default'
+```
+
+```sql
+SELECT * FROM [dbo].[BudgetForecastReturnMetric]
+WHERE RunId like '<year>' AND RunType like 'default'
+```
+
+## Check the outputs
+
+To assure the quality of the BFR ingestion pipeline do some spot checks on forecasts and pupil numbers. BFR uses [specific row/line mappings](/explanation/domain-and-methodology/bfr/) (`EFALineNo`) in `BFR_SOFA_raw.csv` and `BFR_3Y_raw.csv` to compute Statement of Financial Activities (SOFA) and multi-year forecasts.
+
+* Select 3 Multi-Academy Trusts in the source CSV and record their values for key `EFALineNo` fields (such as line numbers for total income, staff costs, and total forecasted expenditure).
+* Query the `BudgetForecastReturn` and `BudgetForecastReturnMetric` tables for those specific trusts and verify that the financial amounts written correspond exactly to [those line numbers](/explanation/domain-and-methodology/bfr/#efa-line-no).
+
+### 2. BFR-Specific Pupil Count Validation
+
+BFR uses its own, dedicated forecast pupil number which can differ from the standard School Census headcount. Check the BFR tables have the BFR pupil number in.
+
+## Gotchas
+
+* BFR uses its own pupil number which is different to the census one.
+* Not all BFR trusts in the raw submission get shown in FBIT. AAR is the primary driver of FBIT. Only trusts present in AAR will be shown in FBIT, so Trusts created or amalgamated in the time between last year's AAR and the new BFR release will not show up in `BudgetForecastReturn` in the database. Typically this is only 1-2% of trusts.
+* The cost categories are IT Spend and Revenue reserve. IT Spend rows use the BFR pupil number while revenue reserve rows use the AAR (census) pupil number. This is because BFR revenue reserves are used to compare to AAR actuals and both figures need to be regularised per pupil by the same amount. IT spend rows don't compare to AAR actual spend so just use the BFR pupil number.
+* BFR uses previous year's BFR data to show spend over time. The manner in which it does this and business context [is described in other docs.](/explanation/domain-and-methodology/bfr/)
+* [BFR Test Plans](/reference/quality-and-assurance/data-release-test-plans/00003-bfr-2024-2025-data-release/)

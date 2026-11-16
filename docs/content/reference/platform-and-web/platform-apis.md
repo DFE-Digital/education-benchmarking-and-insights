@@ -79,7 +79,7 @@ When adding a new functional slice:
 
 This project intentionally separates the configuration model to keep it predictable and avoid mixing application configuration, secrets, and Azure Functions host variables.
 
-**Important**: All secret management must strictly adhere to the [Secret Management Guide](/how-to/secret-management/).
+**Important**: All secret management must strictly adhere to the [Secret Management Guide](/how-to/infrastructure-and-operations/secret-management/).
 
 Azure Functions has two separate configuration systems. The important distinction:
 

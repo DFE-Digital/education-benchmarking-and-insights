@@ -94,5 +94,5 @@ Reviewer checks for:
 
 ## Supporting Docs
 
-- Content management logic: [Content Management](/how-to/content-management/)
+- Content management logic: [Content Management](/how-to/platform-and-web/content-management/)
 - Banner component rendering logic: available in front-end components

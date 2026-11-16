@@ -12,7 +12,7 @@ This document provides detailed information for developers about the implementat
 
 See also:
 
-- [Guide: Chart Development Workflow](/how-to/chart-development-workflow/)
+- [Guide: Chart Development Workflow](/how-to/platform-and-web/chart-development-workflow/)
 - [Feature: Progressive Enhancements](/reference/platform-and-web/progressive-enhancements/)
 - [ADR006: Rendering of Charts](/reference/decisions/0006-chart-rendering/)
 - [ADR007: Deployment Options for SVG Service for Rendering Charts](/reference/decisions/0007-deployment-options-rendering-charts-service/)

@@ -373,4 +373,4 @@ This is also performed automatically by the CI/CD pipeline. In ReSharper/Rider, 
 `Reformat and Cleanup...` may be used to apply the settings using the layering order above. This may also be achieved
 in the IDE at a project or file level or via the keyboard shortcut `Ctrl+E, C`.
 
-- **Markdown & Pre-commit:** Markdown files are linted via [pre-commit hooks](../docs/content/how-to/pre-commit-hooks.md). Developers are encouraged to install pre-commit locally to catch these issues before pushing.
+- **Markdown & Pre-commit:** Markdown files are linted via [pre-commit hooks](../docs/content/how-to/development-and-workflow/pre-commit-hooks.md). Developers are encouraged to install pre-commit locally to catch these issues before pushing.
