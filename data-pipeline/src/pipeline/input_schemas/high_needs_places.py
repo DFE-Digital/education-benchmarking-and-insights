@@ -26,8 +26,8 @@ high_needs_places_columns = {
     ],
     2026: [
         "URN",
-        "2025 to 2026 mainstream academies and free schools - \npre-16 SEN Unit/RP Places (@£6k)",
-        "2025 to 2026 mainstream academies and free schools - \npre-16 SEN Unit/RP Places (@£10k)",
+        "2025 to 2026 mainstream academies and free schools - \r\npre-16 SEN Unit/RP Places (@£6k)",
+        "2025 to 2026 mainstream academies and free schools - \r\npre-16 SEN Unit/RP Places (@£10k)",
         "2025 to 2026  mainstream free schools and academies - 16 to 18 places",
     ],
 }
