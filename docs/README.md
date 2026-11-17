@@ -10,6 +10,7 @@ This project follows a Documentation as Code approach. Our documentation is:
 
 * Engine: We use [Eleventy (11ty)](https://www.11ty.dev/) to generate the static documentation site.
 * Theming: The site utilises the [X-GOVUK plugin](https://x-govuk.github.io/govuk-eleventy-plugin/) to ensure DfE-branded styling.
+* Search: Client-side static search is powered by [Pagefind](https://pagefind.app/), generating a chunked WebAssembly index during the Eleventy build with Diátaxis section filters.
 * Format: All documentation is written in Markdown (`.md`).
 
 ## Documentation Structure (Diátaxis Framework)
@@ -32,7 +33,7 @@ All documentation content is managed under the `docs/content/` directory, split 
 Every Markdown document must include "Front Matter" at the top to manage navigation and metadata.
 
 * Required fields: `title` and `eleventyNavigation: key`.
-* Automatic settings: Attributes like `layout` and `parent` are automatically inherited based on the folder structure and do not need to be manually defined.
+* Automatic settings: Attributes like `layout`, `parent`, and `sectionKey` (used for sub-navigation and Pagefind Diátaxis section filtering) are automatically inherited based on the folder structure and do not need to be manually defined. Utility pages can set `eleventyExcludeFromSearch: true` to omit their content from the search index.
 
 ### Visuals & Diagrams
 
@@ -50,6 +51,7 @@ To run the documentation site locally, you will need:
 
 The following npm commands are available in the `package.json`:
 
-* `npm run start`: Generates the SASS prefix and builds the site using Eleventy, then serves it locally (usually at `http://localhost:8080/`).
-* `npm run build`: Generates the SASS prefix and builds the site using Eleventy for production deployment.
+* `npm run start`: Generates the SASS prefix, builds the site and Pagefind search index using Eleventy, and serves it locally (usually at `http://localhost:8080/`).
+* `npm run build`: Generates the SASS prefix and builds the static site and Pagefind search index for production deployment.
 * `npm run prebuild:css`: A utility script that runs `generate-sass-prefix.js` to prepare CSS before building or starting the site.
+* `npm test`: Runs the automated Node.js test suite verifying Pagefind index generation, Diátaxis quadrant filters, production subpath URLs, and search UI behaviour.
