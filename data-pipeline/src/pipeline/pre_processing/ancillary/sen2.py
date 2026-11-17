@@ -43,10 +43,7 @@ def pivot_sen2_caseload_data(
     )
 
     academic_year = int(f"{year - 1}{year % 100:02d}")
-    df = df[
-        (df["time_period"] == academic_year)
-        & (df["breakdown"] == "All EHC plans")
-    ]
+    df = df[(df["time_period"] == academic_year) & (df["breakdown"] == "All EHC plans")]
     df["breakdown"] = "Total"
     df["time_period"] = year
     df[legacy_na_columns] = pd.NA

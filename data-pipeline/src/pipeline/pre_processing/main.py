@@ -21,6 +21,7 @@ from pipeline.utils.message import check_run_until_gate
 from pipeline.utils.stats import stats_collector
 from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_blob
 
+from ..input_schemas import la_budget_filename, la_outturn_filename
 from .aar.academies import build_academy_data, map_academy_data
 from .aar.trusts import build_trust_data
 from .ancillary.custom_data import update_custom_data
@@ -96,7 +97,9 @@ def pre_process_data(
     maintained_data_ref = get_cfr_ancillary_data(run_id, cfr_year)
     # Last year's data is used as fallbacks for the CFR transparency file
     maintained_data_ref_for_last_year = (
-        get_cfr_ancillary_data(run_id, (cfr_year - 1)) if generate_cfr_transparency_file else {}
+        get_cfr_ancillary_data(run_id, (cfr_year - 1))
+        if generate_cfr_transparency_file
+        else {}
     )
 
     academies = pre_process_academies_data(
@@ -272,7 +275,9 @@ def pre_process_maintained_schools_data(
     # Generate the CFR transparency file from raw inputs if requested
     if generate_cfr_transparency_file:
         if year < 2025:
-            logger.warning(f"Generating CFR transparency file for {year=} - this process is only assured for 2025 onwards")
+            logger.warning(
+                f"Generating CFR transparency file for {year=} - this process is only assured for 2025 onwards"
+            )
         cfr_raw_filename = cfr_raw_filenames.get(year)
         cfr_raw_blob = get_blob(raw_container, f"{run_type}/{year}/{cfr_raw_filename}")
         master_list, transparency_file = build_transparency_files(
@@ -563,26 +568,20 @@ def pre_process_local_authorities(year: int, run_id: str, all_schools: pd.DataFr
     :param year: financial year in question
     :param all_schools: Schools data for pupil numbers
     """
-    logger.info(
-        f"Reading LA Section 251 budget data: default/{year}/plannedexpenditure_schools_other_education_la_unrounded_data.csv"
-    )
-    la_expenditure_data = get_blob(
-        raw_container,
-        f"default/{year}/plannedexpenditure_schools_other_education_la_unrounded_data.csv",
-    )
+    budget_filename = la_budget_filename.get(year, la_budget_filename["default"])
+    logger.info(f"Reading LA Section 251 budget data: default/{year}/{budget_filename}")
+    la_budget_data = get_blob(raw_container, f"default/{year}/{budget_filename}")
 
+    outturn_filename = la_outturn_filename.get(year, la_outturn_filename["default"])
     logger.info(
-        f"Reading LA Section 251 outturn data: default/{year}/s251_alleducation_la_regional_national.csv"
+        f"Reading LA Section 251 outturn data: default/{year}/{outturn_filename}"
     )
-    la_outturn_data = get_blob(
-        raw_container,
-        f"default/{year}/s251_alleducation_la_regional_national.csv",
-    )
+    la_outturn_data = get_blob(raw_container, f"default/{year}/{outturn_filename}")
 
     logger.info("Processing Local Authority data.")
     local_authorities_ancillary_data = get_s251_ancillary_data(run_id, year)
     local_authorities = build_local_authorities(
-        la_expenditure_data,
+        la_budget_data,
         la_outturn_data,
         **local_authorities_ancillary_data,
         all_schools=all_schools,

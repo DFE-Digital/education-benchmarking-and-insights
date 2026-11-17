@@ -1,7 +1,7 @@
 import pandas as pd
 from pandas._typing import FilePath, ReadCsvBuffer
 
-import pipeline.input_schemas as input_schemas
+from pipeline.input_schemas import gias_links_index_col, gias_links_schema
 from pipeline.utils import log
 
 logger = log.setup_logger(__name__)
@@ -19,9 +19,9 @@ def predecessor_links(
     gias_links = pd.read_csv(
         filepath_or_buffer,
         encoding="cp1252",
-        index_col=input_schemas.gias_links_index_col,
-        usecols=input_schemas.gias_links.keys(),
-        dtype=input_schemas.gias_links,
+        index_col=gias_links_index_col,
+        usecols=list(gias_links_schema.keys()),
+        dtype=gias_links_schema,
     )
 
     logger.info(f"Read {len(gias_links.index):,} GIAS-links records.")

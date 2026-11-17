@@ -13,9 +13,12 @@ def prepare_high_needs_places_data(
     place_numbers = pd.read_excel(
         place_numbers_data,
         sheet_name="High_Needs_Places",
-        engine="odf",
+        engine="calamine",
         usecols=place_cols,
         header=3,
         skiprows=None,
+    )
+    place_numbers.columns = place_numbers.columns.astype(str).str.replace(
+        r"[\r\n]+", "", regex=True
     )
     return place_numbers

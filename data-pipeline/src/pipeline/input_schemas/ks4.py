@@ -8,7 +8,7 @@ _ks4_base = {
     "P8MEA": "float",
     "P8_BANDING": "string",
     "RECTYPE": "Int64",
-    "LEA": "Int64"
+    "LEA": "Int64",
 }
 
 

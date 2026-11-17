@@ -10,6 +10,7 @@ from .aar_central_services import (  # noqa
     aar_central_services_column_mappings,
     aar_central_services_index_col,
 )
+from .cdc import cdc_index_col, cdc_schema
 from .census_pupils import (  # noqa
     joined_census_column_eval,
     pupil_census,
@@ -29,7 +30,8 @@ from .census_workforce import (  # noqa
 from .cfo import cfo, cfo_column_eval, cfo_column_mappings  # noqa
 from .cfr_raw import cfr_raw_cols, cfr_raw_filenames, cfr_raw_index_col
 from .dsg import dsg_filenames
-from .gias import gias, gias_index_col  # noqa
+from .gias import gias_index_col, gias_schema  # noqa
+from .gias_links import gias_links_index_col, gias_links_schema
 from .high_exec_pay import high_exec_pay, high_exec_pay_column_mappings  # noqa
 from .high_needs_places import (
     PRIMARY_PLACES_6K,
@@ -59,18 +61,25 @@ from .ilr import (
     ilr_fsm_sheet_name,
     ilr_index,
 )
+from .ks2 import ks2_schema
 from .ks4 import ks4, ks4_column_mappings, ks4_index_col
 from .local_authority import (  # noqa
     la_budget,
     la_budget_column_eval,
     la_budget_column_mappings,
+    la_budget_filename,
+    la_budget_index_column,
     la_budget_pivot,
+    la_budget_raw_column_mappings,
     la_ons_population,
     la_ons_population_index_column,
     la_outturn,
     la_outturn_column_eval,
     la_outturn_column_mappings,
+    la_outturn_filename,
+    la_outturn_index_column,
     la_outturn_pivot,
+    la_outturn_raw_column_mappings,
     la_section_251_category_prefixes,
     la_section_251_column_eval,
     la_section_251_column_mappings,
@@ -101,60 +110,5 @@ from .maintained_schools_master_list import (
     maintained_schools_master_list_index_col,
 )
 from .pru import pru_cols, pru_index_col
+from .sen import sen_index_col, sen_schema
 from .utils import evolve_schema
-
-gias_links_index_col = "URN"
-gias_links = {
-    "URN": "Int64",
-    "LinkURN": "Int64",
-    "LinkName": "string",
-    "LinkType": "string",
-    "LinkEstablishedDate": "string",
-}
-
-cdc_index_col = "URN"
-cdc = {"URN": "Int64", "GIFA": "float", "Block Age": "string"}
-
-sen_index_col = "URN"
-sen = {
-    "URN": "Int64",
-    "Total pupils": "float",
-    "EHC plan": "float",
-    "SEN support": "float",
-    "EHC_Primary_need_spld": "float",
-    "SUP_Primary_need_spld": "float",
-    "EHC_Primary_need_mld": "float",
-    "SUP_Primary_need_mld": "float",
-    "EHC_Primary_need_sld": "float",
-    "SUP_Primary_need_sld": "float",
-    "EHC_Primary_need_pmld": "float",
-    "SUP_Primary_need_pmld": "float",
-    "EHC_Primary_need_semh": "float",
-    "SUP_Primary_need_semh": "float",
-    "EHC_Primary_need_slcn": "float",
-    "SUP_Primary_need_slcn": "float",
-    "EHC_Primary_need_hi": "float",
-    "SUP_Primary_need_hi": "float",
-    "EHC_Primary_need_vi": "float",
-    "SUP_Primary_need_vi": "float",
-    "EHC_Primary_need_msi": "float",
-    "SUP_Primary_need_msi": "float",
-    "EHC_Primary_need_pd": "float",
-    "SUP_Primary_need_pd": "float",
-    "EHC_Primary_need_asd": "float",
-    "SUP_Primary_need_asd": "float",
-    "EHC_Primary_need_oth": "float",
-    "SUP_Primary_need_oth": "float",
-}
-
-cfr_index_col = "URN"
-cfr = {"URN": "Int64"}
-
-ks2_index_col = "URN"
-ks2 = {
-    "URN": "Int64",
-    "READPROG": "string",
-    "WRITPROG": "string",
-    "MATPROG": "string",
-    "PTRWM_EXP": "string",
-}

@@ -2,7 +2,7 @@ import logging
 
 import pandas as pd
 
-from pipeline import input_schemas
+from pipeline.input_schemas import ks2_schema
 
 logger = logging.getLogger(__name__)
 
@@ -11,8 +11,8 @@ def prepare_ks2_data(ks2_path):
     if ks2_path is not None:
         ks2 = pd.read_excel(
             ks2_path,
-            usecols=input_schemas.ks2.keys(),
-            dtype=input_schemas.ks2,
+            usecols=list(ks2_schema.keys()),
+            dtype=ks2_schema,
             engine="calamine",
         )
         logger.info(f"KS2 Data raw shape: {ks2.shape}")
