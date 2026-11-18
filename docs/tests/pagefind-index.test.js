@@ -78,6 +78,7 @@ describe('Pagefind build indexing and rendered HTML integration', () => {
 
   it('TC-01 & TC-14: generates Pagefind WASM bundle and omits legacy search-index.json', async () => {
     const requiredFiles = [
+      'assets/application.js',
       'pagefind/pagefind-entry.json',
       'pagefind/pagefind.js',
       'pagefind/pagefind-ui.js',

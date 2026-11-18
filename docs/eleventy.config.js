@@ -4,6 +4,9 @@ import { govukEleventyPlugin } from '@x-govuk/govuk-eleventy-plugin';
 import { pathPrefix } from './path-prefix.js';
 
 export default function (eleventyConfig) {
+  const configuredOutputDir =
+    eleventyConfig.directories?.output?.replace(/\/+$/, '') || '_site';
+
   eleventyConfig.setInputDirectory('content');
   eleventyConfig.setIncludesDirectory('_includes');
   eleventyConfig.addPassthroughCopy('content/assets/images');
@@ -101,7 +104,8 @@ export default function (eleventyConfig) {
     htmlTemplateEngine: 'njk',
     markdownTemplateEngine: 'njk',
     dir: {
-      input: 'content'
+      input: 'content',
+      output: configuredOutputDir
     }
   };
 }
