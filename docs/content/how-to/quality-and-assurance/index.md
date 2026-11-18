@@ -7,13 +7,10 @@ eleventyNavigation:
   key: "How-to: Quality & Assurance"
   title: Quality & Assurance
   parent: How-to guides
-  order: 4
 ---
 
-Operational testing workflows, sprint QA planning, and release verification execution.
+Operational testing workflows, sprint QA planning, and release verification execution:
 
-## Test Planning & Delivery
-
-* **[QA Test Plan](/how-to/quality-and-assurance/test-plan/):** Practical delivery framework for managing testing activities across sprints, releases, and UAT phases.
 * **[Create Test Plan in DevOps](/how-to/quality-and-assurance/create-test-plan-for-release-in-devops/):** Step-by-step instructions for creating and executing test plans in Azure DevOps for releases.
 * **[Data Release Test Plan](/how-to/quality-and-assurance/data-release-test-plan/):** Practical planning layer and reusable template for verifying annual data releases.
+* **[QA Test Plan](/how-to/quality-and-assurance/test-plan/):** Practical delivery framework for managing testing activities across sprints, releases, and UAT phases.

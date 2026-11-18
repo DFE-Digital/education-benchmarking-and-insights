@@ -10,3 +10,5 @@ eleventyNavigation:
 Welcome to the Tutorials section.
 
 Tutorials are **learning-oriented** lessons that guide a newcomer through a complete end-to-end task. They are designed to help you get started with the project and build confidence.
+
+* **[Getting Started](/tutorials/getting-started/):** Set up prerequisites, clone the monorepo, and run the core FBIT components locally.
