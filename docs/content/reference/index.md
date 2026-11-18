@@ -34,6 +34,12 @@ Precise technical specifications, schema definitions, data models, and operation
 * **[Special Educational Needs Source](/reference/data-and-pipeline/special-educational-needs/):** Education, Health and Care (EHC) plans and SEN2 caseload input specifications.
 * **[Timeline](/reference/data-and-pipeline/timeline/):** Chronological multi-year release dependencies and source data availability dates.
 
+## [Design](/reference/design/)
+
+Reference information for designing the service and prototyping changes:
+
+* **[Prototype kit structure](/reference/design/prototype-kit-structure/):** How the FBIT prototype kit is organised, with one index page per work item listing final designs and the concepts considered.
+
 ## [Infrastructure & Operations](/reference/infrastructure-and-operations/)
 
 Cloud edge configuration, non-functional service requirements, and active monitoring metrics:

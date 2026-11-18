@@ -31,6 +31,12 @@ Learn how the data processing engine ingests, transforms, assures, and loads sch
 * **[Pipeline Trigger Message Concepts](/explanation/data-pipeline/pipeline-trigger-message/):** Conceptual model of decoupled `runId` vs. data `year`, stage control (`runUntil`), transparency file generation switches, and isolated user calculation queues.
 * **[Processing](/explanation/data-pipeline/processing/):** Complete lifecycle of a pipeline run, spanning pre-processing, master list compilation, comparator set calculations, and metric RAG derivations.
 
+## [Design](/explanation/design/)
+
+Understand the design patterns used across the service and the reasoning behind them:
+
+* **[Highlight schools checkbox](/explanation/design/highlight-schools-checkbox/):** Why we highlight the top 5 similar schools for an outcome measure, using a single checkbox in the view options.
+
 ## [Domain & Methodology](/explanation/domain-and-methodology/)
 
 Explore the statutory financial frameworks, educational accounting returns, and statistical methodologies underpinning FBIT benchmarking:
