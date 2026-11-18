@@ -1,23 +1,28 @@
-import { govukEleventyPlugin } from '@x-govuk/govuk-eleventy-plugin'
-import { pathPrefix } from "./path-prefix.js";
+import path from 'node:path';
+import * as pagefind from 'pagefind';
+import { govukEleventyPlugin } from '@x-govuk/govuk-eleventy-plugin';
+import { pathPrefix } from './path-prefix.js';
 
-export default function(eleventyConfig) {
-  eleventyConfig.addPassthroughCopy("content/assets/images");
-  eleventyConfig.addPassthroughCopy("content/assets/js")
+export default function (eleventyConfig) {
+  eleventyConfig.setInputDirectory('content');
+  eleventyConfig.setIncludesDirectory('_includes');
+  eleventyConfig.addPassthroughCopy('content/assets/images');
+  eleventyConfig.addPassthroughCopy('content/assets/js');
 
   eleventyConfig.addPlugin(govukEleventyPlugin, {
-    stylesheets: ['/assets/styles.css'],
+    stylesheets: ['/pagefind/pagefind-ui.css', '/assets/styles.css'],
     titleSuffix: 'FBIT',
     templates: {
       sitemap: true,
-      searchIndex: true
+      searchIndex: false
     },
     header: {
       logotype: {
         html: '<img src="/assets/images/department-for-education_white.png" alt="Department for Education">'
       },
       search: {
-        indexPath: `${pathPrefix}search-index.json`,
+        indexPath: `${pathPrefix}pagefind/pagefind-entry.json`,
+        label: 'Search documentation',
         sitemapPath: '/sitemap'
       }
     },
@@ -39,7 +44,7 @@ export default function(eleventyConfig) {
         {
           text: 'Explanation',
           href: '/explanation/'
-        },
+        }
       ]
     },
     footer: {
@@ -51,10 +56,44 @@ export default function(eleventyConfig) {
             text: 'GitHub repository'
           }
         ],
-        html: '<script src="/assets/js/mermaid.js" type="module"></script>'
+        html: '<script src="/assets/js/mermaid.js" type="module"></script><script src="/assets/js/pagefind-search.js" type="module"></script>'
       }
     }
-  })
+  });
+
+  eleventyConfig.on('eleventy.after', async ({ dir, directories }) => {
+    const outputDir = directories?.output ?? dir.output;
+    const { errors: createErrors, index } = await pagefind.createIndex({
+      forceLanguage: 'en',
+      excludeSelectors: [
+        '.x-govuk-sub-navigation',
+        '.govuk-pagination',
+        '.govuk-breadcrumbs',
+        '.x-govuk-related-navigation',
+        '[data-pagefind-ignore]'
+      ]
+    });
+
+    if (createErrors.length > 0 || !index) {
+      throw new Error(`Pagefind index creation failed: ${createErrors.join(', ')}`);
+    }
+
+    try {
+      const { errors: addErrors } = await index.addDirectory({ path: outputDir });
+      if (addErrors.length > 0) {
+        throw new Error(`Pagefind directory indexing failed: ${addErrors.join(', ')}`);
+      }
+
+      const { errors: writeErrors } = await index.writeFiles({
+        outputPath: path.join(outputDir, 'pagefind')
+      });
+      if (writeErrors.length > 0) {
+        throw new Error(`Pagefind bundle write failed: ${writeErrors.join(', ')}`);
+      }
+    } finally {
+      await pagefind.close();
+    }
+  });
 
   return {
     pathPrefix: pathPrefix,
@@ -62,7 +101,7 @@ export default function(eleventyConfig) {
     htmlTemplateEngine: 'njk',
     markdownTemplateEngine: 'njk',
     dir: {
-      input: 'content',
+      input: 'content'
     }
-  }
-};
+  };
+}

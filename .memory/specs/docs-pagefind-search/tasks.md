@@ -1,0 +1,21 @@
+# Implementation Tasks: Add Pagefind Search to Eleventy Documentation Site (Single PR)
+
+## 1. Build-Time Pagefind Indexing & Semantic Layout Metadata
+
+- [x] 1.1 Add `pagefind` (`^1.6.0`) to `devDependencies` and `"test": "node --test tests/*.test.js"` to `scripts` in `docs/package.json`, and update `docs/package-lock.json`.
+- [x] 1.2 [Security] [Global] Update `docs/eleventy.config.js` to register an `eleventy.after` hook that scopes Pagefind `addDirectory` strictly to `directories.output` (or `dir.output`) with `forceLanguage: 'en'` and `excludeSelectors` (`['.x-govuk-sub-navigation', '.govuk-pagination', '.govuk-breadcrumbs', '.x-govuk-related-navigation', '[data-pagefind-ignore]']`), writes `${outputDir}/pagefind`, and calls `await pagefind.close()`.
+- [x] 1.3 [Security] [Global] In `docs/eleventy.config.js`, set `stylesheets: ['/pagefind/pagefind-ui.css', '/assets/styles.css']`, load `/assets/js/pagefind-search.js` in `footer.meta.html`, set `header.search.indexPath` to `${pathPrefix}pagefind/pagefind-entry.json` (preserving header search component rendering), and disable `templates.searchIndex` (`false`) to eliminate legacy `search-index.json` and `new RegExp(searchQuery, 'gi')`.
+- [x] 1.4 Create `docs/content/content.11tydata.js` defining `eleventyComputed.mainAttributes` so indexable documentation pages emit `data-pagefind-body` and `data-pagefind-filter="section:{sectionKey}"` (when `sectionKey` is defined), while `error`, `sitemap`, and `eleventyExcludeFromSearch: true` pages emit `data-pagefind-ignore="all"`.
+
+## 2. Progressive Dual-Surface Search UI & GOV.UK Styling
+
+- [x] 2.1 Create `docs/content/search.md` (`permalink: /search/`, `eleventyExcludeFromSearch: true`, `eleventyExcludeFromCollections: true`) with `<div id="pagefind-page-search">` and a `<noscript>` fallback message linking to `/sitemap/`.
+- [x] 2.2 Create `docs/content/_includes/components/search/macro.njk` and `docs/content/_includes/components/search/template.njk` overriding `@x-govuk/govuk-eleventy-plugin`'s `<app-search>` markup with `.app-search.app-pagefind-search`, progressive-enhancement fallback link `<a class="app-search__link" href="/search/">Search</a>`, and `#header-search-button` (`aria-haspopup="dialog"`, `aria-controls="pagefind-search-dialog"`).
+- [x] 2.3 [Security] [Global] Implement `docs/content/assets/js/pagefind-search.js` resolving `baseUrl` and `bundlePath` via `new URL('../../', import.meta.url).pathname` with zero inline `<script>` tags, lazy-loading `${bundlePath}pagefind-ui.js`, mounting `<dialog id="pagefind-search-dialog">` (`/` and `Ctrl+K` / `Cmd+K` shortcuts, `Escape` / backdrop close, focus restoration, error fallback), and hydrating `/search/?q=` with a 256-character cap, `URLSearchParams` encoding, and zero `innerHTML` usage.
+- [x] 2.4 Update `docs/content/assets/styles.scss` to style `.app-pagefind-search`, `.app-pagefind-dialog`, `--pagefind-ui-*` custom properties, `<mark>` highlights, Diátaxis filter controls, and GOV.UK WCAG 2.2 Level AA focus indicators (`#ffdd00` / 3px focus outlines), hiding `#header-search-button` when `body.js-enabled` is absent.
+
+## 3. Automated Verification, CI Integration & Documentation
+
+- [x] 3.1 Use the `write-tests` skill to implement concise automated behavioural tests in `docs/tests/` covering `TC-01` through `TC-16` from `test-cases.md` (Pagefind bundle generation, stemmed search & `sub_results`, Diátaxis `section` filters, system/sidebar/footer exclusion, modal keyboard & focus restoration, `?q=` hydration & 256-char truncation, regex/XSS safety, `/` input guard, production `/education-benchmarking-and-insights/` prefix resolution, `search-index.json` removal, and no-JS progressive enhancement).
+- [x] 3.2 [Security] [Global] Preserve `npm ci --ignore-scripts` in `.github/workflows/docs-ci-cd.yml` and add an `npm test` step to verify builds and search tests pass in CI without lifecycle scripts.
+- [x] 3.3 Update `docs/README.md` (following UK English and Diátaxis documentation standards, with no em dashes or horizontal rules) to document Pagefind search and `npm test`, then verify `npm run build`, `ELEVENTY_ENV=production npm run build`, `npm test`, and `markdownlint-cli2` all pass.

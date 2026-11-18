@@ -9,7 +9,6 @@ $_font-family: 'Inter', sans-serif;
 
 @use "pkg:@x-govuk/govuk-eleventy-plugin";
 
-
 .govuk-header__homepage-link {
   img {
     height: 30px;
@@ -29,6 +28,163 @@ $_font-family: 'Inter', sans-serif;
   }
 }
 
-.app-search__wrapper {
-  --govuk-text-colour: #{govuk.govuk-colour("black")};
+.app-pagefind-search {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.app-pagefind-search__button {
+  display: none;
+  align-items: center;
+  gap: govuk.govuk-spacing(2);
+  padding: govuk.govuk-spacing(1) govuk.govuk-spacing(2);
+  background-color: govuk.govuk-colour("white");
+  color: govuk.govuk-colour("black");
+  border: 2px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  @include govuk.govuk-font($size: 16);
+
+  &:hover {
+    background-color: govuk.govuk-colour("black", $variant: "tint-95");
+  }
+
+  &:focus {
+    outline: govuk.$govuk-focus-width solid govuk.govuk-functional-colour(focus);
+    outline-offset: 0;
+    background-color: govuk.govuk-functional-colour(focus);
+    color: govuk.govuk-functional-colour(focus-text);
+    border-color: govuk.govuk-functional-colour(focus-text);
+    box-shadow: inset 0 -2px 0 govuk.govuk-functional-colour(focus-text);
+  }
+}
+
+.js-enabled .app-pagefind-search {
+  .app-search__link {
+    display: none;
+  }
+
+  .app-pagefind-search__button {
+    display: inline-flex;
+  }
+}
+
+.app-pagefind-search__icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.app-pagefind-search__shortcut {
+  display: none;
+  padding: 0 6px;
+  border: 1px solid govuk.govuk-functional-colour(secondary-text);
+  color: govuk.govuk-functional-colour(secondary-text);
+  font-family: inherit;
+  @include govuk.govuk-font($size: 16);
+
+  @include govuk.govuk-media-query($from: tablet) {
+    display: inline-block;
+  }
+}
+
+.app-pagefind-dialog {
+  width: calc(100% - #{govuk.govuk-spacing(6)});
+  max-width: 720px;
+  max-height: 85vh;
+  margin: 8vh auto auto;
+  padding: 0;
+  border: 2px solid govuk.govuk-colour("black");
+  background-color: govuk.govuk-colour("white");
+  color: govuk.govuk-functional-colour(text);
+  box-shadow: 0 8px 24px rgba(11, 12, 12, 0.35);
+
+  &::backdrop {
+    background-color: rgba(11, 12, 12, 0.6);
+  }
+}
+
+.app-pagefind-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: govuk.govuk-spacing(3) govuk.govuk-spacing(4);
+  border-bottom: 1px solid govuk.govuk-functional-colour(border);
+}
+
+.app-pagefind-dialog__title {
+  margin-bottom: 0;
+}
+
+.app-pagefind-dialog__close {
+  background: none;
+  border: 0;
+  padding: govuk.govuk-spacing(1);
+  cursor: pointer;
+  text-decoration: underline;
+  color: govuk.govuk-functional-colour(link);
+  @include govuk.govuk-font($size: 19);
+
+  &:focus {
+    @include govuk.govuk-focused-text;
+  }
+}
+
+.app-pagefind-dialog__body {
+  padding: govuk.govuk-spacing(4);
+  max-height: 62vh;
+  overflow-y: auto;
+}
+
+.app-pagefind-dialog__footer {
+  padding: govuk.govuk-spacing(2) govuk.govuk-spacing(4);
+  border-top: 1px solid govuk.govuk-functional-colour(border);
+  background-color: govuk.govuk-colour("black", $variant: "tint-95");
+  @include govuk.govuk-font($size: 16);
+}
+
+.app-pagefind-page,
+.app-pagefind-dialog__body {
+  --pagefind-ui-scale: 1;
+  --pagefind-ui-primary: #{govuk.govuk-functional-colour(link)};
+  --pagefind-ui-text: #{govuk.govuk-functional-colour(text)};
+  --pagefind-ui-background: #{govuk.govuk-colour("white")};
+  --pagefind-ui-border: #{govuk.govuk-colour("black")};
+  --pagefind-ui-tag: #{govuk.govuk-colour("black", $variant: "tint-95")};
+  --pagefind-ui-border-width: 2px;
+  --pagefind-ui-border-radius: 0px;
+  --pagefind-ui-font: #{$_font-family};
+
+  mark {
+    background-color: govuk.govuk-colour("yellow");
+    color: govuk.govuk-colour("black");
+    padding: 0 2px;
+    font-weight: 700;
+  }
+
+  .pagefind-ui__search-input,
+  .pagefind-ui__search-clear,
+  .pagefind-ui__button,
+  .pagefind-ui__filter-name {
+    &:focus,
+    &:focus-visible {
+      outline: govuk.$govuk-focus-width solid govuk.govuk-functional-colour(focus);
+      outline-offset: 0;
+      box-shadow: inset 0 0 0 2px govuk.govuk-functional-colour(focus-text);
+    }
+  }
+
+  .pagefind-ui__result-link {
+    color: govuk.govuk-functional-colour(link);
+    text-decoration: underline;
+
+    &:hover {
+      color: govuk.govuk-functional-colour(link-hover);
+      text-decoration-thickness: 3px;
+    }
+
+    &:focus {
+      @include govuk.govuk-focused-text;
+    }
+  }
 }

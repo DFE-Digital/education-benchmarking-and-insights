@@ -6,11 +6,13 @@
   "scripts": {
     "prebuild:css": "node generate-sass-prefix.js",
     "build": "npm run prebuild:css && eleventy",
-    "start": "npm run prebuild:css && eleventy --serve"
+    "start": "npm run prebuild:css && eleventy --serve",
+    "test": "node --test tests/*.test.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",
-    "@x-govuk/govuk-eleventy-plugin": "^9.0.2"
+    "@x-govuk/govuk-eleventy-plugin": "^9.0.2",
+    "pagefind": "^1.6.0"
   },
   "dependencies": {
     "@11ty/eleventy-navigation": "^1.0.5"
