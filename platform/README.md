@@ -55,7 +55,7 @@ The backend API layer providing core benchmarking, school/trust insights, and se
 
 ## Getting started
 
-> Local dependencies (SQL Server, Azurite, and Redis) are managed via Docker Compose. See the [Local Environment with Docker guide](../docs/content/how-to/local-docker.md) for setup instructions.
+> Local dependencies (SQL Server, Azurite, and Redis) are managed via Docker Compose. See the [Local Environment with Docker guide](../docs/content/how-to/development-and-workflow/local-docker.md) for setup instructions.
 
 ### Environment Profiles
 
@@ -90,7 +90,7 @@ dotnet user-secrets set "StorageSettings:LaaRiskFiles:SourceContainer" "artifact
 dotnet user-secrets set "StorageSettings:LaaRiskFiles:DestContainer" "files" --id "platform-local"
 ```
 
-For full details on local environment profiles and managing `local.settings.json`, please read the **Configuration Management** section in the [Platform APIs Developer Guide](../docs/content/reference/platform-apis.md#configuration-management).
+For full details on local environment profiles and managing `local.settings.json`, please read the **Configuration Management** section in the [Platform APIs Developer Guide](../docs/content/reference/platform-and-web/platform-apis.md#configuration-management).
 
 ### Running tests
 
