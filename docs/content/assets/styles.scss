@@ -188,3 +188,15 @@ $_font-family: 'Inter', sans-serif;
     }
   }
 }
+
+.app-math--block {
+  overflow-x: auto;
+  margin-top: govuk.govuk-spacing(4);
+  margin-bottom: govuk.govuk-spacing(4);
+  text-align: center;
+}
+
+.app-math--inline {
+  display: inline;
+}
+

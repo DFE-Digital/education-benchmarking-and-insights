@@ -2,6 +2,9 @@ import path from 'node:path';
 import * as pagefind from 'pagefind';
 import { govukEleventyPlugin } from '@x-govuk/govuk-eleventy-plugin';
 import { pathPrefix } from './path-prefix.js';
+import { markdownMath } from './markdown-math.js';
+
+export { markdownMath };
 
 export default function (eleventyConfig) {
   const configuredOutputDir =
@@ -59,10 +62,12 @@ export default function (eleventyConfig) {
             text: 'GitHub repository'
           }
         ],
-        html: '<script src="/assets/js/mermaid.js" type="module"></script><script src="/assets/js/pagefind-search.js" type="module"></script>'
+        html: '<script src="/assets/js/mermaid.js" type="module"></script><script src="/assets/js/pagefind-search.js" type="module"></script><script src="/assets/js/math.js" type="module"></script>'
       }
     }
   });
+
+  eleventyConfig.amendLibrary('md', markdownMath);
 
   eleventyConfig.on('eleventy.after', async ({ dir, directories }) => {
     const outputDir = directories?.output ?? dir.output;
