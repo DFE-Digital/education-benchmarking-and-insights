@@ -1,8 +1,8 @@
 locals {
   common-tags = {
     "Environment"      = var.cip-environment
-    "Service Offering" = "DfE Financial Benchmarking service"
-    "Product"          = "DfE Financial Benchmarking service"
+    "Service Offering" = "FBIT - Financial Benchmarking & Insights Tool"
+    "Product"          = "FBIT - Financial Benchmarking & Insights Tool"
     "Source"           = "terraform"
     "Context"          = var.environment
   }

@@ -50,7 +50,7 @@ steps:
       azureSubscription: ${{ parameters.subscription }}
       scriptLocation: inlineScript
       inlineScript: |
-        az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service"
+        az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=FBIT - Financial Benchmarking & Insights Tool"
         echo "Resource group created"
 
         storageAccountName=${{ parameters.environmentPrefix }}storagetf
