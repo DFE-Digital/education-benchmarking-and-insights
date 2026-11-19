@@ -33,8 +33,10 @@ Learn how the data processing engine ingests, transforms, assures, and loads sch
 
 ## [Design](/explanation/design/)
 
-Understand the design patterns used across the service and the reasoning behind them:
+Understand what the service is for, the design patterns used across it and the reasoning behind them:
 
+* **[Service vision](/explanation/design/service-vision/):** What FBIT is for, its vision, core purpose and strategic pillars.
+* **[School homepage](/explanation/design/school-homepage/):** What the school homepage is for, and how far it meets the service vision.
 * **[Highlight schools checkbox](/explanation/design/highlight-schools-checkbox/):** Why we highlight the top 5 similar schools for an outcome measure, using a single checkbox in the view options.
 
 ## [Domain & Methodology](/explanation/domain-and-methodology/)

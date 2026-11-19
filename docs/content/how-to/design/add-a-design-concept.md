@@ -1,14 +1,14 @@
 ---
-title: "Make your first prototype change"
+title: "Add a design concept to the prototype kit"
 layout: sub-navigation
-sectionKey: "Tutorials"
+sectionKey: "How-to guides"
 includeInBreadcrumbs: true
 eleventyNavigation:
-  key: "Make your first prototype change"
-  parent: "Tutorials"
+  key: "Add a design concept to the prototype kit"
+  parent: "How-to: Design"
 ---
 
-In this tutorial you will run the FBIT prototype kit on your computer, add a design concept to a work item and share it with the team.
+This guide shows how to run the FBIT prototype kit on your computer, add a design concept to a work item and share it with the team.
 
 FBIT designs are prototyped in the [DfE-FBIT repository](https://github.com/hippo-digital/DfE-FBIT), built with the [GOV.UK Prototype Kit](https://prototype-kit.service.gov.uk/docs/). For how the repository is organised, see [prototype kit structure](/reference/design/prototype-kit-structure/).
 
@@ -84,8 +84,3 @@ git push -u origin my-concept
 ```
 
 Then open a pull request on GitHub.
-
-## Next steps
-
-* Check your design against [Designing for FBIT](https://github.com/hippo-digital/DfE-FBIT/blob/main/app/views/designing-for-fbit.html), the prototype kit's design checklist.
-* To make a new version of an existing page, with real data, read "Making a new version of a page" in the [prototype kit README](https://github.com/hippo-digital/DfE-FBIT#making-a-new-version-of-a-page).

@@ -3,12 +3,13 @@ title: "Highlight schools checkbox"
 layout: sub-navigation
 sectionKey: "Explanation"
 includeInBreadcrumbs: true
+order: 3
 eleventyNavigation:
   key: "Highlight schools checkbox"
   parent: "Design"
 ---
 
-This page explains the pattern we use to highlight similar schools with strong outcomes on benchmarking pages, and why. Reuse it when adding an outcome measure, such as Attainment 8 or key stage 2 progress, to a benchmarking page.
+This page explains the pattern we use to highlight similar schools with strong outcomes on benchmarking pages, why, and how far it meets the [service vision](/explanation/design/service-vision/). Reuse it when adding an outcome measure, such as Attainment 8 or key stage 2 progress, to a benchmarking page.
 
 > [!NOTE]
 > **TL;DR:**
@@ -45,7 +46,7 @@ This page explains the pattern we use to highlight similar schools with strong o
 
 ## Why the top 5
 
-We previously highlighted schools by banding, such as "above average" or "well above average" Progress 8. Well-performing schools tend to have well-performing comparators, and low-performing schools low-performing ones. So banding highlighted almost the whole comparator set for some schools, and none for others.
+Progress 8 highlights schools by banding, such as "above average" or "well above average" (see [KS4 progress indicator](/explanation/domain-and-methodology/ks4-progress-indicator/)). Attainment 8, which replaces Progress 8 for 2026 behind a feature flag (see [ADR 0026](/reference/decisions/0026-add-featureflag-attainment8/)), is the first measure to use the top 5 instead. Well-performing schools tend to have well-performing comparators, and low-performing schools low-performing ones. So banding highlighted almost the whole comparator set for some schools, and none for others.
 
 Ranking within the comparator set means almost every school sees a short list of strong peers to learn from and contact, including the schools that need it most.
 
@@ -58,6 +59,14 @@ Alternatives such as radios for local authority or national average, checkboxes 
 ## Only highlight schools doing well
 
 The pattern labels schools with strong outcomes. It does not tag schools as below average, because the aim is to help users find schools to learn from.
+
+## How it meets the service vision
+
+| Part of the vision | Meeting it | Not yet meeting it |
+| ------------------ | ---------- | ------------------ |
+| [Core purpose](/explanation/design/service-vision/#core-purpose) | Users compare spending with similar schools in the context of outcomes, not spending alone | |
+| [Grow national connections](/explanation/design/service-vision/#strategic-pillars) | Almost every school sees a short list of strong similar schools to learn from, including schools with low outcomes, which banding often left with none highlighted. Highlighted schools may be outside the school's local area, which encourages users to contact schools beyond their regional networks | |
+| [Simple, clear and easy to use](/explanation/design/service-vision/#strategic-pillars) | One checkbox, with nothing to decide before seeing something useful | The school homepage still uses banding: primary progress tags subjects that are above or well above average. So outcomes are highlighted differently on the homepage and on benchmarking pages |
 
 ## Using the pattern for a new measure
 
