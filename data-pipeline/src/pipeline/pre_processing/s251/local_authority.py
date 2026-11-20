@@ -198,18 +198,18 @@ def _calculate_dsg_recoupments(
     dsg_with_place_numbers = dsg.join(place_numbers_final, how="outer")
     # Split total place funding into Primary and Secondary
     dsg_with_place_numbers["HighNeedsTotalPlaceFunding"] = (
-        dsg_with_place_numbers[PRIMARY_PLACES_6K] * 6000
-        + dsg_with_place_numbers[PRIMARY_PLACES_10K] * 10000
-        + dsg_with_place_numbers[SECONDARY_PLACES_6K] * 6000
-        + dsg_with_place_numbers[SECONDARY_PLACES_10K] * 10000
+        dsg_with_place_numbers[PRIMARY_PLACES_6K].fillna(0) * 6000
+        + dsg_with_place_numbers[PRIMARY_PLACES_10K].fillna(0) * 10000
+        + dsg_with_place_numbers[SECONDARY_PLACES_6K].fillna(0) * 6000
+        + dsg_with_place_numbers[SECONDARY_PLACES_10K].fillna(0) * 10000
     )
     dsg_with_place_numbers["PrimaryPlaceFundingRatio"] = (
-        dsg_with_place_numbers[PRIMARY_PLACES_6K] * 6000
-        + dsg_with_place_numbers[PRIMARY_PLACES_10K] * 10000
+        dsg_with_place_numbers[PRIMARY_PLACES_6K].fillna(0) * 6000
+        + dsg_with_place_numbers[PRIMARY_PLACES_10K].fillna(0) * 10000
     ) / dsg_with_place_numbers["HighNeedsTotalPlaceFunding"]
     dsg_with_place_numbers["SecondaryPlaceFundingRatio"] = (
-        dsg_with_place_numbers[SECONDARY_PLACES_6K] * 6000
-        + dsg_with_place_numbers[SECONDARY_PLACES_10K] * 10000
+        dsg_with_place_numbers[SECONDARY_PLACES_6K].fillna(0) * 6000
+        + dsg_with_place_numbers[SECONDARY_PLACES_10K].fillna(0) * 10000
     ) / dsg_with_place_numbers["HighNeedsTotalPlaceFunding"]
 
     dsg_with_place_numbers["DSGNurseryPlaceFunding"] = (

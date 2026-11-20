@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from pipeline import input_schemas
 from pipeline.pre_processing.s251 import local_authority
 
 
@@ -148,3 +149,84 @@ def test_aggregate_fbit_pupil_numbers_to_la_level(mock_schools_data):
     assert result_df.index.name == "LA Code"
 
     pd.testing.assert_frame_equal(result_df, expected_df)
+
+
+def test_calculate_dsg_recoupments_single_phase_schools():
+    """
+    Ensure single-phase schools (only primary or only secondary in an LA)
+    do not cause NaN values to cascade into DSG funding totals.
+    """
+    year = 2024
+    six_k_col, ten_k_col, post_16_col = input_schemas.get_six_and_ten_k_cols(year)
+
+    # LA 101 only has a Primary school; LA 102 only has a Secondary school
+    school_to_la = pd.DataFrame(
+        {
+            "LA": [101, 102],
+            "Overall Phase": [input_schemas.primary, input_schemas.secondary],
+        },
+        index=pd.Index([1, 2], name="URN"),
+    )
+
+    place_numbers = pd.DataFrame(
+        {
+            "URN": [1, 2],
+            six_k_col: [10, 5],
+            ten_k_col: [2, 3],
+            post_16_col: [0, 1],
+        }
+    )
+
+    dsg = pd.DataFrame(
+        {
+            "DSGSENAcademyPlaceFunding": [1000.0, 2000.0],
+            "DSGAPAcademyPlaceFunding": [500.0, 600.0],
+            "DSGHospitalPlaceFunding": [100.0, 200.0],
+            "Total Mainstream DSG deduction": [15000.0, 25000.0],
+            "DSGHighNeedsAllocation": [100000.0, 200000.0],
+        },
+        index=pd.Index([101, 102], name="LA"),
+    )
+
+    la_data = pd.DataFrame(
+        {
+            "old_la_code": [101, 102],
+            "OutturnPlaceFundingPrimary": [0.0, 0.0],
+            "OutturnPlaceFundingSecondary": [0.0, 0.0],
+            "OutturnPlaceFundingSpecial": [0.0, 0.0],
+            "OutturnPlaceFundingAlternativeProvision": [0.0, 0.0],
+            "OutturnTotalHospitalServices": [0.0, 0.0],
+            "OutturnTotalPlaceFunding": [0.0, 0.0],
+            "OutturnTotalHighNeeds": [0.0, 0.0],
+        }
+    )
+
+    result = local_authority._calculate_dsg_recoupments(
+        la_data, school_to_la, place_numbers, dsg, year
+    )
+
+    # Guard against nulls cascading into DSG totals
+    assert not result["HighNeedsTotalPlaceFunding"].isna().any()
+    assert not result["PrimaryPlaceFundingRatio"].isna().any()
+    assert not result["SecondaryPlaceFundingRatio"].isna().any()
+    assert not result["DSGPrimaryAcademyPlaceFunding"].isna().any()
+    assert not result["DSGSecondaryAcademyPlaceFunding"].isna().any()
+    assert not result["DSGRecoupmentServiceTotal"].isna().any()
+
+    # Primary-only LA allocates all mainstream place funding to Primary
+    primary_la = result.loc[result["old_la_code"] == 101].iloc[0]
+    assert primary_la["HighNeedsTotalPlaceFunding"] == pytest.approx(80000.0)
+    assert primary_la["PrimaryPlaceFundingRatio"] == pytest.approx(1.0)
+    assert primary_la["SecondaryPlaceFundingRatio"] == pytest.approx(0.0)
+    assert primary_la["DSGPrimaryAcademyPlaceFunding"] == pytest.approx(15000.0)
+    assert primary_la["DSGSecondaryAcademyPlaceFunding"] == pytest.approx(0.0)
+    assert primary_la["DSGRecoupmentServiceTotal"] == pytest.approx(16600.0)
+
+    # Secondary-only LA allocates all mainstream place funding to Secondary
+    secondary_la = result.loc[result["old_la_code"] == 102].iloc[0]
+    assert secondary_la["HighNeedsTotalPlaceFunding"] == pytest.approx(70000.0)
+    assert secondary_la["PrimaryPlaceFundingRatio"] == pytest.approx(0.0)
+    assert secondary_la["SecondaryPlaceFundingRatio"] == pytest.approx(1.0)
+    assert secondary_la["DSGPrimaryAcademyPlaceFunding"] == pytest.approx(0.0)
+    assert secondary_la["DSGSecondaryAcademyPlaceFunding"] == pytest.approx(25000.0)
+    assert secondary_la["DSGRecoupmentServiceTotal"] == pytest.approx(27800.0)
