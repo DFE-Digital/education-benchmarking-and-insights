@@ -153,7 +153,8 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
         bool hasProgressIndicators = true,
         bool withCustomUserData = false,
         bool withUserDefinedUserData = false,
-        bool withEmptyComparatorSet = false)
+        bool withEmptyComparatorSet = false,
+        bool ssrChartsEnabled = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -194,9 +195,18 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
             }
         };
 
-        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
+        var disabledFeatures = new List<string>();
+        if (!ks4ProgressBandingEnabled)
+        {
+            disabledFeatures.Add(FeatureFlags.KS4ProgressBanding);
+        }
+        if (!ssrChartsEnabled)
+        {
+            disabledFeatures.Add(FeatureFlags.SchoolCensusSsrCharts);
+        }
+
         var page = await Client
-            .SetupDisableFeatureFlags(features)
+            .SetupDisableFeatureFlags([.. disabledFeatures])
             .SetupEstablishment(school)
             .SetupSchool(school)
             .SetupInsights()
