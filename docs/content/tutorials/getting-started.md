@@ -15,7 +15,6 @@ The repository is a monorepo which contains multiple components, structured to s
 - [Data pipeline](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/data-pipeline/README.md)
 - [Platform](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/platform/README.md)
 - [Web](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/README.md)
-- [Prototype](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/archive/prototype.zip)
 - [Support & analytics](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/support-analytics/README.md)
 
 Each component contains its own README with specific, detailed getting started instructions.

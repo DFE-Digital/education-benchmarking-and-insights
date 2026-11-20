@@ -20,6 +20,12 @@ Orchestrate annual financial data releases, run the Python ingestion pipeline, m
 * **[Databricks Data Additions](/how-to/data-and-pipeline/databricks-data-additions/):** Define and register new tables, views, and schemas in Databricks.
 * **[Databricks Development](/how-to/data-and-pipeline/databricks-development/):** Local notebook workflows, cluster execution, and integration with the data pipeline.
 
+## [Design](/how-to/design/)
+
+Prototype design changes for the service:
+
+* **[Add a design concept to the prototype kit](/how-to/design/add-a-design-concept/):** Run the FBIT prototype kit locally, add a design concept to a work item, and share it with the team.
+
 ## [Development & Workflow](/how-to/development-and-workflow/)
 
 Configure your local engineering environment, adhere to repository code standards, and use automated quality pipelines:

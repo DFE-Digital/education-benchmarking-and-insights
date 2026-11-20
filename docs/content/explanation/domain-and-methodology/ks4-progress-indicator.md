@@ -88,3 +88,6 @@ For all schools that partake in Key Stage 4, their official DfE Progress 8 bandi
 - The benchmarking charts will be enhanced to visually distinguish comparator schools based on their Progress 8 banding. For instance, bars representing "Well above average" schools is a distinct colour, allowing users to instantly see how their spending compares to this high-performing group.
 
 - This functionality applies to all financial and workforce cost categories available within FBIT (e.g., Teaching Staff, Supply Staff, Education Support Staff, Premises, Back Office, etc.).
+
+> [!NOTE]
+> Attainment 8, which replaces Progress 8 for 2026 (see [ADR 0026](/reference/decisions/0026-add-featureflag-attainment8/)), highlights the top 5 similar schools rather than flagging by banding. See [highlight schools checkbox](/explanation/design/highlight-schools-checkbox/) for the pattern and why it differs.
