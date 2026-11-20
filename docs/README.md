@@ -38,7 +38,8 @@ Every Markdown document must include "Front Matter" at the top to manage navigat
 ### Visuals & Diagrams
 
 * Mermaid Support: Diagrams should be included using standard Markdown code blocks.
-* Rendering: These diagrams are rendered client-side and align with DfE branding guidelines.
+* Mathematical Equations: LaTeX mathematical equations can be authored using single dollar signs (`$ ... $`) for inline expressions and double dollar signs (`$$ ... $$`) for block equations.
+* Rendering: Diagrams and mathematical equations are rendered client-side using Mermaid and KaTeX, aligning with DfE branding guidelines.
 
 ## Prerequisites
 
