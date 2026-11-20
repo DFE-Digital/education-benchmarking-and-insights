@@ -231,7 +231,8 @@ stages:
             displayName: 'Publish'
             continueOnError: false
             inputs:
-              command: 'publish --tag feature'
+              command: 'custom'
+              customCommand: 'publish --tag feature'
               publishRegistry: useFeed
               publishFeed: 'S198-DfE-Benchmarking-service/education-benchmarking'
               workingDir: $(WorkingDir.FrontEnd)
