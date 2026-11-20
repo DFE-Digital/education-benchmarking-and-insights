@@ -8,8 +8,6 @@ created: 2026-11-19
 updated: 2026-11-19
 ---
 
-# Bug Fix Plan: Mathematical Equation Rendering on Documentation Site
-
 ## Symptom and Reproduction
 
 The documentation page `docs/content/explanation/data-pipeline/processing.md` contains block equations (`$$ ... $$`) and an inline equation (`$ ... $`) under the `Comparator set computation` section (including `Pupil Calculation`). When Eleventy builds the static site, the output HTML displays raw dollar-sign delimiters and unformatted LaTeX source text instead of rendered mathematical notation.
@@ -78,4 +76,3 @@ A repository-wide scan of `docs/content/**/*.md` identified all occurrences of `
 | **Lazy client-side KaTeX (Implemented)** | • Zero npm dependencies added to `package.json`<br>• Zero network or DOM overhead on 99% of pages without equations<br>• Follows existing repository pattern used by `mermaid.js` and `pagefind-search.js`<br>• Clean fallback to uncorrupted LaTeX text if offline | • Requires client-side JavaScript for equation typesetting<br>• Minor layout shift during initial typesetting on math pages | **Chosen**: Aligns directly with established repository architecture and avoids maintenance overhead of npm dependencies and vendored font assets. |
 | **Build-time KaTeX (`katex.renderToString`)** | • Renders static HTML and native MathML during Eleventy build<br>• Works without client-side JavaScript<br>• Zero layout shift on page load | • Requires adding `katex` to `devDependencies`<br>• Requires hosting and bundling KaTeX fonts and CSS assets locally (~300 KB)<br>• Still requires custom Markdown delimiter parsing to avoid conflicts with `breaks: true` and currency | Viable future enhancement if pure zero-JS output becomes a strict accessibility requirement. |
 | **Off-the-shelf plugin (`markdown-it-katex`)** | • Minimal initial configuration code | • Unmaintained community libraries (mostly untouched for 5+ years)<br>• Breaks under `@x-govuk/govuk-eleventy-plugin` due to `breaks: true` inserting `<br>` inside equations<br>• High risk of false positives on currency prose (`~$50`, `$50 and $100`) | Rejected due to incompatibility with GOV.UK typography rules and maintenance risk. |
-
