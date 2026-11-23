@@ -243,7 +243,7 @@ def _calculate_dsg_recoupments(
     ] += las_with_recoupments["DSGAPAcademyPlaceFunding"].fillna(0)
     las_with_recoupments["OutturnTotalHospitalServices"] += las_with_recoupments[
         "DSGHospitalPlaceFunding"
-    ]
+    ].fillna(0)
     las_with_recoupments["OutturnTotalPlaceFunding"] += las_with_recoupments[
         ["DSGSENAcademyPlaceFunding", "DSGAPAcademyPlaceFunding"]
     ].sum(axis=1)
