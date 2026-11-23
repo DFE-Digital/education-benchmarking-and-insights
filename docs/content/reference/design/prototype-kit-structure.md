@@ -8,7 +8,7 @@ eleventyNavigation:
   parent: "Design Reference"
 ---
 
-FBIT designs are prototyped in the [DfE-FBIT repository](https://github.com/hippo-digital/DfE-FBIT), built with the [GOV.UK Prototype Kit](https://prototype-kit.service.gov.uk/docs/). To get started, see [add a design concept to the prototype kit](/how-to/design/add-a-design-concept/).
+FBIT designs are prototyped in the [DfE-FBIT repository](https://github.com/hippo-digital/DfE-FBIT), built with the [GOV.UK Prototype Kit](https://prototype-kit.service.gov.uk/docs/). To get started, see [add a design concept to the prototype kit](/how-to/design/add-a-design-concept/) and the [GOV.UK Prototype Kit tutorials and guides](https://prototype-kit.service.gov.uk/tutorials-and-guides/).
 
 ## Home page
 

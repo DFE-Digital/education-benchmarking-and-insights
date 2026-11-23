@@ -10,7 +10,7 @@ eleventyNavigation:
 
 This guide shows how to run the FBIT prototype kit on your computer, add a design concept to a work item and share it with the team.
 
-FBIT designs are prototyped in the [DfE-FBIT repository](https://github.com/hippo-digital/DfE-FBIT), built with the [GOV.UK Prototype Kit](https://prototype-kit.service.gov.uk/docs/). For how the repository is organised, see [prototype kit structure](/reference/design/prototype-kit-structure/).
+FBIT designs are prototyped in the [DfE-FBIT repository](https://github.com/hippo-digital/DfE-FBIT), built with the [GOV.UK Prototype Kit](https://prototype-kit.service.gov.uk/docs/). If you are new to the kit, see the [GOV.UK Prototype Kit tutorials and guides](https://prototype-kit.service.gov.uk/tutorials-and-guides/). For how the repository is organised, see [prototype kit structure](/reference/design/prototype-kit-structure/).
 
 ## Before you start
 
