@@ -84,7 +84,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
     private async Task<string[]> LocalAuthorityEducationHealthCarePlansNarrative()
     {
         var years = await financeService.GetYears();
-        return [$"This data includes special educational needs (SEN) data and is based on the SEN2 data collection as at January {years.S251 - 1}. This covers education, health and care (EHC) plans."];
+        return [$"This data includes special educational needs (SEN) data and is based on the SEN2 data collection as at January {years.S251}. This covers education, health and care (EHC) plans."];
     }
 
     private async Task<string[]> LocalAuthorityHighNeedsSpendingNarrative()
