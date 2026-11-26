@@ -51,7 +51,10 @@ class ComparatorCalculator:
         :param prepared_data: A DataFrame that has already been cleaned
                               by the `prepare_data` function.
         """
-        self.prepared_data = prepared_data[~prepared_data.index.isna()].copy()
+        valid_rows = prepared_data[~prepared_data.index.isna()]
+        self.prepared_data = valid_rows[
+            ~valid_rows.index.duplicated(keep="first")
+        ].copy()
 
     def _delta_range_ratio_squared(self, input_array: np.array) -> np.array:
         """
@@ -117,14 +120,22 @@ class ComparatorCalculator:
     ) -> np.ndarray:
         """
         Determines the URNs of the most similar schools based on a
-        hierarchy of criteria.
+        hierarchy of criteria, ensuring each URN appears at most once.
         """
+        phase_urns = phase_arrays[ColumnNames.URN]
+        target_urn = phase_urns[target_index]
+        target_pfi = phase_arrays[ColumnNames.PFI][target_index]
+        target_boarding = phase_arrays[ColumnNames.BOARDERS][target_index]
+        target_region = phase_arrays[ColumnNames.REGION][target_index]
+
         valid_mask = (
-            np.arange(len(phase_arrays[ColumnNames.URN])) != target_index
-        ) & include_mask
+            (np.arange(len(phase_urns)) != target_index)
+            & (phase_urns != target_urn)
+            & include_mask
+        )
 
         other_distances = distances[valid_mask]
-        urns_without_target = phase_arrays[ColumnNames.URN][valid_mask]
+        urns_without_target = phase_urns[valid_mask]
         regions_without_target = phase_arrays[ColumnNames.REGION][valid_mask]
         pfi_without_target = phase_arrays[ColumnNames.PFI][valid_mask]
         boarding_without_target = phase_arrays[ColumnNames.BOARDERS][valid_mask]
@@ -132,41 +143,51 @@ class ComparatorCalculator:
         sorted_indices = np.argsort(other_distances, kind="stable")[:BASE_SET_SIZE]
         urns_by_distance = urns_without_target[sorted_indices]
 
-        target_urn = phase_arrays[ColumnNames.URN][target_index]
-        target_pfi = phase_arrays[ColumnNames.PFI][target_index]
-        target_boarding = phase_arrays[ColumnNames.BOARDERS][target_index]
-        target_region = phase_arrays[ColumnNames.REGION][target_index]
+        # Track selected positions in urns_by_distance so each candidate is added once
+        # across PFI, Boarding, Region, and fallback distance tiers.
+        selected_mask = np.zeros(len(sorted_indices), dtype=bool)
+        ordered_groups = [np.array([target_urn], dtype=phase_urns.dtype)]
 
-        urns = np.array([target_urn])
-
-        # POTENTIAL ERROR: If a school meets multiple criteria (e.g. same PFI and
-        # same region), its URN will be appended multiple times, creating duplicates
-        # in the final comparator set.
-        if target_pfi:
+        if pd.notna(target_pfi) and target_pfi:
             top_pfi = pfi_without_target[sorted_indices]
-            same_pfi = np.argwhere(top_pfi).flatten()
-            urns = np.append(urns, urns_by_distance[same_pfi])
+            pfi_mask = pd.notna(top_pfi) & np.asarray(top_pfi, dtype=bool)
+            ordered_groups.append(urns_by_distance[pfi_mask])
+            selected_mask |= pfi_mask
 
         if target_boarding == "Boarding":
             top_boarding = boarding_without_target[sorted_indices]
-            same_boarding = np.argwhere(top_boarding == target_boarding).flatten()
-            urns = np.append(urns, urns_by_distance[same_boarding])
+            boarding_mask = (top_boarding == target_boarding) & ~selected_mask
+            ordered_groups.append(urns_by_distance[boarding_mask])
+            selected_mask |= boarding_mask
 
         top_regions = regions_without_target[sorted_indices]
-        same_region_indices = np.argwhere(top_regions == target_region).flatten()
-        urns = np.append(urns, urns_by_distance[same_region_indices])
+        region_mask = (top_regions == target_region) & ~selected_mask
+        ordered_groups.append(urns_by_distance[region_mask])
+        selected_mask |= region_mask
 
-        if len(urns) >= FINAL_SET_SIZE:
-            return urns[:FINAL_SET_SIZE]
+        remaining_mask = ~selected_mask
+        ordered_groups.append(urns_by_distance[remaining_mask])
 
-        # POTENTIAL ERROR: This logic only excludes schools already added for being
-        # in the `same_region`. It does NOT exclude schools added for PFI or Boarding
-        # status, so those schools could be added a second time here.
-        fill_count = FINAL_SET_SIZE - len(urns)
-        urns_to_add = np.delete(urns_by_distance, same_region_indices)[:fill_count]
-        urns = np.append(urns, urns_to_add)
+        return np.concatenate(ordered_groups)[:FINAL_SET_SIZE]
 
-        return urns
+    def _build_sets_for_phase(
+        self,
+        base_arrays: dict[str, np.ndarray],
+        distances: np.ndarray,
+        include_mask: np.ndarray,
+        generate_mask: np.ndarray,
+    ) -> list[np.ndarray]:
+        """
+        Builds comparator URN sets for all qualifying rows in a phase group
+        without DataFrame row iteration.
+        """
+        empty = np.array([], dtype=base_arrays[ColumnNames.URN].dtype)
+        sets = [empty for _ in range(len(generate_mask))]
+        for i in np.flatnonzero(generate_mask):
+            urns = self._select_top_urns(i, base_arrays, distances[i], include_mask)
+            if len(urns) > 1:
+                sets[i] = urns
+        return sets
 
     def _process_phase_group(self, phase: str, group: pd.DataFrame) -> pd.DataFrame:
         """
@@ -175,15 +196,14 @@ class ComparatorCalculator:
         pupil_distances = self._compute_pupils_distance(phase, group)
         building_distances = self._compute_buildings_distance(group)
 
-        pupil_include_mask = (
-            ~np.array(group[ColumnNames.PARTIAL_YEARS])
-            & ~np.array(group[ColumnNames.DID_NOT_SUBMIT])
-            & np.array(group[ColumnNames.PUPIL_DATA])
+        not_excluded = ~np.asarray(
+            group[ColumnNames.PARTIAL_YEARS], dtype=bool
+        ) & ~np.asarray(group[ColumnNames.DID_NOT_SUBMIT], dtype=bool)
+        pupil_include_mask = not_excluded & np.asarray(
+            group[ColumnNames.PUPIL_DATA], dtype=bool
         )
-        building_include_mask = (
-            ~np.array(group[ColumnNames.PARTIAL_YEARS])
-            & ~np.array(group[ColumnNames.DID_NOT_SUBMIT])
-            & np.array(group[ColumnNames.BUILDING_DATA])
+        building_include_mask = not_excluded & np.asarray(
+            group[ColumnNames.BUILDING_DATA], dtype=bool
         )
 
         base_arrays = {
@@ -193,29 +213,18 @@ class ComparatorCalculator:
             ColumnNames.REGION: np.array(group[ColumnNames.REGION]),
         }
 
-        pupil_sets = []
-        building_sets = []
-
-        for i, (urn, row) in enumerate(group.iterrows()):
-            if row["_GeneratePupilSet"]:
-                # Pass the specific pupil mask
-                pupil_urns = self._select_top_urns(
-                    i, base_arrays, pupil_distances[i], pupil_include_mask
-                )
-                pupil_sets.append(pupil_urns if len(pupil_urns) > 1 else np.array([]))
-            else:
-                pupil_sets.append(np.array([]))
-
-            if row["_GenerateBuildingSet"]:
-                # Pass the specific building mask
-                building_urns = self._select_top_urns(
-                    i, base_arrays, building_distances[i], building_include_mask
-                )
-                building_sets.append(
-                    building_urns if len(building_urns) > 1 else np.array([])
-                )
-            else:
-                building_sets.append(np.array([]))
+        pupil_sets = self._build_sets_for_phase(
+            base_arrays,
+            pupil_distances,
+            pupil_include_mask,
+            np.asarray(group["_GeneratePupilSet"], dtype=bool),
+        )
+        building_sets = self._build_sets_for_phase(
+            base_arrays,
+            building_distances,
+            building_include_mask,
+            np.asarray(group["_GenerateBuildingSet"], dtype=bool),
+        )
 
         return pd.DataFrame(
             {"Pupil": pupil_sets, "Building": building_sets}, index=group.index
@@ -226,16 +235,20 @@ class ComparatorCalculator:
         Orchestrates the derivation of comparator sets for all schools.
         """
         df = self.prepared_data
-        if target_urn:
-            full_df = self.prepared_data
-            if target_urn not in full_df.index:
+        if target_urn is not None:
+            if target_urn not in df.index:
                 return pd.DataFrame()
+            target_phase = df.loc[target_urn, ColumnNames.PHASE]
+            full_df = df[df[ColumnNames.PHASE] == target_phase].copy()
         else:
-            full_df = df
+            full_df = df.copy()
 
         can_generate = (
             full_df[ColumnNames.FINANCIAL_DATA] & ~full_df[ColumnNames.DID_NOT_SUBMIT]
         )
+        if target_urn is not None:
+            can_generate = can_generate & (full_df.index == target_urn)
+
         full_df["_GeneratePupilSet"] = can_generate & full_df[ColumnNames.PUPIL_DATA]
         full_df["_GenerateBuildingSet"] = (
             full_df["_GeneratePupilSet"] & full_df[ColumnNames.BUILDING_DATA]
@@ -258,7 +271,7 @@ class ComparatorCalculator:
             columns=["_GeneratePupilSet", "_GenerateBuildingSet"]
         )
 
-        if target_urn:
+        if target_urn is not None:
             return result_df.loc[[target_urn]]
 
         return result_df
