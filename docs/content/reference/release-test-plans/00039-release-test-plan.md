@@ -100,7 +100,7 @@ Functional validation and regression testing were completed in the lower environ
 
 **Release Overview:**
 
-To be completed post-release.
+During UAT a FE bug was discovered that caused incorrect year being displayed for SEN data. For the reason the release was discarded and a new release was created with the fix.
 
 **Azure DevOps tickets included in this release:**
 
@@ -121,7 +121,7 @@ To be completed post-release.
 |-------------------------|:-----------:|:------:|:------:|:---------:|
 | Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |
 | Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |
-| Smoke Tests - Prod      |     TBC     |  TBC   |  TBC   |    TBC    |
-| Total                   |     TBC     |  TBC   |  TBC   |    TBC    |
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Total                   |      3      |   3    |   0%   |   100%    |
 
-**User Acceptance Testing (UAT):** Conducted by clients/stakeholders in pre-production and recorded as an acceptance sign-off rather than a test count. Outcome: to be completed post-release.
+**User Acceptance Testing (UAT):** Conducted by clients/stakeholders in pre-production and recorded as an acceptance sign-off rather than a test count. UAT was successful and the readiness of release was confirmed.
