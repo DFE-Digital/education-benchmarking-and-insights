@@ -177,10 +177,6 @@ class ComparatorCalculator:
         include_mask: np.ndarray,
         generate_mask: np.ndarray,
     ) -> list[np.ndarray]:
-        """
-        Builds comparator URN sets for all qualifying rows in a phase group
-        without DataFrame row iteration.
-        """
         empty = np.array([], dtype=base_arrays[ColumnNames.URN].dtype)
         sets = [empty for _ in range(len(generate_mask))]
         for i in np.flatnonzero(generate_mask):
