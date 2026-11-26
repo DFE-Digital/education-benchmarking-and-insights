@@ -9,9 +9,11 @@ eleventyNavigation:
   order: 39
 ---
 
-Release Date: TBC
+Release Date: 26/11/2026
 
-Release Label: 2026.11.0
+Release Label: 2026.11.1
+
+_Release version incremented to 2026.11.1 after 2026.11.0 was discarded SEN year display bug spotted in UAT._
 
 ## Introduction
 
@@ -117,8 +119,8 @@ To be completed post-release.
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |
 |-------------------------|:-----------:|:------:|:------:|:---------:|
-| Sanity Tests - Pre Prod |     TBC     |  TBC   |  TBC   |    TBC    |
-| Smoke Tests - Pre Prod  |     TBC     |  TBC   |  TBC   |    TBC    |
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |
+| Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |
 | Smoke Tests - Prod      |     TBC     |  TBC   |  TBC   |    TBC    |
 | Total                   |     TBC     |  TBC   |  TBC   |    TBC    |
 
