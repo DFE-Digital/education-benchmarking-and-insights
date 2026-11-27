@@ -100,7 +100,7 @@ Functional validation and regression testing were completed in the lower environ
 
 **Release Overview:**
 
-During UAT a FE bug was discovered that caused incorrect year being displayed for SEN data. For the reason the release was discarded and a new release was created with the fix.
+During the testing we spotted DSG academy place funding recoupment was computed incorrectly ([335340](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/335340)) for a few LAs which fall within a single phase. We fixed it as part of this release which resulted in figures being updated for the previous years as well. Also during UAT a FE bug was discovered that caused incorrect year being displayed for SEN data. For the reason the release was discarded and a new release was created with the fix.
 
 **Azure DevOps tickets included in this release:**
 
